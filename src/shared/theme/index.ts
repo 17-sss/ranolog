@@ -1,7 +1,14 @@
 const breakpointValues = [800, 1136, 1600, 1921];
 const breakpoints = breakpointValues.map((value) => `${value}px`);
 
-export type MediaQueriesKey = 'mobile' | 'tablet' | 'laptop' | 'desktop' | 'largeDesktop';
+export const mediaQueriesKeyList = [
+  'mobile',
+  'tablet',
+  'laptop',
+  'desktop',
+  'largeDesktop',
+] as const;
+export type MediaQueriesKey = typeof mediaQueriesKeyList[number];
 
 const mediaQueries: {
   [key in MediaQueriesKey]: string;
