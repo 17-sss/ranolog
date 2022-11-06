@@ -7,27 +7,35 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky install",
-    "test": "jest --config jest.config.js --passWithNoTests"
+    "prepare": "husky install"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
       "prettier --write",
       "eslint --fix",
-      "yarn test"
+      "jest --config jest.config.js --passWithNoTests"
     ]
   },
   "dependencies": {
+    "@emotion/babel-plugin": "^11.10.5",
+    "@emotion/react": "^11.10.5",
+    "@emotion/serialize": "^1.1.1",
+    "@emotion/styled": "^11.10.5",
     "@types/node": "18.11.9",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
     "next": "13.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "styled-system": "^5.1.5",
     "typescript": "4.8.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.2",
     "@types/jest": "^29.2.1",
+    "@types/styled-system": "^5.1.15",
+    "@types/styled-system__css": "^5.0.17",
+    "babel-loader": "^8.3.0",
     "eslint": "8.26.0",
     "eslint-config-next": "13.0.1",
     "eslint-config-prettier": "^8.5.0",
