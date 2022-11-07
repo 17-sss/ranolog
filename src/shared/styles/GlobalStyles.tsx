@@ -1,5 +1,7 @@
 import {Global, css} from '@emotion/react';
 
+import {theme} from '../theme';
+
 const resetCss = css`
   html,
   body,
@@ -127,6 +129,38 @@ const resetCss = css`
   }
 `;
 
+const defaultCss = css`
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    font-size: ${theme.fontSizes.p16};
+  }
+  body {
+    font-family: 'Noto Sans KR', 'Roboto', Lato, sans-serif;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  input,
+  button,
+  textarea {
+    padding: 0;
+    font-size: ${theme.fontSizes.p16}; /* firefox */
+    background-color: transparent;
+    border: none;
+    outline: none;
+  }
+  button {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+`;
+
 export const GlobalStyles = () => {
-  return <Global styles={resetCss} />;
+  return <Global styles={[resetCss, defaultCss]} />;
 };
