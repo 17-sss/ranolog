@@ -1,7 +1,9 @@
-export interface MainPageProps {}
+import {PageLayout} from '@shared';
 
-const MainPage: React.FC<MainPageProps> = ({...props}) => {
-  return <div {...props}>MainPage</div>;
+export interface RootPageProps {}
+
+const RootPage: React.FC<RootPageProps> = () => {
+  return <PageLayout></PageLayout>;
 };
 
-export default MainPage;
+export default RootPage;

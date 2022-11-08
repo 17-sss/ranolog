@@ -1,4 +1,4 @@
-import {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
+import {Fragment, useEffect, useMemo, useState} from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,7 +10,6 @@ import {useMedia} from '../../hooks';
 import {
   centerBetweenAlignChildren,
   centerAlignedChildren,
-  commonWidthCss,
   absoluteOnParent,
   commonPxValue,
 } from '../../styles';
@@ -36,10 +35,6 @@ const Header: React.FC<HeaderProps> = ({...props}) => {
     });
   }, []);
 
-  const handleMobileMenuBtnClick = useCallback(() => {
-    return setIsMobileMenuOpen((state) => !state);
-  }, []);
-
   useEffect(() => {
     if (!isMobile && isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
@@ -48,10 +43,13 @@ const Header: React.FC<HeaderProps> = ({...props}) => {
 
   return (
     <Fragment>
-      <header css={headerCss} {...props}>
-        <div css={headerInnerBoxCss}>
+      <header css={headerCss}>
+        <div css={headerInnerBoxCss} {...props}>
           {isMobile ? (
-            <button css={mobileMenuButtonCss} onClick={handleMobileMenuBtnClick}>
+            <button
+              css={mobileMenuButtonCss}
+              onClick={() => setIsMobileMenuOpen((state) => !state)}
+            >
               <GiHamburgerMenu />
             </button>
           ) : (
@@ -76,7 +74,7 @@ const Header: React.FC<HeaderProps> = ({...props}) => {
 export default Header;
 
 // Style - Constants
-const HEADER_HEIGHTS = ['3.25rem', '3.5rem', '3.75rem'];
+export const HEADER_HEIGHTS = ['3.25rem', '3.5rem', '3.75rem'];
 
 // Style
 const headerCss: CssProp = [
@@ -92,12 +90,13 @@ const headerCss: CssProp = [
     }),
 ];
 
-const headerInnerBoxCss: CssProp = [centerBetweenAlignChildren, commonWidthCss];
+const headerInnerBoxCss: CssProp = [
+  centerBetweenAlignChildren,
+  systemCss({width: '100%', px: commonPxValue}),
+];
 
 const menuCss: CssProp = systemCss({
   display: ['block', 'flex'],
-  alignItems: ['normal', 'center'],
-  justifyContent: ['normal', 'center'],
   '& > * + *': {
     ml: [0, '0.5rem'],
     mt: ['1.25rem', 0],
@@ -115,7 +114,7 @@ const menuItemCss: CssProp = (theme) =>
   });
 
 const profileImageBoxCss: CssProp = (theme) => {
-  const imageSizes = HEADER_HEIGHTS.map((height) => `calc(${height} - 1.125rem)`);
+  const imageSizes = HEADER_HEIGHTS.map((height) => `calc(${height ?? 0} - 1.125rem)`);
   return systemCss({
     position: 'relative',
     overflow: 'hidden',
@@ -136,12 +135,14 @@ const mobileMenuButtonCss: CssProp = [
 
 const mobileMenuBoxCss: CssProp = [
   absoluteOnParent({top: HEADER_HEIGHTS}),
-  (theme) =>
-    systemCss({
-      height: HEADER_HEIGHTS.map((height) => `calc(100% - ${height})`),
-      width: commonPxValue.map((value) => `calc(100% - (${value} * 2))`),
-      pt: '1.25rem',
+  (theme) => {
+    const PADDING_TOP = '1.25rem';
+    return systemCss({
+      height: HEADER_HEIGHTS.map((height) => `calc(100% - (${height ?? 0} + ${PADDING_TOP}))`),
+      width: commonPxValue.map((value) => `calc(100% - (${value ?? 0} * 2))`),
+      pt: PADDING_TOP,
       px: commonPxValue,
       backgroundColor: theme.colors.white,
-    }),
+    });
+  },
 ];
