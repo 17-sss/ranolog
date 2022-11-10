@@ -159,6 +159,11 @@ const defaultCss = css`
     color: inherit;
     cursor: pointer;
   }
+  #__next,
+  body > #root /* storybook only */ {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const GlobalStyles = () => {

@@ -58,6 +58,7 @@
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "storybook": "^6.5.13",
-    "storybook-addon-next-router": "^4.0.1"
+    "storybook-addon-next-router": "^4.0.1",
+    "tsconfig-paths-webpack-plugin": "^4.0.0"
   }
 }

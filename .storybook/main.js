@@ -1,3 +1,5 @@
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+
 module.exports = {
   framework: '@storybook/react',
   core: {
@@ -11,7 +13,7 @@ module.exports = {
   reactOptions: {
     fastRefresh: true,
   },
-  stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../**/**/*.stories.mdx', '../**/*.stories.@(js|jsx|ts|tsx)'],
   // staticDirs: ['../public'],
   addons: [
     '@storybook/addon-links',
@@ -27,6 +29,11 @@ module.exports = {
         presets: [require.resolve('@emotion/babel-preset-css-prop')],
       },
     });
+    config.resolve.plugins = [
+      new TsconfigPathsPlugin({
+        extensions: config.resolve.extensions,
+      }),
+    ];
     return config;
   },
 };
