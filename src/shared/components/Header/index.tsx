@@ -55,10 +55,10 @@ const Header: React.FC<HeaderProps> = ({...props}) => {
           ) : (
             <ul css={menuCss}>{menuItems}</ul>
           )}
-          <Link href={LINKS.root.link}>
-            <div css={profileImageBoxCss}>
+          <Link href={LINKS.root.link} passHref legacyBehavior>
+            <a css={profileImageBoxCss}>
               <Image src={profileImage} alt="profile_image" fill />
-            </div>
+            </a>
           </Link>
         </div>
       </header>

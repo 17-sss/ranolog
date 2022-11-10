@@ -25,17 +25,19 @@ const PostBox: React.FC<PostBoxProps> = ({title, posts, ...props}) => {
         {posts.map((post, idx) => {
           return (
             <li key={idx} css={listItemCss}>
-              <Link href={`/blog/${post.contentId}`} css={listItemLinkCss}>
-                {post.imageSrc && (
-                  <div css={itemImageBoxCss}>
-                    <Image src={post.imageSrc} alt="post_image" fill />
+              <Link href={`/blog/${post.contentId}`} passHref legacyBehavior>
+                <a css={listItemLinkCss}>
+                  {post.imageSrc && (
+                    <div css={itemImageBoxCss}>
+                      <Image src={post.imageSrc} alt="post_image" fill />
+                    </div>
+                  )}
+                  <div css={itemContentBoxCss}>
+                    <p className="subject">{post.subject}</p>
+                    <p className="summary">{post.description}</p>
+                    <p className="date">{post.createDate.toLocaleDateString()}</p>
                   </div>
-                )}
-                <div css={itemContentBoxCss}>
-                  <p className="subject">{post.subject}</p>
-                  <p className="summary">{post.description}</p>
-                  <p className="date">{post.createDate.toLocaleDateString()}</p>
-                </div>
+                </a>
               </Link>
             </li>
           );
