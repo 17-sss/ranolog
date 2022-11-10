@@ -11,7 +11,7 @@ import {
   centerBetweenAlignChildren,
   centerAlignedChildren,
   absoluteOnParent,
-  commonPxValue,
+  commonPxValues,
 } from '../../styles';
 import {CssProp, systemCss} from '../../system';
 
@@ -83,17 +83,15 @@ const headerCss: CssProp = [
     systemCss({
       position: 'sticky',
       top: 0,
-      zIndex: 1,
+      zIndex: 10,
       height: HEADER_HEIGHTS,
       backgroundColor: theme.colors.white,
       boxShadow: `0 0rem 1rem -0.5rem ${theme.colors.black}`,
+      px: commonPxValues,
     }),
 ];
 
-const headerInnerBoxCss: CssProp = [
-  centerBetweenAlignChildren,
-  systemCss({width: '100%', px: commonPxValue}),
-];
+const headerInnerBoxCss: CssProp = [centerBetweenAlignChildren, systemCss({width: '100%'})];
 
 const menuCss: CssProp = systemCss({
   display: ['block', 'flex'],
@@ -138,10 +136,11 @@ const mobileMenuBoxCss: CssProp = [
   (theme) => {
     const PADDING_TOP = '1.25rem';
     return systemCss({
+      zIndex: 1,
       height: HEADER_HEIGHTS.map((height) => `calc(100% - (${height ?? 0} + ${PADDING_TOP}))`),
-      width: commonPxValue.map((value) => `calc(100% - (${value ?? 0} * 2))`),
+      width: commonPxValues.map((value) => `calc(100% - (${value ?? 0} * 2))`),
       pt: PADDING_TOP,
-      px: commonPxValue,
+      px: commonPxValues,
       backgroundColor: theme.colors.white,
     });
   },

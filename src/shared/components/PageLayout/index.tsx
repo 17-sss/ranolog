@@ -1,4 +1,4 @@
-import {commonWidthCss, findPrevStyledValue} from '../../styles';
+import {commonPxValues, commonWidthCss, findPrevStyledValue} from '../../styles';
 import {CssProp, systemCss} from '../../system';
 import Header, {HEADER_HEIGHTS} from '../Header';
 
@@ -11,7 +11,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({children, ...props}) => {
     <div css={layoutCss} {...props}>
       <Header css={commonWidthCss} />
       <main css={mainCss}>
-        <div className="inner">{children}</div>
+        <div css={commonWidthCss}>{children}</div>
       </main>
     </div>
   );
@@ -22,6 +22,7 @@ export default PageLayout;
 const layoutCss: CssProp = systemCss({
   height: '100%',
   overflow: 'auto',
+  '& > *': {px: commonPxValues},
 });
 
 const mainCss: CssProp = (theme) => {
@@ -30,12 +31,11 @@ const mainCss: CssProp = (theme) => {
     display: 'flex',
     justifyContent: 'center',
     backgroundColor: theme.colors.white,
-    py: MAIN_PY,
 
+    py: MAIN_PY,
     minHeight: HEADER_HEIGHTS.map(
       (headerHeight, idx) =>
         `calc(100% - (${headerHeight ?? 0} + (${findPrevStyledValue(MAIN_PY, idx)} * 2)))`,
     ),
-    '.inner': [commonWidthCss],
   });
 };
