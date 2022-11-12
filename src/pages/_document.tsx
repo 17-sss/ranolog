@@ -3,6 +3,10 @@ import Document, {Html, Head, Main, NextScript, DocumentContext} from 'next/docu
 interface DocumentProps {}
 
 class MyDocument extends Document<DocumentProps> {
+  static async getInitialProps(ctx: DocumentContext) {
+    const initialProps = await Document.getInitialProps(ctx);
+    return {...initialProps};
+  }
   render() {
     return (
       <Html>
