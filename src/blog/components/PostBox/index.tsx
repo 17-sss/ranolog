@@ -1,31 +1,23 @@
-import Image, {StaticImageData} from 'next/image';
+import Image from 'next/image';
 import Link from 'next/link';
 
-import {centerAlignedChildren, CssProp, systemCss} from '@shared';
-
-// FIXME: 추후 찐 데이터 넣을 때 검토하기.
-interface Post {
-  contentId: number;
-  subject: string;
-  description: string;
-  createDate: Date;
-  imageSrc?: string | StaticImageData;
-}
+import {centerAlignedChildren, CssProp, Post, systemCss} from '@shared';
 
 export interface PostBoxProps {
-  title: string;
+  categoryName: string;
   posts: Post[];
 }
 
-const PostBox: React.FC<PostBoxProps> = ({title, posts, ...props}) => {
+const PostBox: React.FC<PostBoxProps> = ({categoryName, posts = [], ...props}) => {
   return (
     <div css={containerCss} {...props}>
-      <p css={titleCss}>{title}</p>
+      {categoryName && <p css={categoryNameCss}>{categoryName}</p>}
       <ul>
         {posts.map((post, idx) => {
+          const dateText = new Date(post.date).toLocaleDateString().replace(/\.$/g, '');
           return (
             <li key={idx} css={listItemCss}>
-              <Link href={`/blog/${post.contentId}`} passHref legacyBehavior>
+              <Link href={`/blog/${post.id}`} passHref legacyBehavior>
                 <a css={listItemLinkCss}>
                   {post.imageSrc && (
                     <div css={itemImageBoxCss}>
@@ -34,8 +26,8 @@ const PostBox: React.FC<PostBoxProps> = ({title, posts, ...props}) => {
                   )}
                   <div css={itemContentBoxCss}>
                     <p className="subject">{post.subject}</p>
-                    <p className="summary">{post.description}</p>
-                    <p className="date">{post.createDate.toLocaleDateString()}</p>
+                    <p className="summary">{post.content}</p>
+                    <p className="date">{dateText}</p>
                   </div>
                 </a>
               </Link>
@@ -55,7 +47,7 @@ const containerCss: CssProp = systemCss({
   },
 });
 
-const titleCss: CssProp = (theme) =>
+const categoryNameCss: CssProp = (theme) =>
   systemCss({
     fontSize: [theme.fontSizes.p20, null, theme.fontSizes.p24],
     color: theme.colors.gray700,

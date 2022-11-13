@@ -29,6 +29,11 @@ module.exports = {
         presets: [require.resolve('@emotion/babel-preset-css-prop')],
       },
     });
+
+    config.resolve.fallback = {
+      ...(config.resolve || {}).fallback,
+      fs: false,
+    };
     config.resolve.plugins = [
       new TsconfigPathsPlugin({
         extensions: config.resolve.extensions,
