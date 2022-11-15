@@ -1,4 +1,4 @@
-import {getPosts} from '@lib';
+import {getSortedPosts} from '@lib';
 import {PageLayout, Post} from '@shared';
 import {BlogTemplate} from 'src/blog';
 
@@ -17,4 +17,4 @@ const BlogPage: React.FC<BlogPageProps> = ({posts}) => {
 export default BlogPage;
 
 // FUNCTIONS : NEXT.JS ===============================================
-export const getStaticProps = async () => ({props: {posts: getPosts()}});
+export const getStaticProps = async () => ({props: {posts: getSortedPosts()}});

@@ -4,20 +4,20 @@ import {ComponentStory, ComponentMeta} from '@storybook/react';
 
 import {createSortedPostsMock} from '@src/blog/mocks';
 
-import BlogPage from './index';
+import PostList from '.';
 
 const storyDefault = {
-  title: 'pages/blog/BlogPage',
-  component: BlogPage,
-} as ComponentMeta<typeof BlogPage>;
+  title: 'components/blog/PostList',
+  component: PostList,
+} as ComponentMeta<typeof PostList>;
 
 export default storyDefault;
 
-const Template: ComponentStory<typeof BlogPage> = (args) => {
-  return <BlogPage {...args} />;
+const Template: ComponentStory<typeof PostList> = (args) => {
+  return <PostList {...args} />;
 };
 
 export const Default = Template.bind({});
 Default.args = {
-  posts: createSortedPostsMock(50),
+  posts: createSortedPostsMock(119),
 };

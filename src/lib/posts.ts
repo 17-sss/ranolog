@@ -5,6 +5,7 @@ import path from 'path';
 
 export interface DefaultPost {
   id: string;
+  date: string;
   content: string;
 }
 
@@ -22,6 +23,13 @@ export const getPosts = <TPost extends DefaultPost = DefaultPost>(): TPost[] => 
     return {...data, id, content};
   });
   return result as TPost[];
+};
+/** 정적 데이터: 모든 게시글 가져옴 (최근 날짜순으로)  */
+export const getSortedPosts = <TPost extends DefaultPost = DefaultPost>(): TPost[] => {
+  const posts = getPosts<TPost>();
+  return posts.sort(
+    (aPost, bPost) => new Date(bPost.date).valueOf() - new Date(aPost.date).valueOf(),
+  );
 };
 
 /** 정적 데이터: 모든 게시글의 id 가져옴 */
