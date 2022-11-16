@@ -1,4 +1,6 @@
-import Header from './Header';
-import PageLayout from './PageLayout';
+import Dropdown, {DropdownProps} from './Dropdown';
+import Header, {HeaderProps} from './Header';
+import PageLayout, {PageLayoutProps} from './PageLayout';
 
-export {Header, PageLayout};
+export {Dropdown, Header, PageLayout};
+export type {DropdownProps, HeaderProps, PageLayoutProps};
