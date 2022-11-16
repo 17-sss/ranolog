@@ -1,20 +1,16 @@
-import {centerAlignedChildren, CssProp, Post, systemCss, useMedia} from '@shared';
-import {usePagination, Pagination, PostList} from '@src/blog';
+import {centerAlignedChildren, CssProp, Post, systemCss} from '@shared';
+import {useBlogTemplate, PostList, Pagination} from '@src/blog';
 
 export interface BlogTemplateProps {
   posts: Post[];
 }
 
 const BlogTemplate: React.FC<BlogTemplateProps> = ({posts, ...props}) => {
-  const {isMobile} = useMedia();
-  const {pageInfo, pageNums, currentData, handlePageButtonClick} = usePagination<Post[]>({
-    data: posts,
-    pageUnit: isMobile ? 3 : 5,
-  });
+  const {currentPosts, pageInfo, pageNums, handlePageButtonClick} = useBlogTemplate(posts);
 
   return (
     <div css={containerCss} {...props}>
-      <PostList posts={currentData} />
+      <PostList posts={currentPosts} />
       <Pagination
         css={paginationCss}
         pageInfo={pageInfo}

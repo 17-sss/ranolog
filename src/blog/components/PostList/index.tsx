@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import {centerAlignedChildren, CssProp, Post, systemCss} from '@shared';
+import {centerAlignedChildren, CssProp, Post, singleLineEllipsis, systemCss} from '@shared';
 
 export interface PostListProps {
   posts: Post[];
@@ -89,14 +89,14 @@ const itemContentBoxCss: CssProp = (theme) =>
     flexDirection: 'column',
     minWidth: 0,
 
-    p: {
-      color: theme.colors.gray700,
-      fontSize: [theme.fontSizes.p14, null, theme.fontSizes.p16],
-      py: '0.25rem',
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-    },
+    p: [
+      singleLineEllipsis,
+      systemCss({
+        color: theme.colors.gray700,
+        fontSize: [theme.fontSizes.p14, null, theme.fontSizes.p16],
+        py: '0.25rem',
+      }),
+    ],
     '& > .subject': {
       fontSize: [theme.fontSizes.p18, null, theme.fontSizes.p20],
       fontWeight: 'bold',

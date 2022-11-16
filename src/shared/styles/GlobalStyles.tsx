@@ -138,6 +138,10 @@ const defaultCss = css`
   }
   body {
     font-family: 'Noto Sans KR', 'Roboto', Lato, sans-serif;
+    line-height: 1.6;
+    letter-spacing: -0.04em;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
   }
   a {
     color: inherit;
