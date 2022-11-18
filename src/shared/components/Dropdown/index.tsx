@@ -85,7 +85,7 @@ const Dropdown = <TData extends ValueType>({
         type="button"
         onClick={handleToggleOpen}
       >
-        <span css={displayValueCss}>{displayValue}</span>{' '}
+        <div css={displayValueBoxCss}>{displayValue}</div>&nbsp;
         {isEmptyOptions || (
           <FiChevronDown css={[toggleButtonIconCss, isOpen && openToggleIconCss]} />
         )}
@@ -125,15 +125,18 @@ const displayCss: CssProp = [
   centerBetweenAlignChildren,
   (theme) =>
     systemCss({
+      flexWrap: 'wrap',
+
+      width: '100%',
+      height: '100%',
       py: '0.75rem',
       px: '1rem',
+
       fontSize: theme.fontSizes.p16,
       backgroundColor: theme.colors.white,
       border: `1px solid ${theme.colors.gray300}`,
       borderRadius: '0.25rem',
-      height: '100%',
-      width: '100%',
-      flexWrap: 'wrap',
+
       appearance: 'none',
     }),
 ];
@@ -143,7 +146,7 @@ const displayOpenCss: CssProp = (theme) =>
   });
 const displayNotAllowCss: CssProp = systemCss({cursor: 'not-allowed'});
 
-const displayValueCss: CssProp = [
+const displayValueBoxCss: CssProp = [
   singleLineEllipsis,
   systemCss({
     flex: 1,
@@ -211,10 +214,10 @@ const DropdownItemButton = <TData extends {} | ValueType>({
 
   return (
     <button css={dropdownItemButtonCss} type="button" onClick={handleItemButtonClick} {...props}>
-      <p css={singleLineEllipsis}>
+      <div css={singleLineEllipsis}>
         {label}
         {rightAddon}
-      </p>
+      </div>
     </button>
   );
 };

@@ -18,7 +18,7 @@ const Template: ComponentStory<typeof Dropdown> = (args) => {
 export const Default = Template.bind({});
 Default.args = {
   placeholder: 'Select Category',
-  options: ['미지정', 'JavaScript', 'TypeScript', 'Next.js', 'React'],
+  options: Array.from({length: 10}, (_, i) => `Option ${i + 1}`),
   onChange: (data) => console.log(data),
   labelMapper: (value) => {
     if (typeof value === 'object') {

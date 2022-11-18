@@ -3,7 +3,7 @@ import React from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
 import {useMedia} from '@shared';
-import {usePagination} from '@src/blog';
+import {usePagination, createPostsMock} from '@src/blog';
 
 import Pagination, {PaginationProps} from '.';
 
@@ -15,20 +15,21 @@ const storyDefault = {
 export default storyDefault;
 
 interface PaginationStoryProps extends PaginationProps {
-  dataLength: number;
+  data: any[];
   pageUnit?: number;
   postUnit?: number;
 }
 
 const Template: ComponentStory<React.FC<PaginationStoryProps>> = ({
-  dataLength,
+  data,
   pageUnit,
   postUnit,
   ...args
 }) => {
   const {isMobile} = useMedia();
+
   const {pageInfo, pageNums, /* currentData */ handlePageButtonClick} = usePagination({
-    data: Array.from({length: dataLength}, (_, i) => i),
+    data,
     pageUnit: isMobile ? 3 : pageUnit ?? 5,
     postUnit: postUnit ?? 5,
   });
@@ -44,7 +45,7 @@ const Template: ComponentStory<React.FC<PaginationStoryProps>> = ({
 
 export const Default = Template.bind({});
 Default.args = {
-  dataLength: 123,
+  data: createPostsMock(101),
   pageUnit: 5,
   postUnit: 5,
 };
