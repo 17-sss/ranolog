@@ -1,6 +1,4 @@
-import React, {useCallback, useMemo, useState} from 'react';
-
-import {Post} from '@shared';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 
 export interface PageInfo {
   current: number;
@@ -14,16 +12,18 @@ interface UsePaginationParams<TData extends any[]> {
   pageUnit?: number;
 }
 
+const INIT_PAGE_INFO: PageInfo = {
+  current: 1,
+  pageGroup: 1,
+  totalPage: Number.MAX_SAFE_INTEGER,
+};
+
 export const usePagination = <TData extends any[]>({
   data,
   postUnit = 5,
   pageUnit = 5,
 }: UsePaginationParams<TData>) => {
-  const [pageInfo, setPageInfo] = useState<PageInfo>({
-    current: 1,
-    pageGroup: 1,
-    totalPage: Math.ceil(data.length / postUnit),
-  });
+  const [pageInfo, setPageInfo] = useState<PageInfo>(INIT_PAGE_INFO);
 
   /** 현재 보여지고 있는 데이터 정보 */
   const currentData = useMemo(() => {
@@ -108,6 +108,15 @@ export const usePagination = <TData extends any[]>({
     },
     [pageInfo, pageNums, pageUnit],
   );
+
+  useEffect(() => {
+    setPageInfo((prev) => ({
+      ...prev,
+      current: 1,
+      pageGroup: 1,
+      totalPage: Math.ceil(data.length / postUnit),
+    }));
+  }, [data, postUnit]);
 
   return {pageInfo, currentData, pageNums, handlePageButtonClick};
 };
