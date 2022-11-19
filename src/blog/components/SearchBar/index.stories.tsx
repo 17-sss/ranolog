@@ -2,6 +2,8 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
+import {debounce} from '@src/shared';
+
 import SearchBar from './index';
 
 const storyDefault = {
@@ -17,7 +19,12 @@ const Template: ComponentStory<typeof SearchBar> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  onSearch(value) {
-    console.log(`SearchBar(onSearch)\n- value: ${value}`);
-  },
+  onInputKeyUp: debounce({
+    func: (e?: React.KeyboardEvent<HTMLInputElement>) => {
+      if (!e || !(e.target instanceof HTMLInputElement)) {
+        return;
+      }
+      console.log('currentValue (debounce):', e.target.value);
+    },
+  }),
 };

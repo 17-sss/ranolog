@@ -3,7 +3,7 @@ interface DebounceParams<T extends any[]> {
   ms?: number;
 }
 
-export const debounce = <T extends any[]>({func, ms = 1000}: DebounceParams<T>) => {
+export const debounce = <T extends any[]>({func, ms = 500}: DebounceParams<T>) => {
   let timer: ReturnType<typeof setTimeout>;
   return (...args: T) => {
     clearTimeout(timer);
@@ -12,7 +12,7 @@ export const debounce = <T extends any[]>({func, ms = 1000}: DebounceParams<T>) 
 };
 
 type ThrottleParams<T extends any[]> = DebounceParams<T>;
-export const throttle = <T extends any[]>({func, ms = 1000}: ThrottleParams<T>) => {
+export const throttle = <T extends any[]>({func, ms = 500}: ThrottleParams<T>) => {
   let timer: ReturnType<typeof setTimeout> | undefined;
   return (...args: T) => {
     if (timer) {
