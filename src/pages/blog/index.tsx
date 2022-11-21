@@ -17,4 +17,9 @@ const BlogPage: React.FC<BlogPageProps> = ({posts}) => {
 export default BlogPage;
 
 // FUNCTIONS : NEXT.JS ===============================================
-export const getStaticProps = async () => ({props: {posts: getSortedPosts()}});
+export const getStaticProps = async () => {
+  const posts = await getSortedPosts();
+  return {
+    props: {posts},
+  };
+};

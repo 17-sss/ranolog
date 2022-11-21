@@ -167,7 +167,7 @@ const openToggleIconCss: CssProp = systemCss({
 
 const optionWrapperCss: CssProp = [
   absoluteOnParent({
-    top: `calc(3.125rem + 1rem)`,
+    top: `calc(3.125rem + 0.5rem)`,
     left: 0,
   }),
   (theme) =>

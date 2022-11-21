@@ -25,6 +25,6 @@ export const getStaticProps = async ({params}: GetStaticPropsContext<{id: string
   if (!params?.id) {
     return;
   }
-  const post = getPost(params?.id);
+  const post = await getPost(params?.id);
   return {props: {post}};
 };

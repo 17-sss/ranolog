@@ -1,7 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import {centerAlignedChildren, CssProp, Post, singleLineEllipsis, systemCss} from '@shared';
+import {
+  systemCss,
+  CssProp,
+  centerAlignedChildren,
+  Post,
+  singleLineEllipsis,
+  MarkdownRenderer,
+} from '@shared';
 
 export interface PostListProps {
   posts: Post[];
@@ -19,7 +26,7 @@ const PostList: React.FC<PostListProps> = ({posts, ...props}) => {
               <a css={listItemLinkCss}>
                 <div css={itemContentBoxCss}>
                   <p className="subject">{post.subject}</p>
-                  <p className="summary">{post.content}</p>
+                  <MarkdownRenderer contentHtml={post.content} textOnly />
                   <p className="date">{dateText}</p>
                 </div>
                 {post.imageSrc && (
@@ -89,7 +96,7 @@ const itemContentBoxCss: CssProp = (theme) =>
     flexDirection: 'column',
     minWidth: 0,
 
-    p: [
+    '& > *': [
       singleLineEllipsis,
       systemCss({
         color: theme.colors.gray700,
@@ -97,15 +104,15 @@ const itemContentBoxCss: CssProp = (theme) =>
         py: '0.25rem',
       }),
     ],
+    '& > * + *': {
+      mt: ['0.25rem', null, '0.5rem'],
+    },
+
     '& > .subject': {
       fontSize: [theme.fontSizes.p18, null, theme.fontSizes.p20],
       fontWeight: 'bold',
     },
-    '& > .summary': {},
     '& > .date': {
       color: theme.colors.gray500,
-    },
-    '& > * + *': {
-      mt: ['0.25rem', null, '0.5rem'],
     },
   });
