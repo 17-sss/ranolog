@@ -1,15 +1,15 @@
 import {getSortedDocuments} from '@lib';
-import {PageLayout, Post} from '@shared';
+import {PageLayout, PostDocument} from '@shared';
 import {BlogTemplate} from 'src/blog';
 
 export interface BlogPageProps {
-  posts: Post[];
+  postDocs: PostDocument[];
 }
 
-const BlogPage: React.FC<BlogPageProps> = ({posts}) => {
+const BlogPage: React.FC<BlogPageProps> = ({postDocs}) => {
   return (
     <PageLayout>
-      <BlogTemplate posts={posts} />
+      <BlogTemplate postDocs={postDocs} />
     </PageLayout>
   );
 };
@@ -18,8 +18,8 @@ export default BlogPage;
 
 // FUNCTIONS : NEXT.JS ===============================================
 export const getStaticProps = async () => {
-  const posts = await getSortedDocuments('posts');
+  const postDocs = await getSortedDocuments('posts');
   return {
-    props: {posts},
+    props: {postDocs},
   };
 };

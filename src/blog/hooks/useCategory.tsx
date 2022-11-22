@@ -1,18 +1,18 @@
 import {Fragment, useCallback, useMemo, useState} from 'react';
 
-import {Post, systemCss} from '@shared';
+import {PostDocument, systemCss} from '@shared';
 
-export const useCategory = (posts: Post[]) => {
+export const useCategory = (postDocs: PostDocument[]) => {
   const [selctedCategory, setSelctedCategory] = useState<string>();
 
-  /** 현재 선택된 카테고리 기반 posts
+  /** 현재 선택된 카테고리 기반 postDocs
    * - handleCategoryDropdownChange로 인해 현재 선택된 카테고리가 변경될 때 업데이트
    */
   const selectedCategoryPosts = useMemo(() => {
     if (!selctedCategory || selctedCategory === '전체보기') {
-      return posts;
+      return postDocs;
     }
-    const result = posts.filter(({category}) => {
+    const result = postDocs.filter(({category}) => {
       if (selctedCategory === '미지정') {
         return typeof category === 'undefined' || category.length === 0 || category === '';
       }
@@ -22,12 +22,12 @@ export const useCategory = (posts: Post[]) => {
       return category === selctedCategory;
     });
     return result;
-  }, [posts, selctedCategory]);
+  }, [postDocs, selctedCategory]);
 
   /** 카테고리 정보 (이름, 글 갯수) */
   const categoryInfo = useMemo(() => {
-    const categoryMap = posts.reduce((result, {category}) => {
-      const createCurrentNames = (category: Post['category']) => {
+    const categoryMap = postDocs.reduce((result, {category}) => {
+      const createCurrentNames = (category: PostDocument['category']) => {
         const isUndefined = typeof category === 'undefined';
         const isEmptyText = typeof category === 'string' && category === '';
         const isEmptyArray = Array.isArray(category) && category.length === 0;
@@ -51,10 +51,10 @@ export const useCategory = (posts: Post[]) => {
     if (findUnspecifiedIdx > -1) {
       result = [result[findUnspecifiedIdx], ...result.filter(([name]) => name !== '미지정')];
     }
-    result.unshift(['전체보기', posts.length]);
+    result.unshift(['전체보기', postDocs.length]);
 
     return result;
-  }, [posts]);
+  }, [postDocs]);
 
   /** Dropdown(Category) : labelMapper */
   const categoryLabelMapper = useCallback((info: typeof categoryInfo[number]) => {

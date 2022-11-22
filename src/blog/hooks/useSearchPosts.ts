@@ -1,22 +1,22 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
-import {debounce, Post} from '@shared';
+import {debounce, PostDocument} from '@shared';
 
-export const useSearchPosts = (posts: Post[], currentCategory: string = '') => {
+export const useSearchPosts = (postDocs: PostDocument[], currentCategory: string = '') => {
   const [searchValue, setSearchValue] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>();
 
-  const searchPosts = useMemo(() => {
+  const searchPostDocs = useMemo(() => {
     if (!searchValue) {
-      return posts;
+      return postDocs;
     }
-    const result = posts.filter(({subject}) => {
+    const result = postDocs.filter(({subject}) => {
       const trimSubject = subject.replace(/\s+/g, '');
       const trimSearchValue = searchValue.replace(/\s+/g, '');
       return trimSubject.indexOf(trimSearchValue) > -1;
     });
     return result;
-  }, [searchValue, posts]);
+  }, [searchValue, postDocs]);
 
   const registerSearchInput = useCallback((element?: HTMLInputElement | null) => {
     if (!element) {
@@ -48,7 +48,7 @@ export const useSearchPosts = (posts: Post[], currentCategory: string = '') => {
   }, [currentCategory]);
 
   return {
-    searchPosts,
+    searchPostDocs,
     registerSearchInput,
     handleSearchKeyUp: debounce({func: handleSearchKeyUp}),
     handleSearchButtonClick,

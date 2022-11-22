@@ -1,17 +1,17 @@
 import React from 'react';
 
-import {centerAlignedChildren, CssProp, Post, systemCss, Dropdown} from '@shared';
+import {centerAlignedChildren, CssProp, PostDocument, systemCss, Dropdown} from '@shared';
 import {useBlogTemplate, PostList, Pagination, SearchBar} from '@src/blog';
 
 export interface BlogTemplateProps {
-  posts: Post[];
+  postDocs: PostDocument[];
 }
 
-const BlogTemplate: React.FC<BlogTemplateProps> = ({posts, ...props}) => {
+const BlogTemplate: React.FC<BlogTemplateProps> = ({postDocs, ...props}) => {
   const {
     pageInfo,
     pageNums,
-    currentPosts,
+    currentPostDocs,
     handlePageButtonClick,
 
     categoryInfo,
@@ -23,7 +23,7 @@ const BlogTemplate: React.FC<BlogTemplateProps> = ({posts, ...props}) => {
     handleSearchButtonClick,
 
     isEmpty,
-  } = useBlogTemplate(posts);
+  } = useBlogTemplate(postDocs);
 
   return (
     <div css={containerCss} {...props}>
@@ -46,7 +46,7 @@ const BlogTemplate: React.FC<BlogTemplateProps> = ({posts, ...props}) => {
 
       {!isEmpty ? (
         <>
-          <PostList posts={currentPosts} />
+          <PostList postDocs={currentPostDocs} />
           <Pagination
             css={paginationCss}
             pageInfo={pageInfo}

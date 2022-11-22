@@ -5,33 +5,33 @@ import {
   systemCss,
   CssProp,
   centerAlignedChildren,
-  Post,
+  PostDocument,
   singleLineEllipsis,
   MarkdownRenderer,
 } from '@shared';
 
 export interface PostListProps {
-  posts: Post[];
+  postDocs: PostDocument[];
 }
 
 /** 게시물 목록 (without Pagination) */
-const PostList: React.FC<PostListProps> = ({posts, ...props}) => {
+const PostList: React.FC<PostListProps> = ({postDocs, ...props}) => {
   return (
     <ul {...props}>
-      {posts.map((post, idx) => {
-        const dateText = new Date(post.date).toLocaleDateString().replace(/\.$/g, '');
+      {postDocs.map((postDoc, idx) => {
+        const dateText = new Date(postDoc.date).toLocaleDateString().replace(/\.$/g, '');
         return (
           <li key={idx} css={listItemCss}>
-            <Link href={`/blog/${post.id}`} passHref legacyBehavior>
+            <Link href={`/blog/${postDoc.id}`} passHref legacyBehavior>
               <a css={listItemLinkCss}>
                 <div css={itemContentBoxCss}>
-                  <p className="subject">{post.subject}</p>
-                  <MarkdownRenderer contentHtml={post.content} textOnly />
+                  <p className="subject">{postDoc.subject}</p>
+                  <MarkdownRenderer contentHtml={postDoc.content} textOnly />
                   <p className="date">{dateText}</p>
                 </div>
-                {post.imageSrc && (
+                {postDoc.imageSrc && (
                   <div css={itemImageBoxCss}>
-                    <Image src={post.imageSrc} alt="post_image" fill />
+                    <Image src={postDoc.imageSrc} alt="post_image" fill />
                   </div>
                 )}
               </a>

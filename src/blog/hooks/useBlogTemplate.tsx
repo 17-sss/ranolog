@@ -1,12 +1,12 @@
 import {useMemo} from 'react';
 
-import {Post, useMedia} from '@src/shared';
+import {PostDocument, useMedia} from '@src/shared';
 
 import {useCategory} from './useCategory';
 import {usePagination} from './usePagination';
 import {useSearchPosts} from './useSearchPosts';
 
-export const useBlogTemplate = (posts: Post[]) => {
+export const useBlogTemplate = (postDocs: PostDocument[]) => {
   // CATEGORY (DROPDOWN) =======================================================
   const {
     selctedCategory,
@@ -14,10 +14,10 @@ export const useBlogTemplate = (posts: Post[]) => {
     categoryInfo,
     categoryLabelMapper,
     handleCategoryDropdownChange,
-  } = useCategory(posts);
+  } = useCategory(postDocs);
 
   // SERACHBAR =======================================================
-  const {registerSearchInput, handleSearchKeyUp, handleSearchButtonClick, searchPosts} =
+  const {registerSearchInput, handleSearchKeyUp, handleSearchButtonClick, searchPostDocs} =
     useSearchPosts(selectedCategoryPosts, selctedCategory);
 
   // PAGINATION =======================================================
@@ -25,20 +25,20 @@ export const useBlogTemplate = (posts: Post[]) => {
   const {
     pageInfo,
     pageNums,
-    currentData: currentPosts,
+    currentData: currentPostDocs,
     handlePageButtonClick,
-  } = usePagination<Post[]>({
-    data: searchPosts,
+  } = usePagination<PostDocument[]>({
+    data: searchPostDocs,
     pageUnit: isMobile ? 3 : 5,
   });
 
   // -----------------------------
-  const isEmpty = useMemo(() => searchPosts.length === 0, [searchPosts]);
+  const isEmpty = useMemo(() => searchPostDocs.length === 0, [searchPostDocs]);
 
   return {
     pageInfo,
     pageNums,
-    currentPosts,
+    currentPostDocs,
     handlePageButtonClick,
 
     categoryInfo,

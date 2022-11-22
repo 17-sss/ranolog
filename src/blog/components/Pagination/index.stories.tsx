@@ -3,7 +3,7 @@ import React from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
 import {useMedia} from '@shared';
-import {usePagination, createPostsMock} from '@src/blog';
+import {usePagination, createPostDocsMock} from '@src/blog';
 
 import Pagination, {PaginationProps} from '.';
 
@@ -45,7 +45,7 @@ const Template: ComponentStory<React.FC<PaginationStoryProps>> = ({
 
 export const Default = Template.bind({});
 Default.args = {
-  data: createPostsMock(101),
+  data: createPostDocsMock(101),
   pageUnit: 5,
   postUnit: 5,
 };

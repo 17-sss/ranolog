@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {createSortedPostsMock} from '@src/blog/mocks';
+import {createSortedPostDocsMock} from '@src/blog/mocks';
 
 import BlogPage from './index';
 
@@ -19,5 +19,5 @@ const Template: ComponentStory<typeof BlogPage> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  posts: createSortedPostsMock(50),
+  postDocs: createSortedPostDocsMock(50),
 };

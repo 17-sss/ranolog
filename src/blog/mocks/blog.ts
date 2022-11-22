@@ -1,8 +1,8 @@
-import {Post, createRandomDate} from '@shared';
+import {PostDocument, createRandomDate} from '@shared';
 
 import samplePostImage from '../assets/sample_post.jpeg';
 
-const tempPosts: Omit<Post, 'id' | 'category' | 'date'>[] = [
+const tempPosts: Omit<PostDocument, 'id' | 'category' | 'date'>[] = [
   {
     subject: 'Fusce suscipit lorem',
     content:
@@ -18,7 +18,7 @@ const tempPosts: Omit<Post, 'id' | 'category' | 'date'>[] = [
 ];
 
 /** Mock 데이터 생성 (Posts) */
-export const createPostsMock = (mockLength: number = 10) => {
+export const createPostDocsMock = (mockLength: number = 10) => {
   const tempCategories = ['SAMPLE', 'JavaScript', 'JUST', 'DO IT', 'React'];
   const createCategory = () => {
     const randomCategoryType = ['string', 'string[]', 'undefined'][Math.floor(Math.random() * 3)];
@@ -40,7 +40,7 @@ export const createPostsMock = (mockLength: number = 10) => {
     return undefined;
   };
 
-  const result: Post[] = Array.from({length: mockLength}).map((_, i) => {
+  const result: PostDocument[] = Array.from({length: mockLength}).map((_, i) => {
     const post = tempPosts[Math.round(Math.random())];
     return {
       ...post,
@@ -54,7 +54,7 @@ export const createPostsMock = (mockLength: number = 10) => {
 };
 
 /**  정렬된 Mock 데이터 생성 (Posts / 최근 날짜기준) */
-export const createSortedPostsMock = (mockLength: number = 10) =>
-  createPostsMock(mockLength).sort(
+export const createSortedPostDocsMock = (mockLength: number = 10) =>
+  createPostDocsMock(mockLength).sort(
     (aPost, bPost) => new Date(bPost.date).valueOf() - new Date(aPost.date).valueOf(),
   );
