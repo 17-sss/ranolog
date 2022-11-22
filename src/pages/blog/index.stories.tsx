@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {createSortedPostDocsMock} from '@src/blog/mocks';
+import {createSortedPostDocsMock} from '@shared';
 
 import BlogPage from './index';
 
