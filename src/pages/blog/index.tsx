@@ -1,4 +1,4 @@
-import {getSortedPosts} from '@lib';
+import {getSortedDocuments} from '@lib';
 import {PageLayout, Post} from '@shared';
 import {BlogTemplate} from 'src/blog';
 
@@ -18,7 +18,7 @@ export default BlogPage;
 
 // FUNCTIONS : NEXT.JS ===============================================
 export const getStaticProps = async () => {
-  const posts = await getSortedPosts();
+  const posts = await getSortedDocuments('posts');
   return {
     props: {posts},
   };

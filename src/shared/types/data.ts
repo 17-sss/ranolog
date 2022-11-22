@@ -1,8 +1,8 @@
 import {StaticImageData} from 'next/image';
 
-import {DefaultPost} from '@lib';
+import {DefaultDocument} from '@lib';
 
-export interface Post extends DefaultPost {
+export interface Post extends DefaultDocument {
   subject: string;
   category?: string | string[];
   imageSrc?: string | StaticImageData;

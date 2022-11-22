@@ -1,4 +1,6 @@
-import {useCallback} from 'react';
+import {Fragment, useCallback, useState} from 'react';
+
+import {CssProp, systemCss} from '../../system';
 
 export interface MarkdownRendererProps {
   contentHtml: string;
@@ -6,18 +8,33 @@ export interface MarkdownRendererProps {
 }
 
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({contentHtml, textOnly, ...props}) => {
+  const [textContent, setTextContent] = useState<string | null>(null);
   const registerTextCotnent = useCallback(
     (ele?: HTMLDivElement | null) => {
       if (!ele || !textOnly) {
         return;
       }
-      ele.innerHTML = ele.textContent ?? '';
+      setTextContent(ele.textContent);
     },
     [textOnly],
   );
+
+  if (textContent) {
+    return <div {...props}>{textContent}</div>;
+  }
+
   return (
-    <div ref={registerTextCotnent} dangerouslySetInnerHTML={{__html: contentHtml}} {...props} />
+    <div
+      css={textOnly && hideCss}
+      ref={registerTextCotnent}
+      dangerouslySetInnerHTML={{__html: contentHtml}}
+      {...props}
+    />
   );
 };
 
 export default MarkdownRenderer;
+
+const hideCss: CssProp = systemCss({
+  display: 'none',
+});

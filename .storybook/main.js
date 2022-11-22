@@ -14,7 +14,7 @@ module.exports = {
     fastRefresh: true,
   },
   stories: ['../**/**/*.stories.mdx', '../**/*.stories.@(js|jsx|ts|tsx)'],
-  // staticDirs: ['../public'],
+  staticDirs: ['../public'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
