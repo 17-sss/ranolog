@@ -56,7 +56,7 @@ const infoBoxCss: CssProp = (theme) =>
     },
     '.subject': {
       fontWeight: 'bold',
-      fontSize: [theme.fontSizes.p24, null, theme.fontSizes.p28],
+      fontSize: [theme.fontSizes.p28, null, theme.fontSizes.p32],
     },
   });
 const categoryBoxCss: CssProp = systemCss({
