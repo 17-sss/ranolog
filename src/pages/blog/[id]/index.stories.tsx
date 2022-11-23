@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {createPostDocsMock, sampleContentHtml} from '@shared';
+import {createPostDocsMock, sampleContentHtml, samplePrismHtml} from '@shared';
 
 import BlogDetailPage from '.';
 
@@ -17,7 +17,7 @@ const Template: ComponentStory<typeof BlogDetailPage> = (args) => {
   return <BlogDetailPage {...args} />;
 };
 
-const POST_DATA = {...createPostDocsMock(1)[0], content: sampleContentHtml};
+const POST_DATA = {...createPostDocsMock(1)[0], content: `${sampleContentHtml}${samplePrismHtml}`};
 export const No_Category = Template.bind({});
 No_Category.args = {
   postDoc: {

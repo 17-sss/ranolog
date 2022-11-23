@@ -3,7 +3,7 @@ import React from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
 import MarkdownRenderer from '.';
-import {sampleContentHtml} from '../../mocks';
+import {sampleContentHtml, samplePrismHtml} from '../../mocks';
 
 const storyDefault = {
   title: 'components/shared/MarkdownRenderer',
@@ -18,5 +18,5 @@ const Template: ComponentStory<typeof MarkdownRenderer> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  contentHtml: sampleContentHtml,
+  contentHtml: `${sampleContentHtml}${samplePrismHtml}`,
 };

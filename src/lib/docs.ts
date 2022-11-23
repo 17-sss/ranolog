@@ -3,8 +3,9 @@ import fs from 'fs';
 import matter from 'gray-matter';
 import path from 'path';
 import {remark} from 'remark';
-import html from 'remark-html';
-import prism from 'remark-prism';
+import remarkGfm from 'remark-gfm';
+import remarkHtml from 'remark-html';
+import remarkPrism from 'remark-prism';
 
 export interface DefaultDocument {
   id: string;
@@ -18,7 +19,11 @@ const docsDir = path.join(process.cwd(), 'docs');
 
 /** [async] Markdown Text -> HTML 변환 */
 export const markdownToHtml = async (markdown: string) => {
-  const result = await remark().use(html, {sanitize: false}).use(prism).process(markdown);
+  const result = await remark()
+    .use(remarkGfm)
+    .use(remarkHtml, {sanitize: false})
+    .use(remarkPrism)
+    .process(markdown);
   return result.toString();
 };
 

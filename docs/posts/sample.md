@@ -4,73 +4,76 @@ date: '2020-01-02'
 summary: 'We recommend using Static Generation (with and without data) whenever possible because your page can be built once and served by CDN, which makes it much faster than having a server render the page on every request'
 ---
 
-We recommend using **Static Generation** (with and without data) whenever possible because your page can be built once and served by CDN, which makes it much faster than having a server render the page on every request
+### > Headings
 
-> **blockquote**
+# h1
 
-- [링크](https://naver.com)
-- 큭큭
+## h2
 
-You can use Static Generation for many types of pages, including:
+### h3
+
+#### h4
+
+##### h5
+
+###### h6
+
+### > Texts & code & hr & anchor
+
+**bold**
+
+_italic_
+
+~~strikethrough~~
+
+`code`
+
+---
+
+[Anchor (about:blank)](about:blank)
+
+### > Contents
+
+We recommend using **Static Generation** (with and without data) whenever possible because your page can be built once and served by CDN, which makes it much faster than having a ~~server~~ render the page _on_ every request
+
+You can use **_Static Generation_** for many types of pages, including:
 
 - Marketing pages
-- Blog posts
+  - pages
+    - `pages`
+
+1. Blog posts
+2. posts
+3. test
+
 - E-commerce product listings
 - Help and documentation
 
-You should ask yourself: "Can I pre-render this page **ahead** of a user's request?" If the answer is yes, then you should choose Static Generation.
-
-On the other hand, Static Generation is **not** a good idea if you cannot pre-render a page ahead of a user's request. Maybe your page shows frequently updated data, and the page content changes on every request.
-
-In that case, you can use **Server-Side Rendering**. It will be slower, but the pre-rendered page will always be up-to-date. Or you can skip pre-rendering and use client-side JavaScript to populate data.
+### > Code Block
 
 ```js
-/**
- * @param {string[]} strs
- * @return {string[][]}
- */
-const calcAlphaCnt = (arrStr, searchChar) =>
-  arrStr.reduce((cnt, currChar) => (currChar === searchChar && cnt++, cnt), 0);
-const isDuplicateKey = (object, key) => Object.keys(object).indexOf(key) > -1;
-const createSortedObjectKey = (object) => {
-  const result = {};
-  const keys = Object.keys(object).sort();
-
-  keys.forEach((key) => {
-    result[key] = object[key];
-  });
+const num = 1;
+const str = '1';
+function func() {
+  const result = [];
+  result.push(1);
   return result;
-};
-const createObjectValueKey = (object) =>
-  Object.keys(object).reduce((result, key) => ((result += key + object[key]), result), '');
-
-const groupAnagrams = (strs) => {
-  const listMap = {};
-
-  let nLoop = 0;
-  while (nLoop < strs.length) {
-    const currStr = strs[nLoop];
-    const arrCurrStr = currStr.split('');
-
-    const tmpMap = {};
-    for (let i = 0; i < arrCurrStr.length; i++) {
-      const tmpChar = arrCurrStr[i];
-      if (isDuplicateKey(tmpMap, tmpChar)) continue;
-
-      const alpCnt = calcAlphaCnt(arrCurrStr, tmpChar);
-      tmpMap[tmpChar] = alpCnt;
-    }
-
-    const strKey = createObjectValueKey(createSortedObjectKey(tmpMap));
-
-    if (isDuplicateKey(listMap, strKey)) listMap[strKey].push(currStr);
-    else listMap[strKey] = [currStr];
-
-    nLoop++;
-  }
-
-  return Object.values(listMap);
-};
-
-groupAnagrams(['aba', 'cbc', 'baa', 'adc', 'ccd', 'bb']);
+}
 ```
+
+### > Table
+
+| th 1 | th 2 | th 3 |
+| ---- | ---- | ---- |
+| td 1 | td 2 | td 3 |
+| td 1 | td 2 | td 3 |
+| td 1 | td 2 | td 3 |
+| td 1 | td 2 | td 3 |
+
+### > Blockquote
+
+> Blockquote??
+>
+> > inner Blockquote??
+> >
+> > > inner inner Blockquote??
