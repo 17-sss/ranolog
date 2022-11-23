@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {getSortedDocuments} from '@lib';
 import {PageLayout, PostDocument} from '@shared';
 import {BlogTemplate} from 'src/blog';

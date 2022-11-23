@@ -14,6 +14,12 @@ type SubFolderType = 'posts' | 'projects';
 
 const docsDir = path.join(process.cwd(), 'docs');
 
+/** [async] Markdown Text -> HTML 변환 */
+export const markdownToHtml = async (markdown: string) => {
+  const result = await remark().use(html).process(markdown);
+  return result.toString();
+};
+
 /** [async] 모든 정적 데이터 가져옴  */
 export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocument>(
   subFolder?: SubFolderType,
@@ -28,8 +34,8 @@ export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocumen
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       const id = fileName.replace(/\.md$/, '');
       const matterResult = matter(fileContents);
-      const remarkContent = await remark().use(html).process(matterResult.content);
-      result.push({...matterResult.data, id, content: remarkContent.toString()} as TDoc);
+      const content = await markdownToHtml(matterResult.content);
+      result.push({...matterResult.data, id, content} as TDoc);
     }
   } catch (e) {
     console.error(e);
@@ -54,10 +60,8 @@ export const getDocument = async <TDoc extends DefaultDocument = DefaultDocument
   try {
     const fullPath = path.join(docsDir, subFolder ?? '', `${id}.md`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
-
     const matterResult = matter(fileContents);
-    const remarkContent = await remark().use(html).process(matterResult.content);
-    const content = remarkContent.toString();
+    const content = await markdownToHtml(matterResult.content);
     return {...matterResult.data, id, content} as TDoc;
   } catch (e) {
     console.error(e);

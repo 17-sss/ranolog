@@ -1,7 +1,11 @@
-import BlogTemplate, {BlogTemplateProps} from './BlogTemplate';
-import Pagination, {PaginationProps} from './Pagination';
-import PostList, {PostListProps} from './PostList';
-import SearchBar, {SearchBarProps} from './SearchBar';
+import BlogTemplate from './BlogTemplate';
+import Pagination from './Pagination';
+import PostList from './PostList';
+import SearchBar from './SearchBar';
+
+export * from './BlogTemplate';
+export * from './Pagination';
+export * from './PostList';
+export * from './SearchBar';
 
 export {BlogTemplate, Pagination, PostList, SearchBar};
-export type {BlogTemplateProps, PaginationProps, PostListProps, SearchBarProps};

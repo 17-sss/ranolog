@@ -1,7 +1,13 @@
-import Dropdown, {DropdownProps} from './Dropdown';
-import Header, {HeaderProps} from './Header';
-import MarkdownRenderer, {MarkdownRendererProps} from './MarkdownRenderer';
-import PageLayout, {PageLayoutProps} from './PageLayout';
+import Code from './Code';
+import Dropdown from './Dropdown';
+import Header from './Header';
+import MarkdownRenderer from './MarkdownRenderer';
+import PageLayout from './PageLayout';
 
-export {Dropdown, Header, MarkdownRenderer, PageLayout};
-export type {DropdownProps, HeaderProps, MarkdownRendererProps, PageLayoutProps};
+export * from './Code';
+export * from './Dropdown';
+export * from './Header';
+export * from './MarkdownRenderer';
+export * from './PageLayout';
+
+export {Code, Dropdown, Header, MarkdownRenderer, PageLayout};
