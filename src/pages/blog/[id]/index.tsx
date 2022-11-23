@@ -4,13 +4,20 @@ import {GetStaticPropsContext} from 'next';
 
 import {getDocument, getDocumentIdsForStaticPath} from '@lib';
 import {PageLayout, PostDocument} from '@shared';
+import {BlogDetailTemplate} from 'src/blog';
 
 export interface BlogDetailPageProps {
   postDoc?: PostDocument;
 }
 
 const BlogDetailPage: React.FC<BlogDetailPageProps> = ({postDoc}) => {
-  return <PageLayout></PageLayout>;
+  return (
+    <>
+      <PageLayout>
+        <BlogDetailTemplate postDoc={postDoc} />
+      </PageLayout>
+    </>
+  );
 };
 
 export default BlogDetailPage;
