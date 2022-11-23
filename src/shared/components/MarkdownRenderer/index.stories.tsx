@@ -20,9 +20,3 @@ export const Default = Template.bind({});
 Default.args = {
   contentHtml: sampleContentHtml,
 };
-
-export const TextOnly = Template.bind({});
-TextOnly.args = {
-  contentHtml: sampleContentHtml,
-  textOnly: true,
-};

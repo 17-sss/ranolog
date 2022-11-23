@@ -1,14 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import {
-  systemCss,
-  CssProp,
-  centerAlignedChildren,
-  PostDocument,
-  singleLineEllipsis,
-  MarkdownRenderer,
-} from '@shared';
+import {systemCss, CssProp, centerAlignedChildren, PostDocument, singleLineEllipsis} from '@shared';
 
 export interface PostListProps {
   postDocs: PostDocument[];
@@ -26,7 +19,7 @@ const PostList: React.FC<PostListProps> = ({postDocs, ...props}) => {
               <a css={listItemLinkCss}>
                 <div css={itemContentBoxCss}>
                   <p className="subject">{postDoc.subject}</p>
-                  <MarkdownRenderer contentHtml={postDoc.content} textOnly />
+                  {postDoc.summary && <p className="summary">{postDoc.summary}</p>}
                   <p className="date">{dateText}</p>
                 </div>
                 {postDoc.imageSrc && (

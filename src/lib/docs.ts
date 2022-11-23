@@ -4,11 +4,13 @@ import matter from 'gray-matter';
 import path from 'path';
 import {remark} from 'remark';
 import html from 'remark-html';
+import prism from 'remark-prism';
 
 export interface DefaultDocument {
   id: string;
   date: string;
   content: string;
+  summary?: string;
 }
 type SubFolderType = 'posts' | 'projects';
 
@@ -16,7 +18,7 @@ const docsDir = path.join(process.cwd(), 'docs');
 
 /** [async] Markdown Text -> HTML 변환 */
 export const markdownToHtml = async (markdown: string) => {
-  const result = await remark().use(html).process(markdown);
+  const result = await remark().use(html, {sanitize: false}).use(prism).process(markdown);
   return result.toString();
 };
 
