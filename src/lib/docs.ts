@@ -59,34 +59,13 @@ export const getSortedDocuments = async <TDoc extends DefaultDocument = DefaultD
   return result.sort((aDoc, bDoc) => new Date(bDoc.date).valueOf() - new Date(aDoc.date).valueOf());
 };
 
-/** [async] 단일 정적 데이터 가져옴  */
-export const getDocument = async <TDoc extends DefaultDocument = DefaultDocument>(
-  id: string,
-  subFolder?: SubFolderType,
-): Promise<TDoc | null> => {
-  try {
-    const fullPath = path.join(docsDir, subFolder ?? '', `${id}.md`);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const matterResult = matter(fileContents);
-    const content = await markdownToHtml(matterResult.content);
-    return {...matterResult.data, id, content} as TDoc;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-};
-
 /** 모든 정적 데이터의 id(fileName) 가져옴 */
-export const getDocumentIds = (subFolder?: SubFolderType) => {
+export const getDocumentIds = async (subFolder?: SubFolderType) => {
   try {
-    const currentDir = path.join(docsDir, subFolder ?? '');
-    const fileNames = fs.readdirSync(currentDir);
-    const result = fileNames.map((fileName) => fileName.replace(/\.md$/, ''));
-    return result;
+    const docs = await getDocuments(subFolder);
+    return docs.map(({id}) => id);
   } catch (e) {
     console.error(e);
     return [];
   }
 };
-export const getDocumentIdsForStaticPath = (subFolder?: SubFolderType) =>
-  getDocumentIds(subFolder).map((id) => ({params: {id}}));

@@ -1,21 +1,6 @@
 import samplePostImage from '../../assets/sample_post.jpeg';
 import {PostDocument} from '../../types';
 
-export const tempPosts: Omit<PostDocument, 'id' | 'category' | 'date'>[] = [
-  {
-    subject: 'Fusce suscipit lorem',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce non elit dignissim, cursus mi et, consequat orci. Aenean sed dignissim ipsum. Curabitur varius orci sodales suscipit ultricies. Nulla facilisi. Proin tincidunt, purus a sollicitudin blandit, erat lectus molestie orci, at ultrices tortor nisi non ligula. Vestibulum bibendum mollis sollicitudin. Phasellus sagittis volutpat fermentum. Nulla finibus vitae mi sed semper. Aliquam blandit maximus fermentum. Proin interdum dolor a nulla sagittis viverra. Sed molestie sed nisl hendrerit porta. Morbi finibus quam magna, eu faucibus justo condimentum at. Vivamus maximus erat a tortor gravida tempor. Aliquam sit amet aliquam odio. Duis dui diam, blandit sit amet varius at, vehicula vitae est. Proin ut enim volutpat, luctus lorem ac, sollicitudin sem.',
-  },
-  {
-    subject: 'dolor sit amet',
-    content:
-      'Nam a felis finibus, varius nulla in, tempus lectus. Donec eget odio et turpis porta rhoncus vitae non magna. Praesent ullamcorper lectus eget eros commodo dignissim sit amet vel sapien.',
-
-    imageSrc: samplePostImage,
-  },
-];
-
 export const sampleContentHtml = `<h3>> Headings</h3>
 <h1>h1</h1>
 <h2>h2</h2>
@@ -105,3 +90,15 @@ export const samplePrismHtml = `<h3>> Code Block</h3>
   <span class="token keyword control-flow">return</span> result<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre></div>`;
+
+export const tempPosts: Omit<PostDocument, 'id' | 'category' | 'date'>[] = [
+  {
+    subject: 'Fusce suscipit lorem',
+    content: sampleContentHtml,
+  },
+  {
+    subject: 'dolor sit amet',
+    content: `${sampleContentHtml}${samplePrismHtml}`,
+    imageSrc: samplePostImage,
+  },
+];

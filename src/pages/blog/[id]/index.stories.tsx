@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {createPostDocsMock, sampleContentHtml, samplePrismHtml} from '@shared';
+import {createSortedPostDocsMock} from '@shared';
 
 import BlogDetailPage from '.';
 
@@ -17,27 +17,15 @@ const Template: ComponentStory<typeof BlogDetailPage> = (args) => {
   return <BlogDetailPage {...args} />;
 };
 
-const POST_DATA = {...createPostDocsMock(1)[0], content: `${sampleContentHtml}${samplePrismHtml}`};
-export const No_Category = Template.bind({});
-No_Category.args = {
-  postDoc: {
-    ...POST_DATA,
-    category: undefined,
-  },
+const postDocs = createSortedPostDocsMock(50);
+export const Default = Template.bind({});
+Default.args = {
+  postDocs,
 };
-
-export const Category = Template.bind({});
-Category.args = {
-  postDoc: {
-    ...POST_DATA,
-    category: 'React',
-  },
-};
-
-export const Categories = Template.bind({});
-Categories.args = {
-  postDoc: {
-    ...POST_DATA,
-    category: ['React', 'JavaScript', 'DO IT', 'SAMPLE', 'JUST'],
+Default.parameters = {
+  nextRouter: {
+    query: {
+      id: postDocs[Math.floor(postDocs.length / 2)].id,
+    },
   },
 };

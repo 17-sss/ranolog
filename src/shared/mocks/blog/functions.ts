@@ -27,7 +27,9 @@ export const createPostDocsMock = (mockLength: number = 10) => {
 
   const result: PostDocument[] = Array.from({length: mockLength}).map((_, i) => {
     const post = tempPosts[Math.round(Math.random())];
-    const summary = Boolean(Math.round(Math.random())) ? post.content.slice(30) : undefined;
+    const summary = Boolean(Math.round(Math.random()))
+      ? `${post.subject}'s summary (idx: ${i})`
+      : undefined;
     return {
       ...post,
       id: `${i}`,

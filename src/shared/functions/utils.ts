@@ -24,3 +24,10 @@ export const throttle = <T extends any[]>({func, ms = 500}: ThrottleParams<T>) =
     }, ms);
   };
 };
+
+export function valueOrLastItem<T>(value: T | T[]) {
+  if (Array.isArray(value)) {
+    return value[value.length - 1];
+  }
+  return value;
+}

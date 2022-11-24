@@ -1,20 +1,18 @@
 import React from 'react';
 
-import {GetStaticPropsContext} from 'next';
-
-import {getDocument, getDocumentIdsForStaticPath} from '@lib';
+import {getDocumentIds, getSortedDocuments} from '@lib';
 import {PageLayout, PostDocument} from '@shared';
 import {BlogDetailTemplate} from 'src/blog';
 
 export interface BlogDetailPageProps {
-  postDoc?: PostDocument;
+  postDocs: PostDocument[];
 }
 
-const BlogDetailPage: React.FC<BlogDetailPageProps> = ({postDoc}) => {
+const BlogDetailPage: React.FC<BlogDetailPageProps> = ({postDocs}) => {
   return (
     <>
       <PageLayout>
-        <BlogDetailTemplate postDoc={postDoc} />
+        <BlogDetailTemplate postDocs={postDocs} />
       </PageLayout>
     </>
   );
@@ -24,16 +22,16 @@ export default BlogDetailPage;
 
 // FUNCTIONS : NEXT.JS ===============================================
 export const getStaticPaths = async () => {
-  const paths = getDocumentIdsForStaticPath('posts');
+  const documentIds = await getDocumentIds('posts');
+  const paths = documentIds.map((id) => ({params: {id}}));
   return {
     paths,
     fallback: false,
   };
 };
-export const getStaticProps = async ({params}: GetStaticPropsContext<{id: string}>) => {
-  if (!params?.id) {
-    return;
-  }
-  const postDoc = await getDocument(params?.id, 'posts');
-  return {props: {postDoc}};
+export const getStaticProps = async () => {
+  const postDocs = await getSortedDocuments<PostDocument>('posts');
+  return {
+    props: {postDocs},
+  };
 };

@@ -3,12 +3,12 @@ import {useMemo} from 'react';
 import {Code, CssProp, MarkdownRenderer, PostDocument, systemCss} from '@shared';
 
 export interface PostProps {
-  postDoc?: PostDocument;
+  postDoc: PostDocument;
 }
 
 const Post: React.FC<PostProps> = ({postDoc, ...props}) => {
   const categories = useMemo(() => {
-    const postCategories = postDoc?.category;
+    const postCategories = postDoc.category;
     if (!postCategories || (Array.isArray(postCategories) && postCategories.length === 0)) {
       return;
     }
@@ -16,11 +16,8 @@ const Post: React.FC<PostProps> = ({postDoc, ...props}) => {
       return [postCategories];
     }
     return postCategories;
-  }, [postDoc?.category]);
+  }, [postDoc.category]);
 
-  if (!postDoc) {
-    return null;
-  }
   return (
     <div css={containerCss} {...props}>
       <div css={infoBoxCss}>
@@ -52,11 +49,11 @@ const infoBoxCss: CssProp = (theme) =>
     },
     '.date': {
       color: theme.colors.gray500,
-      fontSize: [theme.fontSizes.p14, null, theme.fontSizes.p16],
+      fontSize: [theme.fontSizes.p14, theme.fontSizes.p16],
     },
     '.subject': {
       fontWeight: 'bold',
-      fontSize: [theme.fontSizes.p28, null, theme.fontSizes.p32],
+      fontSize: [theme.fontSizes.p28, theme.fontSizes.p32],
     },
   });
 const categoryBoxCss: CssProp = systemCss({
@@ -68,5 +65,5 @@ const categoryBoxCss: CssProp = systemCss({
 });
 
 const markdownRendererCss: CssProp = systemCss({
-  py: ['1.5rem', null, '1.5rem'],
+  py: '1.5rem',
 });
