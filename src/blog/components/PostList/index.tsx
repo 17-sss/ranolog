@@ -93,7 +93,7 @@ const itemContentBoxCss: CssProp = (theme) =>
       singleLineEllipsis,
       systemCss({
         color: theme.colors.gray700,
-        fontSize: [theme.fontSizes.p14, null, theme.fontSizes.p16],
+        fontSize: [theme.fontSizes.p14, theme.fontSizes.p16],
         py: '0.25rem',
       }),
     ],
@@ -102,7 +102,7 @@ const itemContentBoxCss: CssProp = (theme) =>
     },
 
     '& > .subject': {
-      fontSize: [theme.fontSizes.p18, null, theme.fontSizes.p20],
+      fontSize: [theme.fontSizes.p18, theme.fontSizes.p20],
       fontWeight: 'bold',
     },
     '& > .date': {

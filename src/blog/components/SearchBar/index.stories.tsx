@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {debounce} from '@src/shared';
+import {debounce} from '@shared';
 
 import SearchBar from './index';
 

@@ -28,22 +28,22 @@ const containerCss: CssProp = (theme) =>
         mt: '1.5rem',
       },
     h1: {
-      fontSize: [theme.fontSizes.p28, null, theme.fontSizes.p32],
+      fontSize: [theme.fontSizes.p28, theme.fontSizes.p32],
     },
     h2: {
-      fontSize: [theme.fontSizes.p24, null, theme.fontSizes.p28],
+      fontSize: [theme.fontSizes.p24, theme.fontSizes.p28],
     },
     h3: {
-      fontSize: [theme.fontSizes.p20, null, theme.fontSizes.p24],
+      fontSize: [theme.fontSizes.p20, theme.fontSizes.p24],
     },
     h4: {
-      fontSize: [theme.fontSizes.p18, null, theme.fontSizes.p20],
+      fontSize: [theme.fontSizes.p18, theme.fontSizes.p20],
     },
     h5: {
-      fontSize: [theme.fontSizes.p16, null, theme.fontSizes.p18],
+      fontSize: [theme.fontSizes.p16, theme.fontSizes.p18],
     },
     'h6, p': {
-      fontSize: [theme.fontSizes.p14, null, theme.fontSizes.p16],
+      fontSize: [theme.fontSizes.p14, theme.fontSizes.p16],
     },
 
     'ol, ul': {
