@@ -1,4 +1,12 @@
-import {useEffect, useCallback, useMemo, useRef, useState} from 'react';
+import {
+  forwardRef,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  useImperativeHandle,
+} from 'react';
 
 import {rgba} from 'polished';
 import {FiChevronDown} from 'react-icons/fi';
@@ -9,7 +17,7 @@ import {CssProp, systemCss} from '../../system';
 export type ValueType = object | string | number | null;
 
 export interface DropdownProps<TData extends ValueType> {
-  value?: TData;
+  defaultValue?: TData;
   options?: TData[];
   placeholder?: string;
   labelMapper: (value: TData) => React.ReactNode;
@@ -17,97 +25,113 @@ export interface DropdownProps<TData extends ValueType> {
   onChange?: (data: TData) => void;
 }
 
-const Dropdown = <TData extends ValueType>({
-  value,
-  placeholder,
-  options = [],
-  labelMapper,
-  rightAddonMapper,
-  onChange,
-  ...rest
-}: DropdownProps<TData>) => {
-  const dropdownButtonRef = useRef<HTMLButtonElement>(null);
-  const [data, setData] = useState<TData | undefined>(value);
-  const [isOpen, setIsOpen] = useState(false);
+export interface DropdownRef<TData extends ValueType> {
+  updateInnerData: (value?: TData) => void;
+}
 
-  const displayValue = useMemo(() => {
-    if (!data) {
-      if (placeholder) {
-        return <span css={placeholderCss}>{placeholder}</span>;
+const Dropdown = forwardRef(
+  <TData extends ValueType>(
+    {
+      defaultValue,
+      placeholder,
+      options = [],
+      labelMapper,
+      rightAddonMapper,
+      onChange,
+      ...props
+    }: DropdownProps<TData>,
+    ref?: React.ForwardedRef<DropdownRef<TData>>,
+  ) => {
+    const dropdownButtonRef = useRef<HTMLButtonElement>(null);
+    const [data, setData] = useState<TData | undefined>(defaultValue);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const displayValue = useMemo(() => {
+      if (!data) {
+        if (placeholder) {
+          return <span css={placeholderCss}>{placeholder}</span>;
+        }
+        return null;
       }
-      return null;
-    }
-    return labelMapper(data);
-  }, [data, labelMapper, placeholder]);
+      return labelMapper(data);
+    }, [data, labelMapper, placeholder]);
 
-  const isEmptyOptions = useMemo(() => {
-    return options.length === 0;
-  }, [options]);
+    const isEmptyOptions = useMemo(() => {
+      return options.length === 0;
+    }, [options]);
 
-  const handleToggleOpen = useCallback(() => {
-    if (isEmptyOptions) {
-      return;
-    }
-    setIsOpen((prev) => !prev);
-  }, [isEmptyOptions]);
-
-  const handleItemClick = useCallback(
-    (selectedData: TData | null) => {
-      setIsOpen(false);
-      if (!selectedData) {
+    const handleToggleOpen = useCallback(() => {
+      if (isEmptyOptions) {
         return;
       }
-      setData(selectedData);
-      onChange?.(selectedData);
-    },
-    [onChange],
-  );
+      setIsOpen((prev) => !prev);
+    }, [isEmptyOptions]);
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      const refCurrent = dropdownButtonRef.current;
-      if (!refCurrent || refCurrent.contains(e.target as Node | null)) {
-        return;
-      }
-      setIsOpen(false);
-    };
-    window.addEventListener('click', handleClickOutside);
-    return () => {
-      window.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
+    const handleItemClick = useCallback(
+      (selectedData: TData | null) => {
+        setIsOpen(false);
+        if (!selectedData) {
+          return;
+        }
+        setData(selectedData);
+        onChange?.(selectedData);
+      },
+      [onChange],
+    );
 
-  return (
-    <div css={containerCss} {...rest}>
-      <button
-        ref={dropdownButtonRef}
-        css={[displayCss, isOpen && displayOpenCss, isEmptyOptions && displayNotAllowCss]}
-        type="button"
-        onClick={handleToggleOpen}
-      >
-        <div css={displayValueBoxCss}>{displayValue}</div>&nbsp;
-        {isEmptyOptions || (
-          <FiChevronDown css={[toggleButtonIconCss, isOpen && openToggleIconCss]} />
+    useImperativeHandle(ref, () => ({
+      updateInnerData: (value?: TData) => setData(value),
+    }));
+
+    useEffect(() => {
+      const handleClickOutside = (e: MouseEvent) => {
+        const refCurrent = dropdownButtonRef.current;
+        if (!refCurrent || refCurrent.contains(e.target as Node | null)) {
+          return;
+        }
+        setIsOpen(false);
+      };
+      window.addEventListener('click', handleClickOutside);
+      return () => {
+        window.removeEventListener('click', handleClickOutside);
+      };
+    }, []);
+
+    return (
+      <div css={containerCss} {...props}>
+        <button
+          ref={dropdownButtonRef}
+          css={displayCss({isOpen, isEmpty: isEmptyOptions})}
+          type="button"
+          onClick={handleToggleOpen}
+        >
+          <div css={displayValueBoxCss}>{displayValue}</div>&nbsp;
+          {isEmptyOptions || <FiChevronDown css={toggleButtonIconCss(isOpen)} />}
+        </button>
+        {isOpen && (
+          <div css={optionWrapperCss}>
+            {options.map((option, idx) => (
+              <DropdownItemButton
+                key={idx}
+                label={labelMapper(option)}
+                data={option}
+                rightAddon={rightAddonMapper?.(option)}
+                onClick={handleItemClick}
+              />
+            ))}
+          </div>
         )}
-      </button>
-      {isOpen && (
-        <div css={optionWrapperCss}>
-          {options.map((option, idx) => (
-            <DropdownItemButton
-              key={idx}
-              label={labelMapper(option)}
-              data={option}
-              rightAddon={rightAddonMapper?.(option)}
-              onClick={handleItemClick}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+      </div>
+    );
+  },
+);
 
-export default Dropdown;
+Dropdown.displayName = 'Dropdown';
+export default Dropdown as <TData extends ValueType>(
+  props: DropdownProps<TData> & {ref?: React.ForwardedRef<DropdownRef<TData>>},
+) => ReturnType<typeof Dropdown>;
+
+// ------------
 
 // [1] Styles
 const containerCss: CssProp = [
@@ -121,7 +145,12 @@ const containerCss: CssProp = [
     }),
 ];
 
-const displayCss: CssProp = [
+interface DisplayStyleParams {
+  isOpen?: boolean;
+  isEmpty?: boolean;
+}
+
+const displayCss: (params: DisplayStyleParams) => CssProp = ({isOpen, isEmpty}) => [
   centerBetweenAlignChildren,
   (theme) =>
     systemCss({
@@ -134,17 +163,13 @@ const displayCss: CssProp = [
 
       fontSize: theme.fontSizes.p16,
       backgroundColor: theme.colors.white,
-      border: `1px solid ${theme.colors.gray300}`,
       borderRadius: '0.25rem',
+      border: `1px solid ${isOpen ? rgba(theme.colors.gray400, 0.5) : theme.colors.gray300}`,
 
       appearance: 'none',
     }),
+  isEmpty && systemCss({cursor: 'not-allowed'}),
 ];
-const displayOpenCss: CssProp = (theme) =>
-  systemCss({
-    borderColor: rgba(theme.colors.gray400, 0.5),
-  });
-const displayNotAllowCss: CssProp = systemCss({cursor: 'not-allowed'});
 
 const displayValueBoxCss: CssProp = [
   singleLineEllipsis,
@@ -154,16 +179,15 @@ const displayValueBoxCss: CssProp = [
   }),
 ];
 
-const toggleButtonIconCss: CssProp = (theme) =>
-  systemCss({
-    fontSize: theme.fontSizes.p24,
-    color: theme.colors.gray400,
-    transition: 'transform 0.2s ease-in-out',
-  });
-
-const openToggleIconCss: CssProp = systemCss({
-  transform: `rotate(180deg)`,
-});
+const toggleButtonIconCss: (isOpen?: boolean) => CssProp = (isOpen) => [
+  (theme) =>
+    systemCss({
+      fontSize: theme.fontSizes.p24,
+      color: theme.colors.gray400,
+      transition: 'transform 0.2s ease-in-out',
+    }),
+  isOpen && systemCss({transform: 'rotate(180deg)'}),
+];
 
 const optionWrapperCss: CssProp = [
   absoluteOnParent({
