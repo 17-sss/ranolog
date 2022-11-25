@@ -1,31 +1,38 @@
-import {Fragment, useCallback, useMemo, useState} from 'react';
+import {Fragment, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
-import {PostDocument, systemCss} from '@shared';
+import {useRouter} from 'next/router';
+
+import {DropdownRef, PostDocument, systemCss, valueOrLastItem} from '@shared';
+
+export type CategoryInfoTuple = [string, number];
 
 export const useCategory = (postDocs: PostDocument[]) => {
-  const [selctedCategory, setSelctedCategory] = useState<string>();
+  const router = useRouter();
+
+  const categoryDropdownRef = useRef<DropdownRef<CategoryInfoTuple>>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>();
 
   /** 현재 선택된 카테고리 기반 postDocs
    * - handleCategoryDropdownChange로 인해 현재 선택된 카테고리가 변경될 때 업데이트
    */
   const selectedCategoryPosts = useMemo(() => {
-    if (!selctedCategory || selctedCategory === '전체보기') {
+    if (!selectedCategory || selectedCategory === '전체보기') {
       return postDocs;
     }
     const result = postDocs.filter(({category}) => {
-      if (selctedCategory === '미지정') {
+      if (selectedCategory === '미지정') {
         return typeof category === 'undefined' || category.length === 0 || category === '';
       }
       if (Array.isArray(category)) {
-        return category.includes(selctedCategory);
+        return category.includes(selectedCategory);
       }
-      return category === selctedCategory;
+      return category === selectedCategory;
     });
     return result;
-  }, [postDocs, selctedCategory]);
+  }, [postDocs, selectedCategory]);
 
   /** 카테고리 정보 (이름, 글 갯수) */
-  const categoryInfo = useMemo(() => {
+  const categoryInfo: CategoryInfoTuple[] = useMemo(() => {
     const categoryMap = postDocs.reduce((result, {category}) => {
       const createCurrentNames = (category: PostDocument['category']) => {
         const isUndefined = typeof category === 'undefined';
@@ -57,7 +64,7 @@ export const useCategory = (postDocs: PostDocument[]) => {
   }, [postDocs]);
 
   /** Dropdown(Category) : labelMapper */
-  const categoryLabelMapper = useCallback((info: typeof categoryInfo[number]) => {
+  const categoryLabelMapper = useCallback((info: CategoryInfoTuple) => {
     const [name, count] = info;
     const isAllView = name === '전체보기';
     return (
@@ -69,13 +76,42 @@ export const useCategory = (postDocs: PostDocument[]) => {
   }, []);
 
   /** Dropdown(Category) : onChange */
-  const handleCategoryDropdownChange = useCallback((info: typeof categoryInfo[number]) => {
-    const [categoryName] = info;
-    setSelctedCategory(categoryName);
-  }, []);
+  const handleCategoryDropdownChange = useCallback(
+    (info: CategoryInfoTuple) => {
+      const [categoryName] = info;
+      setSelectedCategory(categoryName);
+      router.push(categoryName === '전체보기' ? '' : `?category=${categoryName}`);
+    },
+    [router],
+  );
+
+  /** Dropdown(Category) : Dropdown "data" 상태 보정*/
+  const updateDropdownInnerData = useCallback(
+    (aCategory?: string) => {
+      const findInfo = categoryInfo.find(([category]) => category === (aCategory ?? '전체보기'));
+      categoryDropdownRef.current?.updateInnerData(findInfo);
+    },
+    [categoryInfo],
+  );
+
+  /** router.query['category'] 업뎃되면, selectedCategory도 업데이트 */
+  useEffect(() => {
+    if (!router.isReady) {
+      return;
+    }
+    let categoryQueryStr = valueOrLastItem(router.query['category']);
+    if (categoryQueryStr === '전체보기') {
+      categoryQueryStr = undefined;
+    }
+    setSelectedCategory(categoryQueryStr);
+    updateDropdownInnerData(categoryQueryStr);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady, router.query]);
 
   return {
-    selctedCategory,
+    categoryDropdownRef,
+    selectedCategory,
     selectedCategoryPosts,
     categoryInfo,
     categoryLabelMapper,

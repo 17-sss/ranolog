@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 
-import {PostDocument, useMedia} from '@src/shared';
+import {PostDocument, useMedia} from '@shared';
 
 import {useCategory} from './useCategory';
 import {usePagination} from './usePagination';
@@ -9,7 +9,8 @@ import {useSearchPosts} from './useSearchPosts';
 export const useBlogTemplate = (postDocs: PostDocument[]) => {
   // CATEGORY (DROPDOWN) =======================================================
   const {
-    selctedCategory,
+    categoryDropdownRef,
+    selectedCategory,
     selectedCategoryPosts,
     categoryInfo,
     categoryLabelMapper,
@@ -18,7 +19,7 @@ export const useBlogTemplate = (postDocs: PostDocument[]) => {
 
   // SERACHBAR =======================================================
   const {registerSearchInput, handleSearchKeyUp, handleSearchButtonClick, searchPostDocs} =
-    useSearchPosts(selectedCategoryPosts, selctedCategory);
+    useSearchPosts(selectedCategoryPosts, selectedCategory);
 
   // PAGINATION =======================================================
   const {isMobile} = useMedia();
@@ -41,6 +42,7 @@ export const useBlogTemplate = (postDocs: PostDocument[]) => {
     currentPostDocs,
     handlePageButtonClick,
 
+    categoryDropdownRef,
     categoryInfo,
     categoryLabelMapper,
     handleCategoryDropdownChange,

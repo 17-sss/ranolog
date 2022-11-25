@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {centerAlignedChildren, CssProp, PostDocument, systemCss, Dropdown} from '@shared';
-import {useBlogTemplate, PostList, Pagination, SearchBar} from '@src/blog';
+import {useBlogTemplate, PostList, Pagination, SearchBar, CategoryInfoTuple} from '@src/blog';
 
 export interface BlogTemplateProps {
   postDocs: PostDocument[];
@@ -14,6 +14,7 @@ const BlogTemplate: React.FC<BlogTemplateProps> = ({postDocs, ...props}) => {
     currentPostDocs,
     handlePageButtonClick,
 
+    categoryDropdownRef,
     categoryInfo,
     categoryLabelMapper,
     handleCategoryDropdownChange,
@@ -34,9 +35,10 @@ const BlogTemplate: React.FC<BlogTemplateProps> = ({postDocs, ...props}) => {
           onInputKeyUp={handleSearchKeyUp}
           onButtonClick={handleSearchButtonClick}
         />
-        <Dropdown<typeof categoryInfo[number]>
+        <Dropdown<CategoryInfoTuple>
+          ref={categoryDropdownRef}
           css={dropdownCss}
-          value={categoryInfo[0]}
+          defaultValue={categoryInfo[0]}
           placeholder="Select Category"
           options={categoryInfo}
           labelMapper={categoryLabelMapper}
