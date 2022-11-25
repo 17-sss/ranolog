@@ -1,22 +1,28 @@
-import {CssProp, PostDocument, systemCss} from '@shared';
-import {useBlogDetail, Post, PostNav} from '@src/blog';
+import React from 'react';
+
+import {CssProp, PostDocument, systemCss, Divider} from '@shared';
+import {useBlogDetail, Post, PostNav, Comment, utterancAttrs} from '@src/blog';
 
 export interface BlogDetailTemplateProps {
   postDocs: PostDocument[];
 }
 
 const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDocs, ...props}) => {
-  const {postDocsInfo} = useBlogDetail(postDocs);
+  const {postDocsInfo, isExistAnotherPosts} = useBlogDetail(postDocs);
   const postDoc = postDocsInfo.current;
   if (!postDoc) {
     return null;
   }
-
   return (
     <div css={containerCss} {...props}>
       <Post css={postCss} postDoc={postDoc} />
-      <PostNav nextDoc={postDocsInfo.next} prevDoc={postDocsInfo.prev} />
-      {/* 댓글 컴포넌트 */}
+      {isExistAnotherPosts && (
+        <>
+          <PostNav nextDoc={postDocsInfo.next} prevDoc={postDocsInfo.prev} />
+          <Divider />
+        </>
+      )}
+      <Comment attributes={utterancAttrs} />
     </div>
   );
 };
@@ -25,7 +31,7 @@ export default BlogDetailTemplate;
 
 const containerCss: CssProp = systemCss({
   '& > * + *': {
-    mt: '1rem',
+    mt: '1.25rem',
   },
 });
 const postCss: CssProp = (theme) =>

@@ -37,5 +37,10 @@ export const useBlogDetail = (postDocs: PostDocument[]) => {
     };
   }, [currentDocs, postDocIdx]);
 
-  return {postDocsInfo};
+  /** 이전, 다음 게시글이 하나라도 있는지 체크 */
+  const isExistAnotherPosts = useMemo(() => {
+    return [postDocsInfo.next, postDocsInfo.prev].some((v) => v);
+  }, [postDocsInfo.next, postDocsInfo.prev]);
+
+  return {postDocsInfo, isExistAnotherPosts};
 };

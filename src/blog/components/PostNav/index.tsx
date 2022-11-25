@@ -12,16 +12,8 @@ export interface PostNavProps {
 }
 
 const PostNav: React.FC<PostNavProps> = ({nextDoc, prevDoc, ...props}) => {
-  const isExistPrevOrNext = useMemo(() => {
-    return [nextDoc, prevDoc].some((v) => v);
-  }, [nextDoc, prevDoc]);
-
-  if (!isExistPrevOrNext) {
-    return null;
-  }
-
   return (
-    <nav css={containerCss}>
+    <nav css={containerCss} {...props}>
       {[prevDoc, nextDoc].map((aPostDoc, idx) => {
         if (!aPostDoc) {
           return <div key={idx} />;
