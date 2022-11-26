@@ -1,80 +1,18 @@
 ---
-subject: 'This Is Sample _ Category'
+subject: 'I am Category'
 date: '2020-01-03'
-summary: 'Sample Category Sample Category'
+summary: '안녕 헬로우 카테고리'
 category: ['HI']
 ---
 
-### > Headings
+### > 카테고리
 
-# h1
+- 나 카테고리있다.
 
-## h2
+### > Categories
 
-### h3
+- [`React`, `Next.js`, `TypeScript`]
 
-#### h4
+### Links
 
-##### h5
-
-###### h6
-
-### > Texts & code & hr & anchor
-
-**bold**
-
-_italic_
-
-~~strikethrough~~
-
-`code`
-
----
-
-[Anchor (about:blank)](about:blank)
-
-### > Contents
-
-We recommend using **Static Generation** (with and without data) whenever possible because your page can be built once and served by CDN, which makes it much faster than having a ~~server~~ render the page _on_ every request
-
-You can use **_Static Generation_** for many types of pages, including:
-
-- Marketing pages
-  - pages
-    - `pages`
-
-1. Blog posts
-2. posts
-3. test
-
-- E-commerce product listings
-- Help and documentation
-
-### > Code Block
-
-```js
-const num = 1;
-const str = '1';
-function func() {
-  const result = [];
-  result.push(1);
-  return result;
-}
-```
-
-### > Table
-
-| th 1 | th 2 | th 3 |
-| ---- | ---- | ---- |
-| td 1 | td 2 | td 3 |
-| td 1 | td 2 | td 3 |
-| td 1 | td 2 | td 3 |
-| td 1 | td 2 | td 3 |
-
-### > Blockquote
-
-> Blockquote??
->
-> > inner Blockquote??
-> >
-> > > inner inner Blockquote??
+- [naver](https://naver.com)
