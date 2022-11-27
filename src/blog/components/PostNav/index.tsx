@@ -28,7 +28,7 @@ const PostNav: React.FC<PostNavProps> = ({nextDoc, prevDoc, ...props}) => {
                 {isPrev || <FiArrowRight />}
               </p>
               <p css={postTextCss} className="subject">
-                <span>{aPostDoc.subject}</span>
+                <span>{aPostDoc.subject}&nbsp;</span>
               </p>
             </a>
           </Link>

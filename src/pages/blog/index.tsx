@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {getSortedDocuments} from '@lib';
-import {PageLayout, PostDocument} from '@shared';
+import {PostDocument} from '@shared';
 import {BlogTemplate} from 'src/blog';
 
 export interface BlogPageProps {
@@ -9,11 +9,7 @@ export interface BlogPageProps {
 }
 
 const BlogPage: React.FC<BlogPageProps> = ({postDocs}) => {
-  return (
-    <PageLayout>
-      <BlogTemplate postDocs={postDocs} />
-    </PageLayout>
-  );
+  return <BlogTemplate postDocs={postDocs} />;
 };
 
 export default BlogPage;

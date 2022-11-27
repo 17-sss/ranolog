@@ -1,9 +1,7 @@
-import {PageLayout} from '@shared';
-
 export interface RootPageProps {}
 
 const RootPage: React.FC<RootPageProps> = () => {
-  return <PageLayout></PageLayout>;
+  return null;
 };
 
 export default RootPage;

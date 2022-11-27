@@ -18,13 +18,15 @@ const Template: ComponentStory<typeof PostNav> = (args) => {
 };
 
 const docs = (() => {
-  const postData = {
-    ...createPostDocsMock(1)[0],
+  const postData = createPostDocsMock(2).map((doc, idx) => ({
+    ...doc,
+    id: `${idx}`,
+    subject: `${doc.subject} ${idx % 2 === 0 ? 'prev' : 'next'}`,
     content: `${sampleContentHtml}${samplePrismHtml}`,
-  };
+  }));
   return {
-    prevDoc: {...postData, subject: `${postData.subject} prev`},
-    nextDoc: {...postData, subject: `${postData.subject} next`},
+    prevDoc: postData[0],
+    nextDoc: postData[1],
   };
 })();
 
