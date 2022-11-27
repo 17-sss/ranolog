@@ -4,7 +4,7 @@ import {ComponentStory, ComponentMeta} from '@storybook/react';
 
 import {createSortedPostDocsMock} from '@shared';
 
-import BlogDetailPage from '.';
+import BlogDetailPage from './index.page';
 
 const storyDefault = {
   title: 'pages/blog/BlogDetailPage',
