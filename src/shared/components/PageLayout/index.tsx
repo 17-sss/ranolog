@@ -11,8 +11,9 @@ const PageLayout: React.FC<PageLayoutProps> = ({children, ...props}) => {
     <div css={layoutCss} {...props}>
       <Header css={commonWidthCss} />
       <main css={mainCss}>
-        <div css={commonWidthCss}>{children}</div>
+        <div css={mainInnerCss}>{children}</div>
       </main>
+      {/* FOOTER */}
     </div>
   );
 };
@@ -20,22 +21,21 @@ const PageLayout: React.FC<PageLayoutProps> = ({children, ...props}) => {
 export default PageLayout;
 
 const layoutCss: CssProp = systemCss({
-  height: '100%',
-  overflow: 'auto',
   '& > *': {px: commonPxValues},
 });
-
 const mainCss: CssProp = (theme) => {
-  const MAIN_PY = ['1.5rem', null, '2rem'];
+  const PADDING_BOTTOM = ['1.5rem', null, '2rem'];
   return systemCss({
     display: 'flex',
     justifyContent: 'center',
     backgroundColor: theme.colors.white,
 
-    py: MAIN_PY,
+    pt: HEADER_HEIGHTS,
+    pb: PADDING_BOTTOM,
     minHeight: HEADER_HEIGHTS.map(
       (headerHeight, idx) =>
-        `calc(100% - (${headerHeight ?? 0} + (${findPrevStyledValue(MAIN_PY, idx)} * 2)))`,
+        `calc(100vh - (${headerHeight ?? 0} + ${findPrevStyledValue(PADDING_BOTTOM, idx)}))`,
     ),
   });
 };
+const mainInnerCss: CssProp = [commonWidthCss, systemCss({mt: '1rem'})];

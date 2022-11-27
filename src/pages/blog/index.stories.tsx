@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {createSortedPostDocsMock} from '@shared';
+import {createSortedPostDocsMock, PageLayout} from '@shared';
 
 import BlogPage from './index.page';
 
@@ -14,7 +14,11 @@ const storyDefault = {
 export default storyDefault;
 
 const Template: ComponentStory<typeof BlogPage> = (args) => {
-  return <BlogPage {...args} />;
+  return (
+    <PageLayout>
+      <BlogPage {...args} />
+    </PageLayout>
+  );
 };
 
 export const Default = Template.bind({});

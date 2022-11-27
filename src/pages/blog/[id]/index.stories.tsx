@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {createSortedPostDocsMock} from '@shared';
+import {createSortedPostDocsMock, PageLayout} from '@shared';
 
 import BlogDetailPage from './index.page';
 
@@ -14,7 +14,11 @@ const storyDefault = {
 export default storyDefault;
 
 const Template: ComponentStory<typeof BlogDetailPage> = (args) => {
-  return <BlogDetailPage {...args} />;
+  return (
+    <PageLayout>
+      <BlogDetailPage {...args} />
+    </PageLayout>
+  );
 };
 
 const postDocs = createSortedPostDocsMock(50);

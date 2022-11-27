@@ -10,8 +10,8 @@ import {useMedia} from '../../hooks';
 import {
   centerBetweenAlignChildren,
   centerAlignedChildren,
-  absoluteOnParent,
   commonPxValues,
+  fixedToScreen,
 } from '../../styles';
 import {CssProp, systemCss} from '../../system';
 
@@ -29,17 +29,19 @@ const Header: React.FC<HeaderProps> = ({...props}) => {
       }
       return (
         <li key={key} css={menuItemCss}>
-          <Link href={link}>{displayName}</Link>
+          <Link href={link} passHref legacyBehavior>
+            <a onClick={() => isMobile && setIsMobileMenuOpen(false)}>{displayName}</a>
+          </Link>
         </li>
       );
     });
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
     if (!isMobile && isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
     }
-  }, [isMobile, isMobileMenuOpen]);
+  }, [isMobileMenuOpen, isMobile]);
 
   return (
     <Fragment>
@@ -56,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({...props}) => {
             <ul css={menuCss}>{menuItems}</ul>
           )}
           <Link href={LINKS.root.link} passHref legacyBehavior>
-            <a css={profileImageBoxCss}>
+            <a css={profileImageBoxCss} onClick={() => isMobile && setIsMobileMenuOpen(false)}>
               <Image src={profileImage} alt="profile_image" fill />
             </a>
           </Link>
@@ -79,15 +81,14 @@ export const HEADER_HEIGHTS = ['3.25rem', '3.5rem', '3.75rem'];
 // Style
 const headerCss: CssProp = [
   centerAlignedChildren,
+  fixedToScreen({top: 0, left: 0, right: 0}),
   (theme) =>
     systemCss({
-      position: 'sticky',
-      top: 0,
       zIndex: 10,
       height: HEADER_HEIGHTS,
+      px: commonPxValues,
       backgroundColor: theme.colors.white,
       boxShadow: `0 0rem 1rem -0.5rem ${theme.colors.black}`,
-      px: commonPxValues,
     }),
 ];
 
@@ -132,7 +133,7 @@ const mobileMenuButtonCss: CssProp = [
 ];
 
 const mobileMenuBoxCss: CssProp = [
-  absoluteOnParent({top: HEADER_HEIGHTS}),
+  fixedToScreen({top: HEADER_HEIGHTS}),
   (theme) => {
     const PADDING_TOP = '1.25rem';
     return systemCss({
