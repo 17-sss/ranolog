@@ -1,9 +1,8 @@
-import {useMemo} from 'react';
-
 import {PostDocument, useMedia} from '@shared';
 
 import {useCategory} from './useCategory';
 import {usePagination} from './usePagination';
+import {usePostList} from './usePostList';
 import {useSearchPosts} from './useSearchPosts';
 
 export const useBlogTemplate = (postDocs: PostDocument[]) => {
@@ -35,8 +34,8 @@ export const useBlogTemplate = (postDocs: PostDocument[]) => {
     pageUnit: isMobile ? 3 : 5,
   });
 
-  // -----------------------------
-  const isEmpty = useMemo(() => searchPostDocs.length === 0, [searchPostDocs]);
+  // POSTLIST =======================================================
+  const {isEmpty, handlePostItemClick} = usePostList(searchPostDocs);
 
   return {
     pageInfo,
@@ -53,5 +52,6 @@ export const useBlogTemplate = (postDocs: PostDocument[]) => {
     handleSearchKeyUp,
 
     isEmpty,
+    handlePostItemClick,
   };
 };

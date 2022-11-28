@@ -1,6 +1,3 @@
-import {useMemo} from 'react';
-
-import Link from 'next/link';
 import {rgba} from 'polished';
 import {FiArrowLeft, FiArrowRight} from 'react-icons/fi';
 
@@ -9,7 +6,7 @@ import {CssProp, PostDocument, singleLineEllipsis, systemCss} from '@shared';
 export interface PostNavProps {
   nextDoc?: PostDocument;
   prevDoc?: PostDocument;
-  onNavButtonClick?: (href?: string) => void;
+  onNavButtonClick: (id: string) => void;
 }
 
 const PostNav: React.FC<PostNavProps> = ({nextDoc, prevDoc, onNavButtonClick, ...props}) => {
@@ -21,11 +18,7 @@ const PostNav: React.FC<PostNavProps> = ({nextDoc, prevDoc, onNavButtonClick, ..
         }
         const isPrev = idx % 2 === 0;
         return (
-          <button
-            key={idx}
-            css={postButtonCss}
-            onClick={() => onNavButtonClick?.(`/blog/${aPostDoc.id}`)}
-          >
+          <button key={idx} css={postButtonCss} onClick={() => onNavButtonClick(aPostDoc.id)}>
             <p css={postTextCss} className="type">
               {isPrev && <FiArrowLeft />}
               <span>{isPrev ? 'Previous' : 'Next'}</span>

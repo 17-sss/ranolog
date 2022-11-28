@@ -23,6 +23,7 @@ const BlogTemplate: React.FC<BlogTemplateProps> = ({postDocs, ...props}) => {
     handleSearchKeyUp,
 
     isEmpty,
+    handlePostItemClick,
   } = useBlogTemplate(postDocs);
 
   return (
@@ -46,7 +47,7 @@ const BlogTemplate: React.FC<BlogTemplateProps> = ({postDocs, ...props}) => {
 
       {!isEmpty ? (
         <>
-          <PostList postDocs={currentPostDocs} />
+          <PostList postDocs={currentPostDocs} onPostClick={handlePostItemClick} />
           <Pagination
             css={paginationCss}
             pageInfo={pageInfo}
