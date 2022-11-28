@@ -11,8 +11,8 @@ export const useSearchPosts = (postDocs: PostDocument[], currentCategory: string
       return postDocs;
     }
     const result = postDocs.filter(({subject}) => {
-      const trimSubject = subject.replace(/\s+/g, '');
-      const trimSearchValue = searchValue.replace(/\s+/g, '');
+      const trimSubject = subject.replace(/\s+/g, '').toLowerCase();
+      const trimSearchValue = searchValue.replace(/\s+/g, '').toLowerCase();
       return trimSubject.indexOf(trimSearchValue) > -1;
     });
     return result;
@@ -33,13 +33,6 @@ export const useSearchPosts = (postDocs: PostDocument[], currentCategory: string
     setSearchValue(value);
   }, []);
 
-  const handleSearchButtonClick = useCallback((e?: React.MouseEvent<HTMLButtonElement>) => {
-    if (!e || !(e.currentTarget instanceof HTMLButtonElement) || !inputRef.current) {
-      return;
-    }
-    setSearchValue(inputRef.current.value);
-  }, []);
-
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.value = '';
@@ -51,6 +44,5 @@ export const useSearchPosts = (postDocs: PostDocument[], currentCategory: string
     searchPostDocs,
     registerSearchInput,
     handleSearchKeyUp: debounce({func: handleSearchKeyUp}),
-    handleSearchButtonClick,
   };
 };

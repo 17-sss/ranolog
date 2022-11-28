@@ -18,8 +18,10 @@ export const useBlogTemplate = (postDocs: PostDocument[]) => {
   } = useCategory(postDocs);
 
   // SERACHBAR =======================================================
-  const {registerSearchInput, handleSearchKeyUp, handleSearchButtonClick, searchPostDocs} =
-    useSearchPosts(selectedCategoryPosts, selectedCategory);
+  const {registerSearchInput, handleSearchKeyUp, searchPostDocs} = useSearchPosts(
+    selectedCategoryPosts,
+    selectedCategory,
+  );
 
   // PAGINATION =======================================================
   const {isMobile} = useMedia();
@@ -49,7 +51,6 @@ export const useBlogTemplate = (postDocs: PostDocument[]) => {
 
     registerSearchInput,
     handleSearchKeyUp,
-    handleSearchButtonClick,
 
     isEmpty,
   };

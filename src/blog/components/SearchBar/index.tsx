@@ -7,7 +7,6 @@ export interface SearchBarProps {
   placeholder?: string;
   registerInput: (element?: HTMLInputElement | null) => void;
   onInputKeyUp: (e?: React.KeyboardEvent<HTMLInputElement>) => void;
-  onButtonClick: (e?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 /** 검색바, 제목을 기준으로만 검색. */
@@ -15,7 +14,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
   placeholder = '검색어를 입력해주세요.',
   registerInput,
   onInputKeyUp,
-  onButtonClick,
   ...props
 }) => {
   return (
@@ -27,9 +25,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
         onKeyUp={onInputKeyUp}
         ref={registerInput}
       />
-      <button css={buttonCss} type="button" onClick={onButtonClick}>
-        <FiSearch />
-      </button>
+      <FiSearch css={searchIconCss} />
     </div>
   );
 };
@@ -58,11 +54,9 @@ const inputCss: CssProp = (theme) =>
     },
   });
 
-const buttonCss: CssProp = (theme) =>
+const searchIconCss: CssProp = (theme) =>
   systemCss({
-    position: 'relative',
-    top: '0.125rem',
-    color: theme.colors.gray400,
+    color: rgba(theme.colors.gray400, 0.7),
     fontSize: theme.fontSizes.p20,
     minWidth: '1.25rem',
   });

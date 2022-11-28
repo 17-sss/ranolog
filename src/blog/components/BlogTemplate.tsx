@@ -21,7 +21,6 @@ const BlogTemplate: React.FC<BlogTemplateProps> = ({postDocs, ...props}) => {
 
     registerSearchInput,
     handleSearchKeyUp,
-    handleSearchButtonClick,
 
     isEmpty,
   } = useBlogTemplate(postDocs);
@@ -33,7 +32,6 @@ const BlogTemplate: React.FC<BlogTemplateProps> = ({postDocs, ...props}) => {
           css={searchBarCss}
           registerInput={registerSearchInput}
           onInputKeyUp={handleSearchKeyUp}
-          onButtonClick={handleSearchButtonClick}
         />
         <Dropdown<CategoryInfoTuple>
           ref={categoryDropdownRef}
