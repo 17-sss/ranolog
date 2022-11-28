@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {CssProp, PostDocument, systemCss, Divider} from '@shared';
-import {useBlogDetail, Post, PostNav, Comments, utterancAttrs} from '@src/blog';
+import {useBlogDetailTemplate, Post, PostNav, Comments, utterancAttrs} from '@src/blog';
 
 export interface BlogDetailTemplateProps {
   postDocs: PostDocument[];
@@ -9,7 +9,7 @@ export interface BlogDetailTemplateProps {
 
 const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDocs, ...props}) => {
   const {commentsRef, postDocsInfo, isExistAnotherPosts, handleNavButtonClick} =
-    useBlogDetail(postDocs);
+    useBlogDetailTemplate(postDocs);
   const postDoc = postDocsInfo.current;
   if (!postDoc) {
     return null;

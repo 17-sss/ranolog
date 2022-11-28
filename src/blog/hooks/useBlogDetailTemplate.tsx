@@ -9,7 +9,7 @@ type PostDocumentInfo = {
   [key in 'current' | 'prev' | 'next']?: PostDocument;
 };
 
-export const useBlogDetail = (postDocs: PostDocument[]) => {
+export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
   const router = useRouter();
 
   const commentsRef = useRef<CommentsRef>(null);

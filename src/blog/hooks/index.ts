@@ -1,4 +1,4 @@
-export * from './useBlogDetail';
+export * from './useBlogDetailTemplate';
 export * from './useBlogTemplate';
 export * from './useCategory';
 export * from './usePagination';

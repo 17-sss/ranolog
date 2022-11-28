@@ -16,7 +16,7 @@ export default BlogPage;
 
 // FUNCTIONS : NEXT.JS ===============================================
 export const getStaticProps = async () => {
-  const postDocs = await getSortedDocuments<PostDocument>('posts');
+  const postDocs = await getSortedDocuments<PostDocument>({subFolderType: 'posts'});
   return {
     props: {postDocs},
   };

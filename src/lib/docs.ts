@@ -27,15 +27,26 @@ export const markdownToHtml = async (markdown: string) => {
   return result.toString();
 };
 
+interface GetDocumentsParams {
+  subFolderType?: SubFolderType;
+  maxDocCount?: number;
+}
+
 /** [async] 모든 정적 데이터 가져옴  */
-export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocument>(
-  subFolder?: SubFolderType,
-): Promise<TDoc[]> => {
+export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocument>({
+  subFolderType,
+  maxDocCount,
+}: GetDocumentsParams): Promise<TDoc[]> => {
   const result: TDoc[] = [];
   try {
-    const currentDir = path.join(docsDir, subFolder ?? '');
+    const currentDir = path.join(docsDir, subFolderType ?? '');
     const fileNames = fs.readdirSync(currentDir);
-    for (let i = 0; i < fileNames.length; i++) {
+
+    let numLoop = fileNames.length;
+    if (typeof maxDocCount === 'number') {
+      numLoop = fileNames.length < maxDocCount ? fileNames.length : maxDocCount;
+    }
+    for (let i = 0; i < numLoop; i++) {
       const fileName = fileNames[i];
       const fullPath = path.join(currentDir, fileName);
       const fileContents = fs.readFileSync(fullPath, 'utf8');
@@ -53,16 +64,16 @@ export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocumen
 
 /** [async] 모든 정적 데이터 가져옴 (최근 날짜순으로)  */
 export const getSortedDocuments = async <TDoc extends DefaultDocument = DefaultDocument>(
-  subFolder?: SubFolderType,
+  params: GetDocumentsParams,
 ): Promise<TDoc[]> => {
-  const result = await getDocuments<TDoc>(subFolder);
+  const result = await getDocuments<TDoc>(params);
   return result.sort((aDoc, bDoc) => new Date(bDoc.date).valueOf() - new Date(aDoc.date).valueOf());
 };
 
 /** 모든 정적 데이터의 id(fileName) 가져옴 */
-export const getDocumentIds = async (subFolder?: SubFolderType) => {
+export const getDocumentIds = async (params: GetDocumentsParams) => {
   try {
-    const docs = await getDocuments(subFolder);
+    const docs = await getDocuments(params);
     return docs.map(({id}) => id);
   } catch (e) {
     console.error(e);

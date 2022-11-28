@@ -2,7 +2,7 @@ import {useCallback, useMemo} from 'react';
 
 import {useRouter} from 'next/router';
 
-import {PostDocument} from '@src/shared';
+import {PostDocument} from '@shared';
 
 export const usePostList = (postDocs: PostDocument[]) => {
   const router = useRouter();
