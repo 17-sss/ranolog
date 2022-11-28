@@ -9,9 +9,10 @@ import {CssProp, PostDocument, singleLineEllipsis, systemCss} from '@shared';
 export interface PostNavProps {
   nextDoc?: PostDocument;
   prevDoc?: PostDocument;
+  onNavButtonClick?: (href?: string) => void;
 }
 
-const PostNav: React.FC<PostNavProps> = ({nextDoc, prevDoc, ...props}) => {
+const PostNav: React.FC<PostNavProps> = ({nextDoc, prevDoc, onNavButtonClick, ...props}) => {
   return (
     <nav css={containerCss} {...props}>
       {[prevDoc, nextDoc].map((aPostDoc, idx) => {
@@ -20,18 +21,20 @@ const PostNav: React.FC<PostNavProps> = ({nextDoc, prevDoc, ...props}) => {
         }
         const isPrev = idx % 2 === 0;
         return (
-          <Link key={idx} href={`/blog/${aPostDoc.id}`} passHref legacyBehavior>
-            <a css={postLinkCss}>
-              <p css={postTextCss} className="type">
-                {isPrev && <FiArrowLeft />}
-                <span>{isPrev ? 'Previous' : 'Next'}</span>
-                {isPrev || <FiArrowRight />}
-              </p>
-              <p css={postTextCss} className="subject">
-                <span>{aPostDoc.subject}&nbsp;</span>
-              </p>
-            </a>
-          </Link>
+          <button
+            key={idx}
+            css={postButtonCss}
+            onClick={() => onNavButtonClick?.(`/blog/${aPostDoc.id}`)}
+          >
+            <p css={postTextCss} className="type">
+              {isPrev && <FiArrowLeft />}
+              <span>{isPrev ? 'Previous' : 'Next'}</span>
+              {isPrev || <FiArrowRight />}
+            </p>
+            <p css={postTextCss} className="subject">
+              <span>{aPostDoc.subject}&nbsp;</span>
+            </p>
+          </button>
         );
       })}
     </nav>
@@ -48,7 +51,7 @@ const containerCss: CssProp = systemCss({
   rowGap: ['0.5rem', 'normal'],
 });
 
-const postLinkCss: CssProp = (theme) =>
+const postButtonCss: CssProp = (theme) =>
   systemCss({
     px: '1rem',
     py: '1.25rem',

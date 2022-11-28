@@ -1,14 +1,15 @@
 import React from 'react';
 
 import {CssProp, PostDocument, systemCss, Divider} from '@shared';
-import {useBlogDetail, Post, PostNav, Comment, utterancAttrs} from '@src/blog';
+import {useBlogDetail, Post, PostNav, Comments, utterancAttrs} from '@src/blog';
 
 export interface BlogDetailTemplateProps {
   postDocs: PostDocument[];
 }
 
 const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDocs, ...props}) => {
-  const {postDocsInfo, isExistAnotherPosts} = useBlogDetail(postDocs);
+  const {commentsRef, postDocsInfo, isExistAnotherPosts, handleNavButtonClick} =
+    useBlogDetail(postDocs);
   const postDoc = postDocsInfo.current;
   if (!postDoc) {
     return null;
@@ -18,11 +19,15 @@ const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDocs, ...pro
       <Post css={postCss} postDoc={postDoc} />
       {isExistAnotherPosts && (
         <>
-          <PostNav nextDoc={postDocsInfo.next} prevDoc={postDocsInfo.prev} />
+          <PostNav
+            nextDoc={postDocsInfo.next}
+            prevDoc={postDocsInfo.prev}
+            onNavButtonClick={handleNavButtonClick}
+          />
           <Divider />
         </>
       )}
-      <Comment attributes={utterancAttrs} />
+      <Comments ref={commentsRef} attributes={utterancAttrs} />
     </div>
   );
 };

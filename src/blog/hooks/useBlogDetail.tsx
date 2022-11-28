@@ -1,8 +1,9 @@
-import {useMemo} from 'react';
+import {useCallback, useEffect, useMemo, useRef} from 'react';
 
 import {useRouter} from 'next/router';
 
 import {PostDocument, valueOrLastItem} from '@shared';
+import {CommentsRef} from '@src/blog';
 
 type PostDocumentInfo = {
   [key in 'current' | 'prev' | 'next']?: PostDocument;
@@ -10,6 +11,9 @@ type PostDocumentInfo = {
 
 export const useBlogDetail = (postDocs: PostDocument[]) => {
   const router = useRouter();
+
+  const commentsRef = useRef<CommentsRef>(null);
+
   const id = useMemo(() => valueOrLastItem(router.query.id), [router.query]);
 
   /** 현재 문서들 */
@@ -42,5 +46,17 @@ export const useBlogDetail = (postDocs: PostDocument[]) => {
     return [postDocsInfo.next, postDocsInfo.prev].some((v) => v);
   }, [postDocsInfo.next, postDocsInfo.prev]);
 
-  return {postDocsInfo, isExistAnotherPosts};
+  /** PostNav Button 클릭 (글 이동) */
+  const handleNavButtonClick = useCallback(
+    async (href?: string) => {
+      if (!href) {
+        return;
+      }
+      await router.push(href);
+      commentsRef.current?.resetScript();
+    },
+    [router],
+  );
+
+  return {commentsRef, postDocsInfo, isExistAnotherPosts, handleNavButtonClick};
 };

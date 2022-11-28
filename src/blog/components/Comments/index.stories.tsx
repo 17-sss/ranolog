@@ -2,17 +2,17 @@ import {ComponentMeta, ComponentStory} from '@storybook/react';
 
 import {utterancAttrs} from '@src/blog';
 
-import Comment from './index';
+import Comments from './index';
 
 const storyDefault = {
-  title: 'components/blog/Comment',
-  component: Comment,
-} as ComponentMeta<typeof Comment>;
+  title: 'components/blog/Comments',
+  component: Comments,
+} as ComponentMeta<typeof Comments>;
 
 export default storyDefault;
 
-const Template: ComponentStory<typeof Comment> = (args) => {
-  return <Comment {...args} />;
+const Template: ComponentStory<typeof Comments> = (args) => {
+  return <Comments {...args} />;
 };
 
 export const Default = Template.bind({});
