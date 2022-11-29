@@ -13,7 +13,7 @@ const storyDefault = {
 export default storyDefault;
 
 const Template: ComponentStory<typeof Code> = ({children, ...args}) => {
-  const currentChildren = children ?? 'Code';
+  const currentChildren = children || 'Code';
   return (
     <div css={containerCss}>
       <Code {...args}>{currentChildren}</Code>
@@ -34,28 +34,28 @@ const containerCss: CssProp = systemCss({
 // --
 
 export const Default_Red = Template.bind({});
-Default_Red.args = {color: 'red'};
+Default_Red.args = {children: 'Code', color: 'red'};
 
 export const Blue = Template.bind({});
-Blue.args = {color: 'blue'};
+Blue.args = {children: 'Code', color: 'blue'};
 
 export const Brown = Template.bind({});
-Brown.args = {color: 'brown'};
+Brown.args = {children: 'Code', color: 'brown'};
 
 export const Green = Template.bind({});
-Green.args = {color: 'green'};
+Green.args = {children: 'Code', color: 'green'};
 
 export const Orange = Template.bind({});
-Orange.args = {color: 'orange'};
+Orange.args = {children: 'Code', color: 'orange'};
 
 export const Pink = Template.bind({});
-Pink.args = {color: 'pink'};
+Pink.args = {children: 'Code', color: 'pink'};
 
 export const Purple = Template.bind({});
-Purple.args = {color: 'purple'};
+Purple.args = {children: 'Code', color: 'purple'};
 
 export const Gray = Template.bind({});
-Gray.args = {color: 'gray'};
+Gray.args = {children: 'Code', color: 'gray'};
 
 export const Yellow = Template.bind({});
-Yellow.args = {color: 'yellow'};
+Yellow.args = {children: 'Code', color: 'yellow'};

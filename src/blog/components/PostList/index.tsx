@@ -39,11 +39,12 @@ const PostList: React.FC<PostListProps> = ({postDocs, onPostClick, ...props}) =>
 
 export default PostList;
 
+const ITEM_HEIGHT = '10rem';
 const listItemCss: CssProp = [
   centerAlignedChildren,
   (theme) =>
     systemCss({
-      width: '100%',
+      height: `${ITEM_HEIGHT}`,
       borderBottom: `1px solid ${theme.colors.gray200}`,
       '&:hover': {
         borderBottom: `1px solid transparent`,
@@ -57,8 +58,7 @@ const listItemInnerCss: CssProp = systemCss({
   alignItems: 'center',
 
   width: '100%',
-  height: '10rem',
-  py: ['0.75rem', null, '1rem'],
+  height: '100%',
 
   '& > * + *': {ml: '1rem'},
   '& > *:first-of-type': {
@@ -81,7 +81,8 @@ const listItemButtonCss: CssProp = systemCss({
 });
 
 const itemImageBoxCss: CssProp = systemCss({
-  height: '100%',
+  maxHeight: `calc(${ITEM_HEIGHT} - (${ITEM_HEIGHT} * 0.2))`,
+
   position: 'relative',
   aspectRatio: '4 / 3',
   overflow: 'hidden',
