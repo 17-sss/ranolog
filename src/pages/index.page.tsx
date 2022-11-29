@@ -1,7 +1,24 @@
-export interface RootPageProps {}
+import {PostDocument} from '@shared';
+import {getSortedDocuments} from '@src/lib';
+import {MainTemplate} from '@src/main';
 
-const RootPage: React.FC<RootPageProps> = () => {
-  return null;
+export interface MainPageProps {
+  postDocs: PostDocument[];
+}
+
+const MainPage: React.FC<MainPageProps> = ({postDocs}) => {
+  return <MainTemplate recentPosts={postDocs} />;
 };
 
-export default RootPage;
+export default MainPage;
+
+// FUNCTIONS : NEXT.JS ===============================================
+export const getStaticProps = async () => {
+  const postDocs = await getSortedDocuments<PostDocument>({
+    subFolderType: 'posts',
+    maxDocCount: 3,
+  });
+  return {
+    props: {postDocs},
+  };
+};
