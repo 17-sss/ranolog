@@ -1,6 +1,11 @@
+import configData from '@root/blog.config';
+
 import {commonPxValues, commonWidthCss, findPrevStyledValue} from '../../styles';
 import {CssProp, systemCss} from '../../system';
+import Footer, {FOOTER_HEIGHTS} from '../Footer';
 import Header, {HEADER_HEIGHTS} from '../Header';
+
+const {links, profileImage, author, contact} = configData;
 
 export interface PageLayoutProps {
   children?: React.ReactNode;
@@ -9,11 +14,11 @@ export interface PageLayoutProps {
 const PageLayout: React.FC<PageLayoutProps> = ({children, ...props}) => {
   return (
     <div css={layoutCss} {...props}>
-      <Header css={commonWidthCss} />
+      <Header css={commonWidthCss} links={links} profileImage={profileImage} />
       <main css={mainCss}>
         <div css={mainInnerCss}>{children}</div>
       </main>
-      {/* FOOTER */}
+      <Footer css={commonWidthCss} author={author} contact={contact} />
     </div>
   );
 };
@@ -24,18 +29,18 @@ const layoutCss: CssProp = systemCss({
   '& > *': {px: commonPxValues},
 });
 const mainCss: CssProp = (theme) => {
-  const PADDING_BOTTOM = ['1.5rem', null, '2rem'];
+  const MARGIN_BOTTOM = '6.25rem';
   return systemCss({
     display: 'flex',
     justifyContent: 'center',
     backgroundColor: theme.colors.white,
 
     pt: HEADER_HEIGHTS,
-    pb: PADDING_BOTTOM,
-    minHeight: HEADER_HEIGHTS.map(
-      (headerHeight, idx) =>
-        `calc(100vh - (${headerHeight ?? 0} + ${findPrevStyledValue(PADDING_BOTTOM, idx)}))`,
-    ),
+    mb: MARGIN_BOTTOM,
+    minHeight: HEADER_HEIGHTS.map((headerHeight, idx) => {
+      const footerHeight = findPrevStyledValue(FOOTER_HEIGHTS, idx);
+      return `calc(100vh - (${headerHeight ?? 0} + ${MARGIN_BOTTOM} + ${footerHeight}))`;
+    }),
   });
 };
 const mainInnerCss: CssProp = [commonWidthCss, systemCss({mt: '1rem'})];

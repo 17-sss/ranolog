@@ -2,6 +2,8 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
+import configData from '@root/blog.config';
+
 import IntroduceBox from './index';
 
 const storyDefault = {
@@ -17,7 +19,5 @@ const Template: ComponentStory<typeof IntroduceBox> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  title: 'Hoyoung Son',
-  description: 'Frontend Engineer who create convenient value.',
-  imageSrc: '/banner.jpg',
+  ...configData.introduce,
 };

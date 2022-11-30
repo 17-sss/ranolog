@@ -1,10 +1,8 @@
 import {Fragment, useEffect, useMemo, useState} from 'react';
 
-import Image from 'next/image';
+import Image, {StaticImageData} from 'next/image';
 import Link from 'next/link';
 import {GiHamburgerMenu} from 'react-icons/gi';
-
-import configData from '@root/blog.config';
 
 import {useMedia} from '../../hooks';
 import {
@@ -15,11 +13,18 @@ import {
 } from '../../styles';
 import {CssProp, systemCss} from '../../system';
 
-const {profileImage, links} = configData;
+export interface HeaderLink {
+  name: string;
+  displayName: string;
+  link: string;
+}
 
-export interface HeaderProps {}
+export interface HeaderProps {
+  profileImage: StaticImageData | string;
+  links: HeaderLink[];
+}
 
-const Header: React.FC<HeaderProps> = ({...props}) => {
+const Header: React.FC<HeaderProps> = ({profileImage, links, ...props}) => {
   const {isMobile} = useMedia();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -36,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({...props}) => {
         </li>
       );
     });
-  }, [isMobile]);
+  }, [isMobile, links]);
 
   useEffect(() => {
     if (!isMobile && isMobileMenuOpen) {
@@ -138,7 +143,7 @@ const mobileMenuBoxCss: CssProp = [
   (theme) => {
     const PADDING_TOP = '1.25rem';
     return systemCss({
-      zIndex: 1,
+      zIndex: 10,
       height: HEADER_HEIGHTS.map((height) => `calc(100% - (${height ?? 0} + ${PADDING_TOP}))`),
       width: commonPxValues.map((value) => `calc(100% - (${value ?? 0} * 2))`),
       pt: PADDING_TOP,
