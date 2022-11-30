@@ -2,8 +2,8 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {useMedia, createPostDocsMock} from '@shared';
 import {usePagination} from '@src/blog';
+import {useMedia, createPostDocsMock} from '@src/shared';
 
 import Pagination, {PaginationProps} from '.';
 

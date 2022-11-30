@@ -2,8 +2,8 @@ import {useCallback, useEffect, useMemo, useRef} from 'react';
 
 import {useRouter} from 'next/router';
 
-import {PostDocument, valueOrLastItem} from '@shared';
 import {CommentsRef} from '@src/blog';
+import {PostDocument, valueOrLastItem} from '@src/shared';
 
 type PostDocumentInfo = {
   [key in 'current' | 'prev' | 'next']?: PostDocument;

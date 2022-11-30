@@ -1,8 +1,9 @@
-import {CssProp, systemCss, PostDocument} from '@shared';
+import configData from '@root/blog.config';
 import {PostList} from '@src/blog';
 import {useMainTemplate, IntroduceBox} from '@src/main';
+import {CssProp, systemCss, PostDocument} from '@src/shared';
 
-import bannerImage from '../assets/banner.jpg';
+const {introduce} = configData;
 
 export interface MainTemplateProps {
   recentPosts: PostDocument[];
@@ -13,9 +14,9 @@ const MainTemplate: React.FC<MainTemplateProps> = ({recentPosts, ...props}) => {
   return (
     <div css={containerCss} {...props}>
       <IntroduceBox
-        title="Hoyoung Son"
-        description="Frontend Engineer who create convenient value."
-        imageSrc={bannerImage}
+        title={introduce.title}
+        description={introduce.description}
+        imageSrc={introduce.imageSrc}
       />
       <div css={recentPostBoxCss}>
         <p className="title">Recent Post</p>

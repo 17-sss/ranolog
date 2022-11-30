@@ -12,11 +12,11 @@ module.exports = {
             position: 'before',
           },
           {
-            pattern: '@src/**',
+            pattern: '@root/**',
             group: 'internal',
           },
           {
-            pattern: '@shared',
+            pattern: '@src/**',
             group: 'internal',
           },
           {

@@ -1,6 +1,12 @@
 import Image from 'next/image';
 
-import {systemCss, CssProp, centerAlignedChildren, PostDocument, singleLineEllipsis} from '@shared';
+import {
+  systemCss,
+  CssProp,
+  centerAlignedChildren,
+  PostDocument,
+  singleLineEllipsis,
+} from '@src/shared';
 
 export interface PostListProps {
   postDocs: PostDocument[];

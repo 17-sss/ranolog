@@ -1,7 +1,7 @@
 import {rgba} from 'polished';
 import {FiSearch} from 'react-icons/fi';
 
-import {CssProp, systemCss} from '@shared';
+import {CssProp, systemCss} from '@src/shared';
 
 export interface SearchBarProps {
   placeholder?: string;

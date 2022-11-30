@@ -3,8 +3,8 @@ import React, {useCallback} from 'react';
 import {rgba} from 'polished';
 import {FiChevronLeft, FiChevronRight, FiChevronsLeft, FiChevronsRight} from 'react-icons/fi';
 
-import {centerAlignedChildren, CssProp, systemCss} from '@shared';
 import {PageInfo} from '@src/blog/hooks';
+import {centerAlignedChildren, CssProp, systemCss} from '@src/shared';
 
 const ICON_NODE_INFOS = {
   left: {

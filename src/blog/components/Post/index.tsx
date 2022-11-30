@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 
-import {Code, CssProp, MarkdownRenderer, PostDocument, systemCss} from '@shared';
+import {Code, CssProp, MarkdownRenderer, PostDocument, systemCss} from '@src/shared';
 
 export interface PostProps {
   postDoc: PostDocument;

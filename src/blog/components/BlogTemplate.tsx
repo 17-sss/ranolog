@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {centerAlignedChildren, CssProp, PostDocument, systemCss, Dropdown} from '@shared';
 import {useBlogTemplate, PostList, Pagination, SearchBar, CategoryInfoTuple} from '@src/blog';
+import {centerAlignedChildren, CssProp, PostDocument, systemCss, Dropdown} from '@src/shared';
 
 export interface BlogTemplateProps {
   postDocs: PostDocument[];

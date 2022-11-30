@@ -1,7 +1,7 @@
 import Image, {StaticImageData} from 'next/image';
 import {rgba} from 'polished';
 
-import {Code, CssProp, systemCss} from '@shared';
+import {Code, CssProp, systemCss} from '@src/shared';
 
 export interface IntroduceBoxProps {
   title: string;

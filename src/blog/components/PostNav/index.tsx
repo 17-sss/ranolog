@@ -1,7 +1,7 @@
 import {rgba} from 'polished';
 import {FiArrowLeft, FiArrowRight} from 'react-icons/fi';
 
-import {CssProp, PostDocument, singleLineEllipsis, systemCss} from '@shared';
+import {CssProp, PostDocument, singleLineEllipsis, systemCss} from '@src/shared';
 
 export interface PostNavProps {
   nextDoc?: PostDocument;

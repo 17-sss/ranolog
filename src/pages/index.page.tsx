@@ -1,6 +1,6 @@
-import {PostDocument} from '@shared';
-import {getSortedDocuments} from '@src/lib';
+import {getSortedDocuments} from '@lib';
 import {MainTemplate} from '@src/main';
+import {PostDocument} from '@src/shared';
 
 export interface MainPageProps {
   postDocs: PostDocument[];

@@ -1,4 +1,4 @@
-import {PostDocument, useMedia} from '@shared';
+import {PostDocument, useMedia} from '@src/shared';
 
 import {useCategory} from './useCategory';
 import {usePagination} from './usePagination';

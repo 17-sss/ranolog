@@ -1,7 +1,7 @@
 import {ThemeProvider} from '@emotion/react';
 import {AppProps} from 'next/app';
 
-import {theme, GlobalStyles, PageLayout} from '@shared';
+import {theme, GlobalStyles, PageLayout} from '@src/shared';
 
 const App = ({Component, pageProps}: AppProps) => {
   return (

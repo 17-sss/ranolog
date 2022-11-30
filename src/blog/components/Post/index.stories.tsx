@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {createPostDocsMock, sampleContentHtml, samplePrismHtml} from '@shared';
+import {createPostDocsMock, sampleContentHtml, samplePrismHtml} from '@src/shared';
 
 import Post from './index';
 

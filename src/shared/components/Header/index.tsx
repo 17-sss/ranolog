@@ -4,8 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {GiHamburgerMenu} from 'react-icons/gi';
 
-import profileImage from '../../assets/agumon.jpeg';
-import {LINKS} from '../../constants';
+import configData from '@root/blog.config';
+
 import {useMedia} from '../../hooks';
 import {
   centerBetweenAlignChildren,
@@ -15,6 +15,8 @@ import {
 } from '../../styles';
 import {CssProp, systemCss} from '../../system';
 
+const {profileImage, links} = configData;
+
 export interface HeaderProps {}
 
 const Header: React.FC<HeaderProps> = ({...props}) => {
@@ -22,13 +24,12 @@ const Header: React.FC<HeaderProps> = ({...props}) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const menuItems = useMemo(() => {
-    const linkList = Object.entries(LINKS);
-    return linkList.map(([key, {displayName, link}]) => {
-      if (key === 'root') {
+    return links.map(({name, displayName, link}) => {
+      if (name === 'root') {
         return;
       }
       return (
-        <li key={key} css={menuItemCss}>
+        <li key={name} css={menuItemCss}>
           <Link href={link} passHref legacyBehavior>
             <a onClick={() => isMobile && setIsMobileMenuOpen(false)}>{displayName}</a>
           </Link>
@@ -57,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({...props}) => {
           ) : (
             <ul css={menuCss}>{menuItems}</ul>
           )}
-          <Link href={LINKS.root.link} passHref legacyBehavior>
+          <Link href={links.find(({name}) => name === 'root')?.link ?? '/'} passHref legacyBehavior>
             <a css={profileImageBoxCss} onClick={() => isMobile && setIsMobileMenuOpen(false)}>
               <Image src={profileImage} alt="profile_image" fill />
             </a>

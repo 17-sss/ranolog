@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
-import {debounce, PostDocument} from '@shared';
+import {debounce, PostDocument} from '@src/shared';
 
 export const useSearchPosts = (postDocs: PostDocument[], currentCategory: string = '') => {
   const [searchValue, setSearchValue] = useState<string>('');

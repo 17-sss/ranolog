@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {CssProp, PostDocument, systemCss, Divider} from '@shared';
 import {useBlogDetailTemplate, Post, PostNav, Comments, utterancAttrs} from '@src/blog';
+import {CssProp, PostDocument, systemCss, Divider} from '@src/shared';
 
 export interface BlogDetailTemplateProps {
   postDocs: PostDocument[];

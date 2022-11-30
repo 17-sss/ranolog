@@ -2,7 +2,7 @@ import {Fragment, useCallback, useEffect, useMemo, useRef, useState} from 'react
 
 import {useRouter} from 'next/router';
 
-import {DropdownRef, PostDocument, systemCss, valueOrLastItem} from '@shared';
+import {DropdownRef, PostDocument, systemCss, valueOrLastItem} from '@src/shared';
 
 export type CategoryInfoTuple = [string, number];
 
