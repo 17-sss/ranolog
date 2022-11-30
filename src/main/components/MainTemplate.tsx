@@ -3,7 +3,7 @@ import {PostList} from '@src/blog';
 import {useMainTemplate, IntroduceBox} from '@src/main';
 import {CssProp, systemCss, PostDocument} from '@src/shared';
 
-const {introduce} = configData;
+const {main} = configData;
 
 export interface MainTemplateProps {
   recentPosts: PostDocument[];
@@ -13,11 +13,7 @@ const MainTemplate: React.FC<MainTemplateProps> = ({recentPosts, ...props}) => {
   const {handlePostItemClick} = useMainTemplate();
   return (
     <div css={containerCss} {...props}>
-      <IntroduceBox
-        title={introduce.title}
-        description={introduce.description}
-        imageSrc={introduce.imageSrc}
-      />
+      <IntroduceBox title={main.title} description={main.description} imageSrc={main.imageSrc} />
       <div css={recentPostBoxCss}>
         <p className="title">Recent Post</p>
         <PostList postDocs={recentPosts} onPostClick={handlePostItemClick} />

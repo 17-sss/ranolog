@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 
-import {Code, CssProp, MarkdownRenderer, PostDocument, systemCss} from '@src/shared';
+import {CustomCode, CssProp, MarkdownRenderer, PostDocument, systemCss} from '@src/shared';
 
 export interface PostProps {
   postDoc: PostDocument;
@@ -25,9 +25,9 @@ const Post: React.FC<PostProps> = ({postDoc, ...props}) => {
         {categories && (
           <div css={categoryBoxCss}>
             {categories?.map((category, idx) => (
-              <Code key={idx} color="gray">
+              <CustomCode key={idx} color="gray">
                 {category}
-              </Code>
+              </CustomCode>
             ))}
           </div>
         )}

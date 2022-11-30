@@ -19,5 +19,5 @@ const Template: ComponentStory<typeof IntroduceBox> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  ...configData.introduce,
+  ...configData.main,
 };

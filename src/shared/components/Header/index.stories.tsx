@@ -6,8 +6,6 @@ import configData from '@root/blog.config';
 
 import Header from '.';
 
-const {links, profileImage} = configData;
-
 const storyDefault = {
   title: 'components/shared/Header',
   component: Header,
@@ -20,4 +18,4 @@ const Template: ComponentStory<typeof Header> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = {links, profileImage};
+Default.args = {...configData.header};

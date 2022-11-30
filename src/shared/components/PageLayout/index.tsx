@@ -5,8 +5,6 @@ import {CssProp, systemCss} from '../../system';
 import Footer, {FOOTER_HEIGHTS} from '../Footer';
 import Header, {HEADER_HEIGHTS} from '../Header';
 
-const {links, profileImage, author, contact} = configData;
-
 export interface PageLayoutProps {
   children?: React.ReactNode;
 }
@@ -14,11 +12,11 @@ export interface PageLayoutProps {
 const PageLayout: React.FC<PageLayoutProps> = ({children, ...props}) => {
   return (
     <div css={layoutCss} {...props}>
-      <Header css={commonWidthCss} links={links} profileImage={profileImage} />
+      <Header css={commonWidthCss} {...configData.header} />
       <main css={mainCss}>
         <div css={mainInnerCss}>{children}</div>
       </main>
-      <Footer css={commonWidthCss} author={author} contact={contact} />
+      <Footer css={commonWidthCss} {...configData.footer} />
     </div>
   );
 };

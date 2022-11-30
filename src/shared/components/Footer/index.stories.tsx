@@ -19,7 +19,7 @@ const Template: ComponentStory<React.FC<FooterProps & {css: CssProp}>> = (args) 
 };
 
 export const Default = Template.bind({});
-Default.args = {author: configData.author, contact: configData.contact};
+Default.args = {...configData.footer};
 
 export const WithMarginTop = Template.bind({});
 WithMarginTop.args = {...Default.args, css: systemCss({mt: '1rem'})};

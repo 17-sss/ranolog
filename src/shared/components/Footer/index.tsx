@@ -8,11 +8,11 @@ import {CssProp, systemCss} from '../../system';
 
 export interface FooterProps {
   author: string;
-  contact: Partial<typeof configData.contact>;
+  contact: Partial<typeof configData.footer.contact>;
 }
 
 type FooterIcons = {
-  [key in keyof typeof configData.contact]: React.ReactNode;
+  [key in keyof typeof configData.footer.contact]: React.ReactNode;
 };
 const ICONS: FooterIcons = {
   github: <FaGithub />,

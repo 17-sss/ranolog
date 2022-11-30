@@ -14,13 +14,13 @@ export const COLOR_NAMES = [
 
 export type ColorNames = typeof COLOR_NAMES[number];
 
-export interface CodeProps {
+export interface CustomCodeProps {
   color?: ColorNames;
   isBold?: boolean;
   children?: React.ReactNode;
 }
 
-const Code: React.FC<CodeProps> = ({color, isBold, children, ...props}) => {
+const CustomCode: React.FC<CustomCodeProps> = ({color, isBold, children, ...props}) => {
   return (
     <code css={[codeCss, colorCss(color), isBold && boldCss]} {...props}>
       {children}
@@ -28,7 +28,7 @@ const Code: React.FC<CodeProps> = ({color, isBold, children, ...props}) => {
   );
 };
 
-export default Code;
+export default CustomCode;
 
 // STYLES
 const codeCss: CssProp = systemCss({

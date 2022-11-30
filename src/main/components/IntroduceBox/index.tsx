@@ -1,7 +1,7 @@
 import Image, {StaticImageData} from 'next/image';
 import {rgba} from 'polished';
 
-import {Code, CssProp, systemCss} from '@src/shared';
+import {CustomCode, CssProp, systemCss} from '@src/shared';
 
 export interface IntroduceBoxProps {
   title: string;
@@ -15,9 +15,9 @@ const IntroduceBox: React.FC<IntroduceBoxProps> = ({title, description, imageSrc
       <div css={introBoxCss}>
         <p className="title">{title}</p>
         <p className="description">
-          <Code css={descriptionCodeCss} color="gray">
+          <CustomCode css={descriptionCodeCss} color="gray">
             {description}
-          </Code>
+          </CustomCode>
         </p>
       </div>
       <div css={imageBoxCss}>
