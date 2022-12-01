@@ -19,10 +19,6 @@ module.exports = {
             pattern: '@src/**',
             group: 'internal',
           },
-          {
-            pattern: '@lib',
-            group: 'internal',
-          },
         ],
         pathGroupsExcludedImportTypes: ['builtin'],
         'newlines-between': 'always',

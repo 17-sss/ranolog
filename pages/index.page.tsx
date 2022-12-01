@@ -1,4 +1,4 @@
-import {getSortedDocuments} from '@lib';
+import {getSortedDocuments} from '@src/lib';
 import {MainTemplate} from '@src/main';
 import {PostDocument} from '@src/shared';
 

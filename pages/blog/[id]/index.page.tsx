@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {getDocumentIds, getSortedDocuments} from '@lib';
 import {BlogDetailTemplate} from '@src/blog';
+import {getDocumentIds, getSortedDocuments} from '@src/lib';
 import {PostDocument} from '@src/shared';
 
 export interface BlogDetailPageProps {

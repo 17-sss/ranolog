@@ -1,6 +1,6 @@
 import {StaticImageData} from 'next/image';
 
-import {DefaultDocument} from '@lib';
+import {DefaultDocument} from '@src/lib';
 
 export interface PostDocument extends DefaultDocument {
   subject: string;
