@@ -33,7 +33,7 @@ const Post: React.FC<PostProps> = ({postDoc, ...props}) => {
         )}
         <p className="date">{new Date(postDoc.date).toLocaleDateString().replace(/\.$/g, '')}</p>
       </div>
-      <MarkdownRenderer css={markdownRendererCss} contentHtml={postDoc.content} />
+      <MarkdownRenderer css={markdownRendererCss} content={postDoc.content} />
     </div>
   );
 };

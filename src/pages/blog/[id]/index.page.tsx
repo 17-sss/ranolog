@@ -16,7 +16,7 @@ export default BlogDetailPage;
 
 // FUNCTIONS : NEXT.JS ===============================================
 export const getStaticPaths = async () => {
-  const documentIds = await getDocumentIds({subFolderType: 'posts'});
+  const documentIds = await getDocumentIds('posts');
   const paths = documentIds.map((id) => ({params: {id}}));
   return {
     paths,

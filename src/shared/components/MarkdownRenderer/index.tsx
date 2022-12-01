@@ -1,13 +1,30 @@
+import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote';
 import {rgba} from 'polished';
 
 import {CssProp, systemCss} from '../../system';
 
 export interface MarkdownRendererProps {
-  contentHtml: string;
+  content: string | MDXRemoteSerializeResult;
 }
 
-const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({contentHtml, ...props}) => {
-  return <div css={containerCss} dangerouslySetInnerHTML={{__html: contentHtml}} {...props} />;
+const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({content, ...props}) => {
+  if (typeof content === 'string') {
+    return (
+      <div
+        css={[containerCss, defaultCodeCss]}
+        dangerouslySetInnerHTML={{__html: content}}
+        {...props}
+      />
+    );
+  }
+  return (
+    <div css={containerCss} {...props}>
+      <MDXRemote
+        {...content}
+        // components={{/* any components... */}} // 추후 추가
+      />
+    </div>
+  );
 };
 
 export default MarkdownRenderer;
@@ -74,16 +91,6 @@ const containerCss: CssProp = (theme) =>
       opacity: 0.7,
     },
 
-    /** normal `code`  */
-    '*:not(pre) > code': {
-      fontFamily: `'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace`,
-      backgroundColor: 'rgba(135, 131, 120, 0.15)',
-      borderRadius: '0.1875rem',
-      fontSize: '85%',
-      p: '0.25rem 0.45rem',
-      color: 'rgba(212, 76, 71, 1)',
-    },
-
     /** Markdown "> blah blah.." */
     blockquote: {
       my: '0.75rem',
@@ -113,3 +120,14 @@ const containerCss: CssProp = (theme) =>
       },
     },
   });
+
+const defaultCodeCss: CssProp = systemCss({
+  '*:not(pre) > code': {
+    fontFamily: `'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace`,
+    backgroundColor: 'rgba(135, 131, 120, 0.15)',
+    borderRadius: '0.1875rem',
+    fontSize: '85%',
+    p: '0.25rem 0.45rem',
+    color: 'rgba(212, 76, 71, 1)',
+  },
+});

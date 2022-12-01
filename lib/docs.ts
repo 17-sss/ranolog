@@ -1,6 +1,10 @@
 /** [!] 모두 page 컴포넌트에서만 사용됨  */
 import fs from 'fs';
 import matter from 'gray-matter';
+// @ts-ignore
+import mdxPrism from 'mdx-prism';
+import {MDXRemoteSerializeResult} from 'next-mdx-remote';
+import {serialize} from 'next-mdx-remote/serialize';
 import path from 'path';
 import {remark} from 'remark';
 import remarkGfm from 'remark-gfm';
@@ -10,50 +14,58 @@ import remarkPrism from 'remark-prism';
 export interface DefaultDocument {
   id: string;
   date: string;
-  content: string;
+  content: string | MDXRemoteSerializeResult;
+  extension: string;
   summary?: string;
 }
 type SubFolderType = 'posts' | 'projects';
 
+const REGEX_MARKDOWN = /\.mdx?$/;
+
 const docsDir = path.join(process.cwd(), 'docs');
 
 /** [async] Markdown Text -> HTML 변환 */
-export const markdownToHtml = async (markdown: string) => {
+export const markdownToHtml = async (content: string) => {
   const result = await remark()
     .use(remarkGfm)
     .use(remarkHtml, {sanitize: false})
     .use(remarkPrism)
-    .process(markdown);
+    .process(content);
   return result.toString();
 };
 
-interface GetDocumentsParams {
-  subFolderType?: SubFolderType;
-  maxDocCount?: number;
-}
+/** [async] Markdown Text -> HTML 변환 (for MDX) */
+export const markdownToHtmlForMDX = async (content: string) => {
+  const result = await serialize(content, {
+    mdxOptions: {remarkPlugins: [remarkGfm, remarkHtml], rehypePlugins: [mdxPrism]},
+  });
+  return result;
+};
 
 /** [async] 모든 정적 데이터 가져옴  */
-export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocument>({
-  subFolderType,
-  maxDocCount,
-}: GetDocumentsParams): Promise<TDoc[]> => {
+export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocument>(
+  subFolderType?: SubFolderType,
+): Promise<TDoc[]> => {
+  const createContent = async (content: string, extension?: string) => {
+    if (extension === '.mdx') {
+      return markdownToHtmlForMDX(content);
+    }
+    return await markdownToHtml(content);
+  };
+
   const result: TDoc[] = [];
   try {
     const currentDir = path.join(docsDir, subFolderType ?? '');
     const fileNames = fs.readdirSync(currentDir);
-
-    let numLoop = fileNames.length;
-    if (typeof maxDocCount === 'number') {
-      numLoop = fileNames.length < maxDocCount ? fileNames.length : maxDocCount;
-    }
-    for (let i = 0; i < numLoop; i++) {
+    for (let i = 0; i < fileNames.length; i++) {
       const fileName = fileNames[i];
       const fullPath = path.join(currentDir, fileName);
       const fileContents = fs.readFileSync(fullPath, 'utf8');
-      const id = fileName.replace(/\.md$/, '');
+      const id = fileName.replace(REGEX_MARKDOWN, '');
+      const extension = fileName.match(REGEX_MARKDOWN)?.[0] ?? 'unknown';
       const matterResult = matter(fileContents);
-      const content = await markdownToHtml(matterResult.content);
-      result.push({...matterResult.data, id, content} as TDoc);
+      const content = await createContent(matterResult.content, extension);
+      result.push({...matterResult.data, id, content, extension} as TDoc);
     }
   } catch (e) {
     console.error(e);
@@ -62,18 +74,26 @@ export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocumen
   }
 };
 
+interface GetSortedDocumentsParams {
+  subFolderType?: SubFolderType;
+  maxDocCount?: number;
+}
+
 /** [async] 모든 정적 데이터 가져옴 (최근 날짜순으로)  */
-export const getSortedDocuments = async <TDoc extends DefaultDocument = DefaultDocument>(
-  params: GetDocumentsParams,
-): Promise<TDoc[]> => {
-  const result = await getDocuments<TDoc>(params);
-  return result.sort((aDoc, bDoc) => new Date(bDoc.date).valueOf() - new Date(aDoc.date).valueOf());
+export const getSortedDocuments = async <TDoc extends DefaultDocument = DefaultDocument>({
+  subFolderType,
+  maxDocCount,
+}: GetSortedDocumentsParams): Promise<TDoc[]> => {
+  const sortDocs = (await getDocuments<TDoc>(subFolderType)).sort(
+    (aDoc, bDoc) => new Date(bDoc.date).valueOf() - new Date(aDoc.date).valueOf(),
+  );
+  return sortDocs.slice(0, maxDocCount);
 };
 
 /** 모든 정적 데이터의 id(fileName) 가져옴 */
-export const getDocumentIds = async (params: GetDocumentsParams) => {
+export const getDocumentIds = async (subFolderType: SubFolderType) => {
   try {
-    const docs = await getDocuments(params);
+    const docs = await getDocuments(subFolderType);
     return docs.map(({id}) => id);
   } catch (e) {
     console.error(e);

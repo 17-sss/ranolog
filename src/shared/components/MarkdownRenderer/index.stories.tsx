@@ -18,5 +18,5 @@ const Template: ComponentStory<typeof MarkdownRenderer> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  contentHtml: `${sampleContentHtml}${samplePrismHtml}`,
+  content: `${sampleContentHtml}${samplePrismHtml}`,
 };
