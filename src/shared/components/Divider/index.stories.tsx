@@ -14,7 +14,7 @@ export default storyDefault;
 
 const Template: ComponentStory<typeof Divider> = (args) => {
   return (
-    <div css={systemCss({py: '1rem'})}>
+    <div css={systemCss({pt: '1rem'})}>
       <Divider {...args} />
     </div>
   );

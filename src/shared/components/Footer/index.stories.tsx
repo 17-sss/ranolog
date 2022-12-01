@@ -10,6 +10,10 @@ import Footer, {FooterProps} from './index';
 const storyDefault = {
   title: 'components/shared/Footer',
   component: Footer,
+  argTypes: {
+    contact: {control: false},
+    css: {table: {disable: true}},
+  },
 } as ComponentMeta<typeof Footer>;
 
 export default storyDefault;

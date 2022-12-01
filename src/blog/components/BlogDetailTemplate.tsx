@@ -20,8 +20,8 @@ const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDocs, ...pro
       {isExistAnotherPosts && (
         <>
           <PostNav
-            nextDoc={postDocsInfo.next}
-            prevDoc={postDocsInfo.prev}
+            prevDocInfo={postDocsInfo.prev}
+            nextDocInfo={postDocsInfo.next}
             onNavButtonClick={handleNavButtonClick}
           />
           <Divider />

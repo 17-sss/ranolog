@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
@@ -7,27 +7,29 @@ import {useMedia, createPostDocsMock} from '@src/shared';
 
 import Pagination, {PaginationProps} from '.';
 
-const storyDefault = {
-  title: 'components/blog/Pagination',
-  component: Pagination,
-} as ComponentMeta<typeof Pagination>;
-
-export default storyDefault;
-
 interface PaginationStoryProps extends PaginationProps {
-  data: any[];
+  dataLength?: number;
   pageUnit?: number;
   postUnit?: number;
 }
 
+// --
+
+const storyDefault = {
+  title: 'components/blog/Pagination',
+  component: Pagination,
+} as ComponentMeta<React.FC<PaginationStoryProps>>;
+
+export default storyDefault;
+
 const Template: ComponentStory<React.FC<PaginationStoryProps>> = ({
-  data,
+  dataLength,
   pageUnit,
   postUnit,
   ...args
 }) => {
   const {isMobile} = useMedia();
-
+  const data = useMemo(() => createPostDocsMock(dataLength), [dataLength]);
   const {pageInfo, pageNums, /* currentData */ handlePageButtonClick} = usePagination({
     data,
     pageUnit: isMobile ? 3 : pageUnit ?? 5,
@@ -45,7 +47,7 @@ const Template: ComponentStory<React.FC<PaginationStoryProps>> = ({
 
 export const Default = Template.bind({});
 Default.args = {
-  data: createPostDocsMock(101),
+  dataLength: 100,
   pageUnit: 5,
   postUnit: 5,
 };

@@ -3,16 +3,22 @@ import {FiArrowLeft, FiArrowRight} from 'react-icons/fi';
 
 import {CssProp, PostDocument, singleLineEllipsis, systemCss} from '@src/shared';
 
+export type PostDocumentSummaryInfo = Pick<PostDocument, 'id' | 'subject'>;
 export interface PostNavProps {
-  nextDoc?: PostDocument;
-  prevDoc?: PostDocument;
+  prevDocInfo?: PostDocumentSummaryInfo;
+  nextDocInfo?: PostDocumentSummaryInfo;
   onNavButtonClick: (id: string) => void;
 }
 
-const PostNav: React.FC<PostNavProps> = ({nextDoc, prevDoc, onNavButtonClick, ...props}) => {
+const PostNav: React.FC<PostNavProps> = ({
+  prevDocInfo,
+  nextDocInfo,
+  onNavButtonClick,
+  ...props
+}) => {
   return (
     <nav css={containerCss} {...props}>
-      {[prevDoc, nextDoc].map((aPostDoc, idx) => {
+      {[prevDocInfo, nextDocInfo].map((aPostDoc, idx) => {
         if (!aPostDoc) {
           return <div key={idx} />;
         }

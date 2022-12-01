@@ -9,16 +9,24 @@ import BlogDetailPage from './index.page';
 const storyDefault = {
   title: 'pages/blog/BlogDetailPage',
   component: BlogDetailPage,
+  argTypes: {
+    postDocs: {
+      control: false,
+    },
+  },
+  decorators: [
+    (Story) => (
+      <PageLayout>
+        <Story />
+      </PageLayout>
+    ),
+  ],
 } as ComponentMeta<typeof BlogDetailPage>;
 
 export default storyDefault;
 
 const Template: ComponentStory<typeof BlogDetailPage> = (args) => {
-  return (
-    <PageLayout>
-      <BlogDetailPage {...args} />
-    </PageLayout>
-  );
+  return <BlogDetailPage {...args} />;
 };
 
 const postDocs = createSortedPostDocsMock(50);

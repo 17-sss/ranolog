@@ -7,6 +7,7 @@ import Dropdown from '.';
 const storyDefault = {
   title: 'components/shared/Dropdown',
   component: Dropdown,
+  argTypes: {ref: {control: false}, options: {control: false}, defaultValue: {control: false}},
 } as ComponentMeta<typeof Dropdown>;
 
 export default storyDefault;
