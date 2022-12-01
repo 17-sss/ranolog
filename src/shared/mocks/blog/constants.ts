@@ -95,10 +95,12 @@ export const tempPosts: Omit<PostDocument, 'id' | 'category' | 'date'>[] = [
   {
     subject: 'Fusce suscipit lorem',
     content: sampleContentHtml,
+    extension: '.md',
   },
   {
     subject: 'dolor sit amet',
     content: `${sampleContentHtml}${samplePrismHtml}`,
     imageSrc: samplePostImage,
+    extension: '.md',
   },
 ];

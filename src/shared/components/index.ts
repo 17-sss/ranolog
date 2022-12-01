@@ -5,6 +5,7 @@ import Footer from './Footer';
 import Header from './Header';
 import MarkdownRenderer from './MarkdownRenderer';
 import PageLayout from './PageLayout';
+import Typography from './Typography';
 
 export * from './CustomCode';
 export * from './Divider';
@@ -13,5 +14,6 @@ export * from './Footer';
 export * from './Header';
 export * from './MarkdownRenderer';
 export * from './PageLayout';
+export * from './Typography';
 
-export {CustomCode, Divider, Dropdown, Footer, Header, MarkdownRenderer, PageLayout};
+export {CustomCode, Divider, Dropdown, Footer, Header, MarkdownRenderer, PageLayout, Typography};
