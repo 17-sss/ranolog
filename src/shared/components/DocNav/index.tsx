@@ -1,37 +1,42 @@
 import {rgba} from 'polished';
 import {FiArrowLeft, FiArrowRight} from 'react-icons/fi';
 
-import {CssProp, PostDocument, singleLineEllipsis, systemCss} from '@src/shared';
+import {DefaultDocument} from '../../../lib';
+import {singleLineEllipsis} from '../../styles';
+import {CssProp, systemCss} from '../../system';
 
-export type PostDocumentSummaryInfo = Pick<PostDocument, 'id' | 'subject'>;
-export interface PostNavProps {
-  prevDocInfo?: PostDocumentSummaryInfo;
-  nextDocInfo?: PostDocumentSummaryInfo;
+export type DocumentSummaryInfo<TDoc extends DefaultDocument = DefaultDocument> = Pick<
+  TDoc,
+  'id' | 'subject'
+>;
+export interface DocNavProps<TDoc extends DefaultDocument = DefaultDocument> {
+  prevDoc?: DocumentSummaryInfo<TDoc>;
+  nextDoc?: DocumentSummaryInfo<TDoc>;
   onNavButtonClick: (id: string) => void;
 }
 
-const PostNav: React.FC<PostNavProps> = ({
-  prevDocInfo,
-  nextDocInfo,
+const DocNav = <TDoc extends DefaultDocument = DefaultDocument>({
+  prevDoc,
+  nextDoc,
   onNavButtonClick,
   ...props
-}) => {
+}: DocNavProps<TDoc>) => {
   return (
     <nav css={containerCss} {...props}>
-      {[prevDocInfo, nextDocInfo].map((aPostDoc, idx) => {
-        if (!aPostDoc) {
+      {[prevDoc, nextDoc].map((aDoc, idx) => {
+        if (!aDoc) {
           return <div key={idx} />;
         }
         const isPrev = idx % 2 === 0;
         return (
-          <button key={idx} css={postButtonCss} onClick={() => onNavButtonClick(aPostDoc.id)}>
-            <p css={postTextCss} className="type">
+          <button key={idx} css={navButtonCss} onClick={() => onNavButtonClick(aDoc.id)}>
+            <p css={docTextCss} className="type">
               {isPrev && <FiArrowLeft />}
               <span>{isPrev ? 'Previous' : 'Next'}</span>
               {isPrev || <FiArrowRight />}
             </p>
-            <p css={postTextCss} className="subject">
-              <span>{aPostDoc.subject}&nbsp;</span>
+            <p css={docTextCss} className="subject">
+              <span>{aDoc.subject}&nbsp;</span>
             </p>
           </button>
         );
@@ -40,7 +45,7 @@ const PostNav: React.FC<PostNavProps> = ({
   );
 };
 
-export default PostNav;
+export default DocNav;
 
 const containerCss: CssProp = systemCss({
   display: 'flex',
@@ -50,7 +55,7 @@ const containerCss: CssProp = systemCss({
   rowGap: ['0.5rem', 'normal'],
 });
 
-const postButtonCss: CssProp = (theme) =>
+const navButtonCss: CssProp = (theme) =>
   systemCss({
     px: '1rem',
     py: '1.25rem',
@@ -64,7 +69,7 @@ const postButtonCss: CssProp = (theme) =>
     },
   });
 
-const postTextCss: CssProp = (theme) =>
+const docTextCss: CssProp = (theme) =>
   systemCss({
     display: 'flex',
     alignItems: 'center',

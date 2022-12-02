@@ -1,13 +1,9 @@
-import {useCallback, useEffect, useMemo, useRef} from 'react';
+import {useCallback, useMemo, useRef} from 'react';
 
 import {useRouter} from 'next/router';
 
 import {CommentsRef} from '@src/blog';
-import {PostDocument, valueOrLastItem} from '@src/shared';
-
-type PostDocumentInfo = {
-  [key in 'current' | 'prev' | 'next']?: PostDocument;
-};
+import {PostDocument, useDocNav, valueOrLastItem} from '@src/shared';
 
 export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
   const router = useRouter();
@@ -42,29 +38,10 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
     return result;
   }, [selectedCategory, postDocs, id]);
 
-  /** 현재 게시글 index
-   * - currentDocs(postDocs)에서 index를 찾음
-   */
-  const postDocIdx = useMemo(() => {
-    const result = currentDocs.findIndex((post) => post.id === id);
-    return result;
-  }, [currentDocs, id]);
+  const {docsNavInfo: postDocsNavInfo, isExistAnotherDocs: isExistAnotherPosts} =
+    useDocNav(currentDocs);
 
-  /** 현재, 이전, 다음 게시글 */
-  const postDocsInfo = useMemo<PostDocumentInfo>(() => {
-    return {
-      current: currentDocs[postDocIdx],
-      prev: currentDocs[postDocIdx + 1],
-      next: currentDocs[postDocIdx - 1],
-    };
-  }, [currentDocs, postDocIdx]);
-
-  /** 이전, 다음 게시글이 하나라도 있는지 체크 */
-  const isExistAnotherPosts = useMemo(() => {
-    return [postDocsInfo.next, postDocsInfo.prev].some((v) => v);
-  }, [postDocsInfo.next, postDocsInfo.prev]);
-
-  /** PostNav Button 클릭 (글 이동) */
+  /** DocNav Button 클릭 (글 이동) */
   const handleNavButtonClick = useCallback(
     async (id: string) => {
       const resetComments = () => {
@@ -77,5 +54,5 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
     [router, selectedCategory],
   );
 
-  return {commentsRef, postDocsInfo, isExistAnotherPosts, handleNavButtonClick};
+  return {commentsRef, postDocsNavInfo, isExistAnotherPosts, handleNavButtonClick};
 };

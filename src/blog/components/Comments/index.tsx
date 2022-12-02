@@ -25,7 +25,7 @@ const Comments = forwardRef<CommentsRef, CommentsProps>(({attributes, ...props},
   }, []);
 
   /** utterances 리셋 후, 다시 설정
-   * - path: "blog/[id]" 에서 PostNav로 인한 글 이동 시 사용.
+   * - 글 상세 페이지에서 글 이동(이전, 다음) 시 사용
    */
   const resetScript = useCallback(() => {
     const commentsEle = containerRef.current?.firstChild;
