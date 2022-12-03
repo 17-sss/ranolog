@@ -1,4 +1,4 @@
-import {createElement} from 'react';
+import React from 'react';
 
 import {CssProp, systemCss} from '../../system';
 import {backgroundColors, colorKeys, colors, variantKeys} from './constants';
@@ -8,22 +8,26 @@ export type TypographyColor = typeof colorKeys[number];
 
 interface TypographyInnerProps {
   variant: TypographyVariant;
-  color?: TypographyColor;
-  backgroundColor?: TypographyColor;
   children?: React.ReactNode;
 }
-const TypographyInner: React.FC<TypographyInnerProps> = ({variant, children, ...props}) =>
-  createElement(variant, props, children);
+const TypographyInner: React.FC<TypographyInnerProps> = ({variant, children, ...props}) => {
+  return React.createElement(variant, props, children);
+};
 
-export type TypographyProps = Partial<TypographyInnerProps>;
+export interface TypographyProps extends Partial<TypographyInnerProps> {
+  color?: TypographyColor;
+  backgroundColor?: TypographyColor;
+  isBold?: boolean;
+}
 const Typography: React.FC<TypographyProps> = ({
   variant = 'p',
   backgroundColor,
   color,
+  isBold,
   ...props
 }) => (
   <TypographyInner
-    css={typographyCss({variant, backgroundColor, color})}
+    css={typographyCss({variant, backgroundColor, color, isBold})}
     variant={variant}
     {...props}
   />
@@ -37,11 +41,13 @@ interface TypographyCssParams {
   variant: TypographyVariant;
   backgroundColor?: TypographyColor;
   color?: TypographyColor;
+  isBold?: boolean;
 }
 const typographyCss: (params: TypographyCssParams) => CssProp = ({
   variant,
   backgroundColor,
   color,
+  isBold,
 }) => [
   (theme) => {
     const getFontSize = (variant: TypographyVariant) => {
@@ -66,6 +72,7 @@ const typographyCss: (params: TypographyCssParams) => CssProp = ({
   },
   backgroundColor && systemCss({backgroundColor: backgroundColors[backgroundColor]}),
   color && systemCss({color: colors[color]}),
-  ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(variant) && systemCss({fontWeight: 'bold'}),
+  (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(variant) || isBold) &&
+    systemCss({fontWeight: 'bold'}),
   ['p'].includes(variant) && systemCss({py: '0.1875rem'}),
 ];
