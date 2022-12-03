@@ -30,6 +30,7 @@ export const createPostDocsMock = (mockLength: number = 10) => {
     const summary = Boolean(Math.round(Math.random()))
       ? `${post.subject}'s summary (idx: ${i})`
       : undefined;
+
     return {
       ...post,
       id: `${i}`,
@@ -44,6 +45,9 @@ export const createPostDocsMock = (mockLength: number = 10) => {
 
 /**  정렬된 Mock 데이터 생성 (Posts / 최근 날짜기준) */
 export const createSortedPostDocsMock = (mockLength: number = 10) =>
-  createPostDocsMock(mockLength).sort(
-    (aPost, bPost) => new Date(bPost.date).valueOf() - new Date(aPost.date).valueOf(),
-  );
+  createPostDocsMock(mockLength).sort(({date: aDate}, {date: bDate}) => {
+    if (typeof aDate === 'string' && typeof bDate === 'string') {
+      return new Date(bDate).valueOf() - new Date(aDate).valueOf();
+    }
+    return 0;
+  });

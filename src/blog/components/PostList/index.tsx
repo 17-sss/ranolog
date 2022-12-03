@@ -1,5 +1,6 @@
 import Image from 'next/image';
 
+import {createDateText} from '@src/blog';
 import {
   systemCss,
   CssProp,
@@ -18,7 +19,7 @@ const PostList: React.FC<PostListProps> = ({postDocs, onPostClick, ...props}) =>
   return (
     <ul {...props}>
       {postDocs.map((postDoc, idx) => {
-        const dateText = new Date(postDoc.date).toLocaleDateString().replace(/\.$/g, '');
+        const dateText = createDateText(postDoc.date);
         return (
           <li key={idx} css={listItemCss}>
             <button
@@ -28,7 +29,7 @@ const PostList: React.FC<PostListProps> = ({postDocs, onPostClick, ...props}) =>
               <div css={itemContentBoxCss}>
                 <p className="subject">{postDoc.subject}</p>
                 {postDoc.summary && <p className="summary">{postDoc.summary}</p>}
-                <p className="date">{dateText}</p>
+                {dateText && <p className="date">{dateText}</p>}
               </div>
               {postDoc.imageSrc && (
                 <div css={itemImageBoxCss}>

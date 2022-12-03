@@ -168,7 +168,7 @@ const defaultCss = css`
     width: 100%;
     height: 100%;
   }
-  @media only screen and (max-width: 374px) {
+  @media screen and (max-width: 374px) {
     html {
       font-size: ${theme.fontSizes.p14};
     }

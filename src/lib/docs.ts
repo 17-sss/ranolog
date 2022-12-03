@@ -13,7 +13,8 @@ import remarkPrism from 'remark-prism';
 
 export interface DefaultDocument {
   id: string;
-  date: string;
+  subject: string;
+  date: string | {start: string; end?: string};
   content: string | MDXRemoteSerializeResult;
   extension: string;
   summary?: string;
@@ -85,7 +86,15 @@ export const getSortedDocuments = async <TDoc extends DefaultDocument = DefaultD
   maxDocCount,
 }: GetSortedDocumentsParams): Promise<TDoc[]> => {
   const sortDocs = (await getDocuments<TDoc>(subFolderType)).sort(
-    (aDoc, bDoc) => new Date(bDoc.date).valueOf() - new Date(aDoc.date).valueOf(),
+    ({date: aDate}, {date: bDate}) => {
+      if (typeof aDate === 'string' && typeof bDate === 'string') {
+        return new Date(bDate).valueOf() - new Date(aDate).valueOf();
+      }
+      if (typeof aDate === 'object' && typeof bDate === 'object') {
+        return new Date(bDate.start).valueOf() - new Date(aDate.start).valueOf();
+      }
+      return 0;
+    },
   );
   return sortDocs.slice(0, maxDocCount);
 };
