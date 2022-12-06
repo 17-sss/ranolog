@@ -42,7 +42,7 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
     useDocNav(currentDocs);
 
   /** DocNav Button 클릭 (글 이동) */
-  const handleNavButtonClick = useCallback(
+  const handlePostNavButtonClick = useCallback(
     async (id: string) => {
       const resetComments = () => {
         const DELAY_MS = 300;
@@ -54,5 +54,5 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
     [router, selectedCategory],
   );
 
-  return {commentsRef, postDocsNavInfo, isExistAnotherPosts, handleNavButtonClick};
+  return {commentsRef, postDocsNavInfo, isExistAnotherPosts, handlePostNavButtonClick};
 };

@@ -3,11 +3,11 @@ import {useMemo} from 'react';
 import {createDateText} from '@src/blog';
 import {CustomCode, CssProp, MarkdownRenderer, PostDocument, systemCss} from '@src/shared';
 
-export interface PostProps {
+export interface PostDetailProps {
   postDoc: PostDocument;
 }
 
-const Post: React.FC<PostProps> = ({postDoc, ...props}) => {
+const PostDetail: React.FC<PostDetailProps> = ({postDoc, ...props}) => {
   const categories = useMemo(() => {
     const postCategories = postDoc.category;
     if (!postCategories || (Array.isArray(postCategories) && postCategories.length === 0)) {
@@ -43,7 +43,7 @@ const Post: React.FC<PostProps> = ({postDoc, ...props}) => {
   );
 };
 
-export default Post;
+export default PostDetail;
 
 const containerCss: CssProp = systemCss({});
 

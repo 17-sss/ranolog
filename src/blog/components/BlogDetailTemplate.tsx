@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useBlogDetailTemplate, Post, Comments, utterancAttrs} from '@src/blog';
+import {useBlogDetailTemplate, PostDetail, Comments, utterancAttrs} from '@src/blog';
 import {CssProp, PostDocument, systemCss, Divider, DocNav} from '@src/shared';
 
 export interface BlogDetailTemplateProps {
@@ -8,7 +8,7 @@ export interface BlogDetailTemplateProps {
 }
 
 const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDocs, ...props}) => {
-  const {commentsRef, postDocsNavInfo, isExistAnotherPosts, handleNavButtonClick} =
+  const {commentsRef, postDocsNavInfo, isExistAnotherPosts, handlePostNavButtonClick} =
     useBlogDetailTemplate(postDocs);
   const postDoc = postDocsNavInfo.current;
   if (!postDoc) {
@@ -16,13 +16,13 @@ const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDocs, ...pro
   }
   return (
     <div css={containerCss} {...props}>
-      <Post css={postCss} postDoc={postDoc} />
+      <PostDetail css={postCss} postDoc={postDoc} />
       {isExistAnotherPosts && (
         <>
           <DocNav
             prevDoc={postDocsNavInfo.prev}
             nextDoc={postDocsNavInfo.next}
-            onNavButtonClick={handleNavButtonClick}
+            onNavButtonClick={handlePostNavButtonClick}
           />
           <Divider />
         </>
