@@ -1,2 +1,2 @@
-export * from './blog';
-export * from './project';
+export * from './constants';
+export * from './functions';
