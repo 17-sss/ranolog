@@ -9,7 +9,6 @@ import Header from '.';
 const storyDefault = {
   title: 'components/shared/Header',
   component: Header,
-  parameters: {controls: {disable: true}},
 } as ComponentMeta<typeof Header>;
 
 export default storyDefault;

@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {PageLayout} from '@src/shared';
+import {createSortedProjectDocsMock, PageLayout} from '@src/shared';
 
 import ProjectDetailPage from './index.page';
 
@@ -24,5 +24,13 @@ const Template: ComponentStory<typeof ProjectDetailPage> = (args) => {
   return <ProjectDetailPage {...args} />;
 };
 
+const projectDocs = createSortedProjectDocsMock();
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {projectDocs};
+Default.parameters = {
+  nextRouter: {
+    query: {
+      id: projectDocs[Math.floor(projectDocs.length / 2)].id,
+    },
+  },
+};

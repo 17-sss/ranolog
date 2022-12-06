@@ -1,0 +1,82 @@
+---
+subject: 'Rano’s Portfolio'
+date: {start: '2021-11-08', end: '2021-11-20'}
+skills: ['Gatsby', 'React', 'TypeScript', 'Material UI']
+category: {type: 'project'}
+links:
+  [
+    {text: 'Deploy', href: 'https://17-sss.github.io/portfolio/'},
+    {text: 'GitHub', href: 'https://github.com/17-sss/blog_portfolio-workspace'},
+  ]
+thumbnail: '/docs/projects/ranoPortfolio/thumbnail.png'
+summary: 'Gatsby를 활용한 나만의 포트폴리오'
+---
+
+
+<Typography backgroundColor="gray" variant="h3">
+  🧚🏻 구현 요약
+</Typography>
+
+- 모든 컴포넌트, 로직들을 재사용성을 생각하여 분리하는데 초점을 두었습니다.
+- 반응형과 애니메이션을 처음으로 깊이 있게 고민하며 제작한 프로젝트입니다.
+- Intersection Observer를 활용하여 현재 보고있는 화면이 각 요소에 접근 시 애니메이션이 실행되도록 하였습니다.
+- Context API를 활용하여 전역 상태관리를 하였습니다.
+
+<Typography backgroundColor="gray" variant="h3">
+  🤔 고민한 점
+</Typography>
+
+**사용자가 보고 있는 화면이 각 요소가 있는 영역에 도달했을 때 애니메이션이 실행** ⇒ <Typography isItalic isBold color="gray">Intersection Observer 활용</Typography>
+
+<Divider height="1rem" />
+<ol>
+  <li>
+    <CustomCode color="gray" isBold>문제</CustomCode>
+    <span> 해당 기능을 구현하기 위해 **Scroll Event**를 활용에 대해 고민했지만, 많은 리소스가 소모될 것 같음</span>
+    <br/>
+    <CustomCode color="purple" isBold>해결</CustomCode>
+    <span>**Intersection Observer API**를 기반으로 한 커스텀 훅 `useScrollAnimations`를 제작</span>
+  </li>
+  <Divider height='1rem' />
+  <li>
+    <CustomCode color="gray" isBold>문제</CustomCode>
+    <span>외부 스타일 시트의 영향을 최대한 받지 않고, 스타일이 적용되어야 함</span>
+    <br/>
+    <CustomCode color="purple" isBold>해결</CustomCode>
+    <span>“인라인 스타일”에 애니메이션 관련 스타일 적용</span>
+  </li>
+  <Divider height='1rem' />
+  <li>
+    <CustomCode color="gray" isBold>문제</CustomCode>
+    <span>컴포넌트의 최상위 요소가 아닌 모든 <u>자식 요소</u>까지 <u>애니메이션이 적용</u>되어야 함</span>
+    <br/>
+    <CustomCode color="purple" isBold>해결</CustomCode>
+    <span>**DFS** 알고리즘을 활용하여 컴포넌트에서 렌더링하는 <u>모든 자식 요소</u>들을 **Observe** 하도록 개선</span>
+  </li>
+  <Divider height='1rem' />
+  <li>
+    <CustomCode color="gray" isBold>문제</CustomCode>
+    <span>특정 자식 요소는 **Observe** 되어서는 안됨.</span>
+    <br/>
+    <CustomCode color="purple" isBold>해결</CustomCode>
+    <span> 제외 될 요소의 **css selector**를 `useScrollAnimations` 에 전달하여 **Observe** 하지 않도록 함.</span>
+  </li>
+
+</ol>
+
+<Divider />
+<br />
+
+**생성한 컴포넌트에 Ref가 전달이 되어야 함** ⇒ <Typography isItalic isBold color="gray">React의 forwardRef 활용</Typography>
+
+<Divider height="1rem" />
+<ol>
+  <li>
+    <CustomCode color="gray" isBold>문제</CustomCode>
+    <span>컴포넌트에서 렌더링하는 <u>자식 컴포넌트들</u>에 ref 프로퍼티가 전달되지 않는 문제</span>
+    <br/>
+    <CustomCode color="purple" isBold>해결</CustomCode>
+    <span>자식 <u>컴포넌트</u>에 **forwardRef**를 <u>적용</u>하여 자식 컴포넌트를 렌더링하는 컴포넌트에서 **ref** 참조할 수 있도록 함</span>
+  </li>
+
+</ol>

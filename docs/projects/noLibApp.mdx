@@ -1,0 +1,78 @@
+---
+subject: 'No Library App'
+date: {start: '2022-01-16', end: '2022-02-06'}
+skills: ['HTML', 'CSS', 'JavaScript', 'TypeScript']
+category: {type: 'project'}
+links: [{text: 'GitHub', href: 'https://github.com/17-sss/no-lib-App'}]
+thumbnail: '/docs/projects/noLibApp/thumbnail.png'
+summary: 'React와 같은 라이브러리의 도움 없이 SPA 만들기 (게시판 만들기)'
+---
+
+<Typography backgroundColor="gray" variant="h3">
+  🧚🏻 구현 요약
+</Typography>
+
+- `HTML`, `CSS`, `JS` 와 `Webpack` 을 활용하여 **Single Page Application**를 제작합니다.
+- 상태 변경에 따라 렌더링하는 HTML 요소들도 업데이트 할 수 있도록 DIFF 알고리즘을 활용하였습니다.
+- 많은 이벤트가 등록되는 현상을 피하기 위해 이벤트 델리게이션 기법을 활용하였습니다.
+- 로컬 스토리지를 활용하여 새로고침이 되어도 현재 작성하고 있는 정보들이 유지되도록 하였습니다.
+
+<Typography backgroundColor="gray" variant="h3">
+  🤔 고민한 점
+</Typography>
+
+**컴포넌트의 템플릿(HTML 요소들)** 을 원하는 타깃 요소에 렌더링 ⇒ <Typography isItalic isBold color="gray">id 선택자 적용, 고유 컴포넌트 id 생성</Typography>
+
+<Divider height="1rem" />
+<ol>
+  <li>
+    <CustomCode color="gray" isBold>문제</CustomCode>
+    <span>**컴포넌트**에서 추가적으로 생성하는 <Typography isBold color="brown">자식 컴포넌트</Typography>의 템플릿이 **컴포넌트** 가 생성된 타깃 요소에 렌더링 됨.</span>
+    <br/>
+    <CustomCode color="purple" isBold>해결</CustomCode>
+    <span>**컴포넌트**가 렌더링하는 템플릿 내의 HTML 요소 중 <Typography isBold color="brown">자식 컴포넌트</Typography>를 렌더링 하고자 하는 요소의 id 선택자를 전달.</span>
+  </li>
+  <Divider height='1rem' />
+  <li>
+    <CustomCode color="gray" isBold>문제</CustomCode>
+    <span>같은 컴포넌트가 다수 생성될 시에 적용된 id 선택자의 정보들이 **중복**됨.</span>
+    <br/>
+    <CustomCode color="purple" isBold>해결</CustomCode>
+    <span>컴포넌트 자체에 <u>고유 컴포넌트 id</u>를 **생성**함으로써 해결</span>
+    <ul className="ml--double">
+      <li>고유 컴포넌트 id 정보를 기반으로 데이터를 추가, 수정, 삭제 시 원활한 동작을 가능하게 함.</li>
+    </ul>
+  </li>
+
+</ol>
+
+<Divider />
+<br />
+
+**컴포넌트 상태 변경에 따라 렌더링되는 HTML 요소들 업데이트** ⇒ <Typography isItalic isBold color="gray">DIFF 알고리즘 활용</Typography>
+
+<Divider height="1rem" />
+<ol>
+  <li>
+    <CustomCode color="gray" isBold>문제</CustomCode>
+    <span>상태 변경이 감지되었을 때, 컴포넌트가 렌더링하는 요소들도 업데이트 되어야 함</span>
+    <br/>
+    <CustomCode color="purple" isBold>해결</CustomCode>
+    <span>상태 변경 시 컴포넌트의 HTML 요소들을 렌더링하는 메소드를 실행하도록 변경</span>
+  </li>
+  <Divider height='1rem' />
+  <li>
+    <CustomCode color="gray" isBold>문제</CustomCode>
+    <span>컴포넌트의 템플릿의 요소들은 변경된 상태에 따라 내용이 업데이트 되어야 함.</span>
+    <br/>
+    <CustomCode color="purple" isBold>해결</CustomCode>
+    <Typography isItalic isBold>👇 내용 참고</Typography>
+    <ul className="ml--double">
+      <li>컴포넌트가 생성 되어있는 요소(타깃 요소)의 자식 요소들의 정보를 가져옴</li>
+      <li>컴포넌트가 렌더링하는 템플릿(HTML 요소들)을 변경된 상태 데이터를 기반으로 재생성 </li>
+      <li>타깃 요소의 자식 요소들 중에서 재생성한 컴포넌트의 템플릿의 내용이 들어갈 곳을 찾음</li>
+      <li>들어갈 곳을 찾은 후 세부적으로 비교한 뒤 내용 업데이트 (추가 / 제거 여부, 속성, 텍스트 등)</li>
+    </ul>
+  </li>
+
+</ol>

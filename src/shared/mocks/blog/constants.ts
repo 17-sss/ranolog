@@ -1,4 +1,3 @@
-import samplePostImage from '../../assets/sample_post.jpeg';
 import {PostDocument} from '../../types';
 
 export const sampleContentHtml = `<h3>> Headings</h3>
@@ -100,7 +99,7 @@ export const tempPosts: Omit<PostDocument, 'id' | 'category' | 'date'>[] = [
   {
     subject: 'dolor sit amet',
     content: `${sampleContentHtml}${samplePrismHtml}`,
-    imageSrc: samplePostImage,
+    imageSrc: '/sample.jpg',
     extension: '.md',
   },
 ];

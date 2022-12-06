@@ -22,3 +22,6 @@ const Template: ComponentStory<typeof Divider> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {};
+
+export const WithText = Template.bind({});
+WithText.args = {children: 'I am Divider'};
