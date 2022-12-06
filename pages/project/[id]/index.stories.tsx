@@ -9,6 +9,11 @@ import ProjectDetailPage from './index.page';
 const storyDefault = {
   title: 'pages/project/ProjectDetailPage',
   component: ProjectDetailPage,
+  argTypes: {
+    projectDocs: {
+      control: false,
+    },
+  },
   decorators: [
     (Story) => (
       <PageLayout>

@@ -1,3 +1,4 @@
+import {ProjectList} from '@src/project';
 import {CssProp, ProjectDocument, systemCss} from '@src/shared';
 
 export interface ProjectTemplateProps {
@@ -5,7 +6,11 @@ export interface ProjectTemplateProps {
 }
 
 const ProjectTemplate: React.FC<ProjectTemplateProps> = ({projectDocs, ...props}) => {
-  return <div css={containerCss} {...props}></div>;
+  return (
+    <div css={containerCss} {...props}>
+      <ProjectList projectDocs={projectDocs} />
+    </div>
+  );
 };
 
 export default ProjectTemplate;

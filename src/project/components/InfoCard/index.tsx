@@ -158,9 +158,6 @@ const textItemCss: CssProp = systemCss({
     gap: '0.25rem',
     flexWrap: 'wrap',
   },
-  strong: {
-    fontWeight: 'bold',
-  },
 });
 
 const thumbnailBoxCss: CssProp = systemCss({

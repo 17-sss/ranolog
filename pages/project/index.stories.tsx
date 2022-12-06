@@ -2,13 +2,18 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {PageLayout} from '@src/shared';
+import {createSortedProjectDocsMock, PageLayout} from '@src/shared';
 
 import ProjectPage from './index.page';
 
 const storyDefault = {
   title: 'pages/project/ProjectPage',
   component: ProjectPage,
+  argTypes: {
+    projectDocs: {
+      control: false,
+    },
+  },
   decorators: [
     (Story) => (
       <PageLayout>
@@ -25,4 +30,4 @@ const Template: ComponentStory<typeof ProjectPage> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {projectDocs: createSortedProjectDocsMock()};

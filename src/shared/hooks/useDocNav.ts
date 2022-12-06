@@ -2,7 +2,7 @@ import {useMemo} from 'react';
 
 import {useRouter} from 'next/router';
 
-import {DefaultDocument} from '@root/src/lib';
+import {DefaultDocument} from '@src/lib';
 
 import {valueOrLastItem} from '../functions';
 
