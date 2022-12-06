@@ -13,11 +13,11 @@ import {
   Typography,
 } from '@src/shared';
 
-export interface InfoCardProps extends Omit<ProjectDocument, 'content' | 'extension' | 'id'> {}
+export interface ProjectInfoProps extends Omit<ProjectDocument, 'content' | 'extension' | 'id'> {}
 
 const isExternalLink = (href: string) => /^http/.test(href);
 
-const InfoCard: React.FC<InfoCardProps> = ({
+const ProjectInfo: React.FC<ProjectInfoProps> = ({
   subject,
   date,
   skills,
@@ -113,7 +113,7 @@ const InfoCard: React.FC<InfoCardProps> = ({
   );
 };
 
-export default InfoCard;
+export default ProjectInfo;
 
 const containerCss: CssProp = systemCss({
   '& > * + *': {

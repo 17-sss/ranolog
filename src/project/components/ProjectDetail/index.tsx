@@ -2,21 +2,21 @@ import {useMemo} from 'react';
 
 import {CssProp, Divider, MarkdownRenderer, ProjectDocument, systemCss} from '@src/shared';
 
-import InfoCard, {InfoCardProps} from '../InfoCard';
+import ProjectInfo, {ProjectInfoProps} from '../ProjectInfo';
 
 export interface ProjectDetailProps {
   projectDoc: ProjectDocument;
 }
 
 const ProjectDetail: React.FC<ProjectDetailProps> = ({projectDoc, ...props}) => {
-  const infoCardProps: InfoCardProps = useMemo(() => {
+  const infoCardProps: ProjectInfoProps = useMemo(() => {
     const {category, date, subject, thumbnail, links, skills, summary} = projectDoc;
     return {category, date, subject, thumbnail, links, skills, summary};
   }, [projectDoc]);
 
   return (
     <div css={containerCss} {...props}>
-      <InfoCard {...infoCardProps} />
+      <ProjectInfo {...infoCardProps} />
       <Divider css={dividerCss} />
       <MarkdownRenderer css={markdownRendererCss} content={projectDoc.content} />
     </div>

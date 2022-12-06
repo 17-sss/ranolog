@@ -4,17 +4,17 @@ import {ComponentStory, ComponentMeta} from '@storybook/react';
 
 import {createProjectDocsMock} from '@src/shared';
 
-import InfoCard from './index';
+import ProjectInfo from './index';
 
 const storyDefault = {
-  title: 'components/project/InfoCard',
-  component: InfoCard,
-} as ComponentMeta<typeof InfoCard>;
+  title: 'components/project/ProjectInfo',
+  component: ProjectInfo,
+} as ComponentMeta<typeof ProjectInfo>;
 
 export default storyDefault;
 
-const Template: ComponentStory<typeof InfoCard> = (args) => {
-  return <InfoCard {...args} />;
+const Template: ComponentStory<typeof ProjectInfo> = (args) => {
+  return <ProjectInfo {...args} />;
 };
 
 export const Default = Template.bind({});
