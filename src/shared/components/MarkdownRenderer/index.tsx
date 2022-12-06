@@ -1,7 +1,7 @@
 import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote';
 import {rgba} from 'polished';
 
-import {CustomCode, Typography} from '../../components';
+import {CustomCode, Typography, Divider} from '../../components';
 import {CssProp, systemCss} from '../../system';
 
 export interface MarkdownRendererProps {
@@ -14,7 +14,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({content, ...props}) 
   }
   return (
     <div css={containerCss} {...props}>
-      <MDXRemote {...content} components={{CustomCode, Typography}} />
+      <MDXRemote {...content} components={{CustomCode, Typography, Divider}} />
     </div>
   );
 };
@@ -37,22 +37,22 @@ const containerCss: CssProp = (theme) =>
         mt: '1.5rem',
       },
     h1: {
-      fontSize: [theme.fontSizes.p28, theme.fontSizes.p32],
+      fontSize: theme.fontSizes.p32,
     },
     h2: {
-      fontSize: [theme.fontSizes.p24, theme.fontSizes.p28],
+      fontSize: theme.fontSizes.p28,
     },
     h3: {
-      fontSize: [theme.fontSizes.p20, theme.fontSizes.p24],
+      fontSize: theme.fontSizes.p24,
     },
     h4: {
-      fontSize: [theme.fontSizes.p18, theme.fontSizes.p20],
+      fontSize: theme.fontSizes.p20,
     },
     h5: {
-      fontSize: [theme.fontSizes.p16, theme.fontSizes.p18],
+      fontSize: theme.fontSizes.p18,
     },
     'h6, p': {
-      fontSize: [theme.fontSizes.p14, theme.fontSizes.p16],
+      fontSize: theme.fontSizes.p16,
     },
 
     'ol, ul': {
@@ -61,6 +61,9 @@ const containerCss: CssProp = (theme) =>
       listStyle: 'revert',
       '&.alpha': {
         listStyle: 'lower-alpha',
+      },
+      '&.ml--double': {
+        ml: '2.5rem',
       },
     },
 

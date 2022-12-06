@@ -31,3 +31,6 @@ export function valueOrLastItem<T>(value: T | T[]) {
   }
   return value;
 }
+
+export const changeFirstCharUpperCase = (str: string): string =>
+  str.toLowerCase().replace(/(^|\s)\S/g, (L) => L.toUpperCase());

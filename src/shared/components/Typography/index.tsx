@@ -18,16 +18,18 @@ export interface TypographyProps extends Partial<TypographyInnerProps> {
   color?: TypographyColor;
   backgroundColor?: TypographyColor;
   isBold?: boolean;
+  isItalic?: boolean;
 }
 const Typography: React.FC<TypographyProps> = ({
-  variant = 'p',
+  variant = 'span',
   backgroundColor,
   color,
   isBold,
+  isItalic,
   ...props
 }) => (
   <TypographyInner
-    css={typographyCss({variant, backgroundColor, color, isBold})}
+    css={typographyCss({variant, backgroundColor, color, isBold, isItalic})}
     variant={variant}
     {...props}
   />
@@ -36,34 +38,31 @@ const Typography: React.FC<TypographyProps> = ({
 export default Typography;
 
 // STYLES
-
-interface TypographyCssParams {
+type TypographyCssParams = Omit<TypographyProps, 'children' | 'variant'> & {
   variant: TypographyVariant;
-  backgroundColor?: TypographyColor;
-  color?: TypographyColor;
-  isBold?: boolean;
-}
+};
 const typographyCss: (params: TypographyCssParams) => CssProp = ({
   variant,
   backgroundColor,
   color,
   isBold,
+  isItalic,
 }) => [
   (theme) => {
     const getFontSize = (variant: TypographyVariant) => {
       switch (variant) {
         case 'h1':
-          return [theme.fontSizes.p28, theme.fontSizes.p32];
+          return theme.fontSizes.p32;
         case 'h2':
-          return [theme.fontSizes.p24, theme.fontSizes.p28];
+          return theme.fontSizes.p28;
         case 'h3':
-          return [theme.fontSizes.p20, theme.fontSizes.p24];
+          return theme.fontSizes.p24;
         case 'h4':
-          return [theme.fontSizes.p18, theme.fontSizes.p20];
+          return theme.fontSizes.p20;
         case 'h5':
-          return [theme.fontSizes.p16, theme.fontSizes.p18];
+          return theme.fontSizes.p18;
         default:
-          return [theme.fontSizes.p14, theme.fontSizes.p16]; // p, span, h6
+          return theme.fontSizes.p16; // p, span, h6
       }
     };
     return systemCss({
@@ -74,5 +73,6 @@ const typographyCss: (params: TypographyCssParams) => CssProp = ({
   color && systemCss({color: colors[color]}),
   (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(variant) || isBold) &&
     systemCss({fontWeight: 'bold'}),
+  isItalic && systemCss({fontStyle: 'italic'}),
   ['p'].includes(variant) && systemCss({py: '0.1875rem'}),
 ];

@@ -4,6 +4,7 @@ import {theme} from '../../theme';
 export interface DividerProps {
   color?: keyof typeof theme.colors;
   width?: string;
+  height?: string;
   dashed?: boolean;
   vertical?: boolean;
   children?: React.ReactNode;
@@ -12,6 +13,7 @@ export interface DividerProps {
 export const Divider: React.FC<DividerProps> = ({
   color = 'gray300',
   width = '1px',
+  height,
   dashed,
   vertical = false,
   children,
@@ -19,7 +21,10 @@ export const Divider: React.FC<DividerProps> = ({
 }) => {
   return (
     <div
-      css={[containerCss({color, width, dashed}), vertical && verticalContainerCss({color, width})]}
+      css={[
+        containerCss({color, width, height, dashed}),
+        vertical && verticalContainerCss({color, width}),
+      ]}
       {...props}
     >
       {children && <div css={contentCss}>{children}</div>}
@@ -29,11 +34,15 @@ export const Divider: React.FC<DividerProps> = ({
 
 export default Divider;
 
-type DividerStyleProps = Pick<DividerProps, 'dashed'> &
+type DividerStyleProps = Pick<DividerProps, 'height' | 'dashed'> &
   Required<Pick<DividerProps, 'color' | 'width'>>;
 
-const containerCss: (styleProps: DividerStyleProps) => CssProp =
-  ({color, dashed, width}) =>
+const containerCss: (styleProps: DividerStyleProps) => CssProp = ({
+  color,
+  dashed,
+  width,
+  height,
+}) => [
   (theme) =>
     systemCss({
       display: 'flex',
@@ -46,7 +55,9 @@ const containerCss: (styleProps: DividerStyleProps) => CssProp =
         borderTop: `${width} ${dashed ? 'dashed' : 'solid'}`,
         borderColor: theme.colors[color],
       },
-    });
+    }),
+  height && systemCss({height: height}),
+];
 
 const verticalContainerCss: (styleProps: DividerStyleProps) => CssProp =
   ({color, width}) =>

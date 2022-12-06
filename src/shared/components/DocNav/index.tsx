@@ -12,7 +12,7 @@ export type DocumentSummaryInfo<TDoc extends DefaultDocument = DefaultDocument> 
 export interface DocNavProps<TDoc extends DefaultDocument = DefaultDocument> {
   prevDoc?: DocumentSummaryInfo<TDoc>;
   nextDoc?: DocumentSummaryInfo<TDoc>;
-  onNavButtonClick: (id: string) => void;
+  onNavButtonClick?: (id: string) => void;
 }
 
 const DocNav = <TDoc extends DefaultDocument = DefaultDocument>({
@@ -29,7 +29,7 @@ const DocNav = <TDoc extends DefaultDocument = DefaultDocument>({
         }
         const isPrev = idx % 2 === 0;
         return (
-          <button key={idx} css={navButtonCss} onClick={() => onNavButtonClick(aDoc.id)}>
+          <button key={idx} css={navButtonCss} onClick={() => onNavButtonClick?.(aDoc.id)}>
             <p css={docTextCss} className="type">
               {isPrev && <FiArrowLeft />}
               <span>{isPrev ? 'Previous' : 'Next'}</span>

@@ -52,7 +52,7 @@ const colorCss = (color?: ColorNames) => {
     red: `rgba(212, 76, 71, 1)`,
   };
   return systemCss({
-    color: colorInfo[color ?? 'red'],
+    color: `${colorInfo[color ?? 'red']} !important`,
   });
 };
 
