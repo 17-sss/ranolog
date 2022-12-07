@@ -1,4 +1,4 @@
-import configData from '@root/blog.config';
+import {configData} from '@root/blog.data';
 
 import {commonPxValues, commonWidthCss, findPrevStyledValue} from '../../styles';
 import {CssProp, systemCss} from '../../system';

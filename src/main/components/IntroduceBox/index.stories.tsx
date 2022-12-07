@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import configData from '@root/blog.config';
+import {configData} from '@root/blog.data';
 
 import IntroduceBox from './index';
 
@@ -19,5 +19,5 @@ const Template: ComponentStory<typeof IntroduceBox> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  ...configData.main,
+  ...configData.mainPage,
 };

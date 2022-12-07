@@ -1,7 +1,7 @@
 import {FaGithub} from 'react-icons/fa';
 import {HiOutlineMail} from 'react-icons/hi';
 
-import configData from '@root/blog.config';
+import {configData} from '@root/blog.data';
 
 import {centerAlignedChildren, commonPxValues} from '../../styles';
 import {CssProp, systemCss} from '../../system';
