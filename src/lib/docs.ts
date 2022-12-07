@@ -26,7 +26,7 @@ const REGEX_MARKDOWN = /\.mdx?$/;
 const docsDir = path.join(process.cwd(), 'docs');
 
 /** [async] Markdown Text -> HTML 변환 */
-export const markdownToHtml = async (content: string) => {
+const markdownToHtml = async (content: string) => {
   const result = await remark()
     .use(remarkGfm)
     .use(remarkHtml, {sanitize: false})
@@ -36,24 +36,24 @@ export const markdownToHtml = async (content: string) => {
 };
 
 /** [async] Markdown Text -> HTML 변환 (for MDX) */
-export const markdownToHtmlForMDX = async (content: string) => {
+const markdownToHtmlForMDX = async (content: string) => {
   const result = await serialize(content, {
     mdxOptions: {remarkPlugins: [remarkGfm, remarkHtml], rehypePlugins: [mdxPrism]},
   });
   return result;
 };
 
+export const createMarkdownContent = async (content: string, extension?: string) => {
+  if (extension === '.mdx') {
+    return markdownToHtmlForMDX(content);
+  }
+  return await markdownToHtml(content);
+};
+
 /** [async] 모든 정적 데이터 가져옴  */
 export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocument>(
   subFolderType?: SubFolderType,
 ): Promise<TDoc[]> => {
-  const createContent = async (content: string, extension?: string) => {
-    if (extension === '.mdx') {
-      return markdownToHtmlForMDX(content);
-    }
-    return await markdownToHtml(content);
-  };
-
   const result: TDoc[] = [];
   try {
     const currentDir = path.join(docsDir, subFolderType ?? '');
@@ -65,7 +65,7 @@ export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocumen
       const id = fileName.replace(REGEX_MARKDOWN, '');
       const extension = fileName.match(REGEX_MARKDOWN)?.[0] ?? 'unknown';
       const matterResult = matter(fileContents);
-      const content = await createContent(matterResult.content, extension);
+      const content = await createMarkdownContent(matterResult.content, extension);
       result.push({...matterResult.data, id, content, extension} as TDoc);
     }
   } catch (e) {
@@ -107,5 +107,29 @@ export const getDocumentIds = async (subFolderType: SubFolderType) => {
   } catch (e) {
     console.error(e);
     return [];
+  }
+};
+
+interface GetDocumentsParams {
+  fileName: string;
+  subFolderType?: SubFolderType;
+}
+
+/** [async] 단일 정적 데이터 가져옴 (파일명으로 가져옴)  */
+export const getDocumentByFileName = async <TDoc extends DefaultDocument = DefaultDocument>({
+  fileName,
+  subFolderType,
+}: GetDocumentsParams): Promise<TDoc | null> => {
+  try {
+    const fullPath = path.join(docsDir, subFolderType ?? '', fileName);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const id = fileName.replace(REGEX_MARKDOWN, '');
+    const extension = fileName.match(REGEX_MARKDOWN)?.[0] ?? 'unknown';
+    const matterResult = matter(fileContents);
+    const content = await createMarkdownContent(matterResult.content, extension);
+    return {...matterResult.data, id, content, extension} as TDoc;
+  } catch (e) {
+    console.error(e);
+    return null;
   }
 };

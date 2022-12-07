@@ -3,7 +3,7 @@ import {Fragment} from 'react';
 import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote';
 import {rgba} from 'polished';
 
-import {CustomCode, Typography, Divider} from '../../components';
+import {CustomCode, CustomLink, Typography, Divider} from '../../components';
 import {CssProp, systemCss} from '../../system';
 
 export interface MarkdownRendererProps {
@@ -12,11 +12,27 @@ export interface MarkdownRendererProps {
 
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({content, ...props}) => {
   if (typeof content === 'string') {
-    return <div css={containerCss} dangerouslySetInnerHTML={{__html: content}} {...props} />;
+    return (
+      <div
+        css={[containerCss, anchorCss, codeCss]}
+        dangerouslySetInnerHTML={{__html: content}}
+        {...props}
+      />
+    );
   }
   return (
-    <div css={containerCss} {...props}>
-      <MDXRemote {...content} components={{CustomCode, Typography, Divider, Fragment}} />
+    <div css={[containerCss, codeCss]} {...props}>
+      <MDXRemote
+        {...content}
+        components={{
+          a: ({href, children}) => <CustomLink href={href ?? ''}>{children}</CustomLink>,
+          CustomLink,
+          CustomCode,
+          Typography,
+          Divider,
+          Fragment,
+        }}
+      />
     </div>
   );
 };
@@ -56,7 +72,6 @@ const containerCss: CssProp = (theme) =>
     'h6, p': {
       fontSize: theme.fontSizes.p16,
     },
-
     'ol, ul': {
       ml: '1.25rem',
       py: '0.4rem',
@@ -67,8 +82,10 @@ const containerCss: CssProp = (theme) =>
       '&.ml--double': {
         ml: '2.5rem',
       },
+      '& > li + li': {
+        mt: '0.2rem',
+      },
     },
-
     hr: {
       border: 'none',
       boxShadow: `0 0 0 0.1px ${theme.colors.black}`,
@@ -79,15 +96,6 @@ const containerCss: CssProp = (theme) =>
       },
     },
 
-    a: {
-      color: theme.colors.gray500,
-      borderBottom: `1px solid ${rgba(theme.colors.gray500, 0.5)}`,
-      fontWeight: 600,
-      textDecoration: 'none',
-      outline: 'none',
-      opacity: 0.7,
-    },
-
     /** Markdown "> blah blah.." */
     blockquote: {
       my: '0.75rem',
@@ -96,17 +104,6 @@ const containerCss: CssProp = (theme) =>
       backgroundColor: rgba(theme.colors.gray100, 0.8),
       borderLeft: `0.25rem solid ${theme.colors.gray300}`,
     },
-
-    /** default <code> */
-    '*:not(pre) > code': {
-      fontFamily: `'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace`,
-      backgroundColor: 'rgba(135, 131, 120, 0.15)',
-      borderRadius: '0.1875rem',
-      fontSize: '85%',
-      p: '0.25rem 0.45rem',
-      color: 'rgba(212, 76, 71, 1)',
-    },
-
     table: {
       my: '0.5rem',
       borderCollapse: 'collapse',
@@ -127,3 +124,26 @@ const containerCss: CssProp = (theme) =>
       },
     },
   });
+
+const anchorCss: CssProp = (theme) =>
+  systemCss({
+    a: {
+      color: theme.colors.gray500,
+      borderBottom: `1px solid ${rgba(theme.colors.gray500, 0.5)}`,
+      fontWeight: 600,
+      textDecoration: 'none',
+      outline: 'none',
+      opacity: 0.7,
+    },
+  });
+
+const codeCss: CssProp = systemCss({
+  '*:not(pre) > code': {
+    fontFamily: `'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace`,
+    backgroundColor: 'rgba(135, 131, 120, 0.15)',
+    borderRadius: '0.1875rem',
+    fontSize: '85%',
+    p: '0.25rem 0.45rem',
+    color: 'rgba(212, 76, 71, 1)',
+  },
+});

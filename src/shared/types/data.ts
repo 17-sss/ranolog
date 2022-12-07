@@ -19,3 +19,10 @@ export interface ProjectDocument extends DefaultDocument {
   }[];
   thumbnail?: string;
 }
+
+export interface ResumeDocument extends DefaultDocument {
+  name: string;
+  job: string;
+  email?: string;
+  introduce?: string | string[];
+}

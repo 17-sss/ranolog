@@ -1,0 +1,194 @@
+---
+subject: 'Resume'
+date: '2022-12-06'
+name: '손호영'
+job: 'Frontend Engineer'
+email: 'xzxking17@gmail.com'
+introduce:
+  [
+    '큰 변화는 혼자가 아닌 함께 이룰 수 있다고 생각합니다.',
+    '적극적으로 소통하고 리뷰를 통해 다 같이 성장하는 것을 지향합니다.',
+    '매 순간 열정을 놓지 않고, 회고하며 더 나은 개발자가 되기 위해 노력하고 있습니다.',
+  ]
+---
+
+{/* ======================== Experience ======================== */}
+
+<Typography variant="h3" backgroundColor="gray100">
+  <span>👨🏻‍💻 Experience</span>
+</Typography>
+<br />
+
+<Typography variant="h4" color="gray">
+  <CustomLink href="https://www.howbuild.com/">(주)하우빌드</CustomLink>
+</Typography>
+
+<Typography variant="p" color="gray500" fontSize="p15">
+  <span>2022.03 ~ 2022.11</span>
+  <Typography isBold>&nbsp;{'|'}&nbsp;</Typography>
+  <span>Frontend Engineer</span>
+</Typography>
+
+<Typography variant="div" fontSize="p15">
+  {['Next.js', 'React', 'TypeScript', 'JavaScript', 'Storybook'].map((text, idx) => (
+    <Fragment key={idx}>
+      <CustomCode color="gray">
+        <span>{text}</span>
+      </CustomCode>
+      &nbsp;
+    </Fragment>
+  ))}
+</Typography>
+
+<Divider height="1rem" color="transparent" />
+
+<Typography variant="div" fontSize="p15">
+
+- 개발 시 컴포넌트 단위로 테스트하며 작업하기 위해 `Storybook` 활용
+- 컴포넌트의 재사용화를 위해 커스텀 훅으로 비즈니스 로직 분리
+- `emotion` & `Styled System`을 활용하여 반응형 작업 (모바일, 태블릿 등)
+
+</Typography>
+
+<Typography variant="div" fontSize="p15">
+
+- **경쟁입찰 시스템**  
+  입찰에 참여한 모든 건설사의 견적을 한눈에 확인하고 비교할 수 있는 서비스
+  - **건축주, 건설사간의 계약 전환율 증가 (<CustomCode color="orange">43%</CustomCode> ⇒ <CustomCode color="orange">68%</CustomCode>)**
+  - 받아온 데이터를 DFS를 활용하여 정제 후 렌더링
+  - `Intersection Observer`를 활용한 커스텀 훅으로 무한 스크롤 구현
+- **파싱룰 (어드민)**  
+  외부 적산 데이터를 회사의 적산 규칙에 부합하도록 변경하는 기능 구현
+  - **데이터 변환 작업 자동화, 적산 작업 시간 대폭 감소**
+
+</Typography>
+
+<br />
+
+<Typography variant="h4" color="gray">
+  <CustomLink href="https://www.formtec.co.kr/">한국폼텍(주)</CustomLink>
+</Typography>
+
+<Typography variant="p" color="gray500" fontSize="p15">
+  <span>2018.11 ~ 2020.12</span>
+  <Typography isBold>&nbsp;{'|'}&nbsp;</Typography>
+  <span>Maintenance Engineer</span>
+</Typography>
+
+<Typography variant="div" fontSize="p15">
+  {['Delphi', 'DevExpress'].map((text, idx) => (
+    <Fragment key={idx}>
+      <CustomCode color="gray">
+        <span>{text}</span>
+      </CustomCode>
+      &nbsp;
+    </Fragment>
+  ))}
+</Typography>
+
+<Divider height="1rem" color="transparent" />
+
+<Typography variant="div" fontSize="p15">
+
+- **이미지 필드 개발**
+  - **유저 인입 전월 대비 <CustomCode color="orange">15%</CustomCode>이상 증가**
+  - 데이터 값에 따라 이미지가 변경되도록 구현
+- **주소검색 기능 개발**
+  - 사용자 데이터 (Excel, Access) 기반으로 주소 검색
+  - 주소 검색 시 다수의 데이터를 발견했을 경우, 결과 값 내에서 주소를 선택할 수 있도록 구현
+- **클립아트, 샘플디자인 기능 리팩토링**
+  - 다중 선택과 더블 클릭 시 즉시 적용 등. 다양한 추가 기능 구현
+
+</Typography>
+
+<br /><br />
+
+{/* ======================== Skills ======================== */}
+
+<Typography variant="h3" backgroundColor="gray100">
+  <span>🛠️ Skills</span>
+</Typography>
+<br />
+
+<Typography variant="div" fontSize="p15">
+  {[
+    'HTML',
+    'CSS',
+    'JavaScript',
+    'Typescript',
+    'Webpack',
+    'React',
+    'Gatsby',
+    'Next.js',
+    'Storybook',
+  ].map((text, idx) => (
+    <Fragment key={idx}>
+      <CustomCode color="gray">
+        <span>{text}</span>
+      </CustomCode>
+      &nbsp;
+    </Fragment>
+  ))}
+</Typography>
+
+<Typography variant="div" fontSize="p15">
+
+- 웹 표준을 고려하여 작성하도록 노력하며, **BEM** 방법론을 적용할 수 있습니다.
+- **ES6** 이상의 문법에 익숙하며, `Webpack`을 통한 개발환경을 구성할 수 있습니다.
+- `React` ContextAPI와 `Recoil` 등을 통한 **전역 상태관리**를 할 수 있습니다.
+- `Gatsby`, `Next.js`등을 활용하여 웹 애플리케이션을 제작할 수 있습니다.
+- 라이브러리, 프레임워크 없이 `HTML`, `CSS`, `JS`만으로 동작하는 Single Page Application을 제작할 수 있습니다.
+
+</Typography>
+
+<br /><br />
+
+{/* ======================== Education ======================== */}
+
+<Typography variant="h3" backgroundColor="gray100">
+  <span>📚 Education</span>
+</Typography>
+<br />
+
+<Typography variant="h4" color="gray600">
+  <CustomLink href="https://codesquad.kr/" disableStyle>
+    <span>코드스쿼드 마스터즈 코스</span>
+  </CustomLink>
+</Typography>
+
+<Typography variant="p" color="gray500" fontSize="p15">
+  <span>2021.01 ~ 2021.06</span>
+  <Typography isBold>&nbsp;{'|'}&nbsp;</Typography>
+  <span>Frontend 과정 수료</span>
+</Typography>
+
+<Typography variant="h4" color="gray600">
+  <CustomLink href="https://www.sist.co.kr/index.jsp" disableStyle>
+    <span>쌍용강북교육센터</span>
+  </CustomLink>
+</Typography>
+
+<Typography variant="p" color="gray500" fontSize="p15">
+  <span>2017.11 ~ 2018.05</span>
+  <Typography isBold>&nbsp;{'|'}&nbsp;</Typography>
+  <span>Framework기반의 빅데이터 활용 응용프로그래머 양성과정 수료</span>
+</Typography>
+
+<br /><br />
+
+{/* ======================== Certificate ======================== */}
+
+<Typography variant="h3" backgroundColor="gray100">
+  <span>🏅 Certificate</span>
+</Typography>
+<br />
+
+<Typography variant="h4" color="gray600">
+  <span>정보처리기사</span>
+</Typography>
+
+<Typography variant="p" color="gray500" fontSize="p15">
+  <span>2018.11.16</span>
+  <Typography isBold>&nbsp;{'|'}&nbsp;</Typography>
+  <span>한국산업인력공단</span>
+</Typography>
