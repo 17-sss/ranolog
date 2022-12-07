@@ -37,7 +37,7 @@ const recentPostBoxCss: CssProp = (theme) =>
     },
     '.title': {
       fontSize: [theme.fontSizes.p24, theme.fontSizes.p28],
-      fontWeight: 'bold',
+      fontWeight: 600,
       color: theme.colors.gray700,
     },
   });

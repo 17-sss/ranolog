@@ -76,7 +76,7 @@ const typographyCss: (params: TypographyCssParams) => CssProp = ({
   backgroundColor && systemCss({backgroundColor: backgroundColors[backgroundColor]}),
   color && systemCss({color: colors[color]}),
   (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(variant) || isBold) &&
-    systemCss({fontWeight: 'bold'}),
+    systemCss({fontWeight: 600}),
   isItalic && systemCss({fontStyle: 'italic'}),
   ['p'].includes(variant) && systemCss({py: '0.1875rem'}),
 ];

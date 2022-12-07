@@ -95,7 +95,7 @@ const textItemCss: CssProp = systemCss({
   columnGap: '0.5rem',
   dt: {
     minWidth: '5rem',
-    fontWeight: 'bold',
+    fontWeight: 600,
   },
   dd: {
     flex: '1 1 0',

@@ -116,7 +116,7 @@ const itemContentBoxCss: CssProp = (theme) =>
 
     '& > .subject': {
       fontSize: [theme.fontSizes.p18, theme.fontSizes.p20],
-      fontWeight: 'bold',
+      fontWeight: 600,
     },
     '& > .date': {
       color: theme.colors.gray500,

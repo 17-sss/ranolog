@@ -69,7 +69,7 @@ export const useCategory = (postDocs: PostDocument[]) => {
     const isAllView = name === '전체보기';
     return (
       <Fragment>
-        <span css={[isAllView && systemCss({fontWeight: 'bold'})]}>{name}</span>&nbsp;
+        <span css={[isAllView && systemCss({fontWeight: 600})]}>{name}</span>&nbsp;
         <span>{`(${count})`}</span>
       </Fragment>
     );

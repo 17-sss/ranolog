@@ -137,7 +137,7 @@ const defaultCss = css`
     font-size: ${theme.fontSizes.p16};
   }
   body {
-    font-family: 'Noto Sans KR', 'Roboto', Lato, sans-serif;
+    font-family: Pretendard, 'Noto Sans KR', 'Roboto', Lato, sans-serif;
     line-height: 1.6;
     letter-spacing: -0.04em;
     -webkit-text-size-adjust: 100%;

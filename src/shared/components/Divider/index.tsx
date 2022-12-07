@@ -2,7 +2,7 @@ import {CssProp, systemCss} from '../../system';
 import {theme} from '../../theme';
 
 export interface DividerProps {
-  color?: keyof typeof theme.colors;
+  color?: keyof typeof theme.colors | 'transparent';
   width?: string;
   height?: string;
   dashed?: boolean;
@@ -43,8 +43,9 @@ const containerCss: (styleProps: DividerStyleProps) => CssProp = ({
   width,
   height,
 }) => [
-  (theme) =>
-    systemCss({
+  (theme) => {
+    const colors = {...theme.colors, transparent: 'transparent'};
+    return systemCss({
       display: 'flex',
       alignItems: 'center',
       '&:after, &:before': {
@@ -53,24 +54,27 @@ const containerCss: (styleProps: DividerStyleProps) => CssProp = ({
         display: 'block',
         minWidth: '2rem',
         borderTop: `${width} ${dashed ? 'dashed' : 'solid'}`,
-        borderColor: theme.colors[color],
+        borderColor: colors[color],
       },
-    }),
+    });
+  },
   height && systemCss({height: height}),
 ];
 
 const verticalContainerCss: (styleProps: DividerStyleProps) => CssProp =
   ({color, width}) =>
-  () =>
-    systemCss({
+  (theme) => {
+    const colors = {...theme.colors, transparent: 'transparent'};
+    return systemCss({
       flexDirection: 'column',
       '&:after, &:before': {
         borderTop: 'none',
         borderLeft: `${width} solid`,
         minWidth: 'auto',
-        borderColor: theme.colors[color],
+        borderColor: colors[color],
       },
     });
+  };
 
 const contentCss: CssProp = systemCss({
   flex: '0 1 auto',

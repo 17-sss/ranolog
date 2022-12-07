@@ -20,6 +20,12 @@ class MyDocument extends Document<DocumentProps> {
             href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700&family=Poor+Story&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap"
             rel="stylesheet"
           />
+          <link
+            rel="stylesheet"
+            as="style"
+            crossOrigin="true"
+            href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css"
+          />
           {/* MARKDOWN : PRISM */}
           <link
             href={`https://unpkg.com/prismjs@0.0.1/themes/prism-${prismTheme}.css`}

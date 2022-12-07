@@ -142,7 +142,7 @@ const textItemCss: CssProp = systemCss({
 
   dt: {
     minWidth: '5rem',
-    fontWeight: 'bold',
+    fontWeight: 600,
   },
   dd: {
     flex: '1 1 0',

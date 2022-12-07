@@ -57,7 +57,7 @@ const infoBoxCss: CssProp = (theme) =>
       fontSize: [theme.fontSizes.p14, theme.fontSizes.p16],
     },
     '.subject': {
-      fontWeight: 'bold',
+      fontWeight: 600,
       fontSize: [theme.fontSizes.p28, theme.fontSizes.p32],
     },
   });

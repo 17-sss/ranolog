@@ -42,7 +42,7 @@ const linkCss: CssProp = (theme) =>
   systemCss({
     color: theme.colors.gray500,
     borderBottom: `1px solid ${rgba(theme.colors.gray500, 0.5)}`,
-    fontWeight: 'bold',
+    fontWeight: 600,
     textDecoration: 'none',
     outline: 'none',
     opacity: 0.7,

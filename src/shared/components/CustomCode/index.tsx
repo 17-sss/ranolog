@@ -59,5 +59,5 @@ const colorCss = (color?: ColorNames) => {
 };
 
 const boldCss: CssProp = systemCss({
-  fontWeight: 'bold',
+  fontWeight: 600,
 });

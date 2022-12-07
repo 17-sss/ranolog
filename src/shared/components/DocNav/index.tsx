@@ -75,7 +75,7 @@ const docTextCss: CssProp = (theme) =>
     alignItems: 'center',
     '&.type': {
       color: rgba(theme.colors.gray400, 0.8),
-      fontWeight: 'bold',
+      fontWeight: 600,
       fontStyle: 'italic',
       columnGap: '0.25rem',
     },

@@ -50,7 +50,7 @@ const introBoxCss: CssProp = (theme) => {
 
     '.title': {
       fontSize: [theme.fontSizes.p28, theme.fontSizes.p32],
-      fontWeight: 'bold',
+      fontWeight: 600,
       color: theme.colors.gray700,
       textShadow: `4px 1px 2px ${theme.colors.white}`,
     },

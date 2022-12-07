@@ -1,3 +1,5 @@
+import {Fragment} from 'react';
+
 import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote';
 import {rgba} from 'polished';
 
@@ -14,7 +16,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({content, ...props}) 
   }
   return (
     <div css={containerCss} {...props}>
-      <MDXRemote {...content} components={{CustomCode, Typography, Divider}} />
+      <MDXRemote {...content} components={{CustomCode, Typography, Divider, Fragment}} />
     </div>
   );
 };
@@ -30,7 +32,7 @@ const containerCss: CssProp = (theme) =>
       fontStyle: 'italic',
     },
     'strong, h1, h2, h3, h4, h5, h6': {
-      fontWeight: 'bold',
+      fontWeight: 600,
     },
     '*:not(br) + h1, *:not(br) + h2, *:not(br) + h3, *:not(br) + h4, *:not(br) + h5, *:not(br) + h6':
       {
@@ -80,7 +82,7 @@ const containerCss: CssProp = (theme) =>
     a: {
       color: theme.colors.gray500,
       borderBottom: `1px solid ${rgba(theme.colors.gray500, 0.5)}`,
-      fontWeight: 'bold',
+      fontWeight: 600,
       textDecoration: 'none',
       outline: 'none',
       opacity: 0.7,
@@ -116,7 +118,7 @@ const containerCss: CssProp = (theme) =>
         backgroundColor: theme.colors.gray100,
       },
       th: {
-        fontWeight: 'bold',
+        fontWeight: 600,
       },
       'th, td': {
         py: '0.5rem',

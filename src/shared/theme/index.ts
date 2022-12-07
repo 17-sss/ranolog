@@ -25,6 +25,7 @@ const fontSizes = {
   p12: '0.75rem',
   p13: '0.8125rem',
   p14: '0.875rem',
+  p15: '0.9375rem',
   p16: '1rem',
   p18: '1.125rem',
   p20: '1.25rem',
