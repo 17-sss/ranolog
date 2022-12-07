@@ -72,13 +72,13 @@ const listItemInnerCss: CssProp = systemCss({
     // itemImageBox or itemContentBox
     flexGrow: 3,
     flexBasis: 3,
-    pl: ['0.5rem', null, '1rem'],
+    pl: '1rem',
   },
   '& > *:last-of-type': {
     // itemImageBox
     flexGrow: 1,
     flexBasis: 1,
-    pr: ['0.5rem', null, '1rem'],
+    pr: '1rem',
   },
 });
 const listItemButtonCss: CssProp = systemCss({

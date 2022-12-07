@@ -1,3 +1,5 @@
+import {theme} from '../../theme';
+
 export const variantKeys = ['p', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const;
 export const colorKeys = [
   'gray',
@@ -11,7 +13,8 @@ export const colorKeys = [
   'red',
 ] as const;
 
-export const backgroundColors: {[key in typeof colorKeys[number]]: string} = {
+export const backgroundColors = {
+  ...theme.colors,
   gray: 'rgb(241, 241, 239)',
   brown: 'rgb(244, 238, 238)',
   orange: 'rgb(251, 236, 221)',
@@ -23,7 +26,8 @@ export const backgroundColors: {[key in typeof colorKeys[number]]: string} = {
   red: 'rgb(253, 235, 236)',
 };
 
-export const colors: {[key in typeof colorKeys[number]]: string} = {
+export const colors = {
+  ...theme.colors,
   gray: 'rgb(120, 119, 116)',
   brown: 'rgb(159, 107, 83)',
   orange: 'rgb(217, 115, 13)',

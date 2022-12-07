@@ -5,7 +5,7 @@ import {theme} from '../../theme';
 import {backgroundColors, colorKeys, colors, variantKeys} from './constants';
 
 export type TypographyVariant = typeof variantKeys[number];
-export type TypographyColor = typeof colorKeys[number];
+export type TypographyColor = typeof colorKeys[number] | keyof typeof theme.colors;
 
 interface TypographyInnerProps {
   variant: TypographyVariant;
