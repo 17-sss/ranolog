@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {CssProp, systemCss} from '../../system';
+import {theme} from '../../theme';
 import {backgroundColors, colorKeys, colors, variantKeys} from './constants';
 
 export type TypographyVariant = typeof variantKeys[number];
@@ -19,6 +20,7 @@ export interface TypographyProps extends Partial<TypographyInnerProps> {
   backgroundColor?: TypographyColor;
   isBold?: boolean;
   isItalic?: boolean;
+  fontSize?: keyof typeof theme.fontSizes;
 }
 const Typography: React.FC<TypographyProps> = ({
   variant = 'span',
@@ -26,10 +28,11 @@ const Typography: React.FC<TypographyProps> = ({
   color,
   isBold,
   isItalic,
+  fontSize,
   ...props
 }) => (
   <TypographyInner
-    css={typographyCss({variant, backgroundColor, color, isBold, isItalic})}
+    css={typographyCss({variant, backgroundColor, color, isBold, isItalic, fontSize})}
     variant={variant}
     {...props}
   />
@@ -47,6 +50,7 @@ const typographyCss: (params: TypographyCssParams) => CssProp = ({
   color,
   isBold,
   isItalic,
+  fontSize,
 }) => [
   (theme) => {
     const getFontSize = (variant: TypographyVariant) => {
@@ -66,7 +70,7 @@ const typographyCss: (params: TypographyCssParams) => CssProp = ({
       }
     };
     return systemCss({
-      fontSize: getFontSize(variant),
+      fontSize: `${fontSize ? theme.fontSizes[fontSize] : getFontSize(variant)} !important`,
     });
   },
   backgroundColor && systemCss({backgroundColor: backgroundColors[backgroundColor]}),

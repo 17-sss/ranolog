@@ -1,8 +1,6 @@
 import React, {useMemo} from 'react';
 
 import Image from 'next/image';
-import Link from 'next/link';
-import {rgba} from 'polished';
 
 import {
   changeFirstCharUpperCase,
@@ -11,11 +9,10 @@ import {
   ProjectDocument,
   systemCss,
   Typography,
+  CustomLink,
 } from '@src/shared';
 
 export interface ProjectInfoProps extends Omit<ProjectDocument, 'content' | 'extension' | 'id'> {}
-
-const isExternalLink = (href: string) => /^http/.test(href);
 
 const ProjectInfo: React.FC<ProjectInfoProps> = ({
   subject,
@@ -39,22 +36,19 @@ const ProjectInfo: React.FC<ProjectInfoProps> = ({
   }, [date]);
 
   const linkNodes = useMemo(() => {
-    return links?.reduce((result, {text, href}, i) => {
+    if (!links || links.length === 0) {
+      return;
+    }
+    return links.map(({href, text}, idx) => {
       if (!href) {
-        return result;
+        return;
       }
-      const linkNode = isExternalLink(href) ? (
-        <a key={i} css={linkCss} href={href} rel="noreferrer" target="_blank">
+      return (
+        <CustomLink key={idx} href={href}>
           {text}
-        </a>
-      ) : (
-        <Link key={i} href={href} passHref legacyBehavior>
-          <a css={linkCss}>{text}</a>
-        </Link>
+        </CustomLink>
       );
-      result.push(linkNode);
-      return result;
-    }, [] as React.ReactNode[]);
+    });
   }, [links]);
 
   return (
@@ -168,13 +162,3 @@ const thumbnailBoxCss: CssProp = systemCss({
   aspectRatio: '16/9',
   overflow: 'hidden',
 });
-
-const linkCss: CssProp = (theme) =>
-  systemCss({
-    color: theme.colors.gray500,
-    borderBottom: `1px solid ${rgba(theme.colors.gray500, 0.5)}`,
-    fontWeight: 'bold',
-    textDecoration: 'none',
-    outline: 'none',
-    opacity: 0.7,
-  });

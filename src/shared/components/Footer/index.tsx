@@ -5,6 +5,7 @@ import configData from '@root/blog.config';
 
 import {centerAlignedChildren, commonPxValues} from '../../styles';
 import {CssProp, systemCss} from '../../system';
+import CustomLink from '../CustomLink';
 
 export interface FooterProps {
   author: string;
@@ -31,9 +32,9 @@ const Footer: React.FC<FooterProps> = ({author, contact, ...props}) => {
             }
             return (
               <li key={key}>
-                <a css={contactLinkCss} href={value} rel="noreferrer" target="_blank">
+                <CustomLink css={contactLinkCss} href={value} disableStyle>
                   {iconNode}
-                </a>
+                </CustomLink>
               </li>
             );
           })}

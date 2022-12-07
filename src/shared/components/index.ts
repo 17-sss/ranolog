@@ -1,4 +1,5 @@
 import CustomCode from './CustomCode';
+import CustomLink from './CustomLink';
 import Divider from './Divider';
 import DocNav from './DocNav';
 import Dropdown from './Dropdown';
@@ -9,6 +10,7 @@ import PageLayout from './PageLayout';
 import Typography from './Typography';
 
 export * from './CustomCode';
+export * from './CustomLink';
 export * from './Divider';
 export * from './DocNav';
 export * from './Dropdown';
@@ -20,6 +22,7 @@ export * from './Typography';
 
 export {
   CustomCode,
+  CustomLink,
   Divider,
   DocNav,
   Dropdown,

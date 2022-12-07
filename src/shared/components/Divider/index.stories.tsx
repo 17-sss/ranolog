@@ -8,16 +8,19 @@ import {systemCss} from '../../system';
 const storyDefault = {
   title: 'components/shared/Divider',
   component: Divider,
+  decorators: [
+    (Story) => (
+      <div css={systemCss({pt: '1rem'})}>
+        <Story />
+      </div>
+    ),
+  ],
 } as ComponentMeta<typeof Divider>;
 
 export default storyDefault;
 
 const Template: ComponentStory<typeof Divider> = (args) => {
-  return (
-    <div css={systemCss({pt: '1rem'})}>
-      <Divider {...args} />
-    </div>
-  );
+  return <Divider {...args} />;
 };
 
 export const Default = Template.bind({});
