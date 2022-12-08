@@ -1,13 +1,32 @@
+import React from 'react';
+
+import {GetStaticPropsContext} from 'next';
+
+import {domainName, metadata} from '@root/blog.data';
 import {getDocumentIds, getSortedDocuments} from '@src/lib';
 import {ProjectDetailTemplate} from '@src/project';
-import {ProjectDocument} from '@src/shared';
+import {ProjectDocument, SeoHead} from '@src/shared';
 
 export interface ProjectDetailPageProps {
+  projectDoc: ProjectDocument | null;
   projectDocs: ProjectDocument[];
 }
 
-const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({projectDocs}) => {
-  return <ProjectDetailTemplate projectDocs={projectDocs} />;
+const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({projectDoc, projectDocs}) => {
+  return (
+    <>
+      <SeoHead
+        {...metadata}
+        title={projectDoc?.subject ? `${projectDoc?.subject} | ${domainName}` : metadata.title}
+        image={projectDoc?.thumbnail ? projectDoc?.thumbnail : metadata.image}
+        canonical={
+          projectDoc?.id ? `${metadata.canonical}/projects/${projectDoc.id}` : metadata.canonical
+        }
+        description={projectDoc?.summary ? projectDoc.summary : metadata.description}
+      />
+      <ProjectDetailTemplate projectDoc={projectDoc} projectDocs={projectDocs} />
+    </>
+  );
 };
 
 export default ProjectDetailPage;
@@ -22,9 +41,10 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = async () => {
+export const getStaticProps = async ({params}: GetStaticPropsContext<{id: string}>) => {
   const projectDocs = await getSortedDocuments<ProjectDocument>({subFolderType: 'projects'});
+  const projectDoc = projectDocs.find(({id}) => id === params?.id) ?? null;
   return {
-    props: {projectDocs},
+    props: {projectDoc, projectDocs},
   };
 };

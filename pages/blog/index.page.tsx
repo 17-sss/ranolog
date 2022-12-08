@@ -1,15 +1,25 @@
 import React from 'react';
 
+import {metadata, domainName} from '@root/blog.data';
 import {BlogTemplate} from '@src/blog';
 import {getSortedDocuments} from '@src/lib';
-import {PostDocument} from '@src/shared';
+import {PostDocument, SeoHead} from '@src/shared';
 
 export interface BlogPageProps {
   postDocs: PostDocument[];
 }
 
 const BlogPage: React.FC<BlogPageProps> = ({postDocs}) => {
-  return <BlogTemplate postDocs={postDocs} />;
+  return (
+    <>
+      <SeoHead
+        {...metadata}
+        title={`Blog | ${domainName}`}
+        canonical={`${metadata.canonical}/blog`}
+      />
+      <BlogTemplate postDocs={postDocs} />
+    </>
+  );
 };
 
 export default BlogPage;

@@ -2,31 +2,36 @@ import {ProjectInfo, useProjectDetailTemplate} from '@src/project';
 import {CssProp, Divider, DocNav, MarkdownRenderer, ProjectDocument, systemCss} from '@src/shared';
 
 export interface ProjectDetailTemplateProps {
+  projectDoc: ProjectDocument | null;
   projectDocs: ProjectDocument[];
 }
 
-const ProjectDetailTemplate: React.FC<ProjectDetailTemplateProps> = ({projectDocs, ...props}) => {
+const ProjectDetailTemplate: React.FC<ProjectDetailTemplateProps> = ({
+  projectDoc,
+  projectDocs,
+  ...props
+}) => {
   const {projectDocsNavInfo, isExistAnotherProjectDocs, handleProjectNavButtonClick} =
     useProjectDetailTemplate(projectDocs);
-  const projectDoc = projectDocsNavInfo.current;
+  const currentDoc = projectDoc ?? projectDocsNavInfo.current;
 
-  if (!projectDoc) {
+  if (!currentDoc) {
     return null;
   }
   return (
     <div css={containerCss} {...props}>
       <div css={detailCss}>
         <ProjectInfo
-          category={projectDoc.category}
-          date={projectDoc.date}
-          subject={projectDoc.subject}
-          links={projectDoc.links}
-          skills={projectDoc.skills}
-          summary={projectDoc.summary}
-          thumbnail={projectDoc.thumbnail}
+          category={currentDoc.category}
+          date={currentDoc.date}
+          subject={currentDoc.subject}
+          links={currentDoc.links}
+          skills={currentDoc.skills}
+          summary={currentDoc.summary}
+          thumbnail={currentDoc.thumbnail}
         />
         <Divider css={dividerCss} />
-        <MarkdownRenderer css={markdownRendererCss} content={projectDoc.content} />
+        <MarkdownRenderer css={markdownRendererCss} content={currentDoc.content} />
       </div>
       {isExistAnotherProjectDocs && (
         <DocNav

@@ -7,6 +7,7 @@ import Footer from './Footer';
 import Header from './Header';
 import MarkdownRenderer from './MarkdownRenderer';
 import PageLayout from './PageLayout';
+import SeoHead from './SeoHead';
 import Typography from './Typography';
 
 export * from './CustomCode';
@@ -18,6 +19,7 @@ export * from './Footer';
 export * from './Header';
 export * from './MarkdownRenderer';
 export * from './PageLayout';
+export * from './SeoHead';
 export * from './Typography';
 
 export {
@@ -30,5 +32,6 @@ export {
   Header,
   MarkdownRenderer,
   PageLayout,
+  SeoHead,
   Typography,
 };

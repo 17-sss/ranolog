@@ -2,7 +2,9 @@ const defaultImage = '/profile_image.jpg';
 
 const author = 'Hoyoung Son';
 const description = 'Frontend Engineer who create convenient value.';
-const siteUrl = 'https://my-website-link.com'; // 배포 후 변경 예정
+
+export const domainName = 'my-website-link.com'; // 배포 후 변경 예정
+const siteUrl = `https://${domainName}`;
 
 export type MetaDataType = {
   [key in
@@ -18,13 +20,14 @@ export type MetaDataType = {
 };
 
 /** meta data (default) */
-export const metaData: MetaDataType = {
+export const metadata = {
   author,
-  title: 'Rano.log',
+  title: 'Hoyoung | Frontend Engineer',
   url: siteUrl,
   description,
   canonical: siteUrl, // ${siteUrl}/[path]/...`;
   image: defaultImage,
+  type: 'website',
 };
 
 /** config data */

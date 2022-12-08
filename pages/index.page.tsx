@@ -1,13 +1,21 @@
+import React from 'react';
+
+import {metadata} from '@root/blog.data';
 import {getSortedDocuments} from '@src/lib';
 import {MainTemplate} from '@src/main';
-import {PostDocument} from '@src/shared';
+import {PostDocument, SeoHead} from '@src/shared';
 
 export interface MainPageProps {
   postDocs: PostDocument[];
 }
 
 const MainPage: React.FC<MainPageProps> = ({postDocs}) => {
-  return <MainTemplate recentPosts={postDocs} />;
+  return (
+    <>
+      <SeoHead {...metadata} />
+      <MainTemplate recentPosts={postDocs} />
+    </>
+  );
 };
 
 export default MainPage;

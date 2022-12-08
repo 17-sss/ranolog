@@ -11,7 +11,7 @@ class MyDocument extends Document<DocumentProps> {
   render() {
     const prismTheme: PrismThemeType = 'okaidia';
     return (
-      <Html>
+      <Html lang="ko">
         <Head>
           {/* FONTS */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,6 +31,8 @@ class MyDocument extends Document<DocumentProps> {
             href={`https://unpkg.com/prismjs@0.0.1/themes/prism-${prismTheme}.css`}
             rel="stylesheet"
           />
+          {/* DEFAULT */}
+          <link rel="icon" href="/favicon.ico" />
         </Head>
         <body>
           <Main />

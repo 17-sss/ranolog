@@ -4,19 +4,21 @@ import {useBlogDetailTemplate, PostDetail, Comments, utterancAttrs} from '@src/b
 import {CssProp, PostDocument, systemCss, Divider, DocNav} from '@src/shared';
 
 export interface BlogDetailTemplateProps {
+  postDoc: PostDocument | null;
   postDocs: PostDocument[];
 }
 
-const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDocs, ...props}) => {
+const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDoc, postDocs, ...props}) => {
   const {commentsRef, postDocsNavInfo, isExistAnotherPosts, handlePostNavButtonClick} =
     useBlogDetailTemplate(postDocs);
-  const postDoc = postDocsNavInfo.current;
-  if (!postDoc) {
+  const currentDoc = postDoc ?? postDocsNavInfo.current;
+  if (!currentDoc) {
     return null;
   }
+
   return (
     <div css={containerCss} {...props}>
-      <PostDetail css={postCss} postDoc={postDoc} />
+      <PostDetail css={postCss} postDoc={currentDoc} />
       {isExistAnotherPosts && (
         <>
           <DocNav
