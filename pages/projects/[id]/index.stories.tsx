@@ -7,7 +7,7 @@ import {createSortedProjectDocsMock, PageLayout} from '@src/shared';
 import ProjectDetailPage from './index.page';
 
 const storyDefault = {
-  title: 'pages/project/ProjectDetailPage',
+  title: 'pages/projects/ProjectDetailPage',
   component: ProjectDetailPage,
   argTypes: {
     projectDocs: {

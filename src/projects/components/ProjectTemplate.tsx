@@ -1,4 +1,4 @@
-import {ProjectList} from '@src/project';
+import {ProjectList} from '@src/projects';
 import {CssProp, ProjectDocument, systemCss} from '@src/shared';
 
 export interface ProjectTemplateProps {

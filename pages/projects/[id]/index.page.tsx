@@ -4,7 +4,7 @@ import {GetStaticPropsContext} from 'next';
 
 import {domainName, metadata} from '@root/blog.data';
 import {getDocumentIds, getSortedDocuments} from '@src/lib';
-import {ProjectDetailTemplate} from '@src/project';
+import {ProjectDetailTemplate} from '@src/projects';
 import {ProjectDocument, SeoHead} from '@src/shared';
 
 export interface ProjectDetailPageProps {

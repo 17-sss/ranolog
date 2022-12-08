@@ -11,7 +11,7 @@ interface ProductListStoryProps extends ProjectListProps {
 }
 
 const storyDefault = {
-  title: 'components/project/ProjectList',
+  title: 'components/projects/ProjectList',
   component: ProjectList,
   argTypes: {
     projectDocs: {control: false},

@@ -2,7 +2,7 @@ import React from 'react';
 
 import {domainName, metadata} from '@root/blog.data';
 import {getSortedDocuments} from '@src/lib';
-import {ProjectTemplate} from '@src/project';
+import {ProjectTemplate} from '@src/projects';
 import {ProjectDocument, SeoHead} from '@src/shared';
 
 export interface ProjectPageProps {

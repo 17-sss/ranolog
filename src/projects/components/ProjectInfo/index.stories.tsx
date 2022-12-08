@@ -7,7 +7,7 @@ import {createProjectDocsMock} from '@src/shared';
 import ProjectInfo from './index';
 
 const storyDefault = {
-  title: 'components/project/ProjectInfo',
+  title: 'components/projects/ProjectInfo',
   component: ProjectInfo,
 } as ComponentMeta<typeof ProjectInfo>;
 

@@ -22,7 +22,7 @@ export const configData = {
     links: [
       {name: 'root', displayName: '', link: '/'},
       {name: 'blog', displayName: 'Blog', link: '/blog'},
-      {name: 'project', displayName: 'Project', link: '/project'},
+      {name: 'projects', displayName: 'Projects', link: '/projects'},
       {name: 'resume', displayName: 'Resume', link: '/resume'},
     ],
     profileImage: defaultImage,

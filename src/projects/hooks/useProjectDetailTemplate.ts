@@ -13,7 +13,7 @@ export const useProjectDetailTemplate = (projectDocs: ProjectDocument[]) => {
   /** DocNav Button 클릭 (프로젝트 글 이동) */
   const handleProjectNavButtonClick = useCallback(
     async (id: string) => {
-      await router.push(`/project/${id}`);
+      await router.push(`/projects/${id}`);
     },
     [router],
   );

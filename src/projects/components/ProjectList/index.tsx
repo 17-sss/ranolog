@@ -13,7 +13,7 @@ const ProjectList: React.FC<ProjectListProps> = ({projectDocs, ...props}) => {
       {projectDocs.map(({id, subject, summary, thumbnail}, idx) => {
         return (
           <li key={idx} css={itemCss}>
-            <Link href={`/project/${id}`} passHref legacyBehavior>
+            <Link href={`/projects/${id}`} passHref legacyBehavior>
               <a css={linkCss}>
                 <div css={thumbnailBoxCss(thumbnail ? 'cover' : 'contain')}>
                   <Image

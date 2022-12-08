@@ -1,4 +1,4 @@
-import {ProjectInfo, useProjectDetailTemplate} from '@src/project';
+import {ProjectInfo, useProjectDetailTemplate} from '@src/projects';
 import {CssProp, Divider, DocNav, MarkdownRenderer, ProjectDocument, systemCss} from '@src/shared';
 
 export interface ProjectDetailTemplateProps {
