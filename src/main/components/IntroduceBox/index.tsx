@@ -29,9 +29,11 @@ const IntroduceBox: React.FC<IntroduceBoxProps> = ({title, description, bannerIm
 
 export default IntroduceBox;
 
+const INTRO_RATIO = '28/9';
+
 const containerCss: CssProp = systemCss({
   position: 'relative',
-  aspectRatio: '28/9',
+  aspectRatio: INTRO_RATIO,
   overflow: 'hidden',
 });
 
@@ -70,7 +72,7 @@ const imageBoxCss: CssProp = systemCss({
   zIndex: 0,
   opacity: 0.8,
 
-  aspectRatio: 'inherit',
+  aspectRatio: INTRO_RATIO,
   img: {
     objectFit: 'cover',
     objectPosition: '0% 55%',
