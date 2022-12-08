@@ -3,7 +3,7 @@ import {Fragment} from 'react';
 import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote';
 import {rgba} from 'polished';
 
-import {CustomCode, CustomLink, Typography, Divider} from '../../components';
+import {CustomCode, CustomLink, Typography, Divider, FlexBox} from '../../components';
 import {CssProp, systemCss} from '../../system';
 
 export interface MarkdownRendererProps {
@@ -30,6 +30,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({content, ...props}) 
           CustomCode,
           Typography,
           Divider,
+          FlexBox,
           Fragment,
         }}
       />

@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useMemo, useState} from 'react';
+import {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
 
 import Image, {StaticImageData} from 'next/image';
 import Link from 'next/link';
@@ -28,6 +28,14 @@ const Header: React.FC<HeaderProps> = ({profileImage, links, ...props}) => {
   const {isMobile} = useMedia();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const handleLinkClick = useCallback(() => {
+    if (!isMobile) {
+      return;
+    }
+    const MS = 100;
+    setTimeout(() => setIsMobileMenuOpen(false), MS);
+  }, [isMobile]);
+
   const menuItems = useMemo(() => {
     return links.map(({name, displayName, link}) => {
       if (name === 'root') {
@@ -36,12 +44,12 @@ const Header: React.FC<HeaderProps> = ({profileImage, links, ...props}) => {
       return (
         <li key={name} css={menuItemCss}>
           <Link href={link} passHref legacyBehavior>
-            <a onClick={() => isMobile && setIsMobileMenuOpen(false)}>{displayName}</a>
+            <a onClick={handleLinkClick}>{displayName}</a>
           </Link>
         </li>
       );
     });
-  }, [isMobile, links]);
+  }, [handleLinkClick, links]);
 
   useEffect(() => {
     if (!isMobile && isMobileMenuOpen) {
@@ -64,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({profileImage, links, ...props}) => {
             <ul css={menuCss}>{menuItems}</ul>
           )}
           <Link href={links.find(({name}) => name === 'root')?.link ?? '/'} passHref legacyBehavior>
-            <a css={profileImageBoxCss} onClick={() => isMobile && setIsMobileMenuOpen(false)}>
+            <a css={profileImageBoxCss} onClick={handleLinkClick}>
               <Image src={profileImage} alt="profile_image" fill />
             </a>
           </Link>

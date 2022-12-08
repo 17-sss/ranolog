@@ -30,14 +30,13 @@ introduce:
 </Typography>
 
 <Typography variant="div" fontSize="p15">
-  {['Next.js', 'React', 'TypeScript', 'JavaScript', 'Storybook'].map((text, idx) => (
-    <Fragment key={idx}>
-      <CustomCode color="gray">
+  <FlexBox gap="0.25rem" flexWrap="wrap">
+    {['Next.js', 'React', 'TypeScript', 'JavaScript', 'Storybook'].map((text, idx) => (
+      <CustomCode key={idx} color="gray">
         <span>{text}</span>
       </CustomCode>
-      &nbsp;
-    </Fragment>
-  ))}
+    ))}
+  </FlexBox>
 </Typography>
 
 <Divider height="1rem" color="transparent" />
@@ -76,14 +75,13 @@ introduce:
 </Typography>
 
 <Typography variant="div" fontSize="p15">
-  {['Delphi', 'DevExpress'].map((text, idx) => (
-    <Fragment key={idx}>
-      <CustomCode color="gray">
+  <FlexBox gap="0.25rem" flexWrap="wrap">
+    {['Delphi', 'DevExpress'].map((text, idx) => (
+      <CustomCode key={idx} color="gray">
         <span>{text}</span>
       </CustomCode>
-      &nbsp;
-    </Fragment>
-  ))}
+    ))}
+  </FlexBox>
 </Typography>
 
 <Divider height="1rem" color="transparent" />
@@ -101,7 +99,8 @@ introduce:
 
 </Typography>
 
-<br /><br />
+<br />
+<br />
 
 {/* ======================== Skills ======================== */}
 
@@ -111,25 +110,26 @@ introduce:
 <br />
 
 <Typography variant="div" fontSize="p15">
-  {[
-    'HTML',
-    'CSS',
-    'JavaScript',
-    'Typescript',
-    'Webpack',
-    'React',
-    'Gatsby',
-    'Next.js',
-    'Storybook',
-  ].map((text, idx) => (
-    <Fragment key={idx}>
-      <CustomCode color="gray">
+  <FlexBox gap="0.25rem" flexWrap="wrap">
+    {[
+      'HTML',
+      'CSS',
+      'JavaScript',
+      'Typescript',
+      'Webpack',
+      'React',
+      'Gatsby',
+      'Next.js',
+      'Storybook',
+    ].map((text, idx) => (
+      <CustomCode key={idx} color="gray">
         <span>{text}</span>
       </CustomCode>
-      &nbsp;
-    </Fragment>
-  ))}
+    ))}
+  </FlexBox>
 </Typography>
+
+<Divider height="0.5rem" color="transparent" />
 
 <Typography variant="div" fontSize="p15">
 
@@ -141,7 +141,8 @@ introduce:
 
 </Typography>
 
-<br /><br />
+<br />
+<br />
 
 {/* ======================== Education ======================== */}
 
@@ -174,7 +175,8 @@ introduce:
   <span>Framework기반의 빅데이터 활용 응용프로그래머 양성과정 수료</span>
 </Typography>
 
-<br /><br />
+<br />
+<br />
 
 {/* ======================== Certificate ======================== */}
 

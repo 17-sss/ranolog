@@ -3,6 +3,7 @@ import CustomLink from './CustomLink';
 import Divider from './Divider';
 import DocNav from './DocNav';
 import Dropdown from './Dropdown';
+import FlexBox from './FlexBox';
 import Footer from './Footer';
 import Header from './Header';
 import MarkdownRenderer from './MarkdownRenderer';
@@ -15,6 +16,7 @@ export * from './CustomLink';
 export * from './Divider';
 export * from './DocNav';
 export * from './Dropdown';
+export * from './FlexBox';
 export * from './Footer';
 export * from './Header';
 export * from './MarkdownRenderer';
@@ -28,6 +30,7 @@ export {
   Divider,
   DocNav,
   Dropdown,
+  FlexBox,
   Footer,
   Header,
   MarkdownRenderer,
