@@ -1,15 +1,14 @@
-const defaultImage = '/profile_image.jpg';
-
 const author = 'Hoyoung Son';
 const description = 'Frontend Engineer who create convenient value.';
+const defaultImage = '/profile_image.jpg';
 
-export const domainName = 'my-website-link.com'; // 배포 후 변경 예정
-const siteUrl = `https://${domainName}`;
+const siteUrl = process.env.NEXT_PUBLIC_URL || 'https://example.com';
+export const domainName = process.env.NEXT_PUBLIC_DOMAIN || 'example.com';
 
 /** meta data (default) */
 export const metadata = {
   author,
-  title: 'Hoyoung | Frontend Engineer',
+  title: `Hoyoung | Frontend Engineer`,
   url: siteUrl,
   description,
   canonical: siteUrl, // ${siteUrl}/[path]/...`;
