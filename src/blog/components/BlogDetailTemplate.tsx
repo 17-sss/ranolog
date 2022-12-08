@@ -43,7 +43,7 @@ const containerCss: CssProp = systemCss({
 });
 const postCss: CssProp = (theme) =>
   systemCss({
-    border: `1px solid ${theme.colors.gray300}`,
-    borderRadius: '0.375rem',
-    p: '1.5rem',
+    border: [null, `1px solid ${theme.colors.gray300}`],
+    borderRadius: [null, '0.375rem'],
+    p: [null, '1.5rem'],
   });
