@@ -100,7 +100,7 @@ export const tempPosts: Omit<PostDocument, 'id' | 'category' | 'date'>[] = [
   {
     subject: 'dolor sit amet',
     content: `${sampleContentHtml}${samplePrismHtml}`,
-    imageSrc: '/sample.jpg',
+    thumbnail: '/sample.jpg',
     extension: '.md',
   },
 ];

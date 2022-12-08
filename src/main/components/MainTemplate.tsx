@@ -16,7 +16,7 @@ const MainTemplate: React.FC<MainTemplateProps> = ({recentPosts, ...props}) => {
       <IntroduceBox
         title={mainPage.title}
         description={mainPage.description}
-        imageSrc={mainPage.imageSrc}
+        bannerImage={mainPage.bannerImage}
       />
       <div css={recentPostBoxCss}>
         <p className="title">Recent Post</p>

@@ -31,9 +31,9 @@ const PostList: React.FC<PostListProps> = ({postDocs, onPostClick, ...props}) =>
                 {postDoc.summary && <p className="summary">{postDoc.summary}</p>}
                 {dateText && <p className="date">{dateText}</p>}
               </div>
-              {postDoc.imageSrc && (
+              {postDoc.thumbnail && (
                 <div css={itemImageBoxCss}>
-                  <Image src={postDoc.imageSrc} alt={`${postDoc.subject} (image)`} fill />
+                  <Image src={postDoc.thumbnail} alt={`${postDoc.subject} (image)`} fill />
                 </div>
               )}
             </button>

@@ -1,4 +1,4 @@
-import Image, {StaticImageData} from 'next/image';
+import Image from 'next/image';
 import {rgba} from 'polished';
 
 import {CustomCode, CssProp, systemCss} from '@src/shared';
@@ -6,10 +6,10 @@ import {CustomCode, CssProp, systemCss} from '@src/shared';
 export interface IntroduceBoxProps {
   title: string;
   description: string;
-  imageSrc: string | StaticImageData;
+  bannerImage: string;
 }
 
-const IntroduceBox: React.FC<IntroduceBoxProps> = ({title, description, imageSrc, ...props}) => {
+const IntroduceBox: React.FC<IntroduceBoxProps> = ({title, description, bannerImage, ...props}) => {
   return (
     <div css={containerCss} {...props}>
       <div css={introBoxCss}>
@@ -21,7 +21,7 @@ const IntroduceBox: React.FC<IntroduceBoxProps> = ({title, description, imageSrc
         </p>
       </div>
       <div css={imageBoxCss}>
-        <Image src={imageSrc} alt="main_banner" fill />
+        <Image src={bannerImage} alt="main_banner" fill />
       </div>
     </div>
   );

@@ -51,6 +51,6 @@ export const configData = {
   mainPage: {
     title: author,
     description,
-    imageSrc: '/banner.jpg',
+    bannerImage: '/banner.jpg',
   },
 };
