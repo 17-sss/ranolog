@@ -2,7 +2,18 @@ import React from 'react';
 
 import Head from 'next/head';
 
-import {MetaDataType} from '../../../../blog.data';
+export type MetaDataType = {
+  [key in
+    | 'title'
+    | 'description'
+    | 'keywords'
+    | 'image'
+    | 'url'
+    | 'canonical'
+    | 'type'
+    | 'site'
+    | 'author']?: string;
+};
 
 export interface SeoHeadProps extends MetaDataType {
   children?: React.ReactNode;

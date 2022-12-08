@@ -6,19 +6,6 @@ const description = 'Frontend Engineer who create convenient value.';
 export const domainName = 'my-website-link.com'; // 배포 후 변경 예정
 const siteUrl = `https://${domainName}`;
 
-export type MetaDataType = {
-  [key in
-    | 'title'
-    | 'description'
-    | 'keywords'
-    | 'image'
-    | 'url'
-    | 'canonical'
-    | 'type'
-    | 'site'
-    | 'author']?: string;
-};
-
 /** meta data (default) */
 export const metadata = {
   author,
