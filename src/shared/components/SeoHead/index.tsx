@@ -2,6 +2,8 @@ import React from 'react';
 
 import Head from 'next/head';
 
+import {siteVerificationData} from '@root/blog.data';
+
 export type MetaDataType = {
   [key in
     | 'title'
@@ -61,6 +63,11 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       {type && <meta key="og:type" property="og:type" content={type} />}
       {site && <meta key="twitter:site" name="twitter:site" content={site} />}
       {author && <meta key="author" name="author" content={author} />}
+
+      {/* OWNERSHIP VERIFICATION */}
+      {Object.entries(siteVerificationData).map(([key, value]) => (
+        <meta key={key} name={`${key}-site-verification`} content={value} />
+      ))}
 
       {/* DEFAULT */}
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />

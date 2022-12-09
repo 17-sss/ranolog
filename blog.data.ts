@@ -16,6 +16,12 @@ export const metadata = {
   type: 'website',
 };
 
+/** ownership verification (google, naver..)  */
+export const siteVerificationData = {
+  naver: '5b8cc3cd81cfd17af81e32f507c53f8bee9e10c2',
+  // google: '[content value..]',
+};
+
 /** config data */
 export const configData = {
   header: {
