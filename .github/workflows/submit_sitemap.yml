@@ -1,0 +1,10 @@
+name: Submit Sitemap
+on:
+  push:
+    branches: [master]
+jobs:
+  Deploy-Production:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sumbit Sitemap (Use the ping tool)
+        run: curl https://www.google.com/ping?sitemap=${{ secrets.URL }}/sitemap.xml
