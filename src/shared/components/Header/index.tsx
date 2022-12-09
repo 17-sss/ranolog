@@ -73,7 +73,7 @@ const Header: React.FC<HeaderProps> = ({profileImage, links, ...props}) => {
           )}
           <Link href={links.find(({name}) => name === 'root')?.link ?? '/'} passHref legacyBehavior>
             <a css={profileImageBoxCss} onClick={handleLinkClick}>
-              <Image src={profileImage} alt="profile_image" fill />
+              <Image src={profileImage} alt="profile_image" fill priority />
             </a>
           </Link>
         </div>

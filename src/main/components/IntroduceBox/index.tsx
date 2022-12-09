@@ -21,7 +21,7 @@ const IntroduceBox: React.FC<IntroduceBoxProps> = ({title, description, bannerIm
         </p>
       </div>
       <div css={imageBoxCss}>
-        <Image src={bannerImage} alt="main_banner" fill />
+        <Image src={bannerImage} alt="main_banner" fill priority />
       </div>
     </div>
   );

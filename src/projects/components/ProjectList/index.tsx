@@ -20,6 +20,7 @@ const ProjectList: React.FC<ProjectListProps> = ({projectDocs, ...props}) => {
                     src={thumbnail || '/no-pictures.png'}
                     alt={`${subject} (thumbnail)`}
                     fill
+                    priority
                   />
                 </div>
 

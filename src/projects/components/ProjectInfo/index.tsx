@@ -99,7 +99,7 @@ const ProjectInfo: React.FC<ProjectInfoProps> = ({
         </dl>
         {thumbnail && (
           <div css={thumbnailBoxCss}>
-            <Image src={thumbnail} alt="thumbnail_image" fill />
+            <Image src={thumbnail} alt="thumbnail_image" fill priority />
           </div>
         )}
       </div>
