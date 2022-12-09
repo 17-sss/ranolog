@@ -33,7 +33,7 @@ const PostList: React.FC<PostListProps> = ({postDocs, onPostClick, ...props}) =>
               </div>
               {postDoc.thumbnail && (
                 <div css={itemImageBoxCss}>
-                  <Image src={postDoc.thumbnail} alt={`${postDoc.subject} (image)`} fill />
+                  <Image src={postDoc.thumbnail} alt={`${postDoc.subject} (image)`} fill priority />
                 </div>
               )}
             </button>

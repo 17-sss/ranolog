@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:analyze": "ANALYZE=true NODE_ENV=production next build",
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
@@ -25,6 +26,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/serialize": "^1.1.1",
     "@emotion/styled": "^11.10.5",
+    "@next/bundle-analyzer": "^13.0.6",
     "@types/node": "18.11.9",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
