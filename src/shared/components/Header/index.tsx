@@ -65,6 +65,7 @@ const Header: React.FC<HeaderProps> = ({profileImage, links, ...props}) => {
             <button
               css={mobileMenuButtonCss}
               onClick={() => setIsMobileMenuOpen((state) => !state)}
+              aria-label="mobile menu button"
             >
               <GiHamburgerMenu />
             </button>

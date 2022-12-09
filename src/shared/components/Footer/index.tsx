@@ -32,7 +32,12 @@ const Footer: React.FC<FooterProps> = ({author, contact, ...props}) => {
             }
             return (
               <li key={key}>
-                <CustomLink css={contactLinkCss} href={value} disableStyle>
+                <CustomLink
+                  css={contactLinkCss}
+                  href={value}
+                  disableStyle
+                  aria-label={`${key} icon (link)`}
+                >
                   {iconNode}
                 </CustomLink>
               </li>
@@ -85,6 +90,7 @@ const contactListCss: CssProp = [
 const contactLinkCss: CssProp = (theme) => [
   centerAlignedChildren,
   systemCss({
+    p: '0.25rem',
     color: theme.colors.gray600,
     '&:hover': {
       color: theme.colors.gray500,
