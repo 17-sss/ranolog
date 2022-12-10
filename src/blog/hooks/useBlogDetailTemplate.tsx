@@ -17,7 +17,7 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
   const currentDocs = useMemo(() => {
     const filterPostDocs = (aSelectedCategory: string) => {
       const result = postDocs.filter(({category}) => {
-        if (aSelectedCategory === '미지정') {
+        if (aSelectedCategory === 'Uncategorized') {
           return typeof category === 'undefined' || category.length === 0 || category === '';
         }
         if (Array.isArray(category)) {

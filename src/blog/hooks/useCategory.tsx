@@ -16,11 +16,11 @@ export const useCategory = (postDocs: PostDocument[]) => {
    * - handleCategoryDropdownChange로 인해 현재 선택된 카테고리가 변경될 때 업데이트
    */
   const selectedCategoryPosts = useMemo(() => {
-    if (!selectedCategory || selectedCategory === '전체보기') {
+    if (!selectedCategory || selectedCategory === 'All') {
       return postDocs;
     }
     const result = postDocs.filter(({category}) => {
-      if (selectedCategory === '미지정') {
+      if (selectedCategory === 'Uncategorized') {
         return typeof category === 'undefined' || category.length === 0 || category === '';
       }
       if (Array.isArray(category)) {
@@ -39,7 +39,7 @@ export const useCategory = (postDocs: PostDocument[]) => {
         const isEmptyText = typeof category === 'string' && category === '';
         const isEmptyArray = Array.isArray(category) && category.length === 0;
         if (isUndefined || isEmptyText || isEmptyArray) {
-          return ['미지정'];
+          return ['Uncategorized'];
         }
         return typeof category === 'string' ? [category] : category;
       };
@@ -54,11 +54,11 @@ export const useCategory = (postDocs: PostDocument[]) => {
     let result = Array.from(categoryMap.entries()).sort(([aName], [bName]) =>
       aName.localeCompare(bName),
     );
-    const findUnspecifiedIdx = result.findIndex(([name]) => name === '미지정');
+    const findUnspecifiedIdx = result.findIndex(([name]) => name === 'Uncategorized');
     if (findUnspecifiedIdx > -1) {
-      result = [result[findUnspecifiedIdx], ...result.filter(([name]) => name !== '미지정')];
+      result = [result[findUnspecifiedIdx], ...result.filter(([name]) => name !== 'Uncategorized')];
     }
-    result.unshift(['전체보기', postDocs.length]);
+    result.unshift(['All', postDocs.length]);
 
     return result;
   }, [postDocs]);
@@ -66,7 +66,7 @@ export const useCategory = (postDocs: PostDocument[]) => {
   /** Dropdown(Category) : labelMapper */
   const categoryLabelMapper = useCallback((info: CategoryInfoTuple) => {
     const [name, count] = info;
-    const isAllView = name === '전체보기';
+    const isAllView = name === 'All';
     return (
       <Fragment>
         <span css={[isAllView && systemCss({fontWeight: 600})]}>{name}</span>&nbsp;
@@ -80,7 +80,7 @@ export const useCategory = (postDocs: PostDocument[]) => {
     (info: CategoryInfoTuple) => {
       const [categoryName] = info;
       setSelectedCategory(categoryName);
-      router.push(categoryName === '전체보기' ? '' : `?category=${categoryName}`);
+      router.push(categoryName === 'All' ? '' : `?category=${categoryName}`);
     },
     [router],
   );
@@ -88,7 +88,7 @@ export const useCategory = (postDocs: PostDocument[]) => {
   /** Dropdown(Category) : Dropdown "data" 상태 보정*/
   const updateDropdownInnerData = useCallback(
     (aCategory?: string) => {
-      const findInfo = categoryInfo.find(([category]) => category === (aCategory ?? '전체보기'));
+      const findInfo = categoryInfo.find(([category]) => category === (aCategory ?? 'All'));
       categoryDropdownRef.current?.updateInnerData(findInfo);
     },
     [categoryInfo],
@@ -100,7 +100,7 @@ export const useCategory = (postDocs: PostDocument[]) => {
       return;
     }
     let categoryQueryStr = valueOrLastItem(router.query['category']);
-    if (categoryQueryStr === '전체보기') {
+    if (categoryQueryStr === 'All') {
       categoryQueryStr = undefined;
     }
     setSelectedCategory(categoryQueryStr);
