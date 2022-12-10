@@ -1,0 +1,69 @@
+---
+subject: 'Domain 구매(Google Domains) & Vercel 등록'
+date: '2022-12-10'
+summary: '구글에서 도메인을 구매하고, Vercel에 등록하는 방법'
+category: ['Cloud']
+thumbnail: '/docs/posts/2022-12-10-domain_vercel/thumbnail.jpg'
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Google Domains 구매</span>
+</Typography>
+
+1. [Google Domains](https://domains.google/) 접속 → 우측 상단 **My domains** 클릭 → 좌측 메뉴에서 **대한민국**에서 **미국**으로 변경
+   - 이렇게해야 결제 가능하므로 **꼭!** 변경하기
+2. 좌측 메뉴 **새 도메인 찾기** 클릭 → 구매하려는 도메인 검색 → 장바구니 담기
+   - 최상위 도메인명(`.net`, `.com` 등..) 을 검색하는 것이 아닌 **도메인명**을 입력  
+     → ex) 도메인명인 hoyoung을 입력하여 검색
+3. 우측 상단의 **장바구니 아이콘** 클릭하여, 구매 프로세스 시작
+   - **개인정보 보호:** 도메인 보유자의 개인정보를 보호하는 기능 / **활성화**
+   - **자동갱신:** 도메인 갱신기간을 잊어버려도 자동으로 갱신하는 기능 / **활성화**
+   - **맞춤 이메일:** 해당 사항 없음 **/ 비활성화**
+4. 확인 클릭 후, **체크아웃** 단계로 이동. 내 정보 입력하기
+   - `주의` 개인정보 입력 시, **도시** 부분에 “서울”, “인천”등을 입력하면 유효성 검증 실패.  
+     → 하위 지역단위 입력하면 해결 가능! (”강남구”, “마포구” 등)
+5. 체크아웃 후, **결제 정보 입력** → **구매 완료**
+   - 해외 결제가 가능한 신용카드 정보 입력
+   - **우편번호**는 미국을 선택하고 배대지의 우편번호를 입력. (없으면 하나쯤은 만들어도..?)
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Vercel에 구매한 도메인 등록</span>
+</Typography>
+
+1.  [Vercel](https://vercel.com/)에서 나의 [Dashboard](https://vercel.com/dashboard)로 이동 → 도메인을 등록하려는 앱 클릭
+2.  상단의 **Settings** 탭 클릭 → 좌측 **Domains** 클릭 → **Edit** 버튼 클릭 → 구매한 도메인 입력
+    - <Typography isBold color="red">Invalid Configuration</Typography> 오류 발생  
+      → 표시된 **Nameservers** 정보를 [Google Domains](https://domains.google/)에서 설정해야 함.
+      <br />
+      <img src="/docs/posts/2022-12-10-domain_vercel/01.png" width="800" />
+3.  [Google Domains](https://domains.google/)에서 구매한 도메인의 대쉬보드로 이동 → 좌측 메뉴에서 **DNS** 클릭
+4.  **맞춤 네임서버** 탭 클릭 → **네임서버 관리** 클릭 → Vercel의 Nameservers 정보 모두 입력 → 이 **설정으로 전환** 클릭
+    <br />
+    <img src="/docs/posts/2022-12-10-domain_vercel/02.png" width="800" />
+5.  <CustomCode color="blue">완료!!</CustomCode> (조금 기다려야 적용될수도 있음!)
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+**일반**
+
+- [도메인 구입 방법 How to buy a domain from Google Domains ⭐️](https://chailmon.com/dev/cloud/how-to-buy-a-domain-from-google-domains/)
+- [구글 도메인 구매(등록)방법](https://xeriars.com/m/239)
+- [Google Domains에서 도메인 구입하기](https://nofunfromdev.tistory.com/entry/Google-Domains%EC%97%90%EC%84%9C-%EB%8F%84%EB%A9%94%EC%9D%B8-%EA%B5%AC%EC%9E%85%ED%95%98%EA%B8%B0)
+- [Vercel now와 Google Domains 커스텀 도메인 설정 ⭐️](https://wdever.dev/set-custom-domain-with-vercel-and-google-domain/)
+- [개발자라면 탐나는 .dev 최상위 도메인 등록 시작](https://www.44bits.io/ko/post/dot-dev-doamin-for-developers)
+
+**Vercel**
+
+- [Vercel : Domains (도메인 관련 설명)](https://vercel.com/docs/concepts/projects/domains#)
+
+**Google**
+
+- [Google : Domains (도메인 구매)](https://domains.google/)
