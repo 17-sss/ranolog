@@ -96,7 +96,10 @@ const containerCss: CssProp = (theme) =>
         my: '0.25rem',
       },
     },
-
+    img: {
+      maxWidth: '100%',
+      height: 'auto',
+    },
     /** Markdown "> blah blah.." */
     blockquote: {
       my: '0.75rem',
