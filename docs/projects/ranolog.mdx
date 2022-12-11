@@ -1,0 +1,70 @@
+---
+subject: 'Ranolog'
+date: {start: '2022-11-03', end: '2022-12-10'}
+skills: ['Next.js', 'React', 'TypeScript', 'Storybook']
+category: {type: 'project'}
+links:
+  [
+    {text: 'Deploy', href: '/'},
+    {
+      text: 'Storybook',
+      href: 'https://ranolog-storybook.vercel.app/',
+    },
+    {text: 'GitHub', href: 'https://github.com/17-sss/ranolog'},
+    {
+      text: '개발 일지',
+      href: 'https://boiled-feather-1c7.notion.site/Ranolog-955bb8846ad543f4bfaef7923d591dba',
+    },
+  ]
+thumbnail: '/docs/projects/ranolog/thumbnail.png'
+summary: 'Next.js로 만드는 나만의 블로그'
+---
+
+<Typography backgroundColor="gray" variant="h3">
+  🧚🏻 구현 요약
+</Typography>
+
+- 컴포넌트의 재사용화를 위해 커스텀 훅으로 비즈니스 로직 분리했습니다.
+- 개발 시 컴포넌트 단위로 테스트하며 작업하기 위해 `Storybook`을 활용하였습니다.
+- `emotion`, `Styled System`을 활용하여 반응형 작업을 하였습니다.
+
+<Typography backgroundColor="gray" variant="h3">
+  🤔 고민한 점
+</Typography>
+
+**컴포넌트의 부모 컴포넌트에서 컴포넌트의 상태 변경** ⇒ <Typography isItalic isBold color="gray">useImperativeHandle 활용</Typography>
+
+<Divider height="1rem" />
+
+<ol>
+  <li>
+    <CustomCode color="gray" isBold>문제</CustomCode>
+    <span>컴포넌트의 부모 컴포넌트에서 컴포넌트의 상태 변경</span>
+    <br />
+    <CustomCode color="purple" isBold>해결</CustomCode>
+    <Typography isItalic isBold>👇 내용 참고</Typography>
+    <ul className="ml--double">
+      <li>컴포넌트에 `forwardRef` & `useImperativeHandle` 적용</li>
+      <li>컴포넌트의 `useImperativeHandle`에 컴포넌트 상태를 변경하는 함수 정의</li>
+      <li>부모 컴포넌트에서 컴포넌트에 **ref**를 전달</li>
+      <li>부모 컴포넌트에서 **ref**를 통해 컴포넌트에 정의한 함수 사용</li>
+    </ul>
+  </li>
+</ol>
+
+<Divider />
+<br />
+
+**검색 시 많은 이벤트 호출** ⇒ <Typography isItalic isBold color="gray">Debounce 활용하여 제어</Typography>
+
+<Divider height="1rem" />
+
+<ol>
+  <li>
+    <CustomCode color="gray" isBold>문제</CustomCode>
+    <span>블로그 글 검색 시, 입력할 때마다 이벤트 발생</span>
+    <br />
+    <CustomCode color="purple" isBold>해결</CustomCode>
+    <span>입력할 때마다 이벤트가 호출되는 것이 아닌 마지막 호출에서 1초가 지난 후 함수의 기능이 동작하도록 함</span>
+  </li>
+</ol>

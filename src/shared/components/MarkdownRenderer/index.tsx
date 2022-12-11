@@ -73,15 +73,15 @@ const containerCss: CssProp = (theme) =>
     'h6, p': {
       fontSize: theme.fontSizes.p16,
     },
+    '.ml--double': {
+      ml: '2.5rem',
+    },
     'ol, ul': {
       ml: '1.25rem',
       py: '0.4rem',
       listStyle: 'revert',
       '&.alpha': {
         listStyle: 'lower-alpha',
-      },
-      '&.ml--double': {
-        ml: '2.5rem',
       },
       '& > li + li': {
         mt: '0.2rem',

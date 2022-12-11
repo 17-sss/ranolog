@@ -1,0 +1,65 @@
+---
+subject: 'Sitemap 생성 & 등록 (for Next.js)'
+date: '2022-12-11'
+summary: 'Sitemap을 생성하고 등록하는 방법'
+category: ['Cloud']
+thumbnail: '/docs/posts/2022-12-11-sitemap_for_nextjs/thumbnail.png'
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Sitemap 생성 (링크 모음)</span>
+</Typography>
+<br/>
+
+**정적 사이트를 작성 시, Sitemap 작성** <CustomCode color="blue">사용</CustomCode>
+
+- [How to Add a sitemap for Static Site Generation (SSG) in the next.js app?](https://medium.com/nextjs/how-to-add-a-sitemap-for-static-site-generation-ssg-in-the-next-js-app-daa3b9a59211) ([next-sitemap](https://github.com/iamvishnusankar/next-sitemap))
+
+**직접 Sitemap Generator 제작**
+
+- [Next.js를 위한 sitemap generator 만들기](https://medium.com/volla-live/next-js%EB%A5%BC-%EC%9C%84%ED%95%9C-sitemap-generator-%EB%A7%8C%EB%93%A4%EA%B8%B0-10fc917d307e)
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Sitemap 등록 (웹 마스터 도구에 등록)</span>
+</Typography>
+<br/>
+
+**[Google Search Console](https://search.google.com/search-console/about)**
+
+1. 로그인 → 시작하기 → **URL 접두어** 옵션에서 **[자신의 URL]** 입력
+2. 소유권 확인 작업
+   - **HTML 태그 등록 방법** → [웹 마스터 도구에 블로그 등록하기](https://www.notion.so/c7b05ba85dc043babb8428fccb4070e2) 글 참고
+   - [Google Domains](https://domains.google/)에서 도메인을 샀다면..? → 자동으로 소유권 확인됨.
+3. 좌측 메뉴에서 **Sitemaps** 탭 클릭 후, Sitemap 등록
+   - 보통 `sitemap.xml`의 위치는 <Typography color="gray600" isBold>https://[DomainName]/sitemap.xml</Typography>에 있음
+
+[**Naver Search Advisor**](https://searchadvisor.naver.com/)
+
+1. 로그인 → 웹 마스터 도구 클릭 → 사이트 등록란에서 **[자신의 URL]** 입력
+2. 소유권 확인 작업
+   - **HTML 태그 등록 방법 (**Google의 HTML 태그 등록 방법과 거의 동일**)**
+3. 등록된 URL 클릭 → 좌측 메뉴의 **요청** 탭 → **사이트맵 제출 탭** → Sitemap 등록 (⬆️ <Typography color="gray500">Google Search Console</Typography> 방법과 같음)
+
+<br />
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+**Google**
+
+- [Google : 사이트맵 제작 및 제출하기](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
+- [Google : Search Console](https://search.google.com/search-console/about)
+
+**내 문서 (노션)**
+
+- [웹 마스터 도구에 블로그 등록하기](https://www.notion.so/boiled-feather-1c7/c7b05ba85dc043babb8428fccb4070e2)
+- [Sitemap 생성하기](https://www.notion.so/boiled-feather-1c7/Sitemap-87c4c72d82144fcc9eaeadae8c2eb725)
