@@ -61,17 +61,21 @@ const Header: React.FC<HeaderProps> = ({profileImage, links, ...props}) => {
     <Fragment>
       <header css={headerCss}>
         <div css={headerInnerBoxCss} {...props}>
-          {isMobile ? (
-            <button
-              css={mobileMenuButtonCss}
-              onClick={() => setIsMobileMenuOpen((state) => !state)}
-              aria-label="mobile menu button"
-            >
-              <GiHamburgerMenu />
-            </button>
-          ) : (
-            <ul css={menuCss}>{menuItems}</ul>
-          )}
+          {/* MENU */}
+          <div>
+            {isMobile ? (
+              <button
+                css={mobileMenuButtonCss}
+                onClick={() => setIsMobileMenuOpen((state) => !state)}
+                aria-label="mobile menu button"
+              >
+                <GiHamburgerMenu />
+              </button>
+            ) : (
+              <ul css={menuCss}>{menuItems}</ul>
+            )}
+          </div>
+          {/* PROFILE */}
           <Link href={links.find(({name}) => name === 'root')?.link ?? '/'} passHref legacyBehavior>
             <a css={profileImageBoxCss} onClick={handleLinkClick}>
               <Image src={profileImage} alt="profile_image" fill priority />
@@ -81,7 +85,7 @@ const Header: React.FC<HeaderProps> = ({profileImage, links, ...props}) => {
       </header>
       {isMobileMenuOpen && (
         <div css={mobileMenuBoxCss}>
-          <ul css={menuCss}>{menuItems}</ul>
+          <ul css={[menuCss, mobileMenuCss]}>{menuItems}</ul>
         </div>
       )}
     </Fragment>
@@ -110,12 +114,13 @@ const headerCss: CssProp = [
 const headerInnerBoxCss: CssProp = [centerBetweenAlignChildren, systemCss({width: '100%'})];
 
 const menuCss: CssProp = systemCss({
-  display: ['block', 'flex'],
+  display: ['none', 'flex'],
   '& > * + *': {
     ml: [0, '0.5rem'],
     mt: ['1.25rem', 0],
   },
 });
+const mobileMenuCss: CssProp = systemCss({display: 'block'});
 
 const menuItemCss: CssProp = (theme) =>
   systemCss({
