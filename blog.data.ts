@@ -1,5 +1,5 @@
 const author = 'Hoyoung Son';
-const description = 'Frontend Engineer who create convenient value.';
+const description = 'Frontend Developer who create convenient value.';
 const defaultImage = '/profile_image.jpg';
 
 const siteUrl = process.env.NEXT_PUBLIC_URL || 'https://example.com';
@@ -8,7 +8,7 @@ export const domainName = process.env.NEXT_PUBLIC_DOMAIN || 'example.com';
 /** meta data (default) */
 export const metadata = {
   author,
-  title: `Hoyoung | Frontend Engineer`,
+  title: `Hoyoung | Frontend Developer`,
   url: siteUrl,
   description,
   canonical: siteUrl, // ${siteUrl}/[path]/...`;
