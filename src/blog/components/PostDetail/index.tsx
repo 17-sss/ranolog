@@ -1,6 +1,6 @@
 import {useMemo} from 'react';
 
-import {createDateText} from '@src/blog';
+import {createPostDateText} from '@src/blog';
 import {CustomCode, CssProp, MarkdownRenderer, PostDocument, systemCss} from '@src/shared';
 
 export interface PostDetailProps {
@@ -19,8 +19,8 @@ const PostDetail: React.FC<PostDetailProps> = ({postDoc, ...props}) => {
     return postCategories;
   }, [postDoc.category]);
 
-  const date = useMemo(() => {
-    return createDateText(postDoc.date);
+  const dateText = useMemo(() => {
+    return createPostDateText(postDoc.date);
   }, [postDoc.date]);
 
   return (
@@ -36,7 +36,7 @@ const PostDetail: React.FC<PostDetailProps> = ({postDoc, ...props}) => {
             ))}
           </div>
         )}
-        {date && <p className="date">{date}</p>}
+        {dateText && <p className="date">{dateText}</p>}
       </div>
       <MarkdownRenderer css={markdownRendererCss} content={postDoc.content} />
     </div>

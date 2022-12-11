@@ -10,6 +10,7 @@ import {
   systemCss,
   Typography,
   CustomLink,
+  createDateText,
 } from '@src/shared';
 
 export interface ProjectInfoProps extends Omit<ProjectDocument, 'content' | 'extension' | 'id'> {}
@@ -25,9 +26,6 @@ const ProjectInfo: React.FC<ProjectInfoProps> = ({
   ...props
 }) => {
   const periodText = useMemo(() => {
-    const createDateText = (aDate: string | number | Date) => {
-      return new Date(aDate).toLocaleDateString().replace(/(\s+|\.$)/g, '');
-    };
     if (typeof date === 'object') {
       const {start, end} = date;
       return `${createDateText(start)} ~ ${end ? createDateText(end) : 'ing..'}`;

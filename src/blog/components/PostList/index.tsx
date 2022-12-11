@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import {createDateText} from '@src/blog';
+import {createPostDateText} from '@src/blog';
 import {
   systemCss,
   CssProp,
@@ -19,7 +19,7 @@ const PostList: React.FC<PostListProps> = ({postDocs, onPostClick, ...props}) =>
   return (
     <ul {...props}>
       {postDocs.map((postDoc, idx) => {
-        const dateText = createDateText(postDoc.date);
+        const dateText = createPostDateText(postDoc.date);
         return (
           <li key={idx} css={listItemCss}>
             <button
@@ -88,12 +88,12 @@ const listItemButtonCss: CssProp = systemCss({
 });
 
 const itemImageBoxCss: CssProp = systemCss({
-  maxHeight: `calc(${ITEM_HEIGHT} - (${ITEM_HEIGHT} * 0.2))`,
+  maxHeight: `calc(${ITEM_HEIGHT} - (${ITEM_HEIGHT} * 0.1))`,
 
   position: 'relative',
   aspectRatio: '4 / 3',
   overflow: 'hidden',
-  img: {objectFit: 'cover'},
+  img: {objectFit: 'contain'},
 });
 const itemContentBoxCss: CssProp = (theme) =>
   systemCss({
