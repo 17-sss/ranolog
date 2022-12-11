@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {domainName, metadata} from '@root/blog.data';
+import {domainName, metadata, siteUrl} from '@root/blog.data';
 import {getSortedDocuments} from '@src/lib';
 import {ProjectTemplate} from '@src/projects';
 import {ProjectDocument, SeoHead} from '@src/shared';
@@ -10,12 +10,14 @@ export interface ProjectPageProps {
 }
 
 const ProjectPage: React.FC<ProjectPageProps> = ({projectDocs}) => {
+  const canonicalUrl = `${siteUrl}/projects`;
   return (
     <>
       <SeoHead
         {...metadata}
         title={`Projects | ${domainName}`}
-        canonical={`${metadata.canonical}/projects`}
+        url={canonicalUrl}
+        canonical={canonicalUrl}
       />
       <ProjectTemplate projectDocs={projectDocs} />
     </>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import {GetStaticPropsContext} from 'next';
 
-import {domainName, metadata} from '@root/blog.data';
+import {domainName, metadata, siteUrl} from '@root/blog.data';
 import {getDocumentIds, getSortedDocuments} from '@src/lib';
 import {ProjectDetailTemplate} from '@src/projects';
 import {ProjectDocument, SeoHead} from '@src/shared';
@@ -13,16 +13,16 @@ export interface ProjectDetailPageProps {
 }
 
 const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({projectDoc, projectDocs}) => {
+  const canonicalUrl = projectDoc?.id ? `${siteUrl}/projects/${projectDoc.id}` : siteUrl;
   return (
     <>
       <SeoHead
         {...metadata}
         title={projectDoc?.subject ? `${projectDoc?.subject} | ${domainName}` : metadata.title}
         image={projectDoc?.thumbnail ? projectDoc?.thumbnail : metadata.image}
-        canonical={
-          projectDoc?.id ? `${metadata.canonical}/projects/${projectDoc.id}` : metadata.canonical
-        }
         description={projectDoc?.summary ? projectDoc.summary : metadata.description}
+        url={canonicalUrl}
+        canonical={canonicalUrl}
       />
       <ProjectDetailTemplate projectDoc={projectDoc} projectDocs={projectDocs} />
     </>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import {GetStaticPropsContext} from 'next';
 
-import {domainName, metadata} from '@root/blog.data';
+import {domainName, metadata, siteUrl} from '@root/blog.data';
 import {BlogDetailTemplate} from '@src/blog';
 import {getDocumentIds, getSortedDocuments} from '@src/lib';
 import {PostDocument, SeoHead} from '@src/shared';
@@ -13,14 +13,16 @@ export interface BlogDetailPageProps {
 }
 
 const BlogDetailPage: React.FC<BlogDetailPageProps> = ({postDoc, postDocs}) => {
+  const canonicalUrl = postDoc?.id ? `${siteUrl}/blog/${postDoc.id}` : siteUrl;
   return (
     <>
       <SeoHead
         {...metadata}
         title={postDoc?.subject ? `${postDoc?.subject} | ${domainName}` : metadata.title}
         image={postDoc?.thumbnail ? postDoc?.thumbnail : metadata.image}
-        canonical={postDoc?.id ? `${metadata.canonical}/blog/${postDoc.id}` : metadata.canonical}
         description={postDoc?.summary ? postDoc.summary : metadata.description}
+        url={canonicalUrl}
+        canonical={canonicalUrl}
       />
       <BlogDetailTemplate postDoc={postDoc} postDocs={postDocs} />
     </>

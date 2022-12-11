@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {domainName, metadata} from '@root/blog.data';
+import {domainName, metadata, siteUrl} from '@root/blog.data';
 import {getDocumentByFileName} from '@src/lib';
 import {ResumeTemplate} from '@src/resume';
 import {ResumeDocument, SeoHead} from '@src/shared';
@@ -10,12 +10,14 @@ export interface ResumePageProps {
 }
 
 const ResumePage: React.FC<ResumePageProps> = ({resumeDoc}) => {
+  const canonicalUrl = `${siteUrl}/resume`;
   return (
     <>
       <SeoHead
         {...metadata}
         title={`Resume | ${domainName}`}
-        canonical={`${metadata.canonical}/resume`}
+        url={canonicalUrl}
+        canonical={canonicalUrl}
       />
       <ResumeTemplate resumeDoc={resumeDoc} />
     </>
