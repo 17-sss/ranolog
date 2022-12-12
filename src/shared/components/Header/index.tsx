@@ -1,6 +1,6 @@
 import {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
 
-import Image, {StaticImageData} from 'next/image';
+import Image from 'next/image';
 import Link from 'next/link';
 import {GiHamburgerMenu} from 'react-icons/gi';
 
@@ -10,6 +10,7 @@ import {
   centerAlignedChildren,
   commonPxValues,
   fixedToScreen,
+  defaultFontFamily,
 } from '../../styles';
 import {CssProp, systemCss} from '../../system';
 
@@ -20,7 +21,7 @@ export interface HeaderLink {
 }
 
 export interface HeaderProps {
-  profileImage: StaticImageData | string;
+  profileImage: string;
   links: HeaderLink[];
 }
 
@@ -124,7 +125,7 @@ const mobileMenuCss: CssProp = systemCss({display: 'block'});
 
 const menuItemCss: CssProp = (theme) =>
   systemCss({
-    fontFamily: `'Poor Story'`,
+    fontFamily: `'Poor Story', ${defaultFontFamily}`,
     fontSize: [theme.fontSizes.p24, theme.fontSizes.p20],
     color: theme.colors.gray500,
     '&:hover': {

@@ -1,0 +1,157 @@
+/* Noto Sans KR  ================================================= */
+/* noto-sans-kr-100 - korean */
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 100;
+  font-display: block;
+  src: local('Noto Sans KR Thin'),
+    url('./NotoSansKR/noto-sans-kr-v27-korean-100.woff2') format('woff2'),
+    url('./NotoSansKR/noto-sans-kr-v27-korean-100.woff') format('woff');
+}
+/* noto-sans-kr-300 - korean */
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 300;
+  font-display: block;
+  src: local('Noto Sans KR Light'),
+    url('./NotoSansKR/noto-sans-kr-v27-korean-300.woff2') format('woff2'),
+    url('./NotoSansKR/noto-sans-kr-v27-korean-300.woff') format('woff');
+}
+/* noto-sans-kr-regular - korean */
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: local('Noto Sans KR Regular'),
+    url('./NotoSansKR/noto-sans-kr-v27-korean-regular.woff2') format('woff2'),
+    url('./NotoSansKR/noto-sans-kr-v27-korean-regular.woff') format('woff');
+}
+/* noto-sans-kr-500 - korean */
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 500;
+  font-display: block;
+  src: local('Noto Sans KR Medium'),
+    url('./NotoSansKR/noto-sans-kr-v27-korean-500.woff2') format('woff2'),
+    url('./NotoSansKR/noto-sans-kr-v27-korean-500.woff') format('woff');
+}
+/* noto-sans-kr-700 - korean */
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+  src: local('Noto Sans KR Bold'),
+    url('./NotoSansKR/noto-sans-kr-v27-korean-700.woff2') format('woff2'),
+    url('./NotoSansKR/noto-sans-kr-v27-korean-700.woff') format('woff');
+}
+/* noto-sans-kr-900 - korean */
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: local('Noto Sans KR Black'),
+    url('./NotoSansKR/noto-sans-kr-v27-korean-700.woff2') format('woff2'),
+    url('./NotoSansKR/noto-sans-kr-v27-korean-700.woff') format('woff');
+}
+
+/* Poor Story ================================================= */
+/* poor-story-regular - korean */
+@font-face {
+  font-family: 'Poor Story';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: local('Poor Story Regular'),
+    url('./PoorStory/poor-story-v20-korean-regular.woff2') format('woff2'),
+    url('./PoorStory/poor-story-v20-korean-regular.woff') format('woff');
+}
+
+/* Pretendard ================================================= */
+
+/* Pretendard-100 */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 100;
+  font-display: block;
+  src: local('Pretendard Thin'), url('./Pretendard/Pretendard-Thin.woff2') format('woff2'),
+    url('./Pretendard/Pretendard-Thin.woff') format('woff');
+}
+
+/* Pretendard-200 */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 200;
+  font-display: block;
+  src: local('Pretendard ExtraLight'),
+    url('./Pretendard/Pretendard-ExtraLight.woff2') format('woff2'),
+    url('./Pretendard/Pretendard-ExtraLight.woff') format('woff');
+}
+
+/* Pretendard-300 */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 300;
+  font-display: block;
+  src: local('Pretendard Light'), url('./Pretendard/Pretendard-Light.woff2') format('woff2'),
+    url('./Pretendard/Pretendard-Light.woff') format('woff');
+}
+
+/* Pretendard-Regular */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 400;
+  font-display: block;
+  src: local('Pretendard Regular'), url('./Pretendard/Pretendard-Regular.woff2') format('woff2'),
+    url('./Pretendard/Pretendard-Regular.woff') format('woff');
+}
+
+/* Pretendard-500 */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 500;
+  font-display: block;
+  src: local('Pretendard Medium'), url('./Pretendard/Pretendard-Medium.woff2') format('woff2'),
+    url('./Pretendard/Pretendard-Medium.woff') format('woff');
+}
+
+/* Pretendard-600 */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 600;
+  font-display: block;
+  src: local('Pretendard SemiBold'), url('./Pretendard/Pretendard-SemiBold.woff2') format('woff2'),
+    url('./Pretendard/Pretendard-SemiBold.woff') format('woff');
+}
+
+/* Pretendard-700 */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 700;
+  font-display: block;
+  src: local('Pretendard Bold'), url('./Pretendard/Pretendard-Bold.woff2') format('woff2'),
+    url('./Pretendard/Pretendard-Bold.woff') format('woff');
+}
+
+/* Pretendard-800 */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 800;
+  font-display: block;
+  src: local('Pretendard ExtraBold'), url('./Pretendard/Pretendard-ExtraBold.woff2') format('woff2'),
+    url('./Pretendard/Pretendard-ExtraBold.woff') format('woff');
+}
+
+/* Pretendard-900 */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 900;
+  font-display: block;
+  src: local('Pretendard Black'), url('./Pretendard/Pretendard-Black.woff2') format('woff2'),
+    url('./Pretendard/Pretendard-Black.woff') format('woff');
+}

@@ -1,5 +1,8 @@
 import {CssProp, systemCss} from '../system';
 
+/** 프로젝트 기본 Font-Famiily */
+export const defaultFontFamily = `Pretendard, 'Noto Sans KR', sans-serif`;
+
 /**
  * 한 줄 말줄임 (...)
  * - ex) 가나다라마바사...

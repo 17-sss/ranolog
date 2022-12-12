@@ -1,6 +1,7 @@
 import {Global, css} from '@emotion/react';
 
 import {theme} from '../theme';
+import {defaultFontFamily} from './typography';
 
 const resetCss = css`
   html,
@@ -137,7 +138,7 @@ const defaultCss = css`
     font-size: ${theme.fontSizes.p16};
   }
   body {
-    font-family: Pretendard, 'Noto Sans KR', 'Roboto', Lato, sans-serif;
+    font-family: ${defaultFontFamily};
     line-height: 1.6;
     letter-spacing: -0.04em;
     -webkit-text-size-adjust: 100%;

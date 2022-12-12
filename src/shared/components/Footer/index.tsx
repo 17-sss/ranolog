@@ -3,7 +3,7 @@ import {HiOutlineMail} from 'react-icons/hi';
 
 import {configData} from '@root/blog.data';
 
-import {centerAlignedChildren, commonPxValues} from '../../styles';
+import {centerAlignedChildren, commonPxValues, defaultFontFamily} from '../../styles';
 import {CssProp, systemCss} from '../../system';
 import CustomLink from '../CustomLink';
 
@@ -102,5 +102,5 @@ const contactLinkCss: CssProp = (theme) => [
 ];
 
 const copyrightCss: CssProp = systemCss({
-  fontFamily: `'Poor Story'`,
+  fontFamily: `'Poor Story', ${defaultFontFamily}`,
 });
