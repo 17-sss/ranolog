@@ -22,20 +22,24 @@ const PostList: React.FC<PostListProps> = ({postDocs, onPostClick, ...props}) =>
         const dateText = createPostDateText(postDoc.date);
         return (
           <li key={idx} css={listItemCss}>
-            <button
-              css={[listItemInnerCss, listItemButtonCss]}
-              onClick={() => onPostClick(postDoc.id)}
-            >
-              <div css={itemContentBoxCss}>
-                <p className="subject">{postDoc.subject}</p>
-                {postDoc.summary && <p className="summary">{postDoc.summary}</p>}
-                {dateText && <p className="date">{dateText}</p>}
-              </div>
-              {postDoc.thumbnail && (
-                <div css={itemImageBoxCss}>
-                  <Image src={postDoc.thumbnail} alt={`${postDoc.subject} (image)`} fill priority />
+            <button css={itemButtonCss} onClick={() => onPostClick(postDoc.id)}>
+              <div css={itemButtonInnerCss}>
+                <div css={contentBoxCss}>
+                  <p className="subject">{postDoc.subject}</p>
+                  {postDoc.summary && <p className="summary">{postDoc.summary}</p>}
+                  {dateText && <p className="date">{dateText}</p>}
                 </div>
-              )}
+                {postDoc.thumbnail && (
+                  <div css={imageBoxCss}>
+                    <Image
+                      src={postDoc.thumbnail}
+                      alt={`${postDoc.subject} (image)`}
+                      fill
+                      priority
+                    />
+                  </div>
+                )}
+              </div>
             </button>
           </li>
         );
@@ -60,34 +64,30 @@ const listItemCss: CssProp = [
     }),
 ];
 
-const listItemInnerCss: CssProp = systemCss({
-  display: 'flex',
-  alignItems: 'center',
-
+const itemButtonCss: CssProp = systemCss({
   width: '100%',
   height: '100%',
-
-  '& > * + *': {ml: '1rem'},
-  '& > *:first-of-type': {
-    // itemImageBox or itemContentBox
-    flexGrow: 3,
-    flexBasis: 3,
-    pl: '1rem',
-  },
-  '& > *:last-of-type': {
-    // itemImageBox
-    flexGrow: 1,
-    flexBasis: 1,
-    pr: '1rem',
-  },
-});
-const listItemButtonCss: CssProp = systemCss({
   textAlign: 'start',
   boxSizing: 'content-box',
   letterSpacing: 'inherit',
 });
+const itemButtonInnerCss: CssProp = systemCss({
+  display: 'flex',
+  alignItems: 'center',
+  px: '1rem',
 
-const itemImageBoxCss: CssProp = systemCss({
+  '& > * + *': {ml: '1rem'},
+  '& > *:first-of-type': {
+    flexGrow: 3,
+    flexBasis: 3,
+  },
+  '& > *:last-of-type': {
+    flexGrow: 1,
+    flexBasis: 1,
+  },
+});
+
+const imageBoxCss: CssProp = systemCss({
   maxHeight: `calc(${ITEM_HEIGHT} - (${ITEM_HEIGHT} * 0.1))`,
 
   position: 'relative',
@@ -95,7 +95,8 @@ const itemImageBoxCss: CssProp = systemCss({
   overflow: 'hidden',
   img: {objectFit: 'contain'},
 });
-const itemContentBoxCss: CssProp = (theme) =>
+
+const contentBoxCss: CssProp = (theme) =>
   systemCss({
     display: 'flex',
     justifyContent: 'center',
