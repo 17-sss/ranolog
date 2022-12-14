@@ -3,7 +3,14 @@ import {Fragment} from 'react';
 import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote';
 import {rgba} from 'polished';
 
-import {CustomCode, CustomLink, Typography, Divider, FlexBox} from '../../components';
+import {
+  CustomCode,
+  CustomLink,
+  Divider,
+  FlexBox,
+  Typography,
+  TypographyProps,
+} from '../../components';
 import {CssProp, systemCss} from '../../system';
 
 export interface MarkdownRendererProps {
@@ -28,7 +35,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({content, ...props}) 
           a: ({href, children}) => <CustomLink href={href ?? ''}>{children}</CustomLink>,
           CustomLink,
           CustomCode,
-          Typography,
+          Typography: ({...props}: TypographyProps) => <Typography {...props} useHeadingId />,
           Divider,
           FlexBox,
           Fragment,
