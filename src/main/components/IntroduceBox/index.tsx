@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import {rgba} from 'polished';
 
-import {CustomCode, CssProp, systemCss} from '@src/shared';
+import {CustomCode, CssProp, systemCss, commonBlurDataURL} from '@src/shared';
 
 export interface IntroduceBoxProps {
   title: string;
@@ -21,7 +21,14 @@ const IntroduceBox: React.FC<IntroduceBoxProps> = ({title, description, bannerIm
         </p>
       </div>
       <div css={imageBoxCss}>
-        <Image src={bannerImage} alt="main_banner" fill priority />
+        <Image
+          src={bannerImage}
+          alt="main_banner"
+          fill
+          priority
+          placeholder="blur"
+          blurDataURL={commonBlurDataURL}
+        />
       </div>
     </div>
   );

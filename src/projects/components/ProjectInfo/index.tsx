@@ -11,6 +11,7 @@ import {
   Typography,
   CustomLink,
   createDateText,
+  commonBlurDataURL,
 } from '@src/shared';
 
 export interface ProjectInfoProps extends Omit<ProjectDocument, 'content' | 'extension' | 'id'> {}
@@ -97,7 +98,14 @@ const ProjectInfo: React.FC<ProjectInfoProps> = ({
         </dl>
         {thumbnail && (
           <div css={thumbnailBoxCss}>
-            <Image src={thumbnail} alt="thumbnail_image" fill priority />
+            <Image
+              src={thumbnail}
+              alt="thumbnail_image"
+              fill
+              priority
+              placeholder="blur"
+              blurDataURL={commonBlurDataURL}
+            />
           </div>
         )}
       </div>

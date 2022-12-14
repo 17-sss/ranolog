@@ -7,6 +7,7 @@ import {
   centerAlignedChildren,
   PostDocument,
   singleLineEllipsis,
+  commonBlurDataURL,
 } from '@src/shared';
 
 export interface PostListProps {
@@ -36,6 +37,8 @@ const PostList: React.FC<PostListProps> = ({postDocs, onPostClick, ...props}) =>
                       alt={`${postDoc.subject} (image)`}
                       fill
                       priority
+                      placeholder="blur"
+                      blurDataURL={commonBlurDataURL}
                     />
                   </div>
                 )}

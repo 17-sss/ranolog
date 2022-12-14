@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {GiHamburgerMenu} from 'react-icons/gi';
 
+import {commonBlurDataURL} from '../../constants';
 import {useMedia} from '../../hooks';
 import {
   centerBetweenAlignChildren,
@@ -79,7 +80,14 @@ const Header: React.FC<HeaderProps> = ({profileImage, links, ...props}) => {
           {/* PROFILE */}
           <Link href={links.find(({name}) => name === 'root')?.link ?? '/'} passHref legacyBehavior>
             <a css={profileImageBoxCss} onClick={handleLinkClick}>
-              <Image src={profileImage} alt="profile_image" fill priority />
+              <Image
+                src={profileImage}
+                alt="profile_image"
+                fill
+                priority
+                placeholder="blur"
+                blurDataURL={commonBlurDataURL}
+              />
             </a>
           </Link>
         </div>
