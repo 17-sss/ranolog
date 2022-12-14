@@ -97,7 +97,14 @@ const ProjectInfo: React.FC<ProjectInfoProps> = ({
         </dl>
         {thumbnail && (
           <div css={thumbnailBoxCss}>
-            <Image src={thumbnail} alt="thumbnail_image" fill priority />
+            <Image
+              src={thumbnail.src}
+              blurDataURL={thumbnail.blurDataURL}
+              placeholder={thumbnail.blurDataURL ? 'blur' : undefined}
+              alt="thumbnail_image"
+              fill
+              priority
+            />
           </div>
         )}
       </div>

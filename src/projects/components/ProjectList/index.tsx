@@ -17,7 +17,9 @@ const ProjectList: React.FC<ProjectListProps> = ({projectDocs, ...props}) => {
               <a css={linkCss}>
                 <div css={thumbnailBoxCss(thumbnail ? 'cover' : 'contain')}>
                   <Image
-                    src={thumbnail || '/no-pictures.png'}
+                    src={thumbnail?.src ?? '/no-pictures.png'}
+                    blurDataURL={thumbnail?.blurDataURL}
+                    placeholder={thumbnail?.blurDataURL ? 'blur' : undefined}
                     alt={`${subject} (thumbnail)`}
                     fill
                     priority

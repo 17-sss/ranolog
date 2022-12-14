@@ -2,7 +2,6 @@ import {DefaultDocument} from '@src/lib';
 
 export interface PostDocument extends DefaultDocument {
   category?: string | string[];
-  thumbnail?: string;
 }
 
 export interface ProjectDocument extends DefaultDocument {
@@ -15,7 +14,6 @@ export interface ProjectDocument extends DefaultDocument {
     text: string;
     href: string;
   }[];
-  thumbnail?: string;
 }
 
 export interface ResumeDocument extends DefaultDocument {

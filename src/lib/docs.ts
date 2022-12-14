@@ -6,19 +6,31 @@ import mdxPrism from 'mdx-prism';
 import {MDXRemoteSerializeResult} from 'next-mdx-remote';
 import {serialize} from 'next-mdx-remote/serialize';
 import path from 'path';
+import {getPlaiceholder} from 'plaiceholder';
 import {remark} from 'remark';
 import remarkGfm from 'remark-gfm';
 import remarkHtml from 'remark-html';
 import remarkPrism from 'remark-prism';
 
-export interface DefaultDocument {
-  id: string;
+export interface DocumentImageProps {
+  src: string;
+  blurDataURL?: string;
+}
+
+interface MatterData {
   subject: string;
   date: string | {start: string; end?: string};
+  summary?: string;
+  thumbnail?: DocumentImageProps | string | null;
+}
+
+export interface DefaultDocument extends MatterData {
+  id: string;
   content: string | MDXRemoteSerializeResult;
   extension: string;
-  summary?: string;
+  thumbnail?: DocumentImageProps | null;
 }
+
 type SubFolderType = 'posts' | 'projects';
 
 const REGEX_MARKDOWN = /\.mdx?$/;
@@ -50,6 +62,24 @@ export const createMarkdownContent = async (content: string, extension?: string)
   return await markdownToHtml(content);
 };
 
+/** markdown frontmatter에 정의한 string 형식의 image 정보를 변환함
+ * - string 형식인 image 정보(thumbnail 등..)를 {src, blurDataURL} 형태로 변환
+ */
+export const convertDocumentImageProps = async (
+  src?: string,
+): Promise<DocumentImageProps | null> => {
+  try {
+    if (typeof src === 'undefined') {
+      return null;
+    }
+    const {base64: blurDataURL} = await getPlaiceholder(src);
+    return {src, blurDataURL};
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
+
 /** [async] 모든 정적 데이터 가져옴  */
 export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocument>(
   subFolderType?: SubFolderType,
@@ -64,9 +94,10 @@ export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocumen
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       const id = fileName.replace(REGEX_MARKDOWN, '');
       const extension = fileName.match(REGEX_MARKDOWN)?.[0] ?? 'unknown';
-      const matterResult = matter(fileContents);
-      const content = await createMarkdownContent(matterResult.content, extension);
-      result.push({...matterResult.data, id, content, extension} as TDoc);
+      const {data, content: matterContent} = matter(fileContents);
+      const thumbnail = await convertDocumentImageProps(data['thumbnail']);
+      const content = await createMarkdownContent(matterContent, extension);
+      result.push({...data, id, thumbnail, content, extension} as TDoc);
     }
   } catch (e) {
     console.error(e);

@@ -19,7 +19,7 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({postDoc, postDocs}) => {
       <SeoHead
         {...metadata}
         title={postDoc?.subject ? `${postDoc?.subject} | ${domainName}` : metadata.title}
-        image={postDoc?.thumbnail ? postDoc?.thumbnail : metadata.image}
+        image={postDoc?.thumbnail ? postDoc?.thumbnail.src : metadata.image}
         description={postDoc?.summary ? postDoc.summary : metadata.description}
         url={canonicalUrl}
         canonical={canonicalUrl}

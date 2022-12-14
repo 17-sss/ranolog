@@ -19,7 +19,7 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({projectDoc, projec
       <SeoHead
         {...metadata}
         title={projectDoc?.subject ? `${projectDoc?.subject} | ${domainName}` : metadata.title}
-        image={projectDoc?.thumbnail ? projectDoc?.thumbnail : metadata.image}
+        image={projectDoc?.thumbnail ? projectDoc?.thumbnail.src : metadata.image}
         description={projectDoc?.summary ? projectDoc.summary : metadata.description}
         url={canonicalUrl}
         canonical={canonicalUrl}
