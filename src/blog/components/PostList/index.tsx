@@ -32,9 +32,7 @@ const PostList: React.FC<PostListProps> = ({postDocs, onPostClick, ...props}) =>
                 {postDoc.thumbnail && (
                   <div css={imageBoxCss}>
                     <Image
-                      src={postDoc.thumbnail.src}
-                      blurDataURL={postDoc.thumbnail.blurDataURL}
-                      placeholder={postDoc.thumbnail.blurDataURL ? 'blur' : undefined}
+                      src={postDoc.thumbnail}
                       alt={`${postDoc.subject} (image)`}
                       fill
                       priority

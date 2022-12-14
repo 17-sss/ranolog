@@ -100,11 +100,7 @@ export const tempPosts: Omit<PostDocument, 'id' | 'category' | 'date'>[] = [
   {
     subject: 'dolor sit amet',
     content: `${sampleContentHtml}${samplePrismHtml}`,
-    thumbnail: {
-      src: '/sample.jpg',
-      blurDataURL:
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAIAAADwyuo0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAJUlEQVR4nAEaAOX/AP///5+fny4uLpCQkACBgYEGBgaurq7///+zVA2xGB1fnQAAAABJRU5ErkJggg==',
-    },
+    thumbnail: '/sample.jpg',
     extension: '.md',
   },
 ];
@@ -130,10 +126,6 @@ export const tempProjects: Omit<ProjectDocument, 'id' | 'category' | 'date'>[] =
     subject: 'THE SAMPLE MDX',
     content: sampleMDXData,
     extension: '.mdx',
-    thumbnail: {
-      src: '/sample.jpg',
-      blurDataURL:
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAIAAADwyuo0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAJUlEQVR4nAEaAOX/AP///5+fny4uLpCQkACBgYEGBgaurq7///+zVA2xGB1fnQAAAABJRU5ErkJggg==',
-    },
+    thumbnail: '/sample.jpg',
   },
 ];
