@@ -59,8 +59,6 @@ const listCss: CssProp = systemCss({
 
 const itemCss: CssProp = (theme) =>
   systemCss({
-    px: '1rem',
-    py: '1.5rem',
     backgroundColor: theme.colors.white,
     border: `1px solid ${theme.colors.gray200}`,
     borderRadius: '0.5rem',
@@ -70,7 +68,8 @@ const itemCss: CssProp = (theme) =>
   });
 
 const linkCss: CssProp = systemCss({
-  height: '100%',
+  px: '1rem',
+  py: '1.5rem',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
