@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import {CssProp, ProjectDocument, systemCss} from '@src/shared';
+import {commonBlurDataURL, CssProp, ProjectDocument, systemCss} from '@src/shared';
 
 export interface ProjectListProps {
   projectDocs: ProjectDocument[];
@@ -21,6 +21,8 @@ const ProjectList: React.FC<ProjectListProps> = ({projectDocs, ...props}) => {
                     alt={`${subject} (thumbnail)`}
                     fill
                     priority
+                    placeholder="blur"
+                    blurDataURL={commonBlurDataURL}
                   />
                 </div>
 
