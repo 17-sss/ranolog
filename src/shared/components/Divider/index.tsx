@@ -1,13 +1,14 @@
+import {PropsWithChildren} from 'react';
+
 import {CssProp, systemCss} from '../../system';
 import {theme} from '../../theme';
 
-export interface DividerProps {
+export interface DividerProps extends PropsWithChildren {
   color?: keyof typeof theme.colors | 'transparent';
   width?: string;
   height?: string;
   dashed?: boolean;
   vertical?: boolean;
-  children?: React.ReactNode;
 }
 
 export const Divider: React.FC<DividerProps> = ({

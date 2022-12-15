@@ -1,3 +1,5 @@
+import {PropsWithChildren} from 'react';
+
 import {staticDataInfo} from '@root/ranolog.config';
 
 import {commonPxValues, commonWidthCss, findPrevStyledValue} from '../../styles';
@@ -7,9 +9,7 @@ import Header, {HEADER_HEIGHTS} from '../Header';
 
 const layoutStaticData = staticDataInfo.layout;
 
-export interface PageLayoutProps {
-  children?: React.ReactNode;
-}
+export interface PageLayoutProps extends PropsWithChildren {}
 
 const PageLayout: React.FC<PageLayoutProps> = ({children, ...props}) => {
   return (

@@ -1,4 +1,4 @@
-import React, {useState, useCallback, forwardRef} from 'react';
+import React, {useState, useCallback, forwardRef, PropsWithChildren} from 'react';
 
 import {CssProp, systemCss} from '../../system';
 import {theme} from '../../theme';
@@ -9,10 +9,9 @@ const isHeading = (text: string) => /^h\d/.test(text);
 export type TypographyVariant = typeof variantKeys[number];
 export type TypographyColor = typeof colorKeys[number] | keyof typeof theme.colors;
 
-interface TypographyInnerProps {
+interface TypographyInnerProps extends PropsWithChildren {
   id?: string;
   variant: TypographyVariant;
-  children?: React.ReactNode;
 }
 
 const TypographyInner = forwardRef<HTMLElement, TypographyInnerProps>(

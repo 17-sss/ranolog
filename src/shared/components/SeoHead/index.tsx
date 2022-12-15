@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropsWithChildren} from 'react';
 
 import Head from 'next/head';
 
@@ -19,9 +19,8 @@ export interface DefaultSeoMeta {
 }
 
 type PartialSeoMeta = Partial<DefaultSeoMeta>;
-export interface SeoHeadProps extends PartialSeoMeta {
-  children?: React.ReactNode;
-}
+
+export interface SeoHeadProps extends PartialSeoMeta, PropsWithChildren {}
 
 const SeoHead: React.FC<SeoHeadProps> = ({
   title,
