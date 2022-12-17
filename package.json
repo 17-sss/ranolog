@@ -11,7 +11,8 @@
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "docsmaker": "node .docs-maker"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
@@ -30,8 +31,10 @@
     "@types/node": "18.11.9",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
+    "chalk": "4.1.2",
     "date-fns": "^2.29.3",
     "gray-matter": "^4.0.3",
+    "inquirer": "^8.0.0",
     "mdx-prism": "^0.3.4",
     "next": "13.0.1",
     "polished": "^4.2.2",
