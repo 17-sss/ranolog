@@ -1,9 +1,9 @@
-const {getResultAnswers} = require('./core');
+const {getResultAnswers, execFileMaker} = require('./core');
 
 const execDocsMaker = async () => {
   try {
     const answers = await getResultAnswers();
-    console.log(answers);
+    execFileMaker(answers);
   } catch (e) {
     console.error(e);
   }

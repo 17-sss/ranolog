@@ -1,3 +1,4 @@
 const {getResultAnswers} = require('./answers');
+const {execFileMaker} = require('./fileMaker');
 
-module.exports = {getResultAnswers};
+module.exports = {getResultAnswers, execFileMaker};

@@ -45,7 +45,7 @@ const getResultAnswers = async () => {
       basicAnswers.format,
       basicAnswers.extension,
     );
-    const result = {...basicAnswers, ...formatAnswers};
+    const result = {...basicAnswers, ...formatAnswers, language};
     return result;
   } catch (e) {
     console.error(e);
