@@ -4,13 +4,22 @@ const fs = require('fs');
 const chalk = require('chalk');
 
 const docsDir = path.join(process.cwd(), 'docs');
+const publicDir = path.join(process.cwd(), 'public');
 // ---
 
 // [CONSTANTS] ===============================
 const requiredText = `${chalk.red('*')}`;
+const introTexts = [
+  chalk.magenta('-').repeat(40),
+  `${chalk.bold(`Guide to Prefixes in Questions`)}`,
+  `${requiredText} : Required`,
+  `${chalk.green('?')} : Not required (Press Enter to skip)`,
+  chalk.magenta('-').repeat(40),
+].join('\n');
 
 // 1) LANGUAGE -----------
 const languageCollection = {
+  prefix: requiredText,
   type: 'list',
   name: 'language',
   message: 'Please select a language.',
@@ -51,6 +60,10 @@ const FORMAT_SUFFIX = {
       .filter((v) => v)
       .join(chalk.bold.gray(' :: ')),
   }),
+  defaultDate: {
+    Korean: `입력하지 않을 시, ${chalk.bold('오늘')} 날짜로 표시됩니다.`,
+    English: `If not entered, ${chalk.bold(`today's date`)} will be entered.`,
+  },
   noEndDate: {
     Korean: `입력하지 않을 시, "${chalk.bgCyan('~ing')}"로 표시됩니다.`,
     English: `If not entered, "${chalk.bgCyan('~ing')}" is displayed.`,
@@ -58,6 +71,10 @@ const FORMAT_SUFFIX = {
   enterLink: {
     Korean: `${chalk.bgWhite('[Title](link)')} 형식으로 작성`,
     English: `Write in ${chalk.bgWhite('[Title](link)')} format`,
+  },
+  thumbnailDesc: {
+    Korean: `${chalk.green('public')} 폴더 하위의 이미지 경로를 입력해주세요.`,
+    English: `Enter the image path under the ${chalk.green('public')} folder.`,
   },
 };
 
@@ -79,26 +96,34 @@ const postFormatMessageInfo = {
   Korean: {
     date: {
       message: '날짜를 입력해주세요.',
-      prefix: requiredText,
-      suffix: `\n${chalk.blue('->')}${' '}${FORMAT_SUFFIX.getVaildDate().Korean}\n${' '}`,
+      suffix: `\n${chalk.blue('->')}${' '}${
+        FORMAT_SUFFIX.getVaildDate(FORMAT_SUFFIX.defaultDate.Korean).Korean
+      }\n${' '}`,
     },
     category: {
       message: '카테고리를 입력해주세요.',
       suffix: `\n${chalk.blue('->')}${' '}${FORMAT_SUFFIX.getMultipleInput().Korean}\n${' '}`,
     },
-    thumbnail: {message: '썸네일 이미지 경로(path)를 등록해주세요.'},
+    thumbnail: {
+      message: '썸네일 이미지 경로(path)를 등록해주세요.',
+      suffix: `\n${chalk.blue('->')}${' '}${FORMAT_SUFFIX.thumbnailDesc.Korean}\n${' '}`,
+    },
   },
   English: {
     date: {
       message: 'Please enter a date.',
-      prefix: requiredText,
-      suffix: `\n${chalk.blue('->')}${' '}${FORMAT_SUFFIX.getVaildDate().English}\n${' '}`,
+      suffix: `\n${chalk.blue('->')}${' '}${
+        FORMAT_SUFFIX.getVaildDate(FORMAT_SUFFIX.defaultDate.English).English
+      }\n${' '}`,
     },
     category: {
       message: 'Please enter a category.',
       suffix: `\n${chalk.blue('->')}${' '}${FORMAT_SUFFIX.getMultipleInput().English}\n${' '}`,
     },
-    thumbnail: {message: 'Please register the thumbnail image path.'},
+    thumbnail: {
+      message: 'Please register the thumbnail image path.',
+      suffix: `\n${chalk.blue('->')}${' '}${FORMAT_SUFFIX.thumbnailDesc.English}\n${' '}`,
+    },
   },
 };
 
@@ -128,7 +153,10 @@ const projectFormatMessageInfo = {
         FORMAT_SUFFIX.getMultipleInput(FORMAT_SUFFIX.enterLink.Korean).Korean
       }\n${' '}`,
     },
-    thumbnail: {message: '썸네일 이미지 경로(path)를 등록해주세요.'},
+    thumbnail: {
+      message: '썸네일 이미지 경로(path)를 등록해주세요.',
+      suffix: `\n${chalk.blue('->')}${' '}${FORMAT_SUFFIX.thumbnailDesc.Korean}\n${' '}`,
+    },
   },
   English: {
     startDate: {
@@ -154,7 +182,10 @@ const projectFormatMessageInfo = {
         FORMAT_SUFFIX.getMultipleInput(FORMAT_SUFFIX.enterLink.English).English
       }\n${' '}`,
     },
-    thumbnail: {message: 'Please register the thumbnail image path.'},
+    thumbnail: {
+      message: 'Please register the thumbnail image path.',
+      suffix: `\n${chalk.blue('->')}${' '}${FORMAT_SUFFIX.thumbnailDesc.English}\n${' '}`,
+    },
   },
 };
 
@@ -182,6 +213,7 @@ const resumeFormatMessageInfo = {
 
 // [FUNCTIONS : COMMON] ===============================
 const isFileExist = (filePath) => fs.existsSync(filePath);
+const isImageExtension = (filePath) => /\.(jpe?g|png|webp|avif|gif|svg)$/.test(filePath);
 const isValidDateText = (dateText) => {
   const REGEX_DATE = /\d{4}[\/|\-|\.]\d{2}[\/|\-|\.]\d{2}/;
   const date = new Date(dateText);
@@ -189,25 +221,17 @@ const isValidDateText = (dateText) => {
 };
 const removeSpaces = (text) => text.replace(/\s+/g, '');
 
-const createValidate = (language) => async (value) => {
-  if (!removeSpaces(value)) {
-    return language === 'English' ? 'Please enter a value.' : '값을 입력해주세요.';
-  }
-  return true;
-};
-
-const createFileValidate = (language, docsFolderName, extension) => async (value) => {
-  if (!removeSpaces(value)) {
-    return commonFormatMessageInfo[language]['fileName'].message;
-  }
-  const fileName = path.join(docsDir, docsFolderName, `${value}.${extension}`);
-  if (isFileExist(fileName)) {
-    return language === 'English'
-      ? 'The same file exists. Please enter again.'
-      : '같은 파일이 존재합니다. 다시 입력해주세요.';
-  }
-  return true;
-};
+const createValidate =
+  (language, failureMessage = '') =>
+  async (value) => {
+    if (!removeSpaces(value)) {
+      if (failureMessage) {
+        return failureMessage;
+      }
+      return language === 'English' ? 'Please enter a value.' : '값을 입력해주세요.';
+    }
+    return true;
+  };
 
 const createDateValidate =
   (language, noValueMessage, isRequired = true) =>
@@ -223,6 +247,37 @@ const createDateValidate =
     }
     return true;
   };
+
+const createFileValidate = (language, docsFolderName, extension) => async (value) => {
+  if (!removeSpaces(value)) {
+    return commonFormatMessageInfo[language]['fileName'].message;
+  }
+  const fileName = path.join(docsDir, docsFolderName, `${value}.${extension}`);
+  if (isFileExist(fileName)) {
+    return language === 'English'
+      ? 'The same file exists. Please enter again.'
+      : '같은 파일이 존재합니다. 다시 입력해주세요.';
+  }
+  return true;
+};
+
+const createThumbnailValidate = (language) => async (value) => {
+  if (!removeSpaces(value)) {
+    return true;
+  }
+  const fileName = path.join(publicDir, value);
+  if (!isImageExtension(fileName)) {
+    return language === 'English'
+      ? 'It is not an image file. Please enter again.'
+      : '이미지 파일이 아닙니다. 다시 입력해주세요.';
+  }
+  if (!isFileExist(fileName)) {
+    return language === 'English'
+      ? 'Image does not exist. Please enter again.'
+      : '이미지가 존재하지 않습니다. 다시 입력해주세요.';
+  }
+  return true;
+};
 
 // [FUNCTIONS : CREATE COLLECTION] ===============================
 // 1) BASIC -----------
@@ -253,7 +308,7 @@ const createCommonFormatCollections = (language, docsFolderName, extension) => {
       ...messageInfo['subject'],
       name: 'subject',
       type: 'input',
-      validate: createValidate(language),
+      validate: createValidate(language, messageInfo['subject'].message),
     },
     {...messageInfo['summary'], name: 'summary', type: 'input'},
   ];
@@ -268,14 +323,19 @@ const createPostFormatCollections = (extension) => (language) => {
       ...messageInfo['date'],
       name: 'date',
       type: 'input',
-      validate: createDateValidate(language, messageInfo['date'].message),
+      validate: createDateValidate(language, messageInfo['date'].message, false),
     },
     {
       ...messageInfo['category'],
       name: 'category',
       type: 'input',
     },
-    {...messageInfo['thumbnail'], name: 'thumbnail', type: 'input'},
+    {
+      ...messageInfo['thumbnail'],
+      name: 'thumbnail',
+      type: 'input',
+      validate: createThumbnailValidate(language),
+    },
   ];
 };
 
@@ -317,7 +377,12 @@ const createProjectFormatCollections = (extension) => (language) => {
       name: 'links',
       type: 'input',
     },
-    {...messageInfo['thumbnail'], name: 'thumbnail', type: 'input'},
+    {
+      ...messageInfo['thumbnail'],
+      name: 'thumbnail',
+      type: 'input',
+      validate: createThumbnailValidate(language),
+    },
   ];
 };
 
@@ -333,6 +398,7 @@ const createResumeFormatCollections = (extension) => (language) => {
 };
 
 module.exports = {
+  introTexts,
   languageCollection,
   createBasicCollections,
   createPostFormatCollections,

@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 
 const {
+  introTexts,
   languageCollection,
   createBasicCollections,
   createPostFormatCollections,
@@ -38,6 +39,7 @@ const getFormatAnswers = async (language, formatType, extension) => {
 
 const getResultAnswers = async () => {
   try {
+    console.log(introTexts);
     const language = await getAnswer(languageCollection);
     const basicAnswers = await getAnswers(createBasicCollections(language));
     const formatAnswers = await getFormatAnswers(

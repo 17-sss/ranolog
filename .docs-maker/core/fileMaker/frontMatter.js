@@ -1,3 +1,5 @@
+const {format} = require('date-fns');
+
 // COMMON -------------------------
 const createDeduplicatedArray = (array) => {
   const set = new Set(array);
@@ -30,6 +32,10 @@ const createObjectMatter = (aAnswers) => {
   for (const key in aAnswers) {
     const value = aAnswers[key];
     switch (key) {
+      case 'date': /* post : date */ {
+        result[key] = !value ? format(new Date(), 'yyyy.MM.dd') : value;
+        break;
+      }
       case 'startDate': /* project : date.start */
       case 'endDate': /* project : date.end */ {
         const currKey = key.replace(/date/i, '');
@@ -62,6 +68,14 @@ const createObjectMatter = (aAnswers) => {
         result[key] = createSplitTextsForLink(value);
         break;
       }
+      case 'thumbnail': /* post & project : thumbnail */ {
+        if (/^\//.test(value)) {
+          result[key] = value;
+          break;
+        }
+        result[key] = value ? `/${value}` : value;
+        break;
+      }
       default: /* 일반 Text */ {
         result[key] = value;
         break;
@@ -74,18 +88,20 @@ const createObjectMatter = (aAnswers) => {
 const convertObjectMatterToText = (objectMatter) => {
   const resultTexts = [];
   const objectMatterText = JSON.stringify(objectMatter, null, 2);
-  const texts = objectMatterText.split(/[\n|\r\n]/g);
+  const texts = objectMatterText.split(/\n/g);
   texts.forEach((text) => {
     if (/^[\{|\}]/.test(text)) {
       resultTexts.push('---');
       return;
     }
-    let currText = text.replace(/^\s{2}/g, '');
-    const isNotSpacesFront = !/^\s+/.test(currText);
+    const removeSpaceText = text.replace(/^\s{2}/g, '');
+    const removeDoubleQuotedFromKey = removeSpaceText.replace(/(?:\")(\w+)(?:\")(\:)/g, '$1$2');
+    const isNotSpacesFront = !/^\s+/.test(removeDoubleQuotedFromKey);
     if (isNotSpacesFront) {
-      currText = currText.replace(/\,$/g, '');
+      const deleteLastCommaText = removeDoubleQuotedFromKey.replace(/\,$/g, '');
+      return resultTexts.push(deleteLastCommaText);
     }
-    resultTexts.push(currText);
+    resultTexts.push(removeDoubleQuotedFromKey);
   });
   return resultTexts.join('\n');
 };
