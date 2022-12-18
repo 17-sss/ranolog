@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {metadata} from '@root/blog.data';
+import {metadata} from '@root/ranolog.config';
 import {getSortedDocuments} from '@src/lib';
 import {MainTemplate} from '@src/main';
 import {PostDocument, SeoHead} from '@src/shared';

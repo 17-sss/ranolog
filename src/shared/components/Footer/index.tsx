@@ -1,7 +1,7 @@
 import {FaGithub} from 'react-icons/fa';
 import {HiOutlineMail} from 'react-icons/hi';
 
-import {configData} from '@root/blog.data';
+import {configData} from '@root/ranolog.config';
 
 import {centerAlignedChildren, commonPxValues, defaultFontFamily} from '../../styles';
 import {CssProp, systemCss} from '../../system';

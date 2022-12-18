@@ -1,4 +1,4 @@
-import {configData} from '@root/blog.data';
+import {configData} from '@root/ranolog.config';
 import {PostList} from '@src/blog';
 import {useMainTemplate, IntroduceBox} from '@src/main';
 import {CssProp, systemCss, PostDocument, centerAlignedChildren} from '@src/shared';

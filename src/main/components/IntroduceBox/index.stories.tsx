@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {configData} from '@root/blog.data';
+import {configData} from '@root/ranolog.config';
 
 import IntroduceBox from './index';
 

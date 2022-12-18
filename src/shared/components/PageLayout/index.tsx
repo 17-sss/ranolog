@@ -1,4 +1,4 @@
-import {configData} from '@root/blog.data';
+import {configData} from '@root/ranolog.config';
 
 import {commonPxValues, commonWidthCss, findPrevStyledValue} from '../../styles';
 import {CssProp, systemCss} from '../../system';

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {domainName, metadata, siteUrl, resumeFileName} from '@root/blog.data';
+import {domainName, metadata, siteUrl, resumeFileName} from '@root/ranolog.config';
 import {getDocumentByFileName} from '@src/lib';
 import {ResumeTemplate} from '@src/resume';
 import {ResumeDocument, SeoHead} from '@src/shared';

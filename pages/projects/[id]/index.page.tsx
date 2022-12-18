@@ -2,7 +2,7 @@ import React from 'react';
 
 import {GetStaticPropsContext} from 'next';
 
-import {domainName, metadata, siteUrl} from '@root/blog.data';
+import {domainName, metadata, siteUrl} from '@root/ranolog.config';
 import {getDocumentIds, getSortedDocuments} from '@src/lib';
 import {ProjectDetailTemplate} from '@src/projects';
 import {ProjectDocument, SeoHead} from '@src/shared';

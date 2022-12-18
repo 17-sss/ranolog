@@ -2,7 +2,7 @@ import React from 'react';
 
 import Head from 'next/head';
 
-import {siteVerificationData} from '@root/blog.data';
+import {siteVerificationData} from '@root/ranolog.config';
 
 export type MetaDataType = {
   [key in
