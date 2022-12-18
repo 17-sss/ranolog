@@ -22,6 +22,8 @@ export const siteVerificationData = {
   // google: '[content value..]',
 };
 
+export const resumeFileName = 'default.mdx';
+
 /** config data */
 export const configData = {
   header: {

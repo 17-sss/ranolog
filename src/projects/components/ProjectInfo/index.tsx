@@ -157,6 +157,8 @@ const textItemCss: CssProp = systemCss({
     alignItems: 'center',
     gap: '0.25rem',
     flexWrap: 'wrap',
+
+    lineHeight: 1.2,
   },
 });
 

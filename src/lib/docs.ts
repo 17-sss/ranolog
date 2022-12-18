@@ -19,7 +19,7 @@ export interface DefaultDocument {
   extension: string;
   summary?: string;
 }
-type SubFolderType = 'posts' | 'projects';
+type SubFolderType = 'posts' | 'projects' | 'resumes';
 
 const REGEX_MARKDOWN = /\.mdx?$/;
 
