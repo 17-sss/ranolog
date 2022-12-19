@@ -1,23 +1,17 @@
-import {configData} from '@root/ranolog.config';
 import {PostList} from '@src/blog';
-import {useMainTemplate, IntroduceBox} from '@src/main';
+import {useMainTemplate, IntroduceBox, IntroduceBoxProps} from '@src/main';
 import {CssProp, systemCss, PostDocument, centerAlignedChildren} from '@src/shared';
-
-const {mainPage} = configData;
 
 export interface MainTemplateProps {
   recentPosts: PostDocument[];
+  introduceProps: IntroduceBoxProps;
 }
 
-const MainTemplate: React.FC<MainTemplateProps> = ({recentPosts, ...props}) => {
+const MainTemplate: React.FC<MainTemplateProps> = ({recentPosts, introduceProps, ...props}) => {
   const {isEmpty, handlePostItemClick} = useMainTemplate(recentPosts);
   return (
     <div css={containerCss} {...props}>
-      <IntroduceBox
-        title={mainPage.title}
-        description={mainPage.description}
-        bannerImage={mainPage.bannerImage}
-      />
+      <IntroduceBox {...introduceProps} />
       <div css={recentPostBoxCss}>
         <p className="title">Recent Post</p>
         {!isEmpty ? (

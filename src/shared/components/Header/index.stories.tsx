@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {configData} from '@root/ranolog.config';
+import {staticDataInfo} from '@root/ranolog.config';
 
 import Header from '.';
 
@@ -18,4 +18,4 @@ const Template: ComponentStory<typeof Header> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = {...configData.header};
+Default.args = {...staticDataInfo.layout.header};

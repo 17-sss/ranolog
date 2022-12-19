@@ -13,7 +13,7 @@ export interface ProjectDetailPageProps {
 }
 
 const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({projectDoc, projectDocs}) => {
-  const canonicalUrl = projectDoc?.id ? `${siteUrl}/projects/${projectDoc.id}` : siteUrl;
+  const currentUrl = projectDoc?.id ? `${siteUrl}/projects/${projectDoc.id}` : siteUrl;
   return (
     <>
       <SeoHead
@@ -21,8 +21,8 @@ const ProjectDetailPage: React.FC<ProjectDetailPageProps> = ({projectDoc, projec
         title={projectDoc?.subject ? `${projectDoc?.subject} | ${domainName}` : metadata.title}
         image={projectDoc?.thumbnail ? projectDoc?.thumbnail : metadata.image}
         description={projectDoc?.summary ? projectDoc.summary : metadata.description}
-        url={canonicalUrl}
-        canonical={canonicalUrl}
+        url={currentUrl}
+        canonical={currentUrl}
       />
       <ProjectDetailTemplate projectDoc={projectDoc} projectDocs={projectDocs} />
     </>

@@ -2,8 +2,7 @@ import {useCallback, useMemo, useRef} from 'react';
 
 import {useRouter} from 'next/router';
 
-import {CommentsRef} from '@src/blog';
-import {PostDocument, useDocNav, valueOrLastItem} from '@src/shared';
+import {PostDocument, useDocNav, valueOrLastItem, CommentsRef} from '@src/shared';
 
 export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
   const router = useRouter();

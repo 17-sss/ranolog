@@ -13,7 +13,7 @@ export interface BlogDetailPageProps {
 }
 
 const BlogDetailPage: React.FC<BlogDetailPageProps> = ({postDoc, postDocs}) => {
-  const canonicalUrl = postDoc?.id ? `${siteUrl}/blog/${postDoc.id}` : siteUrl;
+  const currentUrl = postDoc?.id ? `${siteUrl}/blog/${postDoc.id}` : siteUrl;
   return (
     <>
       <SeoHead
@@ -21,8 +21,8 @@ const BlogDetailPage: React.FC<BlogDetailPageProps> = ({postDoc, postDocs}) => {
         title={postDoc?.subject ? `${postDoc?.subject} | ${domainName}` : metadata.title}
         image={postDoc?.thumbnail ? postDoc?.thumbnail : metadata.image}
         description={postDoc?.summary ? postDoc.summary : metadata.description}
-        url={canonicalUrl}
-        canonical={canonicalUrl}
+        url={currentUrl}
+        canonical={currentUrl}
       />
       <BlogDetailTemplate postDoc={postDoc} postDocs={postDocs} />
     </>

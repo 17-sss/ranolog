@@ -1,9 +1,11 @@
-import {configData} from '@root/ranolog.config';
+import {staticDataInfo} from '@root/ranolog.config';
 
 import {commonPxValues, commonWidthCss, findPrevStyledValue} from '../../styles';
 import {CssProp, systemCss} from '../../system';
 import Footer, {FOOTER_HEIGHTS} from '../Footer';
 import Header, {HEADER_HEIGHTS} from '../Header';
+
+const layoutStaticData = staticDataInfo.layout;
 
 export interface PageLayoutProps {
   children?: React.ReactNode;
@@ -12,11 +14,11 @@ export interface PageLayoutProps {
 const PageLayout: React.FC<PageLayoutProps> = ({children, ...props}) => {
   return (
     <div css={layoutCss} {...props}>
-      <Header css={commonWidthCss} {...configData.header} />
+      <Header css={commonWidthCss} {...layoutStaticData.header} />
       <main css={mainCss}>
         <div css={mainInnerCss}>{children}</div>
       </main>
-      <Footer css={commonWidthCss} {...configData.footer} />
+      <Footer css={commonWidthCss} {...layoutStaticData.footer} />
     </div>
   );
 };

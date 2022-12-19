@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {configData} from '@root/ranolog.config';
+import {staticDataInfo} from '@root/ranolog.config';
 
 import {CssProp, systemCss} from '../../system';
 import Footer, {FooterProps} from './index';
@@ -23,7 +23,7 @@ const Template: ComponentStory<React.FC<FooterProps & {css: CssProp}>> = (args) 
 };
 
 export const Default = Template.bind({});
-Default.args = {...configData.footer};
+Default.args = {...staticDataInfo.layout.footer};
 
 export const WithMarginTop = Template.bind({});
 WithMarginTop.args = {...Default.args, css: systemCss({mt: '1rem'})};

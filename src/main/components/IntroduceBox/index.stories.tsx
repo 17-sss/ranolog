@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {configData} from '@root/ranolog.config';
+import {staticDataInfo} from '@root/ranolog.config';
 
 import IntroduceBox from './index';
 
@@ -18,6 +18,4 @@ const Template: ComponentStory<typeof IntroduceBox> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = {
-  ...configData.mainPage,
-};
+Default.args = {...staticDataInfo.pages.main.introduce};
