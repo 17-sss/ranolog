@@ -5,6 +5,7 @@ import Link from 'next/link';
 import {GiHamburgerMenu} from 'react-icons/gi';
 
 import {commonBlurDataURL} from '../../constants';
+import {changeFirstCharUpperCase} from '../../functions';
 import {useMedia} from '../../hooks';
 import {
   centerBetweenAlignChildren,
@@ -15,18 +16,20 @@ import {
 } from '../../styles';
 import {CssProp, systemCss} from '../../system';
 
-export interface HeaderLink {
-  name: string;
+export type LinkName = 'home' | 'blog' | 'projects' | 'resume';
+
+export interface HeaderProps {
+  profileImage: string;
+  linkNames: LinkName[];
+}
+
+interface HeaderLink {
+  name: LinkName;
   displayName: string;
   link: string;
 }
 
-export interface HeaderProps {
-  profileImage: string;
-  links: HeaderLink[];
-}
-
-const Header: React.FC<HeaderProps> = ({profileImage, links, ...props}) => {
+const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
   const {isMobile} = useMedia();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -38,9 +41,17 @@ const Header: React.FC<HeaderProps> = ({profileImage, links, ...props}) => {
     setTimeout(() => setIsMobileMenuOpen(false), MS);
   }, [isMobile]);
 
+  const links = useMemo(() => {
+    return linkNames.map((name) => ({
+      name,
+      displayName: changeFirstCharUpperCase(name),
+      link: `/${name}`,
+    }));
+  }, [linkNames]);
+
   const menuItems = useMemo(() => {
     return links.map(({name, displayName, link}) => {
-      if (name === 'root') {
+      if (name === 'home') {
         return;
       }
       return (
@@ -78,7 +89,7 @@ const Header: React.FC<HeaderProps> = ({profileImage, links, ...props}) => {
             )}
           </div>
           {/* PROFILE */}
-          <Link href={links.find(({name}) => name === 'root')?.link ?? '/'} passHref legacyBehavior>
+          <Link href={links.find(({name}) => name === 'home')?.link ?? '/'} passHref legacyBehavior>
             <a css={profileImageBoxCss} onClick={handleLinkClick}>
               <Image
                 src={profileImage}

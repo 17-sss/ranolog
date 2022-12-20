@@ -4,7 +4,7 @@ import {ComponentStory, ComponentMeta} from '@storybook/react';
 
 import {staticDataInfo} from '@root/ranolog.config';
 
-import Header from '.';
+import Header from './index';
 
 const storyDefault = {
   title: 'components/shared/Header',
@@ -18,4 +18,7 @@ const Template: ComponentStory<typeof Header> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = {...staticDataInfo.layout.header};
+Default.args = {
+  linkNames: ['home', 'blog', 'projects', 'resume'],
+  profileImage: staticDataInfo.layout.header.profileImage,
+};

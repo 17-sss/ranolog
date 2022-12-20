@@ -11,7 +11,7 @@ export interface DefaultSeoMeta {
   image: string;
   url: string;
   keywords?: string;
-  canonical?: string;
+  canonical: string;
   type?: string;
   author?: string;
   site?: string;

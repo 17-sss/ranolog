@@ -14,7 +14,11 @@ export interface PageLayoutProps {
 const PageLayout: React.FC<PageLayoutProps> = ({children, ...props}) => {
   return (
     <div css={layoutCss} {...props}>
-      <Header css={commonWidthCss} {...layoutStaticData.header} />
+      <Header
+        css={commonWidthCss}
+        linkNames={['home', 'blog', 'projects', 'resume']}
+        profileImage={layoutStaticData.header.profileImage}
+      />
       <main css={mainCss}>
         <div css={mainInnerCss}>{children}</div>
       </main>

@@ -25,12 +25,17 @@ export const throttle = <T extends any[]>({func, ms = 500}: ThrottleParams<T>) =
   };
 };
 
-export function valueOrLastItem<T>(value: T | T[]) {
+export const valueOrLastItem = <T>(value: T | T[]) => {
   if (Array.isArray(value)) {
     return value[value.length - 1];
   }
   return value;
-}
+};
 
 export const changeFirstCharUpperCase = (str: string): string =>
   str.toLowerCase().replace(/(^|\s)\S/g, (L) => L.toUpperCase());
+
+export const removeDuplicateValues = <T extends string | number>(values: T[]): T[] => {
+  const set = new Set(values);
+  return Array.from(set);
+};
