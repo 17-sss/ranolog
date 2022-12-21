@@ -44,20 +44,21 @@ const BlogTemplate: React.FC<BlogTemplateProps> = ({postDocs, ...props}) => {
           onChange={handleCategoryDropdownChange}
         />
       </div>
-
-      {!isEmpty ? (
-        <>
-          <PostList postDocs={currentPostDocs} onPostClick={handlePostItemClick} />
-          <Pagination
-            css={paginationCss}
-            pageInfo={pageInfo}
-            pageNums={pageNums}
-            handlePageButtonClick={handlePageButtonClick}
-          />
-        </>
-      ) : (
-        <div css={emptyTextCss}>No Posts</div>
-      )}
+      <div css={[listBoxCss, !isEmpty && listBoxMarginCss]}>
+        {!isEmpty ? (
+          <>
+            <PostList postDocs={currentPostDocs} onPostClick={handlePostItemClick} />
+            <Pagination
+              css={paginationCss}
+              pageInfo={pageInfo}
+              pageNums={pageNums}
+              handlePageButtonClick={handlePageButtonClick}
+            />
+          </>
+        ) : (
+          <div css={emptyBoxCss}>No Posts</div>
+        )}
+      </div>
     </div>
   );
 };
@@ -65,20 +66,13 @@ const BlogTemplate: React.FC<BlogTemplateProps> = ({postDocs, ...props}) => {
 export default BlogTemplate;
 
 const containerCss: CssProp = systemCss({
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
   '& > * + *': {
     mt: '1.5rem',
   },
 });
-
-const emptyTextCss: CssProp = [
-  centerAlignedChildren,
-  (theme) =>
-    systemCss({
-      py: '2rem',
-      minHeight: '10rem',
-      color: theme.colors.gray400,
-    }),
-];
 
 // TOPBOX
 const topBoxCss: CssProp = systemCss({
@@ -99,5 +93,24 @@ const dropdownCss: CssProp = systemCss({
   width: ['100%', '30%'],
 });
 
-// PAGINATION
+// (POST)LIST BOX
+const listBoxCss: CssProp = systemCss({
+  flexGrow: 1,
+  '& > * + *': {
+    mt: '1.5rem',
+  },
+});
+const listBoxMarginCss: CssProp = systemCss({mb: '4rem'});
+
 const paginationCss: CssProp = [centerAlignedChildren];
+
+const emptyBoxCss: CssProp = [
+  centerAlignedChildren,
+  (theme) =>
+    systemCss({
+      height: '100%',
+      fontWeight: 600,
+      color: theme.colors.gray600,
+      border: [null, `1px solid ${theme.colors.gray300}`],
+    }),
+];

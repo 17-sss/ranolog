@@ -1,12 +1,14 @@
 import React from 'react';
 
-import {domainName, metadata, siteUrl, resumeFileName} from '@root/blog.data';
+import {domainName, metadata, siteUrl, staticDataInfo} from '@root/ranolog.config';
 import {getDocumentByFileName} from '@src/lib';
 import {ResumeTemplate} from '@src/resume';
 import {ResumeDocument, SeoHead} from '@src/shared';
 
+const {resume: resumeStaticData} = staticDataInfo.pages;
+
 export interface ResumePageProps {
-  resumeDoc: ResumeDocument;
+  resumeDoc: ResumeDocument | null;
 }
 
 const ResumePage: React.FC<ResumePageProps> = ({resumeDoc}) => {
@@ -30,7 +32,7 @@ export default ResumePage;
 export const getStaticProps = async () => {
   const resumeDoc = await getDocumentByFileName<ResumeDocument>({
     subFolderType: 'resumes',
-    fileName: resumeFileName,
+    fileName: resumeStaticData.resumeFileName,
   });
   return {
     props: {resumeDoc},

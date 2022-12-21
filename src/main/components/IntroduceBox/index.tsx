@@ -5,7 +5,7 @@ import {CustomCode, CssProp, systemCss, commonBlurDataURL} from '@src/shared';
 
 export interface IntroduceBoxProps {
   title: string;
-  description: string;
+  description?: string;
   bannerImage: string;
 }
 
@@ -14,11 +14,13 @@ const IntroduceBox: React.FC<IntroduceBoxProps> = ({title, description, bannerIm
     <div css={containerCss} {...props}>
       <div css={introBoxCss}>
         <p className="title">{title}</p>
-        <p className="description">
-          <CustomCode css={descriptionCodeCss} color="gray">
-            {description}
-          </CustomCode>
-        </p>
+        {description && (
+          <p className="description">
+            <CustomCode css={descriptionCodeCss} color="gray">
+              {description}
+            </CustomCode>
+          </p>
+        )}
       </div>
       <div css={imageBoxCss}>
         <Image

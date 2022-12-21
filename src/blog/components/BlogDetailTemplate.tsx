@@ -1,7 +1,8 @@
 import React from 'react';
 
-import {useBlogDetailTemplate, PostDetail, Comments, utterancAttrs} from '@src/blog';
-import {CssProp, PostDocument, systemCss, Divider, DocNav} from '@src/shared';
+import {utterancAttrs} from '@root/ranolog.config';
+import {useBlogDetailTemplate, PostDetail} from '@src/blog';
+import {CssProp, PostDocument, systemCss, Divider, DocNav, Comments} from '@src/shared';
 
 export interface BlogDetailTemplateProps {
   postDoc: PostDocument | null;

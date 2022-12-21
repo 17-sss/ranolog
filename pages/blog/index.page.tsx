@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {metadata, domainName, siteUrl} from '@root/blog.data';
+import {metadata, domainName, siteUrl} from '@root/ranolog.config';
 import {BlogTemplate} from '@src/blog';
 import {getSortedDocuments} from '@src/lib';
 import {PostDocument, SeoHead} from '@src/shared';
@@ -10,14 +10,14 @@ export interface BlogPageProps {
 }
 
 const BlogPage: React.FC<BlogPageProps> = ({postDocs}) => {
-  const canonicalUrl = `${siteUrl}/blog`;
+  const currentUrl = `${siteUrl}/blog`;
   return (
     <>
       <SeoHead
         {...metadata}
         title={`Blog | ${domainName}`}
-        url={canonicalUrl}
-        canonical={canonicalUrl}
+        url={currentUrl}
+        canonical={currentUrl}
       />
       <BlogTemplate postDocs={postDocs} />
     </>

@@ -1,0 +1,117 @@
+---
+subject: 'Next.js 환경변수, 그리고 Vercel'
+summary: ''
+date: '2022.12.21'
+category: ['Next.js', 'Vercel']
+thumbnail: '/docs/posts/2022-12-21-nextjs_env/thumbnail.png'
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Next.js의 환경변수</span>
+</Typography>
+<br />
+
+**서버 사이드에서 환경변수 접근**
+
+- Next.js는 `.env.local`에서 `process.env`로 환경 변수를 불러오는 기능을 기본적으로 지원합니다.
+
+  👇 _예시_
+
+  ```bash
+  DB_ID=hoyoung
+  DB_PWD=pwd1234
+  ```
+
+  - `process.env.DB_ID`, `process.env.DB_PWD`로 <Typography color="blue400" isBold>서버 환경(Node.js 환경)</Typography>에 자동으로 불러옵니다.
+  - 해당 값들은 **Next.js**의 [Data fetching methods](https://nextjs.org/docs/basic-features/data-fetching/overview)에서 사용하거나 [API routes](https://nextjs.org/docs/api-routes/introduction)에서 사용할 수 있습니다.
+
+<br />
+
+**클라이언트 사이드에서 환경변수 접근**
+
+- Next.js에서 환경변수는 기본적으로 서버 사이드에서만 사용할 수 있습니다.  
+  환경변수를 클라이언트 환경에서 불러오려면, 변수명 앞에 `NEXT_PUBLIC_`를 붙여야합니다.
+
+  👇 _예시_
+
+  ```bash
+  NEXT_PUBLIC_URL=https://hoyoung.dev
+  ```
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Vercel에서의 환경변수</span>
+</Typography>
+<br />
+
+**Vercel로 앱을 배포할 때의 환경변수**
+
+- Vercel에 아무런 설정을 하지 않을 경우, 배포 시 환경변수들이 동작하지 않습니다.  
+  또한, 원격저장소에 `.env` 파일이 있어도 동작하지 않습니다.  
+  (Vercel에서 원격저장소에 있는 `.env`에 접근하지 않기 때문..!)  
+  그렇기에 Vercel에서 배포할 앱의 <Typography color="blue500">Settings</Typography>를 변경해야 합니다.
+
+- <Typography color="gray">Vercel</Typography> → <Typography color="gray">
+    나의 Dashboard
+  </Typography> → <Typography color="gray">[배포할 앱]</Typography> → <Typography color="gray">
+    Settings 탭
+  </Typography> → <Typography color="gray">Environment Variables</Typography>
+  <br />
+  <img
+    src="/docs/posts/2022-12-21-nextjs_env/01.png"
+    alt="Vercel: Project Settings - Environment Variables"
+    width="700"
+  />
+  - 환경변수 이름과 값을 입력 → 어떤 환경에서 사용할지 선택 → <Typography color="blue400" isBold>Save</Typography>를 눌러 저장.
+
+<br />
+
+**적용된 환경변수를 로컬저장소로 가져오려면?**
+
+- 먼저 `vercel-cli` 설치 (설치가 되어있다면, SKIP)
+  ```bash
+  $ npm i -g vercel
+  ```
+- 로컬 저장소를 Vercel 프로젝트에 연결
+  ```bash
+  $ vercel link
+  # ################# vercel-cli #################
+  > Log in to Vercel # Vercel에 로그인
+  > ? Set up “[로컬 저장소 위치]”? [Y/n] # y
+  > ? Which scope should contain your project? # 자신의 계정 선택
+  > ? Found project “[Vercel 계정명/Vercel 프로젝트명]”. Link to it? [Y/n] # y
+  ✅  Linked to [Vercel 계정명/Vercel 프로젝트명] (created .vercel)
+  # ###############################################
+  ```
+- Vercel의 환경변수 로컬저장소로 가져오기
+  ```bash
+  $ vercel env pull .env.local
+  ```
+
+
+<br />
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+**Next.js**
+
+- [Next.js Docs - Basic Features : Environment Variables](https://nextjs.org/docs/basic-features/environment-variables)
+- [Google : Search Console](https://search.google.com/search-console/about)
+
+**Vercel**
+
+- [Vercel Docs - vercel link](https://vercel.com/docs/cli/link)
+
+**일반**
+
+- [[Next] Next.js 에서 환경변수 사용해보기 (feat. Vercel)](https://junjangsee.tistory.com/entry/Nextjs-에서-환경변수-사용해보기-feat-Vercel)
+- [[Next.js] API Routes 란 무엇일까?](https://handhand.tistory.com/280)

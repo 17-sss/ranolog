@@ -1,3 +1,4 @@
+import Comments from './Comments';
 import CustomCode from './CustomCode';
 import CustomLink from './CustomLink';
 import Divider from './Divider';
@@ -11,6 +12,7 @@ import PageLayout from './PageLayout';
 import SeoHead from './SeoHead';
 import Typography from './Typography';
 
+export * from './Comments';
 export * from './CustomCode';
 export * from './CustomLink';
 export * from './Divider';
@@ -25,6 +27,7 @@ export * from './SeoHead';
 export * from './Typography';
 
 export {
+  Comments,
   CustomCode,
   CustomLink,
   Divider,

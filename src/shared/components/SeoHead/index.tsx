@@ -2,22 +2,24 @@ import React from 'react';
 
 import Head from 'next/head';
 
-import {siteVerificationData} from '@root/blog.data';
+import {siteVerificationData} from '@root/ranolog.config';
 
-export type MetaDataType = {
-  [key in
-    | 'title'
-    | 'description'
-    | 'keywords'
-    | 'image'
-    | 'url'
-    | 'canonical'
-    | 'type'
-    | 'site'
-    | 'author']?: string;
-};
+/** Use in 'ranolog.config.ts' file  */
+export interface DefaultSeoMeta {
+  title: string;
+  description: string;
+  image: string;
+  url: string;
+  keywords?: string;
+  canonical: string;
+  type?: string;
+  author?: string;
+  site?: string;
+  siteName: string;
+}
 
-export interface SeoHeadProps extends MetaDataType {
+type PartialSeoMeta = Partial<DefaultSeoMeta>;
+export interface SeoHeadProps extends PartialSeoMeta {
   children?: React.ReactNode;
 }
 
@@ -28,9 +30,10 @@ const SeoHead: React.FC<SeoHeadProps> = ({
   image,
   url,
   canonical,
-  type,
+  type = 'website',
   site,
   author,
+  siteName,
 
   children,
   ...props
@@ -61,11 +64,12 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       {url && <meta key="og:url" property="og:url" content={url} />}
       {canonical && <link key="canonical" rel="canonical" href={canonical} />}
       {type && <meta key="og:type" property="og:type" content={type} />}
-      {site && <meta key="twitter:site" name="twitter:site" content={site} />}
       {author && <meta key="author" name="author" content={author} />}
+      {site && <meta key="twitter:site" name="twitter:site" content={site} />}
+      {siteName && <meta key="og:site_name" property="og:site_name" content={siteName} />}
 
       {/* OWNERSHIP VERIFICATION */}
-      {Object.entries(siteVerificationData).map(([key, value]) => (
+      {Object.entries(siteVerificationData)?.map(([key, value]) => (
         <meta key={key} name={`${key}-site-verification`} content={value} />
       ))}
 

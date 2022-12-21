@@ -1,7 +1,7 @@
 import {forwardRef, useCallback, useEffect, useImperativeHandle, useRef} from 'react';
 
-import {UtterancAttributes} from '@src/blog';
-import {CssProp, systemCss} from '@src/shared';
+import {CssProp, systemCss} from '../../system';
+import {UtterancAttributes} from '../../types';
 
 export interface CommentsProps {
   attributes: UtterancAttributes;

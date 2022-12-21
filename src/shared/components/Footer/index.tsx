@@ -1,19 +1,22 @@
 import {FaGithub} from 'react-icons/fa';
 import {HiOutlineMail} from 'react-icons/hi';
 
-import {configData} from '@root/blog.data';
-
 import {centerAlignedChildren, commonPxValues, defaultFontFamily} from '../../styles';
 import {CssProp, systemCss} from '../../system';
 import CustomLink from '../CustomLink';
 
+type ContactKeys = 'github' | 'email';
+export type FooterContact = {
+  [key in ContactKeys]?: string;
+};
+
 export interface FooterProps {
   author: string;
-  contact: Partial<typeof configData.footer.contact>;
+  contact: FooterContact;
 }
 
 type FooterIcons = {
-  [key in keyof typeof configData.footer.contact]: React.ReactNode;
+  [key in ContactKeys]: React.ReactNode;
 };
 const ICONS: FooterIcons = {
   github: <FaGithub />,

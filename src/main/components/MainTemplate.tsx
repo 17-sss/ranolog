@@ -1,29 +1,23 @@
-import {configData} from '@root/blog.data';
 import {PostList} from '@src/blog';
-import {useMainTemplate, IntroduceBox} from '@src/main';
+import {useMainTemplate, IntroduceBox, IntroduceBoxProps} from '@src/main';
 import {CssProp, systemCss, PostDocument, centerAlignedChildren} from '@src/shared';
-
-const {mainPage} = configData;
 
 export interface MainTemplateProps {
   recentPosts: PostDocument[];
+  introduceProps: IntroduceBoxProps;
 }
 
-const MainTemplate: React.FC<MainTemplateProps> = ({recentPosts, ...props}) => {
+const MainTemplate: React.FC<MainTemplateProps> = ({recentPosts, introduceProps, ...props}) => {
   const {isEmpty, handlePostItemClick} = useMainTemplate(recentPosts);
   return (
     <div css={containerCss} {...props}>
-      <IntroduceBox
-        title={mainPage.title}
-        description={mainPage.description}
-        bannerImage={mainPage.bannerImage}
-      />
+      <IntroduceBox {...introduceProps} />
       <div css={recentPostBoxCss}>
         <p className="title">Recent Post</p>
         {!isEmpty ? (
           <PostList postDocs={recentPosts} onPostClick={handlePostItemClick} />
         ) : (
-          <div css={emptyTextCss}>No Posts</div>
+          <div css={emptyBoxCss}>No Posts</div>
         )}
       </div>
     </div>
@@ -40,22 +34,23 @@ const containerCss: CssProp = systemCss({
 
 const recentPostBoxCss: CssProp = (theme) =>
   systemCss({
-    '& > * + *': {
-      mt: '0.5rem',
-    },
     '.title': {
       fontSize: [theme.fontSizes.p24, theme.fontSizes.p28],
       fontWeight: 600,
       color: theme.colors.gray700,
     },
+    '& > * + *': {
+      mt: '0.5rem',
+    },
   });
 
-const emptyTextCss: CssProp = [
+const emptyBoxCss: CssProp = [
   centerAlignedChildren,
   (theme) =>
     systemCss({
-      py: '2rem',
       minHeight: '10rem',
-      color: theme.colors.gray400,
+      fontWeight: 600,
+      color: theme.colors.gray600,
+      border: `1px solid ${theme.colors.gray300}`,
     }),
 ];

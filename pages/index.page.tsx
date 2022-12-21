@@ -1,9 +1,11 @@
 import React from 'react';
 
-import {metadata} from '@root/blog.data';
+import {metadata, staticDataInfo} from '@root/ranolog.config';
 import {getSortedDocuments} from '@src/lib';
 import {MainTemplate} from '@src/main';
 import {PostDocument, SeoHead} from '@src/shared';
+
+const {main: mainStaticData} = staticDataInfo.pages;
 
 export interface MainPageProps {
   postDocs: PostDocument[];
@@ -13,7 +15,7 @@ const MainPage: React.FC<MainPageProps> = ({postDocs}) => {
   return (
     <>
       <SeoHead {...metadata} />
-      <MainTemplate recentPosts={postDocs} />
+      <MainTemplate recentPosts={postDocs} introduceProps={mainStaticData.introduce} />
     </>
   );
 };

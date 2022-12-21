@@ -69,7 +69,7 @@ export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocumen
       result.push({...matterResult.data, id, content, extension} as TDoc);
     }
   } catch (e) {
-    console.error(e);
+    console.error((e as Error).message);
   } finally {
     return result as TDoc[];
   }
@@ -105,7 +105,7 @@ export const getDocumentIds = async (subFolderType: SubFolderType) => {
     const docs = await getDocuments(subFolderType);
     return docs.map(({id}) => id);
   } catch (e) {
-    console.error(e);
+    console.error((e as Error).message);
     return [];
   }
 };
@@ -129,7 +129,7 @@ export const getDocumentByFileName = async <TDoc extends DefaultDocument = Defau
     const content = await createMarkdownContent(matterResult.content, extension);
     return {...matterResult.data, id, content, extension} as TDoc;
   } catch (e) {
-    console.error(e);
+    console.error((e as Error).message);
     return null;
   }
 };

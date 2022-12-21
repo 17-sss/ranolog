@@ -1,11 +1,21 @@
 import {ResumeInfo} from '@src/resume';
-import {CssProp, Divider, MarkdownRenderer, ResumeDocument, systemCss} from '@src/shared';
+import {
+  centerAlignedChildren,
+  CssProp,
+  Divider,
+  MarkdownRenderer,
+  ResumeDocument,
+  systemCss,
+} from '@src/shared';
 
 export interface ResumeTemplateProps {
-  resumeDoc: ResumeDocument;
+  resumeDoc: ResumeDocument | null;
 }
 
 const ResumeTemplate: React.FC<ResumeTemplateProps> = ({resumeDoc, ...props}) => {
+  if (!resumeDoc) {
+    return <div css={emptyBoxCss}>No Resume</div>;
+  }
   return (
     <div css={containerCss} {...props}>
       <ResumeInfo
@@ -29,3 +39,12 @@ const containerCss: CssProp = (theme) =>
     borderRadius: [null, '0.375rem'],
     p: [null, '1.5rem'],
   });
+const emptyBoxCss: CssProp = [
+  centerAlignedChildren,
+  (theme) =>
+    systemCss({
+      color: theme.colors.gray600,
+      fontWeight: 600,
+      height: '100%',
+    }),
+];
