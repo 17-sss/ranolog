@@ -41,12 +41,16 @@ const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
     setTimeout(() => setIsMobileMenuOpen(false), MS);
   }, [isMobile]);
 
-  const links = useMemo(() => {
-    return linkNames.map((name) => ({
-      name,
-      displayName: changeFirstCharUpperCase(name),
-      link: `/${name}`,
-    }));
+  const links: HeaderLink[] = useMemo(() => {
+    const result = linkNames.map((name) => {
+      const displayName = changeFirstCharUpperCase(name);
+      let link = `/${name}`;
+      if (name === 'home') {
+        link = '/';
+      }
+      return {name, displayName, link};
+    });
+    return result;
   }, [linkNames]);
 
   const menuItems = useMemo(() => {

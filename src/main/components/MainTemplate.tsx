@@ -17,7 +17,7 @@ const MainTemplate: React.FC<MainTemplateProps> = ({recentPosts, introduceProps,
         {!isEmpty ? (
           <PostList postDocs={recentPosts} onPostClick={handlePostItemClick} />
         ) : (
-          <div css={emptyTextCss}>No Posts</div>
+          <div css={emptyBoxCss}>No Posts</div>
         )}
       </div>
     </div>
@@ -34,22 +34,23 @@ const containerCss: CssProp = systemCss({
 
 const recentPostBoxCss: CssProp = (theme) =>
   systemCss({
-    '& > * + *': {
-      mt: '0.5rem',
-    },
     '.title': {
       fontSize: [theme.fontSizes.p24, theme.fontSizes.p28],
       fontWeight: 600,
       color: theme.colors.gray700,
     },
+    '& > * + *': {
+      mt: '0.5rem',
+    },
   });
 
-const emptyTextCss: CssProp = [
+const emptyBoxCss: CssProp = [
   centerAlignedChildren,
   (theme) =>
     systemCss({
-      py: '2rem',
       minHeight: '10rem',
-      color: theme.colors.gray400,
+      fontWeight: 600,
+      color: theme.colors.gray600,
+      border: `1px solid ${theme.colors.gray300}`,
     }),
 ];

@@ -32,19 +32,17 @@ export default PageLayout;
 const layoutCss: CssProp = systemCss({
   '& > *': {px: commonPxValues},
 });
-const mainCss: CssProp = (theme) => {
-  const MARGIN_BOTTOM = '6.25rem';
-  return systemCss({
+const mainCss: CssProp = (theme) =>
+  systemCss({
     display: 'flex',
     justifyContent: 'center',
     backgroundColor: theme.colors.white,
 
     pt: HEADER_HEIGHTS,
-    mb: MARGIN_BOTTOM,
     minHeight: HEADER_HEIGHTS.map((headerHeight, idx) => {
       const footerHeight = findPrevStyledValue(FOOTER_HEIGHTS, idx);
-      return `calc(100vh - (${headerHeight ?? 0} + ${MARGIN_BOTTOM} + ${footerHeight}))`;
+      return `calc(100vh - (${headerHeight ?? 0} + ${footerHeight}))`;
     }),
   });
-};
-const mainInnerCss: CssProp = [commonWidthCss, systemCss({mt: '1rem'})];
+
+const mainInnerCss: CssProp = [commonWidthCss, systemCss({mt: '1.25rem', mb: '2rem'})];

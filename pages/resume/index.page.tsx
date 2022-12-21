@@ -8,7 +8,7 @@ import {ResumeDocument, SeoHead} from '@src/shared';
 const {resume: resumeStaticData} = staticDataInfo.pages;
 
 export interface ResumePageProps {
-  resumeDoc: ResumeDocument;
+  resumeDoc: ResumeDocument | null;
 }
 
 const ResumePage: React.FC<ResumePageProps> = ({resumeDoc}) => {
