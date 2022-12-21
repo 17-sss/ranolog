@@ -169,8 +169,8 @@ $ npm run docsmaker
 ```
 
 <p>
-  <img height="200" src="https://user-images.githubusercontent.com/33610315/208363192-9b769551-c80e-4fa1-971c-9f150811d56b.gif" alt="docs maker: execute" />
-  <img height="200" src="https://user-images.githubusercontent.com/33610315/208363214-33ada6c8-e1ca-48d3-9ee9-bd2a7add776f.png" alt="docs maker: result" >
+  <img height="250" src="https://user-images.githubusercontent.com/33610315/208958946-3b7f630a-547a-4d14-992d-fc4b3e4265ad.gif" alt="docs maker: execute" />
+  <img height="250" src="https://user-images.githubusercontent.com/33610315/208958981-4a8095c7-1ef0-4f5a-86b1-25403695235f.png" alt="docs maker: result" >
 </p>
 
 - Post, Project, Resume의 frontmatter를 생성해주는 CLI입니다.  
@@ -183,4 +183,4 @@ $ npm run docsmaker
 ---
 
 버그나 제안하고 싶은 기능이 있으시다면, 이슈 남겨주시면 감사하겠습니다!  
-아니면 [여기]()에 댓글로!!
+아니면 [여기](https://hoyoung.dev/blog/2022-12-09-firstpost)에 댓글로!!
