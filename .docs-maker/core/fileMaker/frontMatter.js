@@ -6,6 +6,11 @@ const createDeduplicatedArray = (array) => {
   return Array.from(set);
 };
 
+const createDateText = (aDate) => {
+  const currentDate = aDate ? new Date(aDate) : new Date();
+  return format(new Date(currentDate), 'yyyy-MM-dd');
+};
+
 // DATA -------------------------
 const createSplitTexts = (text, splitter = '|') =>
   createDeduplicatedArray(text.split(splitter).filter((v) => v));
@@ -33,16 +38,17 @@ const createObjectMatter = (aAnswers) => {
     const value = aAnswers[key];
     switch (key) {
       case 'date': /* post : date */ {
-        result[key] = !value ? format(new Date(), 'yyyy.MM.dd') : value;
+        result[key] = createDateText(value);
         break;
       }
       case 'startDate': /* project : date.start */
       case 'endDate': /* project : date.end */ {
+        const isDate = key === 'startDate' || (key === 'endDate' && !!value);
         const currKey = key.replace(/date/i, '');
         if (!('date' in result)) {
           result['date'] = {};
         }
-        result['date'][currKey] = value;
+        result['date'][currKey] = isDate ? createDateText(value) : value;
         break;
       }
 

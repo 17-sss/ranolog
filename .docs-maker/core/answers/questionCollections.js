@@ -53,10 +53,10 @@ const FORMAT_SUFFIX = {
       .join(chalk.bold.gray(' :: ')),
   }),
   getVaildDate: (addString) => ({
-    Korean: [`${chalk.bgWhite('yyyy.mm.dd')} 형식으로 입력해주세요.`, addString]
+    Korean: [`${chalk.bgWhite('yyyy-MM-dd')} 형식으로 입력해주세요.`, addString]
       .filter((v) => v)
       .join(chalk.bold.gray(' :: ')),
-    English: [`Please enter in the format ${chalk.bgWhite('yyyy.mm.dd')}.`, addString]
+    English: [`Please enter in the format ${chalk.bgWhite('yyyy-MM-dd')}.`, addString]
       .filter((v) => v)
       .join(chalk.bold.gray(' :: ')),
   }),
@@ -215,7 +215,7 @@ const resumeFormatMessageInfo = {
 const isFileExist = (filePath) => fs.existsSync(filePath);
 const isImageExtension = (filePath) => /\.(jpe?g|png|webp|avif|gif|svg)$/.test(filePath);
 const isValidDateText = (dateText) => {
-  const REGEX_DATE = /\d{4}[\/|\-|\.]\d{2}[\/|\-|\.]\d{2}/;
+  const REGEX_DATE = /\d{4}\-\d{2}\-\d{2}/;
   const date = new Date(dateText);
   return REGEX_DATE.test(dateText) && date instanceof Date && !isNaN(date);
 };
