@@ -1,7 +1,14 @@
 {
   "name": "ranolog",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "description": "Hoyoung's Next.js blog.",
+  "author": "17-sss <xzxking17@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "next.js",
+    "react"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -85,5 +92,12 @@
     "stream-http": "^3.2.0",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
     "vm-browserify": "^1.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/17-sss/ranolog"
+  },
+  "bugs": {
+    "url": "https://github.com/17-sss/ranolog/issues"
   }
 }

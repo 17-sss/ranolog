@@ -354,7 +354,7 @@ const createProjectFormatCollections = (extension) => (language) => {
       ...messageInfo['endDate'],
       name: 'endDate',
       type: 'input',
-      validate: createDateValidate(language, messageInfo['endDate'].messsage, false),
+      validate: createDateValidate(language, messageInfo['endDate'].message, false),
     },
     {
       ...messageInfo['skills'],
