@@ -62,8 +62,10 @@ const itemCss: CssProp = (theme) =>
     backgroundColor: theme.colors.white,
     border: `1px solid ${theme.colors.gray200}`,
     borderRadius: '0.5rem',
-    '&:hover': {
-      boxShadow: `0 3px 15px rgb(0 0 0 / 20%)`,
+    '@media (hover: hover) and (pointer: fine)': {
+      '&:hover': {
+        boxShadow: `0 3px 15px rgb(0 0 0 / 20%)`,
+      },
     },
   });
 

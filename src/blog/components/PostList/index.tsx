@@ -60,9 +60,11 @@ const listItemCss: CssProp = [
     systemCss({
       height: `${ITEM_HEIGHT}`,
       borderBottom: `1px solid ${theme.colors.gray200}`,
-      '&:hover': {
-        borderBottom: `1px solid transparent`,
-        boxShadow: `0 3px 15px rgb(0 0 0 / 20%)`,
+      '@media (hover: hover) and (pointer: fine)': {
+        '&:hover': {
+          borderBottom: `1px solid transparent`,
+          boxShadow: `0 3px 15px rgb(0 0 0 / 20%)`,
+        },
       },
     }),
 ];
