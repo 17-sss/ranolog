@@ -1,7 +1,7 @@
 import {CssProp, systemCss} from '../../system';
 import {theme} from '../../theme';
 
-export const COLOR_NAMES = [
+export const colorNames = [
   'gray',
   'brown',
   'orange',
@@ -13,7 +13,7 @@ export const COLOR_NAMES = [
   'red',
 ] as const;
 
-export type ColorNames = typeof COLOR_NAMES[number] | keyof typeof theme.colors;
+export type ColorNames = typeof colorNames[number] | keyof typeof theme.colors;
 
 export interface CustomCodeProps {
   color?: ColorNames;
