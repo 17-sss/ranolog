@@ -111,6 +111,5 @@ const emptyBoxCss: CssProp = [
       height: '100%',
       fontWeight: 600,
       color: theme.colors.gray600,
-      border: [null, `1px solid ${theme.colors.gray300}`],
     }),
 ];

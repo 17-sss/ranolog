@@ -34,7 +34,7 @@
 **Markdown**
 
 - `md`, `mdx` 지원
-- `mdx` 작성 시, 일부 컴포넌트 지원 ([Typography](https://ranolog-storybook.vercel.app/?path=/story/components-shared-typography--default), [CustomCode](https://ranolog-storybook.vercel.app/?path=/story/components-shared-customcode--default-red), [Divider](https://ranolog-storybook.vercel.app/?path=/story/components-shared-divider--default) 등..)
+- `mdx` 작성 시, 일부 컴포넌트 지원 ([Typography](https://ranolog-storybook.vercel.app/?path=/story/components-shared-typography--all-variant), [CustomCode](https://ranolog-storybook.vercel.app/?path=/story/components-shared-customcode--all-colors), [Divider](https://ranolog-storybook.vercel.app/?path=/story/components-shared-divider--default) 등..)
 - 문서 작성 편의를 위한 CLI 지원 (docs-maker)
 
 **Blog**
