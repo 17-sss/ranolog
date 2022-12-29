@@ -143,10 +143,9 @@ const anchorCss: CssProp = (theme) =>
 
 const codeCss: CssProp = systemCss({
   '*:not(pre) > code': {
-    fontFamily: `'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace`,
     backgroundColor: 'rgba(135, 131, 120, 0.15)',
     borderRadius: '0.1875rem',
-    fontSize: '85%',
+    fontSize: '90%',
     p: '0.25rem 0.45rem',
     color: 'rgba(212, 76, 71, 1)',
   },

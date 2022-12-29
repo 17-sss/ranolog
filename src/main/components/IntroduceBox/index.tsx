@@ -47,14 +47,14 @@ const containerCss: CssProp = systemCss({
 });
 
 const introBoxCss: CssProp = (theme) => {
-  const PX_VALUE = '2rem';
+  const PX_VALUES = ['1rem', '2rem'];
   return systemCss({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    px: PX_VALUE,
+    px: PX_VALUES,
 
-    width: `calc(100% - (${PX_VALUE} * 2))`,
+    width: PX_VALUES.map((v) => `calc(100%${v ? ` - (${v} * 2)` : ''})`),
     height: '100%',
     position: 'absolute',
     zIndex: 1,
