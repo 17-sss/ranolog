@@ -2,7 +2,15 @@ import React from 'react';
 
 import {utterancAttrs} from '@root/ranolog.config';
 import {useBlogDetailTemplate, PostDetail} from '@src/blog';
-import {CssProp, PostDocument, systemCss, Divider, DocNav, Comments} from '@src/shared';
+import {
+  CssProp,
+  PostDocument,
+  systemCss,
+  Divider,
+  DocNav,
+  Comments,
+  MarkdownRenderer,
+} from '@src/shared';
 
 export interface BlogDetailTemplateProps {
   postDoc: PostDocument | null;
@@ -12,6 +20,7 @@ export interface BlogDetailTemplateProps {
 const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDoc, postDocs, ...props}) => {
   const {commentsRef, postDocsNavInfo, isExistAnotherPosts, handlePostNavButtonClick} =
     useBlogDetailTemplate(postDocs);
+
   const currentDoc = postDoc ?? postDocsNavInfo.current;
   if (!currentDoc) {
     return null;
@@ -19,7 +28,13 @@ const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDoc, postDoc
 
   return (
     <div css={containerCss} {...props}>
-      <PostDetail css={postCss} postDoc={currentDoc} />
+      <PostDetail
+        css={postCss}
+        postDoc={currentDoc}
+        markdownRenderer={
+          <MarkdownRenderer css={markdownRendererCss} content={currentDoc.content} />
+        }
+      />
       {isExistAnotherPosts && (
         <>
           <DocNav
@@ -42,9 +57,14 @@ const containerCss: CssProp = systemCss({
     mt: '1.25rem',
   },
 });
+
 const postCss: CssProp = (theme) =>
   systemCss({
     border: [null, `1px solid ${theme.colors.gray300}`],
     borderRadius: [null, '0.375rem'],
     p: [null, '1.5rem'],
   });
+
+const markdownRendererCss: CssProp = systemCss({
+  py: '1.5rem',
+});
