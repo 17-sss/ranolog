@@ -6,12 +6,12 @@ export const siteUrl = process.env.NEXT_PUBLIC_URL || 'https://example.com';
 export const domainName = process.env.NEXT_PUBLIC_DOMAIN || 'example.com';
 
 const author = 'Hoyoung Son';
-const description = 'Frontend Developer who create convenient value.';
+const description = 'Frontend Engineer who create convenient value.';
 const defaultImage = '/profile_image.jpg';
 
 // [SEO & UTTERANC] =============================================
 export const metadata: DefaultSeoMeta = {
-  title: `Hoyoung | Frontend Developer`,
+  title: `Hoyoung | Frontend Engineer`,
   description,
   image: defaultImage,
   url: siteUrl,

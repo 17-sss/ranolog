@@ -131,7 +131,7 @@
       main: {
         introduce: {
           title: 'Hoyoung Son',
-          description: 'Frontend Developer who create convenient value.',
+          description: 'Frontend Engineer who create convenient value.',
           bannerImage: '/banner.jpg',
         },
       },
