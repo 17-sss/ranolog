@@ -2,7 +2,7 @@ import {useState, useCallback, useMemo, useRef} from 'react';
 
 import {useRouter} from 'next/router';
 
-import {ContentsIdData} from '@src/blog';
+import {TableContentItem} from '@src/blog';
 import {PostDocument, useDocNav, useMedia, valueOrLastItem, CommentsRef} from '@src/shared';
 
 export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
@@ -10,7 +10,7 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
   const {media} = useMedia();
   const isDesktop = ['desktop', 'largeDesktop'].includes(media ?? '');
 
-  const [contentsIds, setContentIds] = useState<ContentsIdData[]>([]);
+  const [tableContentItems, setTableContentItems] = useState<TableContentItem[]>([]);
   const commentsRef = useRef<CommentsRef>(null);
 
   const id = useMemo(() => valueOrLastItem(router.query.id), [router.query]);
@@ -57,17 +57,17 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
     [router, selectedCategory],
   );
 
-  /** contentsIds 상태 업데이트 (ContentsIdList에 들어감)
+  /** tableContents 상태 업데이트 (TableContents에 들어감)
    * - MarkdownRenderer 컴포넌트의 ref에 대입
    */
-  const registerContentsIds = useCallback(
+  const registerTableContentItems = useCallback(
     (markdownEle?: HTMLDivElement | null) => {
       if (!markdownEle || !id) {
         return;
       }
-      const rootContentIdData = createContentsIdData({ele: markdownEle, queryId: id});
-      const {children: contentsIds} = rootContentIdData;
-      setContentIds(repositionContentsIds(contentsIds));
+      const rootContentItem = createRootTableContentItem({ele: markdownEle, queryId: id});
+      const {children: tableContents} = rootContentItem;
+      setTableContentItems(repositionTableContentItems(tableContents));
     },
     [id],
   );
@@ -78,8 +78,8 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
     postDocsNavInfo,
     isExistAnotherPosts,
     handlePostNavButtonClick,
-    contentsIds,
-    registerContentsIds,
+    tableContentItems,
+    registerTableContentItems,
   };
 };
 
@@ -88,25 +88,25 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
 const isHeading = (nodeName: string) => /^h[1-6]/i.test(nodeName);
 const deleteText = (text: string) => text.replace(/[a-z]+/gi, '');
 const createCloneData = <T extends unknown>(aData: T) => JSON.parse(JSON.stringify(aData)) as T;
-const createContentsIdData = ({
+const createRootTableContentItem = ({
   ele,
   queryId,
-  idData = {id: '', text: '', nodeName: '', href: '', children: []},
+  item = {id: '', text: '', nodeName: '', href: '', children: []},
 }: {
   ele: Element;
   queryId: string;
-  idData?: ContentsIdData;
+  item?: TableContentItem;
 }) => {
   const eleId = (ele.id || (ele as HTMLElement).innerText).replace(/\s+/g, '-');
-  idData = {
-    ...idData,
+  item = {
+    ...item,
     id: eleId,
     text: (ele as HTMLElement).innerText,
     nodeName: ele.nodeName,
     href: `./${queryId}#${encodeURIComponent(eleId)}`,
   };
   if (ele.children.length === 0) {
-    return idData;
+    return item;
   }
   const children = Array.from(ele.children);
   for (let i = 0; i < children.length; i++) {
@@ -114,17 +114,17 @@ const createContentsIdData = ({
     if (!isHeading(child.nodeName)) {
       continue;
     }
-    idData.children.push(createContentsIdData({ele: child, queryId}));
+    item.children.push(createRootTableContentItem({ele: child, queryId}));
   }
-  return idData;
+  return item;
 };
-const repositionContentsIds = (data: ContentsIdData[]) => {
-  const createPrevStorage = (standard?: ContentsIdData) => {
+const repositionTableContentItems = (items: TableContentItem[]) => {
+  const createPrevStorage = (standard?: TableContentItem) => {
     if (!standard) {
       return [];
     }
-    const result: ContentsIdData[] = [standard];
-    let pointer: ContentsIdData = standard;
+    const result: TableContentItem[] = [standard];
+    let pointer: TableContentItem = standard;
     while (pointer.children.length > 0) {
       pointer = pointer.children[pointer.children.length - 1];
       result.push(pointer);
@@ -132,14 +132,14 @@ const repositionContentsIds = (data: ContentsIdData[]) => {
     return result;
   };
 
-  if (data.length <= 1) {
-    return data;
+  if (items.length <= 1) {
+    return items;
   }
-  const cloneData: ContentsIdData[] = [createCloneData(data[0])];
-  for (let i = 1; i < data.length; i++) {
+  const cloneData: TableContentItem[] = [createCloneData(items[0])];
+  for (let i = 1; i < items.length; i++) {
     let prevStandardIdx = cloneData.length - 1;
-    let prevStorage: ContentsIdData[] = createPrevStorage(cloneData[prevStandardIdx]);
-    let curr: ContentsIdData | undefined = createCloneData(data[i]);
+    let prevStorage: TableContentItem[] = createPrevStorage(cloneData[prevStandardIdx]);
+    let curr: TableContentItem | undefined = createCloneData(items[i]);
 
     while (prevStorage.length > 0) {
       const prev = prevStorage.pop()!;

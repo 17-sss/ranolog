@@ -3,7 +3,7 @@ import React from 'react';
 import {rgba} from 'polished';
 
 import {utterancAttrs} from '@root/ranolog.config';
-import {useBlogDetailTemplate, PostDetail, ContentsIdList} from '@src/blog';
+import {useBlogDetailTemplate, PostDetail, TableContents} from '@src/blog';
 import {
   CssProp,
   PostDocument,
@@ -27,8 +27,8 @@ const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDoc, postDoc
     postDocsNavInfo,
     isExistAnotherPosts,
     handlePostNavButtonClick,
-    contentsIds,
-    registerContentsIds,
+    tableContentItems,
+    registerTableContentItems,
   } = useBlogDetailTemplate(postDocs);
 
   const currentDoc = postDoc ?? postDocsNavInfo.current;
@@ -43,16 +43,16 @@ const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDoc, postDoc
         postDoc={currentDoc}
         markdownRenderer={
           <MarkdownRenderer
-            ref={registerContentsIds}
+            ref={registerTableContentItems}
             css={markdownRendererCss}
             content={currentDoc.content}
           />
         }
       />
       {isDesktop && (
-        <div css={contentsIdOuterBoxCss}>
-          <div css={contentsIdInnerBoxCss}>
-            <ContentsIdList contentsIds={contentsIds} />
+        <div css={tocOuterBoxCss}>
+          <div css={tocInnerBoxCss}>
+            <TableContents contentItems={tableContentItems} />
           </div>
         </div>
       )}
@@ -91,8 +91,8 @@ const markdownRendererCss: CssProp = systemCss({
   py: '1.5rem',
 });
 
-const contentsIdOuterBoxCss: CssProp = absoluteOnParent({top: '1rem', right: '-1.25rem'});
-const contentsIdInnerBoxCss: CssProp = (theme) =>
+const tocOuterBoxCss: CssProp = absoluteOnParent({top: '1rem', right: '-1.25rem'});
+const tocInnerBoxCss: CssProp = (theme) =>
   systemCss({
     fontSize: theme.fontSizes.p15,
     position: 'fixed',

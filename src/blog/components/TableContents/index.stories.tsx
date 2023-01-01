@@ -2,8 +2,6 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {createProjectDocsMock} from '@src/shared';
-
 import ContentsIdList from './index';
 
 const storyDefault = {
@@ -19,7 +17,7 @@ const Template: ComponentStory<typeof ContentsIdList> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  contentsIds: [
+  contentItems: [
     {
       id: 'Heading1-H1-(1)',
       text: 'Heading1 H1 (1)',
