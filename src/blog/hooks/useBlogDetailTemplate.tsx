@@ -2,7 +2,7 @@ import {useState, useCallback, useMemo, useRef} from 'react';
 
 import {useRouter} from 'next/router';
 
-import {TableContentItem} from '@src/blog';
+import {useToc} from '@src/blog';
 import {PostDocument, useDocNav, useMedia, valueOrLastItem, CommentsRef} from '@src/shared';
 
 export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
@@ -10,11 +10,14 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
   const {media} = useMedia();
   const isDesktop = ['desktop', 'largeDesktop'].includes(media ?? '');
 
-  const [tableContentItems, setTableContentItems] = useState<TableContentItem[]>([]);
   const commentsRef = useRef<CommentsRef>(null);
+
+  const [markdownHtml, setMarkdownHtml] = useState('');
 
   const id = useMemo(() => valueOrLastItem(router.query.id), [router.query]);
   const selectedCategory = useMemo(() => valueOrLastItem(router.query.category), [router.query]);
+
+  const {tableContentItems} = useToc(markdownHtml, id);
 
   /** 현재 문서들 */
   const currentDocs = useMemo(() => {
@@ -57,20 +60,12 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
     [router, selectedCategory],
   );
 
-  /** tableContents 상태 업데이트 (TableContents에 들어감)
-   * - MarkdownRenderer 컴포넌트의 ref에 대입
-   */
-  const registerTableContentItems = useCallback(
-    (markdownEle?: HTMLDivElement | null) => {
-      if (!markdownEle || !id) {
-        return;
-      }
-      const rootContentItem = createRootTableContentItem({ele: markdownEle, queryId: id});
-      const {children: tableContents} = rootContentItem;
-      setTableContentItems(repositionTableContentItems(tableContents));
-    },
-    [id],
-  );
+  const updateMarkdownHtml = useCallback((markdownEle?: HTMLDivElement | null) => {
+    if (!markdownEle) {
+      return;
+    }
+    setMarkdownHtml(markdownEle.innerHTML);
+  }, []);
 
   return {
     isDesktop,
@@ -79,83 +74,6 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
     isExistAnotherPosts,
     handlePostNavButtonClick,
     tableContentItems,
-    registerTableContentItems,
+    updateMarkdownHtml,
   };
-};
-
-// FUNCTIONS =================================================
-
-const isHeading = (nodeName: string) => /^h[1-6]/i.test(nodeName);
-const deleteText = (text: string) => text.replace(/[a-z]+/gi, '');
-const createCloneData = <T extends unknown>(aData: T) => JSON.parse(JSON.stringify(aData)) as T;
-const createRootTableContentItem = ({
-  ele,
-  queryId,
-  item = {id: '', text: '', nodeName: '', href: '', children: []},
-}: {
-  ele: Element;
-  queryId: string;
-  item?: TableContentItem;
-}) => {
-  const eleId = (ele.id || (ele as HTMLElement).innerText).replace(/\s+/g, '-');
-  item = {
-    ...item,
-    id: eleId,
-    text: (ele as HTMLElement).innerText,
-    nodeName: ele.nodeName,
-    href: `./${queryId}#${encodeURIComponent(eleId)}`,
-  };
-  if (ele.children.length === 0) {
-    return item;
-  }
-  const children = Array.from(ele.children);
-  for (let i = 0; i < children.length; i++) {
-    const child = children[i];
-    if (!isHeading(child.nodeName)) {
-      continue;
-    }
-    item.children.push(createRootTableContentItem({ele: child, queryId}));
-  }
-  return item;
-};
-const repositionTableContentItems = (items: TableContentItem[]) => {
-  const createPrevStorage = (standard?: TableContentItem) => {
-    if (!standard) {
-      return [];
-    }
-    const result: TableContentItem[] = [standard];
-    let pointer: TableContentItem = standard;
-    while (pointer.children.length > 0) {
-      pointer = pointer.children[pointer.children.length - 1];
-      result.push(pointer);
-    }
-    return result;
-  };
-
-  if (items.length <= 1) {
-    return items;
-  }
-  const cloneData: TableContentItem[] = [createCloneData(items[0])];
-  for (let i = 1; i < items.length; i++) {
-    let prevStandardIdx = cloneData.length - 1;
-    let prevStorage: TableContentItem[] = createPrevStorage(cloneData[prevStandardIdx]);
-    let curr: TableContentItem | undefined = createCloneData(items[i]);
-
-    while (prevStorage.length > 0) {
-      const prev = prevStorage.pop()!;
-      const [prevNum, currNum] = [prev, curr].map(({nodeName}) => +deleteText(nodeName));
-      if (prevNum < currNum) {
-        prev.children.push(curr);
-        break;
-      }
-      if (prevStorage.length === 0) {
-        if (prevStandardIdx - 1 < 0) {
-          cloneData.push(curr);
-          break;
-        }
-        prevStorage = createPrevStorage(cloneData[--prevStandardIdx]);
-      }
-    }
-  }
-  return cloneData;
 };

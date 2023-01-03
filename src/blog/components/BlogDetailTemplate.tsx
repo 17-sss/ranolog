@@ -28,7 +28,7 @@ const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDoc, postDoc
     isExistAnotherPosts,
     handlePostNavButtonClick,
     tableContentItems,
-    registerTableContentItems,
+    updateMarkdownHtml,
   } = useBlogDetailTemplate(postDocs);
 
   const currentDoc = postDoc ?? postDocsNavInfo.current;
@@ -43,7 +43,7 @@ const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDoc, postDoc
         postDoc={currentDoc}
         markdownRenderer={
           <MarkdownRenderer
-            ref={registerTableContentItems}
+            ref={updateMarkdownHtml}
             css={markdownRendererCss}
             content={currentDoc.content}
           />
