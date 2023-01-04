@@ -13,8 +13,6 @@ class MyDocument extends Document<DocumentProps> {
     return (
       <Html lang="ko">
         <Head>
-          {/* FONTS */}
-          <link rel="stylesheet" href="/fonts/index.css" />
           {/* MARKDOWN : PRISM */}
           <link
             href={`https://unpkg.com/prismjs@0.0.1/themes/prism-${prismTheme}.css`}

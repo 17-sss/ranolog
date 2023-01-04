@@ -3,6 +3,8 @@ import {RouterContext} from 'next/dist/shared/lib/router-context';
 
 import {defaultDecorator} from './decorators';
 
+import '../public/fonts/index.css';
+
 const OriginalNextImage = NextImage.default;
 Object.defineProperty(NextImage, 'default', {
   configurable: true,
