@@ -1,12 +1,13 @@
-import {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
+import {Fragment, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import {GiHamburgerMenu} from 'react-icons/gi';
+import {CSSTransition} from 'react-transition-group';
 
 import {commonBlurDataURL} from '../../constants';
 import {changeFirstCharUpperCase} from '../../functions';
-import {useMedia} from '../../hooks';
+import {useMedia, useScrollDirection} from '../../hooks';
 import {
   centerBetweenAlignChildren,
   centerAlignedChildren,
@@ -29,17 +30,14 @@ interface HeaderLink {
   link: string;
 }
 
+const TRANSITION_TIMEOUT = 300;
+
 const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
   const {isMobile} = useMedia();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const scrollDir = useScrollDirection({initialDirection: 'up', thresholdPixels: 100});
 
-  const handleLinkClick = useCallback(() => {
-    if (!isMobile) {
-      return;
-    }
-    const MS = 100;
-    setTimeout(() => setIsMobileMenuOpen(false), MS);
-  }, [isMobile]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const headerRef = useRef(null);
 
   const links: HeaderLink[] = useMemo(() => {
     const result = linkNames.map((name) => {
@@ -52,6 +50,14 @@ const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
     });
     return result;
   }, [linkNames]);
+
+  const handleLinkClick = useCallback(() => {
+    if (!isMobile) {
+      return;
+    }
+    const MS = 100;
+    setTimeout(() => setIsMobileMenuOpen(false), MS);
+  }, [isMobile]);
 
   const menuItems = useMemo(() => {
     return links.map(({name, displayName, link}) => {
@@ -76,37 +82,48 @@ const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
 
   return (
     <Fragment>
-      <header css={headerCss}>
-        <div css={headerInnerBoxCss} {...props}>
-          {/* MENU */}
-          <div>
-            {isMobile ? (
-              <button
-                css={mobileMenuButtonCss}
-                onClick={() => setIsMobileMenuOpen((state) => !state)}
-                aria-label="mobile menu button"
-              >
-                <GiHamburgerMenu />
-              </button>
-            ) : (
-              <ul css={menuCss}>{menuItems}</ul>
-            )}
+      <CSSTransition
+        nodeRef={headerRef}
+        in={isMobileMenuOpen || scrollDir === 'up'}
+        timeout={TRANSITION_TIMEOUT}
+        unmountOnExit
+      >
+        <header ref={headerRef} css={[headerCss, headerTransitionCss]}>
+          <div css={headerInnerBoxCss} {...props}>
+            {/* MENU */}
+            <div>
+              {isMobile ? (
+                <button
+                  css={mobileMenuButtonCss}
+                  onClick={() => setIsMobileMenuOpen((state) => !state)}
+                  aria-label="mobile menu button"
+                >
+                  <GiHamburgerMenu />
+                </button>
+              ) : (
+                <ul css={menuCss}>{menuItems}</ul>
+              )}
+            </div>
+            {/* PROFILE */}
+            <Link
+              href={links.find(({name}) => name === 'home')?.link ?? '/'}
+              passHref
+              legacyBehavior
+            >
+              <a css={profileImageBoxCss} onClick={handleLinkClick}>
+                <Image
+                  src={profileImage}
+                  alt="profile_image"
+                  fill
+                  priority
+                  placeholder="blur"
+                  blurDataURL={commonBlurDataURL}
+                />
+              </a>
+            </Link>
           </div>
-          {/* PROFILE */}
-          <Link href={links.find(({name}) => name === 'home')?.link ?? '/'} passHref legacyBehavior>
-            <a css={profileImageBoxCss} onClick={handleLinkClick}>
-              <Image
-                src={profileImage}
-                alt="profile_image"
-                fill
-                priority
-                placeholder="blur"
-                blurDataURL={commonBlurDataURL}
-              />
-            </a>
-          </Link>
-        </div>
-      </header>
+        </header>
+      </CSSTransition>
       {isMobileMenuOpen && (
         <div css={mobileMenuBoxCss}>
           <ul css={[menuCss, mobileMenuCss]}>{menuItems}</ul>
@@ -134,6 +151,22 @@ const headerCss: CssProp = [
       boxShadow: `0 0rem 1rem -0.5rem ${theme.colors.black}`,
     }),
 ];
+const headerTransitionCss: CssProp = systemCss({
+  '&.enter': {
+    opacity: 0,
+  },
+  '&.enter-active': {
+    opacity: 1,
+    transition: `opacity ${TRANSITION_TIMEOUT}ms`,
+  },
+  '&.exit': {
+    opacity: 1,
+  },
+  '&.exit-active': {
+    opacity: 0,
+    transition: `opacity ${TRANSITION_TIMEOUT}ms`,
+  },
+});
 
 const headerInnerBoxCss: CssProp = [centerBetweenAlignChildren, systemCss({width: '100%'})];
 
