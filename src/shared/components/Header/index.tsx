@@ -153,18 +153,18 @@ const headerCss: CssProp = [
 ];
 const headerTransitionCss: CssProp = systemCss({
   '&.enter': {
-    opacity: 0,
+    transform: HEADER_HEIGHTS.map((v) => `translateY(-${v})`),
   },
   '&.enter-active': {
-    opacity: 1,
-    transition: `opacity ${TRANSITION_TIMEOUT}ms`,
+    transform: `translateY(0)`,
+    transition: `transform ${TRANSITION_TIMEOUT}ms`,
   },
   '&.exit': {
-    opacity: 1,
+    transform: `translateY(0)`,
   },
   '&.exit-active': {
-    opacity: 0,
-    transition: `opacity ${TRANSITION_TIMEOUT}ms`,
+    transform: HEADER_HEIGHTS.map((v) => `translateY(-${v})`),
+    transition: `transform ${TRANSITION_TIMEOUT}ms`,
   },
 });
 
