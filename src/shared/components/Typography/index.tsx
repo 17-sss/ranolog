@@ -9,19 +9,9 @@ const isHeading = (text: string) => /^h\d/.test(text);
 export type TypographyVariant = typeof variantKeys[number];
 export type TypographyColor = typeof colorKeys[number] | keyof typeof theme.colors;
 
-interface TypographyInnerProps extends PropsWithChildren {
+export interface TypographyProps extends PropsWithChildren {
   id?: string;
-  variant: TypographyVariant;
-}
-
-const TypographyInner = forwardRef<HTMLElement, TypographyInnerProps>(
-  ({variant, children, ...props}, ref) => {
-    return React.createElement(variant, {...props, ref}, children);
-  },
-);
-TypographyInner.displayName = 'TypographyInner';
-
-export interface TypographyProps extends Partial<TypographyInnerProps> {
+  variant?: TypographyVariant;
   color?: TypographyColor;
   backgroundColor?: TypographyColor;
   isBold?: boolean;
@@ -40,6 +30,8 @@ const Typography: React.FC<TypographyProps> = ({
   useHeadingId = false,
   ...props
 }) => {
+  const Component = variant as React.ElementType;
+
   const [headingId, setHeadingId] = useState<string>();
   const registerHeadingId = useCallback(
     (ele?: HTMLElement | null) => {
@@ -49,7 +41,7 @@ const Typography: React.FC<TypographyProps> = ({
     [useHeadingId, variant],
   );
   return (
-    <TypographyInner
+    <Component
       ref={registerHeadingId}
       id={id ?? headingId}
       css={typographyCss({variant, backgroundColor, color, isBold, isItalic, fontSize})}
