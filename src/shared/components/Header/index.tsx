@@ -99,7 +99,7 @@ const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
     <Fragment>
       <CSSTransition
         nodeRef={headerRef}
-        in={scrollDir === 'up'}
+        in={isMobileMenuOpen || scrollDir === 'up'}
         timeout={TRANSITION_TIMEOUT}
         unmountOnExit
       >

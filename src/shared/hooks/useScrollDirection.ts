@@ -4,6 +4,8 @@
 
 import {useState, useEffect} from 'react';
 
+import {throttle} from '../functions';
+
 const SCROLL_UP = 'up';
 const SCROLL_DOWN = 'down';
 
@@ -30,19 +32,21 @@ export const useScrollDirection = ({
     let lastScrollY = window.scrollY;
     let ticking = false;
 
-    const updateScrollDir = () => {
-      const scrollY = window.scrollY;
+    const updateScrollDir = throttle({
+      func: () => {
+        const scrollY = window.scrollY;
+        if (Math.abs(scrollY - lastScrollY) < threshold) {
+          // We haven't exceeded the threshold
+          ticking = false;
+          return;
+        }
 
-      if (Math.abs(scrollY - lastScrollY) < threshold) {
-        // We haven't exceeded the threshold
+        setScrollDir(forceDir ?? (scrollY > lastScrollY ? SCROLL_DOWN : SCROLL_UP));
+        lastScrollY = scrollY > 0 ? scrollY : 0;
         ticking = false;
-        return;
-      }
-
-      setScrollDir(forceDir ?? (scrollY > lastScrollY ? SCROLL_DOWN : SCROLL_UP));
-      lastScrollY = scrollY > 0 ? scrollY : 0;
-      ticking = false;
-    };
+      },
+      ms: 100,
+    });
 
     const onScroll = () => {
       if (!ticking) {

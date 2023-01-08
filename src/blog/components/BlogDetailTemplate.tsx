@@ -91,7 +91,7 @@ const markdownRendererCss: CssProp = systemCss({
   py: '1.5rem',
 });
 
-const tocOuterBoxCss: CssProp = absoluteOnParent({top: '1rem', right: '-1.25rem'});
+const tocOuterBoxCss: CssProp = absoluteOnParent({top: 0, right: '-1.25rem'});
 const tocInnerBoxCss: CssProp = (theme) =>
   systemCss({
     fontSize: theme.fontSizes.p15,
