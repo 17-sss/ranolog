@@ -1,42 +1,55 @@
-import React from 'react';
+import React, {useState, useCallback, forwardRef, PropsWithChildren} from 'react';
 
 import {CssProp, systemCss} from '../../system';
 import {theme} from '../../theme';
 import {backgroundColors, colorKeys, colors, variantKeys} from './constants';
 
+const isHeading = (text: string) => /^h\d/.test(text);
+
 export type TypographyVariant = typeof variantKeys[number];
 export type TypographyColor = typeof colorKeys[number] | keyof typeof theme.colors;
 
-interface TypographyInnerProps {
-  variant: TypographyVariant;
-  children?: React.ReactNode;
-}
-const TypographyInner: React.FC<TypographyInnerProps> = ({variant, children, ...props}) => {
-  return React.createElement(variant, props, children);
-};
-
-export interface TypographyProps extends Partial<TypographyInnerProps> {
+export interface TypographyProps extends PropsWithChildren {
+  id?: string;
+  variant?: TypographyVariant;
   color?: TypographyColor;
   backgroundColor?: TypographyColor;
   isBold?: boolean;
   isItalic?: boolean;
   fontSize?: keyof typeof theme.fontSizes;
+  useHeadingId?: boolean;
 }
 const Typography: React.FC<TypographyProps> = ({
+  id,
   variant = 'span',
   backgroundColor,
   color,
   isBold,
   isItalic,
   fontSize,
+  useHeadingId = false,
   ...props
-}) => (
-  <TypographyInner
-    css={typographyCss({variant, backgroundColor, color, isBold, isItalic, fontSize})}
-    variant={variant}
-    {...props}
-  />
-);
+}) => {
+  const Component = variant as React.ElementType;
+
+  const [headingId, setHeadingId] = useState<string>();
+  const registerHeadingId = useCallback(
+    (ele?: HTMLElement | null) => {
+      if (!ele || !useHeadingId || !isHeading(variant)) return;
+      setHeadingId(ele.innerText.replace(/\s+/g, '-'));
+    },
+    [useHeadingId, variant],
+  );
+  return (
+    <Component
+      ref={registerHeadingId}
+      id={id ?? headingId}
+      css={typographyCss({variant, backgroundColor, color, isBold, isItalic, fontSize})}
+      variant={variant}
+      {...props}
+    />
+  );
+};
 
 export default Typography;
 
@@ -75,8 +88,7 @@ const typographyCss: (params: TypographyCssParams) => CssProp = ({
   },
   backgroundColor && systemCss({backgroundColor: backgroundColors[backgroundColor]}),
   color && systemCss({color: colors[color]}),
-  (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(variant) || isBold) &&
-    systemCss({fontWeight: 600}),
+  (isHeading(variant) || isBold) && systemCss({fontWeight: 600}),
   isItalic && systemCss({fontStyle: 'italic'}),
   ['p'].includes(variant) && systemCss({py: '0.1875rem'}),
 ];

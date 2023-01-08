@@ -1,13 +1,14 @@
 import {useMemo} from 'react';
 
 import {createPostDateText} from '@src/blog';
-import {CustomCode, CssProp, MarkdownRenderer, PostDocument, systemCss} from '@src/shared';
+import {CustomCode, CssProp, PostDocument, systemCss} from '@src/shared';
 
 export interface PostDetailProps {
   postDoc: PostDocument;
+  markdownRenderer: React.ReactNode;
 }
 
-const PostDetail: React.FC<PostDetailProps> = ({postDoc, ...props}) => {
+const PostDetail: React.FC<PostDetailProps> = ({postDoc, markdownRenderer, ...props}) => {
   const categories = useMemo(() => {
     const postCategories = postDoc.category;
     if (!postCategories || (Array.isArray(postCategories) && postCategories.length === 0)) {
@@ -38,7 +39,7 @@ const PostDetail: React.FC<PostDetailProps> = ({postDoc, ...props}) => {
         )}
         {dateText && <p className="date">{dateText}</p>}
       </div>
-      <MarkdownRenderer css={markdownRendererCss} content={postDoc.content} />
+      {markdownRenderer}
     </div>
   );
 };
@@ -67,8 +68,4 @@ const categoryBoxCss: CssProp = systemCss({
     m: '0.125rem',
     display: 'inline-flex',
   },
-});
-
-const markdownRendererCss: CssProp = systemCss({
-  py: '1.5rem',
 });

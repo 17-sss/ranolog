@@ -1,12 +1,14 @@
-import {Fragment, useCallback, useEffect, useMemo, useState} from 'react';
+import {Fragment, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import {useRouter} from 'next/router';
 import {GiHamburgerMenu} from 'react-icons/gi';
+import {CSSTransition} from 'react-transition-group';
 
 import {commonBlurDataURL} from '../../constants';
 import {changeFirstCharUpperCase} from '../../functions';
-import {useMedia} from '../../hooks';
+import {useMedia, useScrollDirection, ScrollDirection} from '../../hooks';
 import {
   centerBetweenAlignChildren,
   centerAlignedChildren,
@@ -29,17 +31,17 @@ interface HeaderLink {
   link: string;
 }
 
-const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
-  const {isMobile} = useMedia();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+const TRANSITION_TIMEOUT = 300;
 
-  const handleLinkClick = useCallback(() => {
-    if (!isMobile) {
-      return;
-    }
-    const MS = 100;
-    setTimeout(() => setIsMobileMenuOpen(false), MS);
-  }, [isMobile]);
+const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
+  const router = useRouter();
+  const {isMobile} = useMedia();
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [forceScrollDir, setForceScrollDir] = useState<ScrollDirection>();
+  const headerRef = useRef(null);
+
+  const scrollDir = useScrollDirection({initialDirection: 'up', forceDirection: forceScrollDir});
 
   const links: HeaderLink[] = useMemo(() => {
     const result = linkNames.map((name) => {
@@ -52,6 +54,14 @@ const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
     });
     return result;
   }, [linkNames]);
+
+  const handleLinkClick = useCallback(() => {
+    if (!isMobile) {
+      return;
+    }
+    const MS = 100;
+    setTimeout(() => setIsMobileMenuOpen(false), MS);
+  }, [isMobile]);
 
   const menuItems = useMemo(() => {
     return links.map(({name, displayName, link}) => {
@@ -74,39 +84,61 @@ const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
     }
   }, [isMobileMenuOpen, isMobile]);
 
+  useEffect(() => {
+    const onHashChangeStart = () => setForceScrollDir('down');
+    const onHashChangeComplete = () => setForceScrollDir(undefined);
+    router.events.on('hashChangeStart', onHashChangeStart);
+    router.events.on('hashChangeComplete', onHashChangeComplete);
+    return () => {
+      router.events.off('hashChangeStart', onHashChangeStart);
+      router.events.off('hashChangeComplete', onHashChangeComplete);
+    };
+  }, [router.events]);
+
   return (
     <Fragment>
-      <header css={headerCss}>
-        <div css={headerInnerBoxCss} {...props}>
-          {/* MENU */}
-          <div>
-            {isMobile ? (
-              <button
-                css={mobileMenuButtonCss}
-                onClick={() => setIsMobileMenuOpen((state) => !state)}
-                aria-label="mobile menu button"
-              >
-                <GiHamburgerMenu />
-              </button>
-            ) : (
-              <ul css={menuCss}>{menuItems}</ul>
-            )}
+      <CSSTransition
+        nodeRef={headerRef}
+        in={scrollDir === 'up'}
+        timeout={TRANSITION_TIMEOUT}
+        unmountOnExit
+      >
+        <header ref={headerRef} css={[headerCss, headerTransitionCss]}>
+          <div css={headerInnerBoxCss} {...props}>
+            {/* MENU */}
+            <div>
+              {isMobile ? (
+                <button
+                  css={mobileMenuButtonCss}
+                  onClick={() => setIsMobileMenuOpen((state) => !state)}
+                  aria-label="mobile menu button"
+                >
+                  <GiHamburgerMenu />
+                </button>
+              ) : (
+                <ul css={menuCss}>{menuItems}</ul>
+              )}
+            </div>
+            {/* PROFILE */}
+            <Link
+              href={links.find(({name}) => name === 'home')?.link ?? '/'}
+              passHref
+              legacyBehavior
+            >
+              <a css={profileImageBoxCss} onClick={handleLinkClick}>
+                <Image
+                  src={profileImage}
+                  alt="profile_image"
+                  fill
+                  priority
+                  placeholder="blur"
+                  blurDataURL={commonBlurDataURL}
+                />
+              </a>
+            </Link>
           </div>
-          {/* PROFILE */}
-          <Link href={links.find(({name}) => name === 'home')?.link ?? '/'} passHref legacyBehavior>
-            <a css={profileImageBoxCss} onClick={handleLinkClick}>
-              <Image
-                src={profileImage}
-                alt="profile_image"
-                fill
-                priority
-                placeholder="blur"
-                blurDataURL={commonBlurDataURL}
-              />
-            </a>
-          </Link>
-        </div>
-      </header>
+        </header>
+      </CSSTransition>
       {isMobileMenuOpen && (
         <div css={mobileMenuBoxCss}>
           <ul css={[menuCss, mobileMenuCss]}>{menuItems}</ul>
@@ -134,6 +166,22 @@ const headerCss: CssProp = [
       boxShadow: `0 0rem 1rem -0.5rem ${theme.colors.black}`,
     }),
 ];
+const headerTransitionCss: CssProp = systemCss({
+  '&.enter': {
+    transform: HEADER_HEIGHTS.map((v) => `translateY(-${v})`),
+  },
+  '&.enter-active': {
+    transform: `translateY(0)`,
+    transition: `transform ${TRANSITION_TIMEOUT}ms`,
+  },
+  '&.exit': {
+    transform: `translateY(0)`,
+  },
+  '&.exit-active': {
+    transform: HEADER_HEIGHTS.map((v) => `translateY(-${v})`),
+    transition: `transform ${TRANSITION_TIMEOUT}ms`,
+  },
+});
 
 const headerInnerBoxCss: CssProp = [centerBetweenAlignChildren, systemCss({width: '100%'})];
 

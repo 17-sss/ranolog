@@ -1,16 +1,23 @@
-import {useCallback, useMemo, useRef} from 'react';
+import {useState, useCallback, useMemo, useRef} from 'react';
 
 import {useRouter} from 'next/router';
 
-import {PostDocument, useDocNav, valueOrLastItem, CommentsRef} from '@src/shared';
+import {useToc} from '@src/blog';
+import {PostDocument, useDocNav, useMedia, valueOrLastItem, CommentsRef} from '@src/shared';
 
 export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
   const router = useRouter();
+  const {media} = useMedia();
+  const isDesktop = ['desktop', 'largeDesktop'].includes(media ?? '');
 
   const commentsRef = useRef<CommentsRef>(null);
 
+  const [markdownHtml, setMarkdownHtml] = useState('');
+
   const id = useMemo(() => valueOrLastItem(router.query.id), [router.query]);
   const selectedCategory = useMemo(() => valueOrLastItem(router.query.category), [router.query]);
+
+  const {tableContentItems} = useToc(markdownHtml, id);
 
   /** 현재 문서들 */
   const currentDocs = useMemo(() => {
@@ -53,5 +60,20 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
     [router, selectedCategory],
   );
 
-  return {commentsRef, postDocsNavInfo, isExistAnotherPosts, handlePostNavButtonClick};
+  const updateMarkdownHtml = (markdownEle?: HTMLDivElement | null) => {
+    if (!markdownEle) {
+      return;
+    }
+    setMarkdownHtml(markdownEle.innerHTML);
+  };
+
+  return {
+    isDesktop,
+    commentsRef,
+    postDocsNavInfo,
+    isExistAnotherPosts,
+    handlePostNavButtonClick,
+    tableContentItems,
+    updateMarkdownHtml,
+  };
 };

@@ -1,19 +1,30 @@
-import {Fragment} from 'react';
+import {ForwardedRef, forwardRef, Fragment} from 'react';
 
 import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote';
 import {rgba} from 'polished';
 
-import {CustomCode, CustomLink, Typography, Divider, FlexBox} from '../../components';
+import {
+  CustomCode,
+  CustomLink,
+  Divider,
+  FlexBox,
+  Typography,
+  TypographyProps,
+} from '../../components';
 import {CssProp, systemCss} from '../../system';
 
 export interface MarkdownRendererProps {
   content: string | MDXRemoteSerializeResult;
 }
 
-const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({content, ...props}) => {
+const MarkdownRenderer = (
+  {content, ...props}: MarkdownRendererProps,
+  ref?: ForwardedRef<HTMLDivElement>,
+) => {
   if (typeof content === 'string') {
     return (
       <div
+        ref={ref}
         css={[containerCss, anchorCss, codeCss]}
         dangerouslySetInnerHTML={{__html: content}}
         {...props}
@@ -21,14 +32,14 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({content, ...props}) 
     );
   }
   return (
-    <div css={[containerCss, codeCss]} {...props}>
+    <div ref={ref} css={[containerCss, codeCss]} {...props}>
       <MDXRemote
         {...content}
         components={{
           a: ({href, children}) => <CustomLink href={href ?? ''}>{children}</CustomLink>,
           CustomLink,
           CustomCode,
-          Typography,
+          Typography: ({...props}: TypographyProps) => <Typography {...props} useHeadingId />,
           Divider,
           FlexBox,
           Fragment,
@@ -38,7 +49,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({content, ...props}) 
   );
 };
 
-export default MarkdownRenderer;
+export default forwardRef<HTMLDivElement, MarkdownRendererProps>(MarkdownRenderer);
 
 const containerCss: CssProp = (theme) =>
   systemCss({

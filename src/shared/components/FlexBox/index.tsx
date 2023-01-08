@@ -1,11 +1,11 @@
-import {Attributes} from 'react';
+import {Attributes, PropsWithChildren} from 'react';
 
 import {ResponsiveStyleValue} from '@styled-system/css';
 import {Property} from 'csstype';
 
 import {CssProp, systemCss} from '../../system';
 
-export interface FlexBoxProps {
+export interface FlexBoxProps extends PropsWithChildren {
   width?: ResponsiveStyleValue<Property.Width>;
   height?: ResponsiveStyleValue<Property.Height>;
   alignItems?: ResponsiveStyleValue<Property.AlignItems>;
@@ -19,7 +19,6 @@ export interface FlexBoxProps {
 
   css?: Attributes['css'];
   key?: Attributes['key'];
-  children?: React.ReactNode;
 }
 
 const FlexBox: React.FC<FlexBoxProps> = ({

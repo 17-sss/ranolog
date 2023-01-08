@@ -1,3 +1,5 @@
+import {PropsWithChildren} from 'react';
+
 import {CssProp, systemCss} from '../../system';
 import {theme} from '../../theme';
 
@@ -15,10 +17,9 @@ export const colorNames = [
 
 export type ColorNames = typeof colorNames[number] | keyof typeof theme.colors;
 
-export interface CustomCodeProps {
+export interface CustomCodeProps extends PropsWithChildren {
   color?: ColorNames;
   isBold?: boolean;
-  children?: React.ReactNode;
 }
 
 const CustomCode: React.FC<CustomCodeProps> = ({color, isBold, children, ...props}) => {

@@ -13,11 +13,13 @@ interface PaginationStoryProps extends PaginationProps {
   postUnit?: number;
 }
 
-// --
-
 const storyDefault = {
   title: 'components/blog/Pagination',
   component: Pagination,
+  argTypes: {
+    pageNums: {table: {disable: true}},
+    pageInfo: {table: {disable: true}},
+  },
 } as ComponentMeta<React.FC<PaginationStoryProps>>;
 
 export default storyDefault;

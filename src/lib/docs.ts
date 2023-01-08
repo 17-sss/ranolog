@@ -6,6 +6,7 @@ import mdxPrism from 'mdx-prism';
 import {MDXRemoteSerializeResult} from 'next-mdx-remote';
 import {serialize} from 'next-mdx-remote/serialize';
 import path from 'path';
+import rehypeSlug from 'rehype-slug';
 import {remark} from 'remark';
 import remarkGfm from 'remark-gfm';
 import remarkHtml from 'remark-html';
@@ -30,6 +31,7 @@ const markdownToHtml = async (content: string) => {
   const result = await remark()
     .use(remarkGfm)
     .use(remarkHtml, {sanitize: false})
+    .use(rehypeSlug)
     .use(remarkPrism)
     .process(content);
   return result.toString();
@@ -38,7 +40,7 @@ const markdownToHtml = async (content: string) => {
 /** [async] Markdown Text -> HTML 변환 (for MDX) */
 const markdownToHtmlForMDX = async (content: string) => {
   const result = await serialize(content, {
-    mdxOptions: {remarkPlugins: [remarkGfm, remarkHtml], rehypePlugins: [mdxPrism]},
+    mdxOptions: {remarkPlugins: [remarkGfm, remarkHtml], rehypePlugins: [rehypeSlug, mdxPrism]},
   });
   return result;
 };

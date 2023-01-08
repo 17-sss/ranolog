@@ -1,13 +1,12 @@
-import {useMemo} from 'react';
+import {useMemo, PropsWithChildren} from 'react';
 
 import Link from 'next/link';
 import {rgba} from 'polished';
 
 import {CssProp, systemCss} from '../../system';
 
-export interface CustomLinkProps {
+export interface CustomLinkProps extends PropsWithChildren {
   href: string;
-  children?: React.ReactNode;
   disableStyle?: boolean;
 }
 
