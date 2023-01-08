@@ -60,12 +60,12 @@ export const useBlogDetailTemplate = (postDocs: PostDocument[]) => {
     [router, selectedCategory],
   );
 
-  const updateMarkdownHtml = useCallback((markdownEle?: HTMLDivElement | null) => {
+  const updateMarkdownHtml = (markdownEle?: HTMLDivElement | null) => {
     if (!markdownEle) {
       return;
     }
     setMarkdownHtml(markdownEle.innerHTML);
-  }, []);
+  };
 
   return {
     isDesktop,

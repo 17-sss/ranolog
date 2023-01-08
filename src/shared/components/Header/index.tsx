@@ -2,12 +2,13 @@ import {Fragment, useCallback, useEffect, useMemo, useRef, useState} from 'react
 
 import Image from 'next/image';
 import Link from 'next/link';
+import {useRouter} from 'next/router';
 import {GiHamburgerMenu} from 'react-icons/gi';
 import {CSSTransition} from 'react-transition-group';
 
 import {commonBlurDataURL} from '../../constants';
 import {changeFirstCharUpperCase} from '../../functions';
-import {useMedia, useScrollDirection} from '../../hooks';
+import {useMedia, useScrollDirection, ScrollDirection} from '../../hooks';
 import {
   centerBetweenAlignChildren,
   centerAlignedChildren,
@@ -33,11 +34,14 @@ interface HeaderLink {
 const TRANSITION_TIMEOUT = 300;
 
 const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
+  const router = useRouter();
   const {isMobile} = useMedia();
-  const scrollDir = useScrollDirection({initialDirection: 'up', thresholdPixels: 100});
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [forceScrollDir, setForceScrollDir] = useState<ScrollDirection>();
   const headerRef = useRef(null);
+
+  const scrollDir = useScrollDirection({initialDirection: 'up', forceDirection: forceScrollDir});
 
   const links: HeaderLink[] = useMemo(() => {
     const result = linkNames.map((name) => {
@@ -80,11 +84,22 @@ const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
     }
   }, [isMobileMenuOpen, isMobile]);
 
+  useEffect(() => {
+    const onHashChangeStart = () => setForceScrollDir('down');
+    const onHashChangeComplete = () => setForceScrollDir(undefined);
+    router.events.on('hashChangeStart', onHashChangeStart);
+    router.events.on('hashChangeComplete', onHashChangeComplete);
+    return () => {
+      router.events.off('hashChangeStart', onHashChangeStart);
+      router.events.off('hashChangeComplete', onHashChangeComplete);
+    };
+  }, [router.events]);
+
   return (
     <Fragment>
       <CSSTransition
         nodeRef={headerRef}
-        in={isMobileMenuOpen || scrollDir === 'up'}
+        in={scrollDir === 'up'}
         timeout={TRANSITION_TIMEOUT}
         unmountOnExit
       >

@@ -7,16 +7,18 @@ import {useState, useEffect} from 'react';
 const SCROLL_UP = 'up';
 const SCROLL_DOWN = 'down';
 
-type Direction = 'up' | 'down';
+export type ScrollDirection = 'up' | 'down';
 
 export interface UseScrollDirectionProps {
-  initialDirection: Direction;
+  initialDirection: ScrollDirection;
+  forceDirection?: ScrollDirection;
   thresholdPixels?: number;
   off?: boolean;
 }
 
 export const useScrollDirection = ({
   initialDirection,
+  forceDirection,
   thresholdPixels = 0,
   off,
 }: UseScrollDirectionProps) => {
@@ -24,6 +26,7 @@ export const useScrollDirection = ({
 
   useEffect(() => {
     const threshold = thresholdPixels;
+    const forceDir = forceDirection;
     let lastScrollY = window.scrollY;
     let ticking = false;
 
@@ -36,7 +39,7 @@ export const useScrollDirection = ({
         return;
       }
 
-      setScrollDir(scrollY > lastScrollY ? SCROLL_DOWN : SCROLL_UP);
+      setScrollDir(forceDir ?? (scrollY > lastScrollY ? SCROLL_DOWN : SCROLL_UP));
       lastScrollY = scrollY > 0 ? scrollY : 0;
       ticking = false;
     };
@@ -55,7 +58,7 @@ export const useScrollDirection = ({
     !off ? window.addEventListener('scroll', onScroll) : setScrollDir(initialDirection);
 
     return () => window.removeEventListener('scroll', onScroll);
-  }, [initialDirection, thresholdPixels, off]);
+  }, [initialDirection, forceDirection, thresholdPixels, off]);
 
   return scrollDir;
 };
