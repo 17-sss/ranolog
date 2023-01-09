@@ -35,7 +35,7 @@ const TRANSITION_TIMEOUT = 300;
 
 const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
   const router = useRouter();
-  const {isMobile} = useMedia();
+  const {isMobile, isDeskDevice} = useMedia();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [forceScrollDir, setForceScrollDir] = useState<ScrollDirection>();
@@ -99,7 +99,7 @@ const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
     <Fragment>
       <CSSTransition
         nodeRef={headerRef}
-        in={isMobileMenuOpen || scrollDir === 'up'}
+        in={!isDeskDevice || scrollDir === 'up'}
         timeout={TRANSITION_TIMEOUT}
         unmountOnExit
       >

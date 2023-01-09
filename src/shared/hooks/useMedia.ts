@@ -6,8 +6,16 @@ export type MediaQueryLists = {[key in MediaQueriesKey]: MediaQueryList};
 
 export const useMedia = () => {
   const [media, setMedia] = useState<MediaQueriesKey>();
+
   const isMobile = useMemo(() => {
     return media === 'mobile';
+  }, [media]);
+
+  const isDeskDevice = useMemo(() => {
+    if (media === 'laptop' || media === 'desktop' || media === 'largeDesktop') {
+      return true;
+    }
+    return false;
   }, [media]);
 
   const checkMedia = useCallback(
@@ -21,7 +29,6 @@ export const useMedia = () => {
   );
 
   const createMediaQueryLists = useCallback(() => {
-    const IDX_CORRECTION_VALUE = 1;
     const LAST_IDX = mediaQueriesKeyList.length - 1;
     const result: MediaQueryLists = mediaQueriesKeyList.reduce((result, key, i) => {
       if (i === 0) {
@@ -29,13 +36,11 @@ export const useMedia = () => {
         return result;
       }
       if (i === LAST_IDX) {
-        result[key] = window.matchMedia(
-          `(min-width: ${theme.breakpointValues[i - IDX_CORRECTION_VALUE]}px)`,
-        );
+        result[key] = window.matchMedia(`(min-width: ${theme.breakpointValues[i - 1]}px)`);
         return result;
       }
       result[key] = window.matchMedia(
-        `(min-width: ${theme.breakpointValues[i - IDX_CORRECTION_VALUE]}px) and (max-width: ${
+        `(min-width: ${theme.breakpointValues[i - 1]}px) and (max-width: ${
           theme.breakpointValues[i] - 1
         }px)`,
       );
@@ -45,24 +50,25 @@ export const useMedia = () => {
   }, []);
 
   useEffect(() => {
-    const mediaQueryLists = createMediaQueryLists();
-    const mediaQueryListsEntries = Object.entries(mediaQueryLists);
-    for (const [key, mediaQueryList] of mediaQueryListsEntries) {
+    const mediaQueryListEntries = Object.entries(createMediaQueryLists()) as [
+      MediaQueriesKey,
+      MediaQueryList,
+    ][];
+    for (const [key, mediaQueryList] of mediaQueryListEntries) {
       if (mediaQueryList.matches) {
-        setMedia(key as MediaQueriesKey);
-        break;
+        setMedia(key);
       }
     }
-    mediaQueryListsEntries.forEach(([key, mediaQueryList]) =>
-      mediaQueryList.addEventListener('change', checkMedia(key as MediaQueriesKey)),
+    mediaQueryListEntries.forEach(([key, mediaQueryList]) =>
+      mediaQueryList.addEventListener('change', checkMedia(key)),
     );
     return () => {
-      mediaQueryListsEntries.forEach(([key, mediaQueryList]) =>
-        mediaQueryList.removeEventListener('change', checkMedia(key as MediaQueriesKey)),
+      mediaQueryListEntries.forEach(([key, mediaQueryList]) =>
+        mediaQueryList.removeEventListener('change', checkMedia(key)),
       );
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return {media, isMobile};
+  return {media, isMobile, isDeskDevice};
 };
