@@ -1,11 +1,11 @@
 import {createRandomDate} from '../functions';
 import {PostDocument, ProjectDocument} from '../types';
-import {tempPosts, tempProjects} from './constants';
+import {samplePosts, sampleProjects} from './constants';
 
 /** Mock 데이터 생성 (Posts) */
 export const createPostDocsMock = (mockLength: number = 10) => {
-  const tempCategories = ['SAMPLE', 'JavaScript', 'JUST', 'DO IT', 'React'];
   const createCategory = () => {
+    const tempCategories = ['SAMPLE', 'JavaScript', 'JUST', 'DO IT', 'React'];
     const randomCategoryType = ['string', 'string[]', 'undefined'][Math.floor(Math.random() * 3)];
     if (randomCategoryType === 'string') {
       return tempCategories[Math.floor(Math.random() * tempCategories.length)];
@@ -26,7 +26,7 @@ export const createPostDocsMock = (mockLength: number = 10) => {
   };
 
   const result: PostDocument[] = Array.from({length: mockLength}).map((_, i) => {
-    const post = tempPosts[Math.round(Math.random())];
+    const post = samplePosts[Math.round(Math.random())];
     const summary = Boolean(Math.round(Math.random()))
       ? `${post.subject}'s summary (idx: ${i})`
       : undefined;
@@ -78,7 +78,7 @@ export const createProjectDocsMock = (mockLength: number = 10) => {
   };
 
   const result: ProjectDocument[] = Array.from({length: mockLength}).map((_, i) => {
-    const projectDoc = tempProjects[Math.round(Math.random())];
+    const projectDoc = sampleProjects[Math.round(Math.random())];
     const summary = Boolean(Math.round(Math.random()))
       ? `${projectDoc.subject}'s summary (idx: ${i})`
       : undefined;
@@ -88,6 +88,7 @@ export const createProjectDocsMock = (mockLength: number = 10) => {
     };
     const startDate = createRandomDate(new Date(2019, 0, 1), new Date());
     const endDate = createRandomDate(startDate, new Date()).toString();
+
     return {
       ...projectDoc,
       category,

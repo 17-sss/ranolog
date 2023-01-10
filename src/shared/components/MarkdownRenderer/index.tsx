@@ -1,7 +1,9 @@
-import {ForwardedRef, forwardRef, Fragment} from 'react';
+import {ForwardedRef, forwardRef, Fragment, useEffect, useMemo, useState} from 'react';
 
 import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote';
 import {rgba} from 'polished';
+
+import {markdownToHtml} from '@src/lib';
 
 import {
   CustomCode,
@@ -21,20 +23,26 @@ const MarkdownRenderer = (
   {content, ...props}: MarkdownRendererProps,
   ref?: ForwardedRef<HTMLDivElement>,
 ) => {
-  if (typeof content === 'string') {
-    return (
-      <div
-        ref={ref}
-        css={[containerCss, anchorCss, codeCss]}
-        dangerouslySetInnerHTML={{__html: content}}
-        {...props}
-      />
-    );
+  const [finalContent, setFinalContent] = useState(content);
+
+  useEffect(() => {
+    const updateContent = async () => {
+      if (typeof content !== 'string') {
+        return;
+      }
+      const convertedContent = await markdownToHtml(content);
+      setFinalContent(convertedContent);
+    };
+    updateContent();
+  }, [content]);
+
+  if (typeof finalContent === 'string') {
+    return null;
   }
   return (
     <div ref={ref} css={[containerCss, codeCss]} {...props}>
       <MDXRemote
-        {...content}
+        {...finalContent}
         components={{
           a: ({href, children}) => <CustomLink href={href ?? ''}>{children}</CustomLink>,
           CustomLink,
@@ -137,18 +145,6 @@ const containerCss: CssProp = (theme) =>
         px: '1rem',
         border: `1px solid ${rgba(theme.colors.gray300, 0.8)}`,
       },
-    },
-  });
-
-const anchorCss: CssProp = (theme) =>
-  systemCss({
-    a: {
-      color: theme.colors.gray500,
-      borderBottom: `1px solid ${rgba(theme.colors.gray500, 0.5)}`,
-      fontWeight: 600,
-      textDecoration: 'none',
-      outline: 'none',
-      opacity: 0.7,
     },
   });
 

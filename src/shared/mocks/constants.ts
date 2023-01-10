@@ -1,131 +1,104 @@
 import {PostDocument, ProjectDocument} from '../types';
 
-/* POST ==================================================== */
-export const sampleContentHtml = `<h1>> Headings</h1>
-<h1>h1</h1>
-<h2>h2</h2>
-<h3>h3</h3>
-<h4>h4</h4>
-<h5>h5</h5>
-<h6>h6</h6>
-<h1>> Texts &#x26; code &#x26; hr &#x26; anchor</h1>
-<p><strong>bold</strong></p>
-<p><em>italic</em></p>
-<p><del>strikethrough</del></p>
-<p><code>code</code></p>
-<hr>
-<p><a href="about:blank">Anchor (about:blank)</a></p>
-<h1>> Contents</h1>
-<p>We recommend using <strong>Static Generation</strong> (with and without data) whenever possible because your page can be built once and served by CDN, which makes it much faster than having a <del>server</del> render the page <em>on</em> every request</p>
-<p>You can use <strong><em>Static Generation</em></strong> for many types of pages, including:</p>
-<ul>
-<li>Marketing pages
-<ul>
-<li>pages
-<ul>
-<li><code>pages</code></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<ol>
-<li>Blog posts</li>
-<li>posts</li>
-<li>test</li>
-</ol>
-<ul>
-<li>E-commerce product listings</li>
-<li>Help and documentation</li>
-</ul>
-<h1>> Table</h1>
-<table>
-<thead>
-<tr>
-<th>th 1</th>
-<th>th 2</th>
-<th>th 3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>td 1</td>
-<td>td 2</td>
-<td>td 3</td>
-</tr>
-<tr>
-<td>td 1</td>
-<td>td 2</td>
-<td>td 3</td>
-</tr>
-<tr>
-<td>td 1</td>
-<td>td 2</td>
-<td>td 3</td>
-</tr>
-<tr>
-<td>td 1</td>
-<td>td 2</td>
-<td>td 3</td>
-</tr>
-</tbody>
-</table>
-<h1>> Blockquote</h1>
-<blockquote>
-<p>Blockquote??</p>
-<blockquote>
-<p>inner Blockquote??</p>
-<blockquote>
-<p>inner inner Blockquote??</p>
-</blockquote>
-</blockquote>
-</blockquote>`;
+export const headings = `# > Headings\n
+# h1\n
+## h2\n
+### h3\n
+#### h4\n
+##### h5\n
+###### h6\n`;
 
-export const samplePrismHtml = `<h1>> Code Block</h1>
-<div class="remark-highlight"><pre class="language-js"><code class="language-js"><span class="token keyword">const</span> num <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> str <span class="token operator">=</span> <span class="token string">'1'</span><span class="token punctuation">;</span>
-<span class="token keyword">function</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-  <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  result<span class="token punctuation">.</span><span class="token method function property-access">push</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword control-flow">return</span> result<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-</code></pre></div>`;
+export const textCodeHrAnchor = `# > Texts & code & hr & anchor\n
+**bold**\n
+_italic_\n
+~~strikethrough~~\n
+\`code\`\n
+---\n
+[Anchor (about:blank)](about:blank)\n`;
 
-export const tempPosts: Omit<PostDocument, 'id' | 'category' | 'date'>[] = [
+export const contents = `# > Contents\n
+We recommend using **Static Generation** (with and without data) whenever possible because your page can be built once and served by CDN, which makes it much faster than having a ~~server~~ render the page _on_ every request\n
+You can use **_Static Generation_** for many types of pages, including:\n
+  - Marketing pages
+    - pages
+      - \`pages\`
+  1. Blog posts
+  2. posts
+  3. test
+  - E-commerce product listings
+  - Help and documentation\n`;
+
+export const table = `# > Table\n
+| th 1 | th 2 | th 3 |
+| ---- | ---- | ---- |
+| td 1 | td 2 | td 3 |
+| td 1 | td 2 | td 3 |
+| td 1 | td 2 | td 3 |
+| td 1 | td 2 | td 3 |\n`;
+
+export const blockquote = `# > Blockquote\n
+> Blockquote??
+>
+> > inner Blockquote??
+> >
+> > > inner inner Blockquote??\n`;
+
+export const codeblock = `# > Code Block\n
+\`\`\`js
+const num = 1;
+const str = '1';
+function func() {
+  const result = [];
+  result.push(1);
+  return result;
+}
+\`\`\`\n`;
+
+export const sampleCustomComponents = `<Typography variant="h3" backgroundColor="gray">Heading3 (Typography)</Typography>
+<br/>
+<CustomCode color="blue">BlueCode</CustomCode>
+<br/>
+<Divider height="1rem" color="gray300">Divider</Divider>
+<br/>
+<Typography variant="div" fontSize="p15">
+  <FlexBox gap="0.25rem" flexWrap="wrap">
+    {Array.from({length: 10}).map((_, idx) => (
+      <CustomCode key={idx} color="gray">
+        <span>FlexBox Item_{idx}</span>
+      </CustomCode>
+    ))}
+  </FlexBox>
+</Typography>
+\n`;
+
+export const sampleMarkdown = [headings, textCodeHrAnchor, contents, table, blockquote].join('\n');
+
+// --------------------------------
+
+export const samplePosts: Omit<PostDocument, 'id' | 'category' | 'date'>[] = [
   {
+    content: sampleMarkdown,
     subject: 'Fusce suscipit lorem',
-    content: sampleContentHtml,
-    extension: '.md',
   },
   {
+    content: `${sampleMarkdown}\n${codeblock}`,
     subject: 'dolor sit amet',
-    content: `${sampleContentHtml}${samplePrismHtml}`,
     thumbnail: '/sample.jpg',
-    extension: '.md',
   },
 ];
 
-/* PROJECT ==================================================== */
-
-export const sampleCompiledSourceHtml =
-  '/*@jsxRuntime automatic @jsxImportSource react*/\nconst {Fragment: _Fragment, jsx: _jsx, jsxs: _jsxs} = arguments[0];\nconst {useMDXComponents: _provideComponents} = arguments[0];\nfunction _createMdxContent(props) {\n  const _components = Object.assign({\n    p: "p",\n    ul: "ul",\n    li: "li",\n    pre: "pre",\n    code: "code",\n    span: "span"\n  }, _provideComponents(), props.components), {Typography, CustomCode, Divider} = _components;\n  if (!CustomCode) _missingMdxReference("CustomCode", true, "14:3-14:58");\n  if (!Divider) _missingMdxReference("Divider", true, "16:1-16:46");\n  if (!Typography) _missingMdxReference("Typography", true, "2:1-4:14");\n  return _jsxs(_Fragment, {\n    children: [_jsx(Typography, {\n      backgroundColor: "gray",\n      variant: "h3",\n      children: _jsx(_components.p, {\n        children: "🧚🏻 ⚙️ backgroundColor_Green Text (Typography Component, h3)"\n      })\n    }), "\\n", _jsxs(_components.ul, {\n      children: ["\\n", _jsx(_components.li, {\n        children: "One"\n      }), "\\n", _jsx(_components.li, {\n        children: "Two"\n      }), "\\n", _jsx(_components.li, {\n        children: "Three"\n      }), "\\n"]\n    }), "\\n", _jsx(Typography, {\n      backgroundColor: "gray",\n      variant: "h3",\n      children: _jsx(_components.p, {\n        children: "⚙️ backgroundColor_Gray Text (Typography Component, h3)"\n      })\n    }), "\\n", _jsxs(_components.ul, {\n      children: ["\\n", _jsxs(_components.li, {\n        children: ["\\n", _jsx(CustomCode, {\n          color: "orange",\n          children: "I am CustomCode"\n        }), "\\n"]\n      }), "\\n"]\n    }), "\\n", _jsx(Divider, {\n      height: "2rem",\n      children: "I am Divider"\n    }), "\\n", _jsx("br", {}), "\\n", _jsx(_components.pre, {\n      className: "language-js",\n      children: _jsxs(_components.code, {\n        className: "language-js",\n        children: [_jsx(_components.span, {\n          className: "token keyword",\n          children: "const"\n        }), " one ", _jsx(_components.span, {\n          className: "token operator",\n          children: "="\n        }), " ", _jsx(_components.span, {\n          className: "token number",\n          children: "1"\n        }), _jsx(_components.span, {\n          className: "token punctuation",\n          children: ";"\n        }), "\\n", _jsx(_components.span, {\n          className: "token keyword",\n          children: "const"\n        }), " two ", _jsx(_components.span, {\n          className: "token operator",\n          children: "="\n        }), " ", _jsx(_components.span, {\n          className: "token number",\n          children: "2"\n        }), _jsx(_components.span, {\n          className: "token punctuation",\n          children: ";"\n        }), "\\n", _jsx(_components.span, {\n          className: "token console class-name",\n          children: "console"\n        }), _jsx(_components.span, {\n          className: "token punctuation",\n          children: "."\n        }), _jsx(_components.span, {\n          className: "token method function property-access",\n          children: "log"\n        }), _jsx(_components.span, {\n          className: "token punctuation",\n          children: "("\n        }), "one ", _jsx(_components.span, {\n          className: "token operator",\n          children: "+"\n        }), " two ", _jsx(_components.span, {\n          className: "token operator",\n          children: "==="\n        }), " ", _jsx(_components.span, {\n          className: "token number",\n          children: "3"\n        }), _jsx(_components.span, {\n          className: "token punctuation",\n          children: ")"\n        }), _jsx(_components.span, {\n          className: "token punctuation",\n          children: ";"\n        }), "\\n", _jsx(_components.span, {\n          className: "token keyword",\n          children: "const"\n        }), " js ", _jsx(_components.span, {\n          className: "token operator",\n          children: "="\n        }), " ", _jsx(_components.span, {\n          className: "token string",\n          children: "\'is good!\'"\n        }), _jsx(_components.span, {\n          className: "token punctuation",\n          children: ";"\n        }), "\\n"]\n      })\n    })]\n  });\n}\nfunction MDXContent(props = {}) {\n  const {wrapper: MDXLayout} = Object.assign({}, _provideComponents(), props.components);\n  return MDXLayout ? _jsx(MDXLayout, Object.assign({}, props, {\n    children: _jsx(_createMdxContent, props)\n  })) : _createMdxContent(props);\n}\nreturn {\n  default: MDXContent\n};\nfunction _missingMdxReference(id, component, place) {\n  throw new Error("Expected " + (component ? "component" : "object") + " `" + id + "` to be defined: you likely forgot to import, pass, or provide it." + (place ? "\\nIt’s referenced in your code at `" + place + "`" : ""));\n}\n';
-
-export const sampleMDXData = {compiledSource: sampleCompiledSourceHtml, frontmatter: {}, scope: {}};
-
-export const tempProjects: Omit<ProjectDocument, 'id' | 'category' | 'date'>[] = [
+export const sampleProjects: Omit<ProjectDocument, 'id' | 'category' | 'date'>[] = [
   {
+    content: sampleMarkdown,
+    subject: 'THE SAMPLE PROJECT',
+    thumbnail: '/sample.jpg',
+  },
+  {
+    content: `${sampleMarkdown}\n${codeblock}`,
+    subject: 'Sample Project',
     links: [
       {text: 'Internal', href: '/'},
       {text: 'External(Naver)', href: 'https://www.naver.com/'},
     ],
-    subject: 'Sample Project (MDX)',
-    content: sampleMDXData,
-    extension: '.mdx',
-  },
-  {
-    subject: 'THE SAMPLE MDX',
-    content: sampleMDXData,
-    extension: '.mdx',
-    thumbnail: '/sample.jpg',
   },
 ];
