@@ -1,36 +1,46 @@
 import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {MDXRemoteSerializeResult} from 'next-mdx-remote';
 
-import {createPostDocsMock, sampleContentHtml, samplePrismHtml} from '@src/shared';
+import {createPostDocsMock, MarkdownRenderer} from '@src/shared';
 
-import PostDetail from './index';
+import PostDetail, {PostDetailProps} from './index';
+
+type PostDetailStoryType = React.FC<
+  Omit<PostDetailProps, 'markdownRenderer'> & {content: string | MDXRemoteSerializeResult}
+>;
 
 const storyDefault = {
   title: 'components/blog/PostDetail',
   component: PostDetail,
-} as ComponentMeta<typeof PostDetail>;
+  argTypes: {
+    markdownRenderer: {table: {disable: true}},
+  },
+} as ComponentMeta<PostDetailStoryType>;
 
 export default storyDefault;
 
-const Template: ComponentStory<typeof PostDetail> = (args) => {
-  return <PostDetail {...args} />;
+const Template: ComponentStory<PostDetailStoryType> = ({content, ...args}) => {
+  return <PostDetail {...args} markdownRenderer={<MarkdownRenderer content={content} />} />;
 };
 
-const postDoc = {
-  ...createPostDocsMock(1)[0],
-  content: `${sampleContentHtml}${samplePrismHtml}`,
-};
+const samplePost = (() => {
+  const {subject, date, category, content} = createPostDocsMock(1)[0];
+  return {subject, date, category, content};
+})();
 
 export const No_Category = Template.bind({});
-No_Category.args = {postDoc};
+No_Category.args = {...samplePost};
 
 export const Category = Template.bind({});
 Category.args = {
-  postDoc: {...postDoc, category: 'React'},
+  ...samplePost,
+  category: 'React',
 };
 
 export const Categories = Template.bind({});
 Categories.args = {
-  postDoc: {...postDoc, category: ['React', 'JavaScript', 'DO IT', 'SAMPLE', 'JUST']},
+  ...samplePost,
+  category: ['React', 'JavaScript', 'DO IT', 'SAMPLE', 'JUST'],
 };

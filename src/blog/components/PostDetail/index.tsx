@@ -1,33 +1,37 @@
 import {useMemo} from 'react';
 
 import {createPostDateText} from '@src/blog';
-import {CustomCode, CssProp, PostDocument, systemCss} from '@src/shared';
+import {CustomCode, CssProp, systemCss, PostDocument} from '@src/shared';
 
-export interface PostDetailProps {
-  postDoc: PostDocument;
+export interface PostDetailProps extends Pick<PostDocument, 'subject' | 'date' | 'category'> {
   markdownRenderer: React.ReactNode;
 }
 
-const PostDetail: React.FC<PostDetailProps> = ({postDoc, markdownRenderer, ...props}) => {
+const PostDetail: React.FC<PostDetailProps> = ({
+  subject,
+  date,
+  category,
+  markdownRenderer,
+  ...props
+}) => {
   const categories = useMemo(() => {
-    const postCategories = postDoc.category;
-    if (!postCategories || (Array.isArray(postCategories) && postCategories.length === 0)) {
+    if (!category || (Array.isArray(category) && category.length === 0)) {
       return;
     }
-    if (typeof postCategories === 'string') {
-      return [postCategories];
+    if (typeof category === 'string') {
+      return [category];
     }
-    return postCategories;
-  }, [postDoc.category]);
+    return category;
+  }, [category]);
 
   const dateText = useMemo(() => {
-    return createPostDateText(postDoc.date);
-  }, [postDoc.date]);
+    return createPostDateText(date);
+  }, [date]);
 
   return (
     <div css={containerCss} {...props}>
       <div css={infoBoxCss}>
-        <p className="subject">{postDoc.subject}</p>
+        <p className="subject">{subject}</p>
         {categories && (
           <div css={categoryBoxCss}>
             {categories?.map((category, idx) => (

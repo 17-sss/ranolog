@@ -17,7 +17,11 @@ const Template: ComponentStory<typeof ProjectInfo> = (args) => {
   return <ProjectInfo {...args} />;
 };
 
+const sampleProject = (() => {
+  const {subject, date, category, id, links, skills, summary, thumbnail} =
+    createProjectDocsMock(1)[0];
+  return {subject, date, category, id, links, skills, summary, thumbnail};
+})();
+
 export const Default = Template.bind({});
-Default.args = {
-  ...createProjectDocsMock(1)[0],
-};
+Default.args = {...sampleProject};
