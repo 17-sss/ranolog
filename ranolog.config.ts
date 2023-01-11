@@ -11,7 +11,7 @@ const defaultImage = '/profile_image.jpg';
 
 // [SEO & UTTERANC] =============================================
 export const metadata: DefaultSeoMeta = {
-  title: `Hoyoung | Frontend Engineer`,
+  title: 'Hoyoung - Frontend Engineer',
   description,
   image: defaultImage,
   url: siteUrl,
