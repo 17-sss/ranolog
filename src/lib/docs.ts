@@ -1,14 +1,10 @@
 /** [!] 모두 page 컴포넌트에서만 사용됨  */
 import fs from 'fs';
 import matter from 'gray-matter';
-// @ts-ignore
-import mdxPrism from 'mdx-prism';
 import {MDXRemoteSerializeResult} from 'next-mdx-remote';
-import {serialize} from 'next-mdx-remote/serialize';
 import path from 'path';
-import rehypeSlug from 'rehype-slug';
-import remarkGfm from 'remark-gfm';
-import remarkHtml from 'remark-html';
+
+import {markdownToHtml} from '@src/shared';
 
 export interface DefaultDocument {
   id: string;
@@ -22,14 +18,6 @@ type SubFolderType = 'posts' | 'projects' | 'resumes';
 const REGEX_MARKDOWN = /\.mdx?$/;
 
 const docsDir = path.join(process.cwd(), 'docs');
-
-/** [async] Markdown Text -> HTML 변환 (MDX 포함) */
-export const markdownToHtml = async (content: string) => {
-  const result = await serialize(content, {
-    mdxOptions: {remarkPlugins: [remarkGfm, remarkHtml], rehypePlugins: [rehypeSlug, mdxPrism]},
-  });
-  return result;
-};
 
 /** [async] 모든 정적 데이터 가져옴  */
 export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocument>(

@@ -3,8 +3,6 @@ import {ForwardedRef, forwardRef, Fragment, useEffect, useMemo, useState} from '
 import {MDXRemote, MDXRemoteSerializeResult} from 'next-mdx-remote';
 import {rgba} from 'polished';
 
-import {markdownToHtml} from '@src/lib';
-
 import {
   CustomCode,
   CustomLink,
@@ -13,6 +11,7 @@ import {
   Typography,
   TypographyProps,
 } from '../../components';
+import {markdownToHtml} from '../../functions';
 import {CssProp, systemCss} from '../../system';
 
 export interface MarkdownRendererProps {
@@ -28,7 +27,7 @@ const MarkdownRenderer = (
   useEffect(() => {
     const updateContent = async () => {
       if (typeof content !== 'string') {
-        return;
+        return setFinalContent(content);
       }
       const convertedContent = await markdownToHtml(content);
       setFinalContent(convertedContent);
