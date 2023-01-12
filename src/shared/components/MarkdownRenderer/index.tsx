@@ -22,22 +22,27 @@ const MarkdownRenderer = (
   {content, ...props}: MarkdownRendererProps,
   ref?: ForwardedRef<HTMLDivElement>,
 ) => {
-  const [finalContent, setFinalContent] = useState(content);
+  const [tempContent, setTempContent] = useState(content);
+
+  const finalContent = useMemo(() => {
+    if (typeof content === 'string') {
+      return tempContent;
+    }
+    return content;
+  }, [content, tempContent]);
 
   useEffect(() => {
-    const updateContent = async () => {
-      if (typeof content !== 'string') {
-        return setFinalContent(content);
-      }
-      const convertedContent = await markdownToHtml(content);
-      setFinalContent(convertedContent);
+    const updateTempContent = async () => {
+      if (typeof content !== 'string') return;
+      setTempContent(await markdownToHtml(content));
     };
-    updateContent();
+    updateTempContent();
   }, [content]);
 
   if (typeof finalContent === 'string') {
     return null;
   }
+
   return (
     <div ref={ref} css={[containerCss, codeCss]} {...props}>
       <MDXRemote
