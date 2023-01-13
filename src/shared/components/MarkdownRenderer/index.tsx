@@ -48,7 +48,11 @@ const MarkdownRenderer = (
       <MDXRemote
         {...finalContent}
         components={{
-          a: ({href, children}) => <CustomLink href={href ?? ''}>{children}</CustomLink>,
+          a: ({href, children}) => (
+            <CustomLink href={href ?? ''} defaultStyle>
+              {children}
+            </CustomLink>
+          ),
           CustomLink,
           CustomCode,
           Typography: ({...props}: TypographyProps) => <Typography {...props} useHeadingId />,

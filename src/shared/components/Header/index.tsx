@@ -1,11 +1,11 @@
 import {Fragment, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {GiHamburgerMenu} from 'react-icons/gi';
 import {CSSTransition} from 'react-transition-group';
 
+import {CustomLink} from '../../components';
 import {commonBlurDataURL} from '../../constants';
 import {changeFirstCharUpperCase} from '../../functions';
 import {useMedia, useScrollDirection, ScrollDirection} from '../../hooks';
@@ -70,9 +70,9 @@ const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
       }
       return (
         <li key={name} css={menuItemCss}>
-          <Link href={link} passHref legacyBehavior>
-            <a onClick={handleLinkClick}>{displayName}</a>
-          </Link>
+          <CustomLink href={link} onClick={handleLinkClick}>
+            {displayName}
+          </CustomLink>
         </li>
       );
     });
@@ -120,22 +120,20 @@ const Header: React.FC<HeaderProps> = ({profileImage, linkNames, ...props}) => {
               )}
             </div>
             {/* PROFILE */}
-            <Link
+            <CustomLink
+              css={profileImageBoxCss}
               href={links.find(({name}) => name === 'home')?.link ?? '/'}
-              passHref
-              legacyBehavior
+              onClick={handleLinkClick}
             >
-              <a css={profileImageBoxCss} onClick={handleLinkClick}>
-                <Image
-                  src={profileImage}
-                  alt="profile_image"
-                  fill
-                  priority
-                  placeholder="blur"
-                  blurDataURL={commonBlurDataURL}
-                />
-              </a>
-            </Link>
+              <Image
+                src={profileImage}
+                alt="profile_image"
+                fill
+                priority
+                placeholder="blur"
+                blurDataURL={commonBlurDataURL}
+              />
+            </CustomLink>
           </div>
         </header>
       </CSSTransition>

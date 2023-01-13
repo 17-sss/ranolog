@@ -43,7 +43,7 @@ const ProjectInfo: React.FC<ProjectInfoProps> = ({
         return;
       }
       return (
-        <CustomLink key={idx} href={href}>
+        <CustomLink key={idx} href={href} defaultStyle>
           {text}
         </CustomLink>
       );

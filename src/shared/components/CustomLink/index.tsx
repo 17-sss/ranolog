@@ -1,19 +1,20 @@
-import {useMemo, PropsWithChildren} from 'react';
+import {useMemo, ComponentProps, PropsWithChildren} from 'react';
 
 import Link from 'next/link';
 import {rgba} from 'polished';
 
 import {CssProp, systemCss} from '../../system';
 
-export interface CustomLinkProps extends PropsWithChildren {
+export interface CustomLinkProps extends PropsWithChildren, ComponentProps<'a'> {
   href: string;
-  disableStyle?: boolean;
+  /** Apply a notion link style. */
+  defaultStyle?: boolean;
 }
 
 const isExternalLink = (href: string) => /^http/.test(href);
 const isMailto = (href: string) => /^mailto/.test(href);
 
-const CustomLink: React.FC<CustomLinkProps> = ({href, children, disableStyle, ...props}) => {
+const CustomLink: React.FC<CustomLinkProps> = ({href, defaultStyle, children, ...props}) => {
   const isNotInternal = useMemo(() => {
     return isExternalLink(href) || isMailto(href);
   }, [href]);
@@ -21,14 +22,14 @@ const CustomLink: React.FC<CustomLinkProps> = ({href, children, disableStyle, ..
   if (isNotInternal) {
     const anchorProps = isExternalLink(href) ? {rel: 'noreferrer', target: '_blank'} : undefined;
     return (
-      <a css={disableStyle || linkCss} href={href} {...anchorProps} {...props}>
+      <a css={defaultStyle && defaultCss} href={href} {...anchorProps} {...props}>
         {children}
       </a>
     );
   }
   return (
     <Link href={href} passHref legacyBehavior>
-      <a css={disableStyle || linkCss} {...props}>
+      <a css={defaultStyle && defaultCss} {...props}>
         {children}
       </a>
     </Link>
@@ -37,7 +38,7 @@ const CustomLink: React.FC<CustomLinkProps> = ({href, children, disableStyle, ..
 
 export default CustomLink;
 
-const linkCss: CssProp = (theme) =>
+const defaultCss: CssProp = (theme) =>
   systemCss({
     color: theme.colors.gray500,
     borderBottom: `1px solid ${rgba(theme.colors.gray500, 0.5)}`,

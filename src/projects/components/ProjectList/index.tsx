@@ -1,7 +1,6 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
-import {commonBlurDataURL, CssProp, ProjectDocument, systemCss} from '@src/shared';
+import {commonBlurDataURL, CssProp, CustomLink, ProjectDocument, systemCss} from '@src/shared';
 
 export interface ProjectListProps {
   projectDocs: ProjectDocument[];
@@ -13,33 +12,30 @@ const ProjectList: React.FC<ProjectListProps> = ({projectDocs, ...props}) => {
       {projectDocs.map(({id, subject, summary, thumbnail}, idx) => {
         return (
           <li key={idx} css={itemCss}>
-            <Link href={`/projects/${id}`} passHref legacyBehavior>
-              <a css={linkCss}>
-                <div css={thumbnailBoxCss(thumbnail ? 'cover' : 'contain')}>
-                  <Image
-                    src={thumbnail || '/no-pictures.png'}
-                    alt={`${subject} (thumbnail)`}
-                    fill
-                    priority
-                    placeholder="blur"
-                    blurDataURL={commonBlurDataURL}
-                  />
+            <CustomLink css={linkCss} href={`/projects/${id}`}>
+              <div css={thumbnailBoxCss(thumbnail ? 'cover' : 'contain')}>
+                <Image
+                  src={thumbnail || '/no-pictures.png'}
+                  alt={`${subject} (thumbnail)`}
+                  fill
+                  priority
+                  placeholder="blur"
+                  blurDataURL={commonBlurDataURL}
+                />
+              </div>
+              <dl css={textListCss}>
+                <div css={textItemCss}>
+                  <dt>Subject</dt>
+                  <dd>{subject}</dd>
                 </div>
-
-                <dl css={textListCss}>
+                {summary && (
                   <div css={textItemCss}>
-                    <dt>Subject</dt>
-                    <dd>{subject}</dd>
+                    <dt>Summary</dt>
+                    <dd>{summary}</dd>
                   </div>
-                  {summary && (
-                    <div css={textItemCss}>
-                      <dt>Summary</dt>
-                      <dd>{summary}</dd>
-                    </div>
-                  )}
-                </dl>
-              </a>
-            </Link>
+                )}
+              </dl>
+            </CustomLink>
           </li>
         );
       })}

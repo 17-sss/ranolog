@@ -1,6 +1,4 @@
-import Link from 'next/link';
-
-import {CssProp, systemCss} from '@src/shared';
+import {CssProp, CustomLink, systemCss} from '@src/shared';
 
 export interface TableContentItem {
   id: string;
@@ -20,9 +18,7 @@ const TableContents: React.FC<TableContentsProps> = ({contentItems, ...props}) =
       {contentItems.map((item) => {
         return (
           <li key={item.id}>
-            <Link href={item.href} passHref legacyBehavior>
-              <a>{item.text}</a>
-            </Link>
+            <CustomLink href={item.href}>{item.text}</CustomLink>
             {item.children.length > 0 && <TableContents contentItems={item.children} />}
           </li>
         );

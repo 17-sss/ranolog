@@ -35,12 +35,7 @@ const Footer: React.FC<FooterProps> = ({author, contact, ...props}) => {
             }
             return (
               <li key={key}>
-                <CustomLink
-                  css={contactLinkCss}
-                  href={value}
-                  disableStyle
-                  aria-label={`${key} icon (link)`}
-                >
+                <CustomLink css={contactLinkCss} href={value} aria-label={`${key} icon (link)`}>
                   {iconNode}
                 </CustomLink>
               </li>

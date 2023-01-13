@@ -37,7 +37,7 @@ const ResumeInfo: React.FC<ResumeInfoProps> = ({
           {job}
         </Typography>
         {email && (
-          <CustomLink href={`mailto:${email}`} disableStyle>
+          <CustomLink href={`mailto:${email}`}>
             <Typography color="gray" fontSize="p14">
               {email}
             </Typography>
