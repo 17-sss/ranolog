@@ -1,6 +1,8 @@
+import {FiChevronRight} from 'react-icons/fi';
+
 import {PostList} from '@src/blog';
 import {useMainTemplate, IntroduceBox, IntroduceBoxProps} from '@src/main';
-import {CssProp, systemCss, PostDocument, centerAlignedChildren} from '@src/shared';
+import {CssProp, systemCss, PostDocument, centerAlignedChildren, CustomLink} from '@src/shared';
 
 export interface MainTemplateProps {
   recentPosts: PostDocument[];
@@ -13,7 +15,11 @@ const MainTemplate: React.FC<MainTemplateProps> = ({recentPosts, introduceProps,
     <div css={containerCss} {...props}>
       <IntroduceBox {...introduceProps} />
       <div css={recentPostBoxCss}>
-        <p className="title">Recent Post</p>
+        <CustomLink css={recentPostLinkCss} href="/blog">
+          <span>Recent Post</span>
+          <FiChevronRight />
+        </CustomLink>
+
         {!isEmpty ? (
           <PostList postDocs={recentPosts} onPostClick={handlePostItemClick} />
         ) : (
@@ -32,15 +38,23 @@ const containerCss: CssProp = systemCss({
   },
 });
 
-const recentPostBoxCss: CssProp = (theme) =>
+const recentPostBoxCss: CssProp = systemCss({
+  '& > * + *': {
+    mt: '0.5rem',
+  },
+});
+
+const recentPostLinkCss: CssProp = (theme) =>
   systemCss({
-    '.title': {
-      fontSize: [theme.fontSizes.p24, theme.fontSizes.p28],
-      fontWeight: 600,
-      color: theme.colors.gray700,
-    },
-    '& > * + *': {
-      mt: '0.5rem',
+    display: 'inline-flex',
+    alignItems: 'center',
+    fontSize: [theme.fontSizes.p24, theme.fontSizes.p28],
+    fontWeight: 600,
+    color: theme.colors.gray700,
+    '@media (hover: hover) and (pointer: fine)': {
+      '&:hover': {
+        color: theme.colors.gray400,
+      },
     },
   });
 

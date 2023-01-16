@@ -2,7 +2,7 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {PageLayout, sampleMDXData} from '@src/shared';
+import {codeblock, PageLayout, sampleMarkdown} from '@src/shared';
 
 import ResumePage from './index.page';
 
@@ -39,7 +39,6 @@ Default.args = {
     job: 'Engineer',
     email: 'email@email.com',
     introduce: ['INTRODUCE1', 'INTRODUCE2', 'INTRODUCE3'],
-    extension: '.mdx',
-    content: sampleMDXData,
+    content: `${sampleMarkdown}\n${codeblock}`,
   },
 };

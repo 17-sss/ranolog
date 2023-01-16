@@ -1,23 +1,16 @@
 /** [!] 모두 page 컴포넌트에서만 사용됨  */
 import fs from 'fs';
 import matter from 'gray-matter';
-// @ts-ignore
-import mdxPrism from 'mdx-prism';
 import {MDXRemoteSerializeResult} from 'next-mdx-remote';
-import {serialize} from 'next-mdx-remote/serialize';
 import path from 'path';
-import rehypeSlug from 'rehype-slug';
-import {remark} from 'remark';
-import remarkGfm from 'remark-gfm';
-import remarkHtml from 'remark-html';
-import remarkPrism from 'remark-prism';
+
+import {markdownToHtml} from '@src/shared';
 
 export interface DefaultDocument {
   id: string;
   subject: string;
   date: string | {start: string; end?: string};
   content: string | MDXRemoteSerializeResult;
-  extension: string;
   summary?: string;
 }
 type SubFolderType = 'posts' | 'projects' | 'resumes';
@@ -25,32 +18,6 @@ type SubFolderType = 'posts' | 'projects' | 'resumes';
 const REGEX_MARKDOWN = /\.mdx?$/;
 
 const docsDir = path.join(process.cwd(), 'docs');
-
-/** [async] Markdown Text -> HTML 변환 */
-const markdownToHtml = async (content: string) => {
-  const result = await remark()
-    .use(remarkGfm)
-    .use(remarkHtml, {sanitize: false})
-    .use(rehypeSlug)
-    .use(remarkPrism)
-    .process(content);
-  return result.toString();
-};
-
-/** [async] Markdown Text -> HTML 변환 (for MDX) */
-const markdownToHtmlForMDX = async (content: string) => {
-  const result = await serialize(content, {
-    mdxOptions: {remarkPlugins: [remarkGfm, remarkHtml], rehypePlugins: [rehypeSlug, mdxPrism]},
-  });
-  return result;
-};
-
-export const createMarkdownContent = async (content: string, extension?: string) => {
-  if (extension === '.mdx') {
-    return markdownToHtmlForMDX(content);
-  }
-  return await markdownToHtml(content);
-};
 
 /** [async] 모든 정적 데이터 가져옴  */
 export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocument>(
@@ -65,10 +32,9 @@ export const getDocuments = async <TDoc extends DefaultDocument = DefaultDocumen
       const fullPath = path.join(currentDir, fileName);
       const fileContents = fs.readFileSync(fullPath, 'utf8');
       const id = fileName.replace(REGEX_MARKDOWN, '');
-      const extension = fileName.match(REGEX_MARKDOWN)?.[0] ?? 'unknown';
       const matterResult = matter(fileContents);
-      const content = await createMarkdownContent(matterResult.content, extension);
-      result.push({...matterResult.data, id, content, extension} as TDoc);
+      const content = await markdownToHtml(matterResult.content);
+      result.push({...matterResult.data, id, content} as TDoc);
     }
   } catch (e) {
     console.error((e as Error).message);
@@ -126,10 +92,9 @@ export const getDocumentByFileName = async <TDoc extends DefaultDocument = Defau
     const fullPath = path.join(docsDir, subFolderType ?? '', fileName);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const id = fileName.replace(REGEX_MARKDOWN, '');
-    const extension = fileName.match(REGEX_MARKDOWN)?.[0] ?? 'unknown';
     const matterResult = matter(fileContents);
-    const content = await createMarkdownContent(matterResult.content, extension);
-    return {...matterResult.data, id, content, extension} as TDoc;
+    const content = await markdownToHtml(matterResult.content);
+    return {...matterResult.data, id, content} as TDoc;
   } catch (e) {
     console.error((e as Error).message);
     return null;

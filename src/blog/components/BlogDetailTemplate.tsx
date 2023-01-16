@@ -40,7 +40,9 @@ const BlogDetailTemplate: React.FC<BlogDetailTemplateProps> = ({postDoc, postDoc
     <div css={containerCss} {...props}>
       <PostDetail
         css={postCss}
-        postDoc={currentDoc}
+        date={currentDoc.date}
+        subject={currentDoc.subject}
+        category={currentDoc.category}
         markdownRenderer={
           <MarkdownRenderer
             ref={updateMarkdownHtml}
