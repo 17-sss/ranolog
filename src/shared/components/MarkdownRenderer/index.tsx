@@ -78,10 +78,6 @@ const containerCss: CssProp = (theme) =>
     'strong, h1, h2, h3, h4, h5, h6': {
       fontWeight: 600,
     },
-    '*:not(br) + h1, *:not(br) + h2, *:not(br) + h3, *:not(br) + h4, *:not(br) + h5, *:not(br) + h6':
-      {
-        mt: '1.5rem',
-      },
     h1: {
       fontSize: theme.fontSizes.p32,
     },

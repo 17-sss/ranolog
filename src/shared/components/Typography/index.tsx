@@ -78,12 +78,19 @@ const typographyCss: (params: TypographyCssParams) => CssProp = ({
           return theme.fontSizes.p20;
         case 'h5':
           return theme.fontSizes.p18;
-        default:
+        case 'h6':
+        case 'p':
           return theme.fontSizes.p16; // p, span, h6
+        default:
+          return;
       }
     };
+    const currFontSize = fontSize ? theme.fontSizes[fontSize] : getFontSize(variant);
+    if (typeof currFontSize === 'undefined') {
+      return;
+    }
     return systemCss({
-      fontSize: `${fontSize ? theme.fontSizes[fontSize] : getFontSize(variant)} !important`,
+      fontSize: `${currFontSize} !important`,
     });
   },
   backgroundColor && systemCss({backgroundColor: backgroundColors[backgroundColor]}),
