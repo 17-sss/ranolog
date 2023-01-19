@@ -1,0 +1,141 @@
+---
+subject: 'Resume'
+date: '2023-01-19'
+name: '손호영'
+job: 'Frontend Engineer'
+email: 'xzxking17@gmail.com'
+introduce:
+  [
+    '큰 변화는 혼자가 아닌 함께 이룰 수 있다고 생각합니다.',
+    '적극적으로 소통하고 리뷰를 통해 다 같이 성장하는 것을 지향합니다.',
+    '더 좋은 개발자로서 성장하기 위해 매 순간 열정을 놓지 않고, 경험하고, 노력하고 있습니다.',
+  ]
+---
+
+{/* ======================== Skills ======================== */}
+
+<Typography variant="h3" backgroundColor="gray100">
+  <span>🛠️ Skills</span>
+</Typography>
+<Divider height="0.5rem" color="transparent" />
+
+<Typography variant="div" fontSize="p15">
+- 의미에 맞는 시맨틱 요소 사용과 웹 표준을 고려하여 작성하도록 노력합니다.
+- ES6를 포함한 <CustomCode color="gray">JavaScript</CustomCode> 문법에 익숙하며, <CustomCode color="gray">TypeScript</CustomCode>의 타입시스템을 활용하여 앱을 제작합니다.
+- 주로 <CustomCode color="gray">React</CustomCode>를 사용하며 컴포넌트의 재사용화를 위해 커스텀 훅으로 비즈니스 로직 분리합니다.
+- <CustomCode color="gray">Styled Components</CustomCode>, <CustomCode color="gray">emotion</CustomCode>, <CustomCode color="gray">Styled System</CustomCode> 등 을 활용하여 반응형 작업 및 스타일을 작성할 수 있습니다.
+- <CustomCode color="gray">Next.js</CustomCode>를 사용하여 앱을 제작할 수 있으며, <CustomCode color="gray">Vercel</CustomCode>을 활용한 배포를 할 수 있습니다.
+- <CustomCode color="gray">Storybook</CustomCode>을 활용한 컴포넌트 주도 개발을 지향합니다.
+</Typography>
+
+<br/>
+
+{/* ======================== Experience ======================== */}
+
+<Typography variant="h3" backgroundColor="gray100">
+  <span>👨🏻‍💻 Experience</span>
+</Typography>
+<br />
+
+<Typography variant="h4" color="gray600">
+  <CustomLink href="https://www.howbuild.com/">하우빌드</CustomLink>
+</Typography>
+
+<Typography variant="p" color="gray500" fontSize="p15">
+  <span>2022.03 ~ 2022.11</span>
+  <Typography isBold>&nbsp;{'|'}&nbsp;</Typography>
+  <span>Frontend Engineer</span>
+</Typography>
+
+<Divider height="0.5rem" color="transparent" />
+
+<Typography variant="div" fontSize="p15">
+  <FlexBox gap="0.25rem" flexWrap="wrap">
+    {['Next.js', 'React', 'TypeScript', 'JavaScript', 'Storybook'].map((text, idx) => (
+      <CustomCode key={idx} color="gray">
+        <span>{text}</span>
+      </CustomCode>
+    ))}
+  </FlexBox>
+</Typography>
+
+<Divider height="0.5rem" color="transparent" />
+
+<Typography variant="div" fontSize="p15" color="gray700">
+  <span>건축 플랫폼 하우빌드에서 <strong>건축주와 건설사간의 계약을 돕기 위한 서비스를 개발</strong>했습니다.</span><br/>
+  <span><strong>적산 작업 편의를 위한 어드민 개발</strong>과 개발 환경, 프로젝트 구조, 온보딩 문서화를 진행하였습니다.</span><br/>
+  <span>2주 단위 스프린트로 서비스를 개발하며 애자일 개발 프로세스를 경험하고 테크톡 및 코드 리뷰 등 건강한 개발 문화를 접했습니다.</span>
+</Typography>
+<br/>
+<Typography variant="h5" color="gray500">진행한 프로젝트</Typography>
+<Typography variant="div" fontSize="p15">
+- <span>
+    <strong>경쟁입찰 시스템</strong>
+    <br />
+    <span>입찰에 참여한 모든 건설사의 견적을 한눈에 확인하고 비교할 수 있는 서비스</span>
+  </span>
+  - 합성(<Typography color="gray">Composition</Typography>) 기법을 활용하여 <Typography color="gray">prop drilling</Typography> 해결
+  - <Typography color="gray">Intersection Observer</Typography>를 활용한 커스텀 훅으로 <Typography color="gray">Infinite Scroll</Typography> 구현
+  - 건축주 현장 일부를 공개하여 외부 건설사에 홍보
+  - 건축주와 건설사간의 <Typography color="gray">계약 전환률</Typography> `25%` 증가
+- <span>
+    <strong>파싱룰 (적산 데이터 변환)</strong>
+    <br />
+    <span>외부 적산 데이터를 입력된 규칙에 부합하도록 변환하는 기능</span>
+  </span>
+  - <CustomCode color="gray">Ant Design</CustomCode>를 활용하여 <Typography color="gray">UI</Typography> 구현
+  - <Typography color="gray">정규표현식</Typography>을 활용한 데이터 변환 및 테스트 기능 구현
+</Typography>
+
+<CustomLink defaultStyle href="https://boiled-feather-1c7.notion.site/Resume-Other-Information-d652fb41cc5940faaacd6866255f828b">Other Experience 👉</CustomLink><br/>
+
+<br/>
+
+{/* ======================== Education ======================== */}
+
+<Typography variant="h3" backgroundColor="gray100">
+  <span>📚 Education</span>
+</Typography>
+<br />
+
+<Typography variant="h4" color="gray600">
+  <CustomLink href="https://codesquad.kr/">
+    <span>코드스쿼드 마스터즈 코스</span>
+  </CustomLink>
+</Typography>
+<Typography variant="p" color="gray500" fontSize="p15">
+  <span>2021.01 ~ 2021.06</span>
+  <Typography isBold>&nbsp;{'|'}&nbsp;</Typography>
+  <span>Frontend 과정 수료</span>
+</Typography>
+<br/>
+
+<Typography variant="h4" color="gray600">
+  <CustomLink href="https://www.sist.co.kr/index.jsp">
+    <span>쌍용강북교육센터</span>
+  </CustomLink>
+</Typography>
+<Typography variant="p" color="gray500" fontSize="p15">
+  <span>2017.11 ~ 2018.05</span>
+  <Typography isBold>&nbsp;{'|'}&nbsp;</Typography>
+  <span>Web 풀스택 과정 수료</span>
+</Typography>
+
+<br />
+
+{/* ======================== Certificate ======================== */}
+
+<Typography variant="h3" backgroundColor="gray100">
+  <span>🏅 Certificate</span>
+</Typography>
+<br />
+
+<Typography variant="h4" color="gray600">
+  <span>정보처리기사</span>
+</Typography>
+
+<Typography variant="p" color="gray500" fontSize="p15">
+  <span>2018.11.16</span>
+  <Typography isBold>&nbsp;{'|'}&nbsp;</Typography>
+  <span>한국산업인력공단</span>
+</Typography>
