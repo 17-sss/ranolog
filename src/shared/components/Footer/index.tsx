@@ -1,3 +1,4 @@
+import {getYear} from 'date-fns';
 import {FaGithub} from 'react-icons/fa';
 import {HiOutlineMail} from 'react-icons/hi';
 
@@ -43,7 +44,7 @@ const Footer: React.FC<FooterProps> = ({author, contact, ...props}) => {
           })}
         </ul>
         <p css={copyrightCss}>
-          Copyright © {new Date().getFullYear()} {author}
+          Copyright © {getYear(new Date())} {author}
         </p>
       </div>
     </footer>

@@ -76,6 +76,7 @@ const SeoHead: React.FC<SeoHeadProps> = ({
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Type" content="text/html;charset=UTF-8" />
       <meta key="twitter:card" name="twitter:card" content="summary" />
+      <meta name="robots" content="nosnippet" />
 
       {children}
     </Head>
