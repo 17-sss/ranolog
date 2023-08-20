@@ -4,8 +4,8 @@ import {ComponentStory, ComponentMeta} from '@storybook/react';
 
 import {staticDataInfo} from '@root/ranolog.config';
 
-import {CssProp, systemCss} from '../../system';
 import Footer, {FooterProps} from './index';
+import {CssProp, systemCss} from '../../system';
 
 const storyDefault = {
   title: 'components/shared/Footer',

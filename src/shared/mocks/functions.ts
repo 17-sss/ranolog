@@ -1,6 +1,6 @@
+import {samplePosts, sampleProjects} from './constants';
 import {createRandomDate} from '../functions';
 import {PostDocument, ProjectDocument} from '../types';
-import {samplePosts, sampleProjects} from './constants';
 
 /** Mock 데이터 생성 (Posts) */
 export const createPostDocsMock = (mockLength: number = 10) => {

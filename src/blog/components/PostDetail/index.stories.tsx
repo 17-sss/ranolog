@@ -17,7 +17,7 @@ const storyDefault = {
   argTypes: {
     markdownRenderer: {table: {disable: true}},
   },
-} as ComponentMeta<PostDetailStoryType>;
+} as unknown as ComponentMeta<PostDetailStoryType>;
 
 export default storyDefault;
 

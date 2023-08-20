@@ -2,9 +2,9 @@ import React from 'react';
 
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-import {systemCss} from '../../system';
 import {variantKeys} from './constants';
 import Typography from './index';
+import {systemCss} from '../../system';
 
 const storyDefault = {
   title: 'components/shared/Typography',

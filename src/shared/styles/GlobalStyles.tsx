@@ -1,7 +1,7 @@
 import {Global, css} from '@emotion/react';
 
-import {theme} from '../theme';
 import {defaultFontFamily} from './typography';
+import {theme} from '../theme';
 
 const resetCss = css`
   html,

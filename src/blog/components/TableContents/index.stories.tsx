@@ -14,7 +14,7 @@ const storyDefault = {
   title: 'components/blog/TableContents',
   component: TableContents,
   argTypes: {contentItems: {control: false}},
-} as ComponentMeta<React.FC<TableContentsStoryProps>>;
+} as unknown as ComponentMeta<React.FC<TableContentsStoryProps>>;
 
 export default storyDefault;
 

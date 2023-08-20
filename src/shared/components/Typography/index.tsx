@@ -1,13 +1,13 @@
 import React, {useState, useCallback, forwardRef, PropsWithChildren} from 'react';
 
+import {backgroundColors, colorKeys, colors, variantKeys} from './constants';
 import {CssProp, systemCss} from '../../system';
 import {theme} from '../../theme';
-import {backgroundColors, colorKeys, colors, variantKeys} from './constants';
 
 const isHeading = (text: string) => /^h\d/.test(text);
 
-export type TypographyVariant = typeof variantKeys[number];
-export type TypographyColor = typeof colorKeys[number] | keyof typeof theme.colors;
+export type TypographyVariant = (typeof variantKeys)[number];
+export type TypographyColor = (typeof colorKeys)[number] | keyof typeof theme.colors;
 
 export interface TypographyProps extends PropsWithChildren {
   id?: string;
