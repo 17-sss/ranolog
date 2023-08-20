@@ -1,6 +1,5 @@
 import Image from 'next/image';
 
-import {createPostDateText} from '@src/blog';
 import {
   systemCss,
   CssProp,
@@ -8,6 +7,7 @@ import {
   PostDocument,
   singleLineEllipsis,
   commonBlurDataURL,
+  createDateText,
 } from '@src/shared';
 
 export interface PostListProps {
@@ -19,22 +19,22 @@ export interface PostListProps {
 const PostList: React.FC<PostListProps> = ({postDocs, onPostClick, ...props}) => {
   return (
     <ul {...props}>
-      {postDocs.map((postDoc, idx) => {
-        const dateText = createPostDateText(postDoc.date);
+      {postDocs.map(({date, ...restDoc}, idx) => {
+        const dateText = createDateText(typeof date === 'string' ? date : date.start);
         return (
           <li key={idx} css={listItemCss}>
-            <button css={itemButtonCss} onClick={() => onPostClick(postDoc.id)}>
+            <button css={itemButtonCss} onClick={() => onPostClick(restDoc.id)}>
               <div css={itemButtonInnerCss}>
                 <div css={contentBoxCss}>
-                  <p className="subject">{postDoc.subject}</p>
-                  {postDoc.summary && <p className="summary">{postDoc.summary}</p>}
+                  <p className="subject">{restDoc.subject}</p>
+                  {restDoc.summary && <p className="summary">{restDoc.summary}</p>}
                   {dateText && <p className="date">{dateText}</p>}
                 </div>
-                {postDoc.thumbnail && (
+                {restDoc.thumbnail && (
                   <div css={imageBoxCss}>
                     <Image
-                      src={postDoc.thumbnail}
-                      alt={`${postDoc.subject} (image)`}
+                      src={restDoc.thumbnail}
+                      alt={`${restDoc.subject} (image)`}
                       fill
                       priority
                       placeholder="blur"

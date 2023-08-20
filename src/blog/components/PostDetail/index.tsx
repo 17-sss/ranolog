@@ -1,7 +1,6 @@
 import {useMemo} from 'react';
 
-import {createPostDateText} from '@src/blog';
-import {CustomCode, CssProp, systemCss, PostDocument} from '@src/shared';
+import {CustomCode, CssProp, systemCss, PostDocument, createDateText} from '@src/shared';
 
 export interface PostDetailProps extends Pick<PostDocument, 'subject' | 'date' | 'category'> {
   markdownRenderer: React.ReactNode;
@@ -24,9 +23,10 @@ const PostDetail: React.FC<PostDetailProps> = ({
     return category;
   }, [category]);
 
-  const dateText = useMemo(() => {
-    return createPostDateText(date);
-  }, [date]);
+  const dateText = useMemo(
+    () => date && createDateText(typeof date === 'string' ? date : date.start),
+    [date],
+  );
 
   return (
     <div css={containerCss} {...props}>

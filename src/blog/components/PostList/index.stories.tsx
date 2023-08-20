@@ -4,7 +4,7 @@ import {ComponentStory, ComponentMeta} from '@storybook/react';
 
 import {createSortedPostDocsMock} from '@src/shared';
 
-import PostList, {PostListProps} from '.';
+import PostList, {PostListProps} from './index';
 
 interface PostListStoryProps extends PostListProps {
   dataLength?: number;
