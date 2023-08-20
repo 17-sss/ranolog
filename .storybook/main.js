@@ -1,26 +1,24 @@
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
-  framework: '@storybook/react',
-  core: {
-    builder: {
-      name: 'webpack5',
-      options: {
+  framework: {
+    name: '@storybook/nextjs',
+    options: {
+      fastRefresh: true,
+      builder: {
         fsCache: true,
       },
     },
   },
-  reactOptions: {
-    fastRefresh: true,
-  },
+
   stories: ['../**/**/*.stories.mdx', '../**/*.stories.@(js|jsx|ts|tsx)'],
   staticDirs: ['../public'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    'storybook-addon-next-router',
   ],
+
   webpackFinal: async (config) => {
     config.module.rules.push({
       test: /\.(ts|tsx)$/,
@@ -63,5 +61,9 @@ module.exports = {
       }),
     ];
     return config;
+  },
+
+  docs: {
+    autodocs: true,
   },
 };

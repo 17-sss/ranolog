@@ -1,15 +1,8 @@
-import * as NextImage from 'next/image';
 import {RouterContext} from 'next/dist/shared/lib/router-context';
 
-import {defaultDecorator} from './decorators';
+import {defaultDecorator} from './utils';
 
 import '../public/fonts/index.css';
-
-const OriginalNextImage = NextImage.default;
-Object.defineProperty(NextImage, 'default', {
-  configurable: true,
-  value: (props) => <OriginalNextImage {...props} unoptimized />,
-});
 
 export const decorators = [defaultDecorator];
 

@@ -33,9 +33,11 @@ const projectDocs = createSortedProjectDocsMock();
 export const Default = Template.bind({});
 Default.args = {projectDocs};
 Default.parameters = {
-  nextRouter: {
-    query: {
-      id: projectDocs[Math.floor(projectDocs.length / 2)].id,
+  nextjs: {
+    router: {
+      query: {
+        id: projectDocs[Math.floor(projectDocs.length / 2)].id,
+      },
     },
   },
 };

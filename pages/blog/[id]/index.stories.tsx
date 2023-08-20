@@ -35,9 +35,11 @@ Default.args = {
   postDocs,
 };
 Default.parameters = {
-  nextRouter: {
-    query: {
-      id: postDocs[Math.floor(postDocs.length / 2)].id,
+  nextjs: {
+    router: {
+      query: {
+        id: postDocs[Math.floor(postDocs.length / 2)].id,
+      },
     },
   },
 };
