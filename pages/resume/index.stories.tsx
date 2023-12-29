@@ -1,12 +1,10 @@
-import React from 'react';
+import {Meta, StoryObj} from '@storybook/react';
 
-import {ComponentStory, ComponentMeta} from '@storybook/react';
-
-import {codeblock, PageLayout, sampleMarkdown} from '@src/shared';
+import {codeblock, sampleMarkdown, PageLayout} from '@src/shared';
 
 import ResumePage from './index.page';
 
-const storyDefault = {
+const meta: Meta<typeof ResumePage> = {
   title: 'pages/resume/ResumePage',
   component: ResumePage,
   argTypes: {
@@ -21,24 +19,24 @@ const storyDefault = {
       </PageLayout>
     ),
   ],
-} as ComponentMeta<typeof ResumePage>;
-
-export default storyDefault;
-
-const Template: ComponentStory<typeof ResumePage> = (args) => {
-  return <ResumePage {...args} />;
 };
+export default meta;
 
-export const Default = Template.bind({});
-Default.args = {
-  resumeDoc: {
-    id: '0',
-    date: new Date().toString(),
-    subject: 'Resume',
-    name: 'Name',
-    job: 'Engineer',
-    email: 'email@email.com',
-    introduce: ['INTRODUCE1', 'INTRODUCE2', 'INTRODUCE3'],
-    content: `${sampleMarkdown}\n${codeblock}`,
+// ------
+
+type Story = StoryObj<typeof ResumePage>;
+
+export const Default: Story = {
+  args: {
+    resumeDoc: {
+      id: '0',
+      date: new Date().toString(),
+      subject: 'Resume',
+      name: 'Name',
+      job: 'Engineer',
+      email: 'email@email.com',
+      introduce: ['INTRODUCE1', 'INTRODUCE2', 'INTRODUCE3'],
+      content: `${sampleMarkdown}\n${codeblock}`,
+    },
   },
 };

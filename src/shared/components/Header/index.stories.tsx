@@ -1,24 +1,21 @@
-import React from 'react';
-
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {StoryObj, Meta} from '@storybook/react';
 
 import {staticDataInfo} from '@root/ranolog.config';
 
 import Header from './index';
 
-const storyDefault = {
+const meta: Meta<typeof Header> = {
   title: 'components/shared/Header',
   component: Header,
-} as ComponentMeta<typeof Header>;
-
-export default storyDefault;
-
-const Template: ComponentStory<typeof Header> = (args) => {
-  return <Header {...args} />;
 };
+export default meta;
 
-export const Default = Template.bind({});
-Default.args = {
-  linkNames: ['home', 'blog', 'projects', 'resume'],
-  profileImage: staticDataInfo.layout.header.profileImage,
+// ------
+
+type Story = StoryObj<typeof Header>;
+export const Default: Story = {
+  args: {
+    linkNames: ['home', 'blog', 'projects', 'resume'],
+    profileImage: staticDataInfo.layout.header.profileImage,
+  },
 };

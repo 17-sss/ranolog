@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {Meta, StoryObj} from '@storybook/react';
 
 import Divider from '.';
 import {systemCss} from '../../system';
 
-const storyDefault = {
+const meta: Meta<typeof Divider> = {
   title: 'components/shared/Divider',
   component: Divider,
   decorators: [
@@ -15,16 +15,12 @@ const storyDefault = {
       </div>
     ),
   ],
-} as ComponentMeta<typeof Divider>;
-
-export default storyDefault;
-
-const Template: ComponentStory<typeof Divider> = (args) => {
-  return <Divider {...args} />;
 };
+export default meta;
 
-export const Default = Template.bind({});
-Default.args = {};
+// ------
 
-export const WithText = Template.bind({});
-WithText.args = {children: 'I am Divider'};
+type Story = StoryObj<typeof Divider>;
+
+export const Default: Story = {};
+export const WithText: Story = {...Default, args: {children: 'I am Divider'}};

@@ -1,20 +1,15 @@
-import React from 'react';
+import {StoryObj, Meta} from '@storybook/react';
 
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import PageLayout from './index';
 
-import PageLayout from '.';
-
-const storyDefault = {
+const meta: Meta<typeof PageLayout> = {
   title: 'components/shared/PageLayout',
   component: PageLayout,
   parameters: {controls: {disable: true}},
-} as ComponentMeta<typeof PageLayout>;
-
-export default storyDefault;
-
-const Template: ComponentStory<typeof PageLayout> = (args) => {
-  return <PageLayout {...args} />;
 };
+export default meta;
 
-export const Default = Template.bind({});
-Default.args = {};
+// ------
+
+type Story = StoryObj<typeof PageLayout>;
+export const Default: Story = {};

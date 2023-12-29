@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {StoryObj, Meta} from '@storybook/react';
 
 import {createSortedPostDocsMock} from '@src/shared';
 
@@ -10,23 +10,22 @@ interface PostListStoryProps extends PostListProps {
   dataLength?: number;
 }
 
-const storyDefault = {
+const meta: Meta<PostListStoryProps> = {
   title: 'components/blog/PostList',
   component: PostList,
   argTypes: {
     postDocs: {control: false},
   },
-} as ComponentMeta<React.FC<PostListStoryProps>>;
-
-export default storyDefault;
-
-const Template: ComponentStory<React.FC<PostListStoryProps>> = ({dataLength, ...args}) => {
-  const postDocs = useMemo(() => createSortedPostDocsMock(dataLength), [dataLength]);
-
-  return <PostList {...args} postDocs={postDocs} />;
 };
+export default meta;
 
-export const Default = Template.bind({});
-Default.args = {
-  dataLength: 100,
+// ------
+
+type Story = StoryObj<PostListStoryProps>;
+export const Default: Story = {
+  render: ({dataLength, ...args}) => {
+    const postDocs = createSortedPostDocsMock(dataLength);
+    return <PostList {...args} postDocs={postDocs} />;
+  },
+  args: {dataLength: 20},
 };

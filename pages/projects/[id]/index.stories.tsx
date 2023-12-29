@@ -1,12 +1,10 @@
-import React from 'react';
-
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {StoryObj, Meta} from '@storybook/react';
 
 import {createSortedProjectDocsMock, PageLayout} from '@src/shared';
 
 import ProjectDetailPage from './index.page';
 
-const storyDefault = {
+const meta: Meta<typeof ProjectDetailPage> = {
   title: 'pages/projects/ProjectDetailPage',
   component: ProjectDetailPage,
   argTypes: {
@@ -21,23 +19,25 @@ const storyDefault = {
       </PageLayout>
     ),
   ],
-} as ComponentMeta<typeof ProjectDetailPage>;
-
-export default storyDefault;
-
-const Template: ComponentStory<typeof ProjectDetailPage> = (args) => {
-  return <ProjectDetailPage {...args} />;
 };
+export default meta;
 
-const projectDocs = createSortedProjectDocsMock();
-export const Default = Template.bind({});
-Default.args = {projectDocs};
-Default.parameters = {
-  nextjs: {
-    router: {
-      query: {
-        id: projectDocs[Math.floor(projectDocs.length / 2)].id,
+// ------
+
+type Story = StoryObj<typeof ProjectDetailPage>;
+
+export const Default: Story = (() => {
+  const projectDocs = createSortedProjectDocsMock();
+  return {
+    args: {projectDocs},
+    parameters: {
+      nextjs: {
+        router: {
+          query: {
+            id: projectDocs[Math.floor(projectDocs.length / 2)].id,
+          },
+        },
       },
     },
-  },
-};
+  };
+})();

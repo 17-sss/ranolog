@@ -1,12 +1,10 @@
-import React from 'react';
-
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {Meta, StoryObj} from '@storybook/react';
 
 import {createSortedPostDocsMock, PageLayout} from '@src/shared';
 
 import MainPage from './index.page';
 
-const storyDefault = {
+const meta: Meta<typeof MainPage> = {
   title: 'pages/main/MainPage',
   component: MainPage,
   argTypes: {
@@ -21,13 +19,11 @@ const storyDefault = {
       </PageLayout>
     ),
   ],
-} as ComponentMeta<typeof MainPage>;
-
-export default storyDefault;
-
-const Template: ComponentStory<typeof MainPage> = (args) => {
-  return <MainPage {...args} />;
 };
+export default meta;
 
-export const Default = Template.bind({});
-Default.args = {postDocs: createSortedPostDocsMock(3)};
+// ------
+
+type Story = StoryObj<typeof MainPage>;
+
+export const Default: Story = {args: {postDocs: createSortedPostDocsMock(3)}};

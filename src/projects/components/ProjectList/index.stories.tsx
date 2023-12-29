@@ -1,29 +1,28 @@
-import React, {useMemo} from 'react';
-
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {StoryObj, Meta} from '@storybook/react';
 
 import {createSortedProjectDocsMock} from '@src/shared';
 
 import ProjectList, {ProjectListProps} from './index';
 
-interface ProductListStoryProps extends ProjectListProps {
+interface ProjectListStoryProps extends ProjectListProps {
   dataLength?: number;
 }
 
-const storyDefault = {
+const meta: Meta<ProjectListStoryProps> = {
   title: 'components/projects/ProjectList',
   component: ProjectList,
-  argTypes: {
-    projectDocs: {control: false},
-  },
-} as ComponentMeta<React.FC<ProductListStoryProps>>;
-
-export default storyDefault;
-
-const Template: ComponentStory<React.FC<ProductListStoryProps>> = ({dataLength, ...args}) => {
-  const projectDocs = useMemo(() => createSortedProjectDocsMock(dataLength), [dataLength]);
-  return <ProjectList {...args} projectDocs={projectDocs} />;
+  argTypes: {projectDocs: {control: false}},
 };
 
-export const Default = Template.bind({});
-Default.args = {dataLength: 20};
+export default meta;
+
+type Story = StoryObj<ProjectListStoryProps>;
+// ------
+
+export const Default: Story = {
+  render: ({dataLength, ...args}) => {
+    const projectDocs = createSortedProjectDocsMock(dataLength);
+    return <ProjectList {...args} projectDocs={projectDocs} />;
+  },
+  args: {dataLength: 20},
+};

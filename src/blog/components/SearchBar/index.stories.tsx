@@ -1,19 +1,21 @@
 import React, {useCallback, useState} from 'react';
 
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {StoryObj, Meta} from '@storybook/react';
 
 import {debounce, systemCss} from '@src/shared';
 
-import SearchBar from './index';
+import SearchBar, {SearchBarProps} from './index';
 
-const storyDefault = {
+const meta: Meta<typeof SearchBar> = {
   title: 'components/blog/SearchBar',
   component: SearchBar,
-} as ComponentMeta<typeof SearchBar>;
+};
+export default meta;
 
-export default storyDefault;
+// ------
 
-const Template: ComponentStory<typeof SearchBar> = (args) => {
+type Story = StoryObj<typeof SearchBar>;
+const SearchBarWithHooks: React.FC<SearchBarProps> = (args) => {
   const [currentValue, setCurrentValue] = useState<string>();
   const handleInputKeyUp = useCallback((e?: React.KeyboardEvent<HTMLInputElement>) => {
     if (!e || !(e.target instanceof HTMLInputElement)) {
@@ -21,7 +23,6 @@ const Template: ComponentStory<typeof SearchBar> = (args) => {
     }
     setCurrentValue(e.target.value);
   }, []);
-
   return (
     <div>
       <SearchBar {...args} onInputKeyUp={debounce({func: handleInputKeyUp})} />
@@ -30,4 +31,6 @@ const Template: ComponentStory<typeof SearchBar> = (args) => {
   );
 };
 
-export const Default = Template.bind({});
+export const Default: Story = {
+  render: (args) => <SearchBarWithHooks {...args} />,
+};

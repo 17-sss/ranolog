@@ -1,35 +1,34 @@
 import React from 'react';
 
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {StoryObj, Meta} from '@storybook/react';
 
 import {variantKeys} from './constants';
 import Typography from './index';
 import {systemCss} from '../../system';
 
-const storyDefault = {
+const meta: Meta<typeof Typography> = {
   title: 'components/shared/Typography',
   component: Typography,
-} as ComponentMeta<typeof Typography>;
-
-export default storyDefault;
-
-const defaultChildren = 'Typography';
-
-const Template: ComponentStory<typeof Typography> = ({variant = 'span', ...args}) => {
-  return (
-    <>
-      <span> {`<${variant}>`}</span>&nbsp;
-      <Typography variant={variant} {...args} />
-    </>
-  );
 };
-export const Default = Template.bind({});
-Default.args = {children: defaultChildren};
+export default meta;
 
-// ---
+// ------
 
-const AllVariantTemplate: ComponentStory<typeof Typography> = ({...args}) => {
-  return (
+type Story = StoryObj<typeof Typography>;
+export const Default: Story = {
+  args: {children: 'Typography'},
+  render: ({variant = 'span', ...args}) => {
+    return (
+      <>
+        <span> {`<${variant}>`}</span>&nbsp;
+        <Typography variant={variant} {...args} />
+      </>
+    );
+  },
+};
+export const AllVariant: Story = {
+  ...Default,
+  render: (args) => (
     <>
       {variantKeys.map((aVariant, i) => (
         <div key={i} css={systemCss({'& + &': {mt: '1rem'}})}>
@@ -38,8 +37,5 @@ const AllVariantTemplate: ComponentStory<typeof Typography> = ({...args}) => {
         </div>
       ))}
     </>
-  );
+  ),
 };
-
-export const AllVariant = AllVariantTemplate.bind({});
-AllVariant.args = {children: defaultChildren};

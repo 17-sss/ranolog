@@ -1,12 +1,12 @@
 import React from 'react';
 
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {Meta, StoryObj} from '@storybook/react';
 
 import {createSortedPostDocsMock, PageLayout} from '@src/shared';
 
 import BlogDetailPage from './index.page';
 
-const storyDefault = {
+const meta: Meta<typeof BlogDetailPage> = {
   title: 'pages/blog/BlogDetailPage',
   component: BlogDetailPage,
   argTypes: {
@@ -21,24 +21,22 @@ const storyDefault = {
       </PageLayout>
     ),
   ],
-} as ComponentMeta<typeof BlogDetailPage>;
-
-export default storyDefault;
-
-const Template: ComponentStory<typeof BlogDetailPage> = (args) => {
-  return <BlogDetailPage {...args} />;
 };
+export default meta;
 
+// ------
+
+type Story = StoryObj<typeof BlogDetailPage>;
 const postDocs = createSortedPostDocsMock(50);
-export const Default = Template.bind({});
-Default.args = {
-  postDocs,
-};
-Default.parameters = {
-  nextjs: {
-    router: {
-      query: {
-        id: postDocs[Math.floor(postDocs.length / 2)].id,
+
+export const Default: Story = {
+  args: {postDocs},
+  parameters: {
+    nextjs: {
+      router: {
+        query: {
+          id: postDocs[Math.floor(postDocs.length / 2)].id,
+        },
       },
     },
   },

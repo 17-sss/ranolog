@@ -1,96 +1,72 @@
 import React, {useMemo} from 'react';
 
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {Meta, StoryObj} from '@storybook/react';
 
-import CustomCode, {colorNames} from '.';
+import CustomCode, {CustomCodeProps, colorNames} from './index';
 import {removeDuplicateValues} from '../../functions';
 import {systemCss, CssProp} from '../../system';
 import {themeColorNames} from '../../theme';
 
-const containerCss: CssProp = systemCss({
-  p: '0.5rem',
-  strong: {
-    fontWeight: 600,
-  },
-  '& > * + *': {
-    ml: '0.25rem',
-  },
-});
-
-const storyDefault = {
+const meta: Meta<typeof CustomCode> = {
   title: 'components/shared/CustomCode',
   component: CustomCode,
   decorators: [
     (Story) => (
-      <div css={containerCss}>
+      <div
+        css={systemCss({
+          p: '0.5rem',
+          strong: {
+            fontWeight: 600,
+          },
+          '& > * + *': {
+            ml: '0.25rem',
+          },
+        })}
+      >
         <Story />
       </div>
     ),
   ],
-} as ComponentMeta<typeof CustomCode>;
+};
+export default meta;
 
-export default storyDefault;
+// ------
 
+type Story = StoryObj<typeof CustomCode>;
 const defaultChildren = 'CustomCode';
 
-const Template: ComponentStory<typeof CustomCode> = ({children, ...args}) => {
-  return (
-    <>
-      <CustomCode {...args}>{children}</CustomCode>
-      <CustomCode {...args} isBold>
-        {children}
-      </CustomCode>
-    </>
-  );
-};
+export const Default_Red: Story = {args: {children: defaultChildren, color: 'red'}};
+export const Blue: Story = {args: {children: defaultChildren, color: 'blue'}};
+export const Brown: Story = {args: {children: defaultChildren, color: 'brown'}};
+export const Green: Story = {args: {children: defaultChildren, color: 'green'}};
+export const Orange: Story = {args: {children: defaultChildren, color: 'orange'}};
+export const Pink: Story = {args: {children: defaultChildren, color: 'pink'}};
+export const Purple: Story = {args: {children: defaultChildren, color: 'purple'}};
+export const Gray: Story = {args: {children: defaultChildren, color: 'gray'}};
+export const Yellow: Story = {args: {children: defaultChildren, color: 'yellow'}};
 
-export const Default_Red = Template.bind({});
-Default_Red.args = {children: defaultChildren, color: 'red'};
-
-export const Blue = Template.bind({});
-Blue.args = {children: defaultChildren, color: 'blue'};
-
-export const Brown = Template.bind({});
-Brown.args = {children: defaultChildren, color: 'brown'};
-
-export const Green = Template.bind({});
-Green.args = {children: defaultChildren, color: 'green'};
-
-export const Orange = Template.bind({});
-Orange.args = {children: defaultChildren, color: 'orange'};
-
-export const Pink = Template.bind({});
-Pink.args = {children: defaultChildren, color: 'pink'};
-
-export const Purple = Template.bind({});
-Purple.args = {children: defaultChildren, color: 'purple'};
-
-export const Gray = Template.bind({});
-Gray.args = {children: defaultChildren, color: 'gray'};
-
-export const Yellow = Template.bind({});
-Yellow.args = {children: defaultChildren, color: 'yellow'};
-
-// ---
-
-const AllColorTemplate: ComponentStory<typeof CustomCode> = ({children, ...args}) => {
+const AllColorTemplate: React.FC<CustomCodeProps> = ({children, ...args}) => {
   const allColorNames = useMemo(() => {
     return removeDuplicateValues([...colorNames, ...themeColorNames]);
   }, []);
   return (
     <>
       {allColorNames.map((color) => (
-        <p key={color} css={systemCss({})}>
+        <p key={color}>
           <strong>{color}</strong>
           &nbsp;
-          <Template color={color} {...args}>
+          <CustomCode color={color} {...args}>
             {children}
-          </Template>
+          </CustomCode>
+          <CustomCode color={color} isBold {...args}>
+            {children}
+          </CustomCode>
         </p>
       ))}
     </>
   );
 };
-
-export const AllColors = AllColorTemplate.bind({});
-AllColors.args = {children: defaultChildren};
+export const AllColors: Story = {
+  render: (args) => <AllColorTemplate {...args} />,
+  args: {children: defaultChildren},
+};

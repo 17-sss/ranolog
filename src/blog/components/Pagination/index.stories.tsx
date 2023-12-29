@@ -1,11 +1,11 @@
 import React, {useMemo} from 'react';
 
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {Meta, StoryObj} from '@storybook/react';
 
 import {usePagination} from '@src/blog';
 import {useMedia, createPostDocsMock} from '@src/shared';
 
-import Pagination, {PaginationProps} from '.';
+import Pagination, {PaginationProps} from './index';
 
 interface PaginationStoryProps extends PaginationProps {
   dataLength?: number;
@@ -13,18 +13,20 @@ interface PaginationStoryProps extends PaginationProps {
   postUnit?: number;
 }
 
-const storyDefault = {
+const meta: Meta<PaginationStoryProps> = {
   title: 'components/blog/Pagination',
   component: Pagination,
   argTypes: {
     pageNums: {table: {disable: true}},
     pageInfo: {table: {disable: true}},
   },
-} as ComponentMeta<React.FC<PaginationStoryProps>>;
+};
+export default meta;
 
-export default storyDefault;
+// ------
 
-const Template: ComponentStory<React.FC<PaginationStoryProps>> = ({
+type Story = StoryObj<PaginationStoryProps>;
+const PaginationStoryWithHooks: React.FC<PaginationStoryProps> = ({
   dataLength,
   pageUnit,
   postUnit,
@@ -47,9 +49,11 @@ const Template: ComponentStory<React.FC<PaginationStoryProps>> = ({
   );
 };
 
-export const Default = Template.bind({});
-Default.args = {
-  dataLength: 100,
-  pageUnit: 5,
-  postUnit: 5,
+export const Default: Story = {
+  render: (args) => <PaginationStoryWithHooks {...args} />,
+  args: {
+    dataLength: 100,
+    pageUnit: 5,
+    postUnit: 5,
+  },
 };

@@ -1,21 +1,18 @@
-import React from 'react';
-
-import {ComponentStory, ComponentMeta} from '@storybook/react';
+import {StoryObj, Meta} from '@storybook/react';
 
 import {staticDataInfo} from '@root/ranolog.config';
 
 import IntroduceBox from './index';
 
-const storyDefault = {
+const meta: Meta<typeof IntroduceBox> = {
   title: 'components/main/IntroduceBox',
   component: IntroduceBox,
-} as ComponentMeta<typeof IntroduceBox>;
-
-export default storyDefault;
-
-const Template: ComponentStory<typeof IntroduceBox> = (args) => {
-  return <IntroduceBox {...args} />;
 };
+export default meta;
 
-export const Default = Template.bind({});
-Default.args = {...staticDataInfo.pages.main.introduce};
+// ------
+
+type Story = StoryObj<typeof IntroduceBox>;
+export const Default: Story = {
+  args: {...staticDataInfo.pages.main.introduce},
+};
