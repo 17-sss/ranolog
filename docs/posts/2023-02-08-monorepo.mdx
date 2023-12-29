@@ -1,0 +1,52 @@
+---
+subject: '모노레포(Monorepo)란?'
+summary: '모노레포를 알아보자!'
+date: '2023-02-08'
+category: ['Web']
+thumbnail: ''
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>모노레포..?</span>
+</Typography>
+<br />
+
+**[모노레포](https://en.wikipedia.org/wiki/Monorepo)란? ✨**
+
+- 버전 관리 시스템에서 <Typography color="green" isBold>두 개 이상의 프로젝트 코드가 동일한 저장소에 저장되는</Typography> 소프트웨어 개발 전략
+- 이 개발 전략은 고전적인 소프트웨어 개발 방식인 **모놀리식 애플리케이션의 한계**에 대한 비판에서 시작
+
+<br/>
+
+**[모놀리식 애플리케이션](https://en.wikipedia.org/wiki/Monolithic_application)의 한계**
+
+- 소프트웨어 엔지니어링에서 <Typography color="green" isBold>모듈화 없이 설계된 소프트웨어 애플리케이션</Typography>을 뜻함.
+- **(만약에..)** 큰 서비스를 개발할 때, 소스 코드가 모듈화 없이 하나의 프로젝트로 구성된다면?  
+    👉 코드가 서로 <Typography color="red500" isBold>직접적으로 의존하며 단 하나의 버전으로 관리</Typography>됨..🥲
+    - [관심 분리(separation of concerns)](https://ko.wikipedia.org/wiki/%EA%B4%80%EC%8B%AC%EC%82%AC_%EB%B6%84%EB%A6%AC)가 어려워짐
+    - 설계, 리팩토링, 배포 등의 작업을 매번 거대한 단위로 처리해야하기에 <Typography color="red500" isBold>개발상 많은 제약과 비효율 발생할 가능성 있음</Typography>
+
+<br />
+
+**모듈화와 재사용성**
+
+- 모놀리식 구조의 한계는 [모듈화(modularity)](https://en.wikipedia.org/wiki/Modularity)를 통해 해결할 수 있음.
+- 보통 [모듈식 프로그래밍(modular programming)](https://en.wikipedia.org/wiki/Modular_programming)은..
+    - 애플리케이션 로직의 일부를 재사용할 수 있도록 지원.
+    - 전체 교체 없이 애플리케이션의 일부를 수정 또는 교체할 수 있게 해 유지 관리를 용이하게 함.
+
+
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+**일반**
+
+- [모던 프론트엔드 프로젝트 구성 기법 - 모노레포 개념 편](https://d2.naver.com/helloworld/0923884)
+- [팀워크 향상을 위한 모노레포(Monorepo) 시스템 구축](https://blog.mathpresso.com/팀워크-향상을-위한-모노레포-monorepo-시스템-구축-3ae1b0112f1b)
+- [모노레포(Monorepo)란?](https://www.jeje01.me/web/what-is-monorepo/)
