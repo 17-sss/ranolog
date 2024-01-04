@@ -32,7 +32,7 @@ export const No_Category: Story = {
   render: ({content, ...args}) => (
     <PostDetail {...args} markdownRenderer={<MarkdownRenderer content={content} />} />
   ),
-  args: {...samplePost},
+  args: {...samplePost, category: undefined},
 };
 export const Category: Story = {
   ...No_Category,
