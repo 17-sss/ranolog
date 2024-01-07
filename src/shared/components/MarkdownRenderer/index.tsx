@@ -8,6 +8,7 @@ import {
   CustomLink,
   Divider,
   FlexBox,
+  MdxImage,
   Typography,
   TypographyProps,
 } from '../../components';
@@ -52,6 +53,9 @@ const MarkdownRenderer = (
             <CustomLink href={href ?? ''} defaultStyle>
               {children}
             </CustomLink>
+          ),
+          img: ({src, alt}) => (
+            <MdxImage css={imageBoxCss} as="span" src={src ?? ''} alt={alt ?? ''} priority />
           ),
           CustomLink,
           CustomCode,
@@ -119,10 +123,6 @@ const containerCss: CssProp = (theme) =>
         my: '0.25rem',
       },
     },
-    img: {
-      maxWidth: '100%',
-      height: 'auto',
-    },
     /** Markdown "> blah blah.." */
     blockquote: {
       my: '0.75rem',
@@ -161,3 +161,5 @@ const codeCss: CssProp = systemCss({
     color: 'rgba(212, 76, 71, 1)',
   },
 });
+
+const imageBoxCss: CssProp = systemCss({display: 'block'});

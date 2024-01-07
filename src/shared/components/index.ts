@@ -8,6 +8,7 @@ import FlexBox from './FlexBox';
 import Footer from './Footer';
 import Header from './Header';
 import MarkdownRenderer from './MarkdownRenderer';
+import MdxImage from './MdxImage';
 import PageLayout from './PageLayout';
 import SeoHead from './SeoHead';
 import Typography from './Typography';
@@ -22,6 +23,7 @@ export * from './FlexBox';
 export * from './Footer';
 export * from './Header';
 export * from './MarkdownRenderer';
+export * from './MdxImage';
 export * from './PageLayout';
 export * from './SeoHead';
 export * from './Typography';
@@ -37,6 +39,7 @@ export {
   Footer,
   Header,
   MarkdownRenderer,
+  MdxImage,
   PageLayout,
   SeoHead,
   Typography,
