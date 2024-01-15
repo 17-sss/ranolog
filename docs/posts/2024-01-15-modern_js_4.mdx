@@ -1,0 +1,91 @@
+---
+subject: '모던 자바스크립트 Deep Dive - 4장 변수'
+summary: '모던 자바스크립트 Deep Dive - 4장 메모'
+date: '2024-01-15 22:06'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/modern_js_deepdive.png'
+---
+
+import {Typography, CustomCode} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>04장. 변수</span>
+</Typography>
+<br />
+
+**4.1 변수란 무엇인가? 왜 필요한가?**
+
+- 변수는 하나의 값을 저장하기 위해 확보한 메모리 공간 자체 또는 그 메모리 공간을 식별하기 위해 붙인 이름  
+  (값의 위치를 가르키는 상징적인 이름)
+
+<br />
+
+**4.2 식별자**
+
+- <CustomCode color="red600">식별자 === 변수 이름</CustomCode>(변수, 함수, 클래스 등도 모두 식별자)
+- 식별자는 어떤 값을 구별해서 식별할 수 있는 고유한 이름
+  - 식별자는 값이 아닌 메모리 주소를 기억함
+
+<br />
+
+**4.3 변수 선언**
+
+- 변수 선언 2단계 (`var` 키워드 기준)
+  - _선언_ 단계: 변수 이름을 등록해서 자바스크립트 엔진에 변수의 존재를 알림
+  - _초기화_ 단계: 값을 저장하기 위한 메모리 공간 확보하고 암묵적으로 `undefined`를 할당해서 초기화
+
+<br />
+
+**4.4 변수 선언의 실행 시점과 변수 호이스팅**
+
+- 코드 예시
+
+  ```js
+  console.log(score); // undefined
+  var score;
+  ```
+
+  - 자바스크립트 코드는 인터프리터에 의해 한 줄씩 순차적 실행
+  - 첫 줄에서 에러가 발생할 것 같지만, `undefined` 출력
+    - <Typography color="violet400">그 이유는..!</Typography>
+      <br />
+      변수 선언이 소스코드가 한 줄씩 순차적으로 실행되는 시점인 "런타임(runtime)"이 아니라 이전
+      단계(소스코드 평가과정)에서 실행
+      <br />
+      (자바스크립트 엔진은 변수 선언, 함수 선언문 등 소스코드 평가과정에서 처리)
+
+- 변수 선언문이 코드의 선두로 끌어 올려진 것처럼 동작하는 자바스크립트 고유의 특징을 변수 호이스팅(variable hoisting)이라 함
+  - 변수 선언뿐 아니라 `var`, `let`, `const`, `function`, `function*`, `class` 키워드를 사용해서 선언하는 모든 식별자(변수, 함수, 클래스 등)는 호이스팅 됨  
+    (모든 선언문은 런타임 이전 단계에서 먼저 실행되기에..)
+
+<br />
+
+**4.5 값의 할당**
+
+- 코드 예시
+
+  ```js
+  console.log(score); // undefined
+  var score; // 1️⃣ 변수 선언
+  score = 80; // 2️⃣ 값의 할당
+  console.log(score); // 80
+  ```
+
+  - **1️⃣ 변수 선언**은 런타임 이전에 먼저 실행
+  - **2️⃣ 값의 할당**은 런타임에 실행
+
+<br />
+
+**4.6 값의 재할당**
+
+- 변수에 값을 할당할 때 이전 값이 저장되어 있던 메모리 공간을 지우고 새로운 값을 메모리에 저장하는 것이 아님!  
+  ⇒ 새로운 메모리 공간을 확보하고 그 곳에 할당 값을 저장
+- 값을 재할당 할 수 없어서 변수에 저장된 값을 변강할 수 없다면, 변수가 아니라 상수 (상수는 단 한번만 할당할 수 있는 변수)
+- 값의 재할당 시, 이전 값을 <Typography color="blue600">가비지콜렉터</Typography>에 의해 메모리에서 자동해제됨.
+  - <Typography color="blue600">가비지콜렉터</Typography>: 애플리케이션이 할당한 메모리 공간을
+    주기적으로 검사하여 더 이상 사용되지 않는 메모리를 해제하는 기능.
+- 언매니지드 언어와 매니지드 언어
+  - 언매니지드 언어: 개발자가 메모리 제어 가능
+    - <Typography color="gray400">ex)</Typography> C 언어에서는 `malloc()`, `free()`로 가능
+  - 매니지드 언어: 개발자가 메모리 제어 불가능
+    - <Typography color="gray400">ex)</Typography> 자바스크립트에서는 가비지콜렉터가 메모리 해제
