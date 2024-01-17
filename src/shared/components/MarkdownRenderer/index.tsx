@@ -125,12 +125,13 @@ const containerCss: CssProp = (theme) =>
     },
     /** Markdown "> blah blah.." */
     blockquote: {
-      my: '0.75rem',
+      my: '0.5rem', // 0.75rem
       py: '0.3125rem',
       px: '0.9375rem',
       backgroundColor: rgba(theme.colors.gray100, 0.8),
       borderLeft: `0.25rem solid ${theme.colors.gray300}`,
     },
+    'li > blockquote': {mt: '0.25rem'},
     table: {
       my: '0.5rem',
       borderCollapse: 'collapse',

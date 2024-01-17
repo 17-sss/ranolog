@@ -1,0 +1,265 @@
+---
+subject: '모던 자바스크립트 Deep Dive - 12장 함수'
+summary: '모던 자바스크립트 Deep Dive - 12장 메모'
+date: '2024-01-17 21:02'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/modern_js_deepdive.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>12.1 함수란?</span>
+</Typography>
+
+- 함수는 일련의 과정을 문(statement)로 구현하고 코드 블록을 감싸서 하나의 실행 단위로 정의한 것  
+  ![01](/images/posts/2024-01-17-modern_js_12/01.png?width=500)
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>12.2 함수를 사용하는 이유</span>
+</Typography>
+
+- 함수는 몇번이고 호출 가능  
+  → 코드의 재사용
+- 코드 중복을 억제하고 재사용성을 높임  
+  → 유지보수 편의성 향상 & 코드의 신뢰성 향상
+- 적절한 함수 네이밍  
+  → 가독성 향상
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>12.3 함수 리터럴</span>
+</Typography>
+
+```js
+// 변수에 함수 리터럴 할당
+var f = function add(x, y) {
+  return x + y;
+};
+```
+
+- 함수는 객체이며 함수 리터럴로 생성 가능
+- 함수는 객체지만 일반 객체와 다름
+  - 일반 객체는 호출 할 수 없지만, 함수는 호출 가능
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>12.4 함수 정의</span>
+</Typography>
+
+- 함수를 정의하는 방법
+  - 함수 선언문, 함수 표현식, Function 생성자 함수, 화살표 함수 (ES6)
+
+<br />
+
+<Typography variant="h4">
+  <span>12.4.1 함수 선언문</span>
+</Typography>
+
+```js
+function add(x, y) {
+  return x + y;
+}
+```
+
+- 함수 선언문은 함수 이름을 생략할 수 없음
+- 함수 선언문은 표현식이 아닌 문
+- 함수 이름이 있는 기명 함수 리터럴은 <Typography color='gray500'>함수 선언문</Typography> 또는 <Typography color='gray500'>함수 리터럴 표현식</Typography>으로 될 수 있음
+  ```js
+  // 기명 함수 리터럴을 단독으로 사용하면 함수 선언문으로 해석
+  // 함수 선언문에서는 함수 이름을 생략할 수 없음
+  function foo() {
+    console.log('foo');
+  }
+  foo(); // foo
+  // 함수 리터럴을 피연산자로 사용하면 함수 선언문이 아니라 함수 리터럴 표현식으로 해석됨
+  // 함수 리터럴에서는 함수 이름을 생략할 수 있음
+  (function bar() {
+    console.log('bar');
+  });
+  bar(); // ReferenceError: bar is not defined
+  ```
+  - 함수 이름이 있는 함수 리터럴을 단독으로 사용 → <Typography color='gray500'>함수 선언문</Typography>  
+    ![02](/images/posts/2024-01-17-modern_js_12/02.png?width=500)
+    - foo는 자바스크립트 엔진이 암묵적으로 생성한 식별자다.
+      > 자바스크립트 엔진은 생성된 함수를 호출하기 위해 함수 이름과 동일한 식별자를 암묵적으로 생성하고 거기에 함수 객체를 할당함
+  - 함수 리터럴이 값으로 평가되어야 하는 문맥이라면 → <Typography color='gray500'>함수 리터럴 표현식</Typography>  
+    ![03](/images/posts/2024-01-17-modern_js_12/03.png?width=500)
+    - 함수 이름 bar는 함수 몸체 내에서만 참조할 수 있는 식별자이므로 함수를 호출할 수 없다.
+      > "함수를 가리키는 식별자가 없다"라는 것은  
+      > "함수 몸체 외부에서는 함수 이름으로 함수를 참조할 수 없으므로 함수 몸체 외부에서는 함수 이름으로 함수를 호출 할 수 없다"는 의미
+
+<br />
+
+<Typography variant="h4">
+  <span>12.4.2 함수 표현식</span>
+</Typography>
+
+- 함수 표현식은 표현식인 문
+- 코드 예시
+  ```js
+  var add = function foo(x, y) {
+    return x + y;
+  };
+  // 함수 객체로 가리키는 식별자로 호출
+  console.log(add(2, 5));
+  // 함수 이름으로 호출하면 Reference Error 발생
+  // 함수 이름은 함수 몸체 내부에서만 유효한 식별자
+  console.log(foo(2, 5));
+  ```
+
+<br />
+
+<Typography variant="h4">
+  <span>12.4.3 함수 생성 시점과 함수 호이스팅</span>
+</Typography>
+
+- <Typography color="gray500">함수 선언문</Typography>으로 정의한 함수는 함수 선언문 이전에 호출
+  가능하지만, <Typography color="gray500">함수 표현식</Typography>으로 정의한 함수는 함수 표현식 이전에
+  호출 불가
+- 함수 생성 시점
+  - <Typography color="gray500">함수 선언문</Typography>은 런타임 이전에 평가되어 생성
+  - <Typography color="gray500">함수 표현식</Typography>은 런타임에 평가되어 생성
+- 함수 선언문이 코드의 선두로 끌여올려진 것처럼 동작하는 자바스크립트의 고유 특징을 <Typography color='slate500' isBold>함수 호이스팅</Typography>이라 함
+- 함수 표현식의 함수 리터럴은 할당문 실행되는 시점에 런타임 평가되어 함수 객체가 됨
+  - 변수 선언은 런타임 이전에 실행되어 `undefined`로 초기화 됨
+  - 즉, 함수 표현식은 <Typography color='slate500' isBold>변수 호이스팅</Typography>을 따름
+
+<br />
+
+<Typography variant="h4">
+  <span>12.4.4 Function 생성자 함수</span>
+</Typography>
+
+```js
+var add = new Function('x', 'y', 'return x + y');
+```
+
+- 빌트인 함수인 **`Function`** 생성자 함수에 매개변수 목록과 함수 몸체를 문자열로 전달하며 `new` 연산자와 함께 호출하면 함수 객체를 생성하여 반환  
+  (`new` 없어도 되긴함)
+- **`Function`** 생성자 함수는 함수를 생성하는 방식은 일반적이지 않고 바람직하지 않음
+- **`Function`** 생성자 함수로 생성한 함수는 클로저를 생성하지 않고, 함수 선언문이나 함수 표현식으로 생성한 함수와 다르게 동작
+
+<br />
+
+<Typography variant="h4">
+  <span>12.4.5 화살표 함수</span>
+</Typography>
+
+```js
+const add = (x, y) => x + y;
+```
+
+- `=>` 화살표를 사용해 간략하게 함수 선언
+- 화살표 함수는...
+  - 생성자 함수로 사용 불가
+  - 기존 함수와 `this` 바인딩 방식 다름
+  - `Prototype` 프로퍼티 없음
+  - `arguments` 객체 생성하지 않음
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>12.5 함수 호출</span>
+</Typography>
+
+- 함수 호출은 표현식임
+
+<br />
+
+<Typography variant="h4">
+  <span>12.5.1 매개변수와 인수</span>
+</Typography>
+
+- 함수 호출 시 전달되는 인자가 함수의 매개변수 수 보다 많이 전달했을 때, 나머지 인수가 사라지지 않고 `arguments` 객체에 저장됨
+
+<br />
+
+<Typography variant="h4">
+  <span>12.5.3 매개변수 최대 개수</span>
+</Typography>
+
+- 3개 이상 넘지 않는 것을 권장
+  - 그 이상이 필요하다면 하나의 매개변수를 선언하고 객체를 인수로 전달하는 것이 유리함
+- <Typography color="red700" isBold>
+    이상적인 함수는 한가지 일만 해야하고 가급적 작게 만들어야 함!
+  </Typography>
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>12.6 참조에 의한 전달과 외부 상태의 변경</span>
+</Typography>
+
+- 매개변수도 함수 몸체 내부에서 변수와 동일하게 취급되므로 타입에 따라 **값에 의한 전달**, **참조에 의한 전달** 방식을 따름
+  - 원시 값을 전달 받은 매개변수를 함수 몸체에서 변경하면 재할당을 통해 할당된 원시 값을 새로운 원시 값으로 교체
+  - 객체를 전달 받은 매개변수는 함수 몸체에서 변경하면 원본 객체가 훼손됨 (참조 값이 전달되었기에)
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>12.7 다양한 함수의 형태</span>
+</Typography>
+
+- 즉시 실행함수
+- 재귀 함수
+- 중첩 함수
+- 콜백 함수
+- 순수 함수와 비순수 함수
+
+<br />
+
+<Typography variant="h4">
+  <span>12.7.4 콜백 함수</span>
+</Typography>
+
+- 콜백 함수와 고차 함수
+
+  ```js
+  // [고차 함수]
+  // 외부에서 전달받은 func를 n만큼 반복 호출한다.
+  function repeat(n, func) {
+    for (var i = 0; i < n; i++) {
+      func(i); // i를 전달하면서 func를 호출
+    }
+  }
+  // [콜백 함수]
+  var logAll = function (i) {
+    console.log(i);
+  };
+  // 반복 호출할 함수를 인수로 전달한다.
+  repeat(5, logAll); // 0 1 2 3 4
+  ```
+
+  - 콜백 함수 (<Typography color='slate500'>callback function</Typography>): 함수의 매개변수를 통해 다른 함수의 내부로 전달되는 함수
+  - 고차 함수 (<Typography color='slate500'>HOF, Higher-Order Function</Typography>): 매개변수를 통해 함수의 외부에서 콜백 함수를 전달 받은 함수
+    - 고차 함수는 콜백 함수를 자신의 일부분으로 합성함
+    - 고차 함수는 매개변수를 통해 전달 받은 콜백 함수의 호출 시점을 결정해서 호출
+    - 콜백 함수는 고차 함수에 의해 호출되며, 고차 함수는 필요에 따라 콜백 함수에 인수 전달 가능
+
+<br />
+
+<Typography variant="h4">
+  <span>12.7.5 순수 함수와 비순수 함수</span>
+</Typography>
+
+- 외부 상태에 의존하거나 외부 상태를 변경하는 함수는 <Typography color='gray500' isBold>비순수 함수</Typography>(부수 효과가 **있는** 함수)
+- 어떤 외부 상태도 의존하지도 변경하지도 않는 함수는 <Typography color='gray500' isBold>순수 함수</Typography>(부수 효과가 **없는** 함수)
+  - 외부 상태에 의존하지 않고, 함수 내부 상태에만 의존한다해도  
+    그 내부 상태가 호출할 때마다 변화하는 값 ( _예: 현재시간_ )이라면 순수함수 아님!!
