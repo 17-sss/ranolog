@@ -1,0 +1,106 @@
+---
+subject: '모던 자바스크립트 Deep Dive - 13장 스코프'
+summary: '모던 자바스크립트 Deep Dive - 13장 메모'
+date: '2024-01-18 21:40'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/modern_js_deepdive.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>13.1 스코프란?</span>
+</Typography>
+
+- 모든 식별자는 (변수 이름, 함수 이름, 클래스 이름 등) 자신이 선언된 위치에 의해 다른 코드가 식별자 자신을 참조할 수 있는 유효 범위가 결정됨을 의미
+- 스코프는 식별자가 유효한 범위
+- 전역에 `x` 변수가 있고, _foo_ 함수 내부에 `x` 변수가 있을 경우..
+  ```js
+  var x = 'global x';
+  function foo() {
+    var x = "foo's local x";
+  }
+  ```
+  - 자바스크립트 엔진은 이름이 같은 2개의 변수 중 어떤 변수를 참조해야 할 것인지를 결정해야 함 → <Typography color="gray500">식별자 결정</Typography>
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>13.2 스코프의 종류</span>
+</Typography>
+
+- 코드는 전역과 지역으로 구분 가능
+  ```js
+  /* 1️⃣ 전역 스코프 : START ====== */
+  var x = 'global x';
+  var y = 'global y';
+  function outer() {
+    /* 2️⃣ 지역 스코프 outer : START ====== */
+    var z = "outer's local z";
+    console.log([x, y, z].join(', ')); // global x, global y, outer's local z
+    function inner() {
+      /* 3️⃣ 지역 스코프 inner : START ====== */
+      var x = "inner's local x";
+      console.log([x, y, z].join(', ')); // inner's local x, global y, outer's local z
+      /* 3️⃣ 지역 스코프 inner : END ====== */
+    }
+    inner();
+    /* 2️⃣ 지역 스코프 outer : END ====== */
+  }
+  outer();
+  console.log(x); // global x
+  console.log(z); // ReferenceError: z is not defined
+  /* 1️⃣ 전역 스코프 : END ====== */
+  ```
+  | 구분 | 설명                  | 스코프      | 변수      |
+  | ---- | --------------------- | ----------- | --------- |
+  | 전역 | 코드의 가장 바깥 영역 | 전역 스코프 | 전역 변수 |
+  | 지역 | 함수 폼체 내부        | 지역 스코프 | 지역 변수 |
+- 변수 참조 범위
+  - '전역 변수'는 어디서든 참조 가능
+  - '지역 변수'는 자신의 지역 스코프와 하위 지역 스코프에서 유효
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>13.3 스코프 체인</span>
+</Typography>
+
+- 함수는 중첩될 수 있으므로 함수의 지역 스코프도 중첩될 수 있음<br/>
+  **<Typography color="blue600">→</Typography>** 스코프가 함수 중첩에 의해 계층적 구조를 갖는다는 것을 의미
+- 스코프가 계층적으로 연결된 것을 스코프 체인이라 함  
+  ![01](/images/posts/2024-01-17-modern_js_13/01.png?width=300)
+- 변수를 참조할 때 자바스크립트 엔진은 스코프 체인을 통해 변수를 참조하는 코드의 스코프에서 시작하여 상위 스코프 방향으로 이동하며 선언된 변수를 검색함
+- 상위 스코프에서 유효한 변수는 하위 스코프에서 자유롭게 참조할 수 있지만  
+  하위 스코프에서 유효한 변수을 상위 스코프에서 참조할 수 없음
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>13.4 함수 레벨 스코프</span>
+</Typography>
+
+- 함수의 코드 블록 (함수 몸체)만을 지역스코프로 인정하면 → **함수 레벨 스코프**
+  - 자바스크립트에서는 `var` 키워드로 선언한 변수는 함수 몸체를 지역스코프로 인정
+- 모든 코드 블록(`if`, `for`, `while`, `try/catch` 등)을 지역스코프로 인정하면 → **블록 레벨 스코프**
+  - C나 Java 등 대부분의 언어가 따름
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>13.5 렉시컬 스코프</span>
+</Typography>
+
+- 자바스크립트는 <Typography color="gray500">렉시컬(정적) 스코프</Typography>를 따름
+  - 함수를 어디서 호출했는지(동적 스코프)가 아닌 <Typography color="gray500">함수를 어디서 정의했는지</Typography>(정적 스코프)에 따라 상위스코프로 결정  
+    (함수가 호출된 위치는 상위 스코프에 어떤 영향도 주지 않고, 함수의 상위 스코프는 언제나 자신이 정의된 스코프)
+- 함수의 상위 스코프는 함수 정의(함수 선언문, 함수 표현식)가 실행될 때 정적으로 결정됨
+  - 함수가 호출될때마다 함수의 상위 스코프를 참조할 필요가 있기 때문
