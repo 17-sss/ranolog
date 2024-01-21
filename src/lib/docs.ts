@@ -10,7 +10,7 @@ export interface DefaultDocument {
   id: string;
   subject: string;
   date: string | {start: string; end?: string};
-  content: string | MDXRemoteSerializeResult;
+  content?: string | MDXRemoteSerializeResult;
   summary?: string;
 }
 type SubFolderType = 'posts' | 'projects' | 'resumes';

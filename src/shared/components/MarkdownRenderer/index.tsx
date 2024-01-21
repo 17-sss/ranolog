@@ -16,7 +16,7 @@ import {markdownToHtml} from '../../functions';
 import {CssProp, systemCss} from '../../system';
 
 export interface MarkdownRendererProps {
-  content: string | MDXRemoteSerializeResult;
+  content?: string | MDXRemoteSerializeResult;
 }
 
 const MarkdownRenderer = (
@@ -40,7 +40,7 @@ const MarkdownRenderer = (
     updateTempContent();
   }, [content]);
 
-  if (typeof finalContent === 'string') {
+  if (!finalContent || typeof finalContent === 'string') {
     return null;
   }
 

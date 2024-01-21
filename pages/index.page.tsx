@@ -24,11 +24,12 @@ export default MainPage;
 
 // FUNCTIONS : NEXT.JS ===============================================
 export const getStaticProps = async () => {
-  const postDocs = await getSortedDocuments<PostDocument>({
+  const sortedPosts = await getSortedDocuments<PostDocument>({
     subFolderType: 'posts',
     maxDocCount: 3,
   });
+  const postsExcludeContent = sortedPosts.map(({content: _, ...postDoc}) => postDoc);
   return {
-    props: {postDocs},
+    props: {postDocs: postsExcludeContent},
   };
 };

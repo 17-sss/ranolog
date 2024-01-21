@@ -28,8 +28,9 @@ export default BlogPage;
 
 // FUNCTIONS : NEXT.JS ===============================================
 export const getStaticProps = async () => {
-  const postDocs = await getSortedDocuments<PostDocument>({subFolderType: 'posts'});
+  const sortedPosts = await getSortedDocuments<PostDocument>({subFolderType: 'posts'});
+  const postsExcludeContent = sortedPosts.map(({content: _, ...postDoc}) => postDoc);
   return {
-    props: {postDocs},
+    props: {postDocs: postsExcludeContent},
   };
 };

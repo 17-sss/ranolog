@@ -28,8 +28,9 @@ export default ProjectPage;
 
 // FUNCTIONS : NEXT.JS ===============================================
 export const getStaticProps = async () => {
-  const projectDocs = await getSortedDocuments<ProjectDocument>({subFolderType: 'projects'});
+  const sortedProjects = await getSortedDocuments<ProjectDocument>({subFolderType: 'projects'});
+  const projectsExcludeContent = sortedProjects.map(({content: _, ...projectDoc}) => projectDoc);
   return {
-    props: {projectDocs},
+    props: {projectDocs: projectsExcludeContent},
   };
 };

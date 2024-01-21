@@ -42,9 +42,12 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({params}: GetStaticPropsContext<{id: string}>) => {
-  const projectDocs = await getSortedDocuments<ProjectDocument>({subFolderType: 'projects'});
-  const projectDoc = projectDocs.find(({id}) => id === params?.id) ?? null;
+  const sortedProjects = await getSortedDocuments<ProjectDocument>({subFolderType: 'projects'});
+  const projectsExcludeContent = sortedProjects.map(({content, ...projectDoc}) =>
+    projectDoc.id === params?.id ? {content, ...projectDoc} : projectDoc,
+  );
+  const projectDoc = projectsExcludeContent.find(({id}) => id === params?.id) ?? null;
   return {
-    props: {projectDoc, projectDocs},
+    props: {projectDoc, projectDocs: projectsExcludeContent},
   };
 };
