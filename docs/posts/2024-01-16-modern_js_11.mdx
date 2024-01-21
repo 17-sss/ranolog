@@ -1,0 +1,101 @@
+---
+subject: '모던 자바스크립트 Deep Dive - 11장 원시 값과 객체의 비교'
+summary: '모던 자바스크립트 Deep Dive - 11장 메모'
+date: '2024-01-16 21:13'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/modern_js_deepdive.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>11. 원시 값과 객체의 비교</span>
+</Typography>
+
+- 원시 값을 변수에 할당하면 변수(확보된 메모리 공간)에 <Typography color='gray500'>실제 값</Typography> 저장  
+  객체를 변수에 할당하면 변수(확보된 메모리 공간)에는 <Typography color='gray500'>참조 값</Typography> 저장
+- 원시 값을 갖는 변수를 다른 변수에 할당하면 원본의 <u>원시 값이 복사되어</u> 전달 → <Typography color="gray500">값에 의한 전달 (pass by value)</Typography>
+- 객체를 가르키는 변수를 다른 변수에 할당하면 원본의 <u>참조 값이 복사되어</u> 전달 → <Typography color="gray500">참조에 의한 전달 (pass by reference)</Typography>
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>11.1 원시 값</span>
+</Typography>
+
+<Typography variant="h4">
+  <span>11.1.1 변경 불가능한 값</span>
+</Typography>
+
+- 원시 값(원시 타입(primitive type) 값)은 <Typography color='gray500'>변경 불가능한 값</Typography>
+  - <Typography color="blue400">변수</Typography>: 하나의 값을 저장하기 위해 확보한 메모리 공간
+    <br />
+    <Typography color="red400">값</Typography>: 변수에 저장된 데이터로서 표현식이 평가되어 생성된
+    결과
+  - 즉, <Typography color='gray500'>변경 불가능하다</Typography>는 것은 <Typography color="blue400">변수</Typography>가 아니라 <Typography color="red400">값</Typography>에 대한 진술.
+- <Typography color="gray500" isBold>
+    원시 값을 할당한 변수에 새로운 원시 값을 재할당하면?
+  </Typography>
+
+  - 메모리 공간에 저장되어 있는 재할당 이전의 원시 값을 변경하지 않고, 새로운 메모리 공간을 확보하고 재할당한 원시 값을 저장  
+    → 변수는 새롭게 재할당한 원시 값을 가리킨 후 변수가 참조하던 메모리 공간의 주소가 바뀜 (**불변성(immutability)** 을 뜻함)
+    - **\[참고 이미지 1\]**  
+      ![01](/images/posts/2024-01-16-modern_js_11/01.png?width=800)
+    - **\[참고 이미지 2\]** 만약 원시 값이 변경 가능한 값이라면?  
+      ![02](/images/posts/2024-01-16-modern_js_11/02.png?width=800)
+  - **불변성**을 갖는 원시 값을 할당한 변수는 <Typography color='gray500' isBold>재할당</Typography> 이외에 변수 값을 변경할 수 있는 방법이 없음
+
+<br />
+
+<Typography variant="h4">
+  <span>11.1.2 문자열과 불변성</span>
+</Typography>
+
+- 문자열은 유사 배열 객체이며 이터러블이므로 배열과 유사하게 각 문자에 접근 가능
+  - _하지만_.. 문자 하나씩은 변경 불가 (원시 값이기에!)
+
+<br />
+
+<Typography variant="h4">
+  <span>11.1.3 값에 의한 전달</span>
+</Typography>
+
+- 코드 예시
+  ```js
+  var score = 80;
+  var copy = score; // 80
+  score = 100;
+  console.log(score, copy); // 100 80
+  ```
+  - 변수 `copy`에 원시 값을 갖는 변수 `score`를 할당하면  
+    할당 받는 변수 `copy`에 할당 되는 변수 `score`의 원시 값이 복사되어 전달됨!  
+    → <Typography color="gray500">값에 의한 전달 (pass by value)</Typography>
+  - 각 변수의 값이 같더라도 <u>다른 메모리 공간에 저장된 별개의 값!</u>  
+    ![03](/images/posts/2024-01-16-modern_js_11/03.png?width=800)
+- "값에 의한 전달"에 대한 오해 (자바스크립트를 위한 용어가 아니므로!)
+  - 자바스크립트에서 변수에 값이 전달되는 것이 아니라 메모리 주소가 전달됨  
+    (변수와 같은 식별자는 값이 아니라 메모리 주소를 기억하기에)
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>11.2 객체</span>
+</Typography>
+
+<Typography variant="h4">
+  <span>11.2.1 변경 가능한 값</span>
+</Typography>
+
+- 객체(참조) 타입의 값, 즉 **객체**는 <u>변경 가능한 값</u>
+- 객체를 할당한 변수가 기억하는 메모리 주소를 통해 메모리 공간에 접근하면 참조 값(reference value)에 접근할 수 있음
+  - **참조 값**은 생성한 <Typography color="gray500">객체</Typography>가 <u>저장된 메모리 공간의 주소</u>
+  - 이러한 특징에 의해 <Typography color='red700'>여러 개의 식별자가 하나의 객체를 공유하는 부작용</Typography>이 있음!  
+    ![04](/images/posts/2024-01-16-modern_js_11/04.png?width=800)
+{/* 정렬 금지! */}
+- <Typography color="gray500">값에 의한 전달</Typography>과 <Typography color="gray500">참조에 의한 전달</Typography>은 식별자가 기억하는 메모리 공간에 저장되어 있는 값을 복사해서 전달한다는 면에서 동일
+  - 즉, 자바스크립트에는 <Typography color="gray500">값에 의한 전달</Typography>만 존재한다고 할 수 있음 
+  - <Typography color="slate400">공유에 의한 전달</Typography>이라는 표현도 있지만 ECMAScript 사양에 정의된 공식적인 언어가 아님! (이 같은 동작 방식을 설명하는 정확한 용어가 존재하지 않음..)
