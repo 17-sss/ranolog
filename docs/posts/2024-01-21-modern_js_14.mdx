@@ -1,0 +1,72 @@
+---
+subject: '모던 자바스크립트 Deep Dive - 14장 전역 변수의 문제점'
+summary: '모던 자바스크립트 Deep Dive - 14장 메모'
+date: '2024-01-21 21:26'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/modern_js_deepdive.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>14.1 변수의 생명 주기</span>
+</Typography>
+
+- 함수 내부에서 선언된 <Typography color="gray500">지역 변수</Typography>는 함수가 호출되면 생성되고 함수 종료 시 소멸
+  - 즉, <Typography color="gray500">지역 변수</Typography>는 함수의 생명 주기와 일치
+- (`var` 키워드로 선언한) <Typography color="gray500">전역 변수</Typography>의 생명 주기는 <Typography color="slate600">전역 객체</Typography>의 생명 주기와 일치
+  - <Typography color="slate600">전역 객체</Typography>
+    - 코드가 실행되기 이전 단계에 자바스크립트 엔진에 의해 어떤 객체보다도 먼저 생성되는 특수 객체
+    - 표준 빌트인 객체 (`Object`, `String`, `Number`, `Function`, `Array` 등..)와  
+      환경에 따른 호스트 객체 (클라이언트 Web API, Node.js의 호스트 API),  
+      `var` 키워드로 선언한 전역 변수와 전역 함수를 프로퍼티로 가짐
+  - 각 환경의 <Typography color="slate600">전역 객체</Typography>  
+    > ES11에서 `globalThis`로 통일
+    - 브라우저 환경: `window` 객체
+    - 서버 사이드 환경: `global` 객체
+- **\[참고 이미지\]**
+  ![01](/images/posts/2024-01-21-modern_js_14/01.png?width=800)
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>14.2 전역 변수의 문제점</span>
+</Typography>
+
+- 암묵적 결합 (모든 코드가 전역 변수를 참조하고 변경 가능)
+- 긴 생명 주기
+- 스코프 체인상 종점에 존재
+  - 전역 변수 검색 시 가장 마지막에 검색됨 (계속 거슬러 올라가야 하니까..)
+  - _전역 변수의 검색 속도는 가장 느림_
+- 네임스페이스 오염
+  - 동일한 이름으로 명명된 전역 변수나 전역 함수가 같은 스코프에 존재한다면 예상치 못한 결과를 초래함
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>14.3 전역 변수의 사용을 억제하는 방법</span>
+</Typography>
+
+- 전역 변수를 반드시 사용해야 할 이유를 찾지 못한다면 지역 변수를 사용해야 함
+- 변수의 스코프는 좁을수록 좋음
+- 즉시 실행 함수 활용
+  - 모든 코드를 즉시 실행 함수로 감싸면 모든 변수는 즉시 실행 함수의 지역 변수가 됨
+- 네임스페이스 객체
+  ```js
+  var MYAPP = {};
+  ```
+  - 전역에 네임스페이스 역할을 담당할 객체 생성 후, 전역 변수처럼 사용하고 싶은 프로퍼티를 추가하는 방법
+  - 네임스페이스를 분리해서 식별자 충돌을 방지할 수 있으나  
+    네임스페이스 객체가 전역 변수에 할당되므로 유용해 보이지 않음
+- 모듈 패턴
+  - 클래스를 모방해서 관련이 잇는 변수, 함수를 모아 즉시 실행 함수로 감싸 하나로 만듬
+  - 클로저 기반으로 동작하며, 전역 변수를 억제하고 <Typography color="gray500">캡슐화</Typography> 구현 가능
+  - <Typography color="gray500">캡슐화</Typography>
+    - 객체의 상태를 나타내는 프로퍼티와 프로퍼티를 참조하고 조작할 수 있는 동작인 메서드를 하나로 묶는 것
+    - 객체의 특정 프로퍼티나 메서드를 감출 목적으로 사용하기도 하는데 이를 <Typography color="slate600">"정보 은닉"</Typography>이라 함
+- ES6 모듈
+  - ES6 모듈은 <u>파일 자체에 독자적인 모듈 스코프를 제공</u>하므로 ES6 모듈에서는 전역 변수를 사용할 수 없음!
