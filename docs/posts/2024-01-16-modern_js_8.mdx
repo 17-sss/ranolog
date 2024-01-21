@@ -1,0 +1,29 @@
+---
+subject: '모던 자바스크립트 Deep Dive - 8장 제어문'
+summary: '모던 자바스크립트 Deep Dive - 8장 메모'
+date: '2024-01-16 20:10'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/modern_js_deepdive.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>8.4 break 문</span>
+</Typography>
+
+- <Typography color="gray500">레이블문</Typography>: 식별자가 붙은 문  
+  ```js
+  foo: console.log('foo');
+  ```
+- <Typography color="gray500">레이블문</Typography>은 중첩된 _for문_ 에서 외부로 탈출 시 유용 (<Typography color="red600">그 외 권장하지 않음</Typography>)  
+  ```js
+  outer: for (var i = 0; i < 3; i++) {
+    for (var j = 0; j < 3; j++) {
+      if (i + j === 3) {
+        break outer;
+      }
+      console.log(i, j)
+    }
+  }
+  ```

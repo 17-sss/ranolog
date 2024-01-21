@@ -1,0 +1,103 @@
+---
+subject: '모던 자바스크립트 Deep Dive - 5장 표현식과 문'
+summary: '모던 자바스크립트 Deep Dive - 5장 메모'
+date: '2024-01-15 23:01'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/modern_js_deepdive.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>5.1 값</span>
+</Typography>
+
+- 값은 식(표현식)이 평가되어 생성된 결과를 뜻함  
+  ![01](/images/posts/2024-01-15-modern_js_05/01.png?width=500)
+- 변수는 하나의 값을 저장하기 위해 확보한 메모리 공간
+  ```js
+  var sum = 10 + 20; // 값 30이 변수에 할당
+  ```
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>5.2 리터럴</span>
+</Typography>
+
+- 리터럴은 <Typography color="gray500">사람이 이해할 수 있는 문자</Typography> 혹은 <Typography color="gray500">약속된 기호</Typography>를 사용해 값을 생성하는 표기법
+  - <span>
+      <Typography color="gray500">사람이 이해할 수 있는 문자</Typography>:&nbsp;
+      <span>아라비아 숫자, 알파벳, 한글 등..</span>
+    </span>
+  - <span>
+      <Typography color="gray500">약속된 기호</Typography>:&nbsp;
+      <span>`''`, `""`, `.`, `[]`, `{}`, `//` 등.. </span>
+    </span>
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>5.3 표현식</span>
+</Typography>
+
+- 표현식은 값으로 평가될 수 있는 문 (표현식이 평가되면 새로운 값을 생성하거나 기존 값을 참조함)
+  ```js
+  // 1️⃣ 리터럴 100은 자바스크립트 엔진에 의해 평가되어 값을 생성 (즉, 리터럴은 그 자체로 표현식)
+  var score = 100;
+  // 2️⃣ 50 + 50은 평가되어 숫자 100 생성. 표현식임!
+  var score = 50 + 50;
+  // 3️⃣ 변수 식별자 참조. 값으로 평가됨. 표현식임!
+  score;
+  ```
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>5.4 문</span>
+</Typography>
+
+![02](/images/posts/2024-01-15-modern_js_05/02.png?width=400)
+
+- **문**은 프로그램을 구성하는 기본 단위이자 최소 실행 단위
+  - 문은 여러 토큰으로 구성됨
+- **토큰**은 문법적인 의미를 가지며, 문법적으로 더 이상 나눌 수 없는 코드의 기본 요소를 의미
+  - 키워드, 식별자, 연산자, 리터럴, 세미콜론, 마침표 등은 문법적인 의미를 가짐
+- _추가적으로.._
+  - 문을 명령문이라고도 함. 실행되면 무슨 일이 일어나니까!
+  - 문은 선언문, 할당문, 조건문, 반복문 등으로 구분 가능!
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>5.6 표현식인 문과 표현식이 아닌 문</span>
+</Typography>
+
+- <Typography color="blue500">표현식인 문</Typography>은 값으로 평가될 수 있는 문 (할당문 등..)
+- <Typography color="red500">표현식이 아닌 문</Typography>은 값으로 평가될 수 없는 문 (변수 선언문,
+  조건문 등..)
+- 둘의 구별법은 변수를 할당해보는 것!
+  ```js
+  // 1️⃣ 표현식이 아닌 문은 값처럼 사용 불가
+  var foo = var x; // syntax error
+  // 2️⃣ 변수 선언문은 표현식이 아닌 문
+  var x;
+  // 3️⃣ 할당문은 그 자체가 표현식이며 완전한 문임 (할당문은 표현식인 문)
+  x = 100;
+  ```
+
+<Typography variant="h5">
+  <span>+ 완료 값</span>
+</Typography>
+
+- 크롬 개발자 도구에서 표현식이 아닌 문을 실행하면 언제나 `undefined`를 출력  
+  이를 완료 값이라 함. 완료 값은 표현식의 평가 결과가 아님!!
+  - 표현식인 문을 실행하면 평가된 값을 반환

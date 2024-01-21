@@ -1,0 +1,14 @@
+---
+subject: '모던 자바스크립트 Deep Dive - 7장 연산자'
+summary: '모던 자바스크립트 Deep Dive - 7장 메모'
+date: '2024-01-16 20:01'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/modern_js_deepdive.png'
+---
+
+import {CustomCode} from '@src/shared';
+
+- `+` 연산자는 피연산자 중 하나 이상의 문자열인 경우 문자열 연결 연산자로 동작
+  - `+undefined`는 `NaN`, 숫자로 변환되지 않음
+- `NaN === NaN`은 `false`, `-0 === 0`은 `true`..🥲 → 정확히 비교하려면?
+  - ES6에서 도입된 <CustomCode color="orange500">Object.is</CustomCode> 메서드 사용

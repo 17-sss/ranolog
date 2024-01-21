@@ -1,0 +1,54 @@
+---
+subject: '모던 자바스크립트 Deep Dive - 9장 타입변환과 단축 평가'
+summary: '모던 자바스크립트 Deep Dive - 9장 메모'
+date: '2024-01-16 20:17'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/modern_js_deepdive.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>9.4 단축 평가</span>
+</Typography>
+
+<Typography variant="h4">
+  <span>9.4.1 논리 연산자를 이용한 단축 평가</span>
+</Typography>
+
+- 단축 평가 표현식 & 평가 결과
+  ```js
+  true || 'anything'; // true
+  false || 'anything'; // "anything"
+  true && 'anything'; // "anything"
+  false && 'anything'; // false
+  ```
+- <Typography color="gray500">단축 평가</Typography>: 표현식을 평가하는 도중 평가가 확정된 경우 나머지 평가 과정을 생략하는 것
+  - <Typography color="blue600">ex)</Typography> 논리곱(`&&`), 논리합(`||`) 연산자는 논리 연산의 결과를 결정하는 피연산자를 타입 변환하지 않고 그대로 반환
+
+<br/>
+
+<Typography variant="h4">
+  <span>9.4.2 옵셔널 체이닝 연산자</span>
+</Typography>
+
+- ES11(ECMAScript2020)에서 도입된 문법
+- 옵셔널 체이닝 연산자는 `?.`
+- 좌항의 피연산자가 `null` 또는 `undefined`인 경우 `undefined` 반환, 그렇지 않으면 우항의 프로퍼티 참조를 이어감  
+  ```js
+  var elem = null;
+  var value = elem?.value; // undefined
+  ```
+
+<br/>
+
+<Typography variant="h4">
+  <span>9.4.3 null 병합 연산자</span>
+</Typography>
+
+- ES11(ECMAScript2020)에서 도입된 문법
+- null 병합 연산자는 `??`
+- 좌항의 피연산자가 `null` 또는 `undefined`인 경우 우항의 피연산자 반환, 그렇지 않으면 좌항의 피연산자 반환  
+  ```js
+  var foo = null ?? "default String"; // 'default String'
+  ```
