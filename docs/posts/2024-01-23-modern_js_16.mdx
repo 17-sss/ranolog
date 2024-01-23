@@ -1,0 +1,285 @@
+---
+subject: '모던 자바스크립트 Deep Dive - 16장 프로퍼티 어트리뷰트'
+summary: '모던 자바스크립트 Deep Dive - 16장 메모'
+date: '2024-01-23 20:38'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/modern_js_deepdive.png'
+---
+
+import {CustomCode, Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>16.1 내부 슬롯과 내부 메서드</span>
+</Typography>
+
+- 자바스크립트 엔진의 구현 알고리즘을 설명하기 위해 ECMAScript 사양에서 사용하는 <Typography color="gray600">의사 프로퍼티 _(pseudo property)_</Typography>, <Typography color="gray600">의사 메서드 _(pseudo method)_</Typography>
+- ECMAScript 사양에서 등장하는 이중 대괄호(<CustomCode color="gray700">**[[**...**]]**</CustomCode>)로 감싼 이름이 내부 슬롯과 내부 메서드임
+- 자바스크립트 엔진에서 실제로 동작하지만 개발자가 직접 접근할 수 있도록 외부로 공개된 객체의 프로퍼티는 아님
+  - 일부 내부 슬롯과 내부 메서드에 한하여 간접적으로 접근할 수 있는 수단 제공
+    - <Typography color="gray700">ex)</Typography> 모든 객체는 <CustomCode color="gray700">[[Prototype]]</CustomCode> 내부 슬롯을 가지며, `__proto__`를 통해 간접적으로 접근 가능
+
+<br/>
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>16.2 프로퍼티 어트리뷰트와 프로퍼티 디스크럽터 객체</span>
+</Typography>
+
+- 자바스크립트 엔진은 프로퍼티를 생성할 때 <Typography color="gray500">프로퍼티의 상태</Typography>를 나타내는 <Typography color="gray500">프로퍼티 어트리뷰트</Typography>를 기본 값으로 자동 정의함
+  - <Typography color="gray500">프로퍼티의 상태</Typography> 4가지
+    - 프로퍼티 값: <CustomCode color="slate500">value</CustomCode>
+    - 값의 갱신 여부: <CustomCode color="slate500">writable</CustomCode>
+    - 열거 가능 여부: <CustomCode color="slate500">enumerable</CustomCode>
+    - 재정의 가능 여부: <CustomCode color="slate500">configurable</CustomCode>
+  - <Typography color="gray500">프로퍼티 어트리뷰트</Typography>는 자바스크립트 엔진이 관리하는 내부 상태 값 _(meta-property)_ 인 내부 슬롯 <CustomCode color="gray700">[[Value]]</CustomCode>, <CustomCode color="gray700">[[Writable]]</CustomCode>, <CustomCode color="gray700">[[Enumerable]]</CustomCode>, <CustomCode color="gray700">[[Configurable]]</CustomCode>을 뜻함.
+    - (단일 프로퍼티)`Object.getOwnPropertyDescriptor`, (모든 프로퍼티)`Object.getOwnPropertyDescriptors` 메서드로 간접적으로 확인 가능  
+      ```js
+      const person = {
+        name: 'Lee'
+      };
+      // 프로퍼티 어트리뷰트 정보를 제공하는 프로퍼티 디스크립터 객체를 반환한다.
+      console.log(Object.getOwnPropertyDescriptor(person, 'name'));
+      // {value: "Lee", writable: true, enumerable: true, configurable: true}
+
+      // 프로퍼티 동적 생성
+      person.age = 20;
+      // 모든 프로퍼티의 프로퍼티 어트리뷰트 정보를 제공하는 프로퍼티 디스크립터 객체들을 반환한다.
+      console.log(Object.getOwnPropertyDescriptors(person));
+      /*
+      {
+        name: {value: "Lee", writable: true, enumerable: true, configurable: true},
+        age: {value: 20, writable: true, enumerable: true, configurable: true}
+      }
+      */
+      ```
+
+<br/>
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>16.3 데이터 프로퍼티와 접근자 프로퍼티</span>
+</Typography>
+
+- **데이터 프로퍼티** (data property): 키와 값으로 구성된 프로퍼티
+- **접근자 프로퍼티** (accessor property): 자체적으로 값을 갖지 않고 다른 데이터 프로퍼티의 값을 읽거나 저장할 때 호출되는 접근자 함수로 구성된 프로퍼티
+
+<Typography variant="h4">
+  <span>16.3.1 데이터 프로퍼티</span>
+</Typography>
+
+- 데이터 프로퍼티 명세  
+  | 프로퍼티 어트리뷰트                                       | 프로퍼티 디스크립터 객체의 프로퍼티                    | 설명                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+  | --------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+  | <CustomCode color="gray700">[[Value]]</CustomCode>        | <CustomCode color="slate500">value</CustomCode>        | <ul><li>프로퍼티 키를 통해 프로퍼티 값에 접근하면 반환되는 값이다.</li><li>프로퍼티 키를 통해 프로퍼티 값을 변경하면 <CustomCode color="gray700">[[Value]]</CustomCode> 에 값을 재할당한다.<br/>이때 프로퍼티가 없으면 프로퍼티를 동적 생성하고 생성된 프로퍼티의 <CustomCode color="gray700">[[Value]]</CustomCode> 에 값을 저장한다.</li></ul>                                                                                                                   |
+  | <CustomCode color="gray700">[[Writable]]</CustomCode>     | <CustomCode color="slate500">writable</CustomCode>     | <ul><li>프로퍼티 값의 변경 가능 여부를 나타내며 불리언 값을 갖는다.</li><li><CustomCode color="gray700">[[Writable]]</CustomCode>의 값이 `false`인 경우 해당 프로퍼티의 <CustomCode color="gray700">[[Value]]</CustomCode>의 값을 변경할 수 없는 읽기 전용 프로퍼티가 된다.</li></ul>                                                                                                                                                                              |
+  | <CustomCode color="gray700">[[Enumerable]]</CustomCode>   | <CustomCode color="slate500">enumerable</CustomCode>   | <ul><li>프로퍼티의 열거 가능 여부를 나타내며 불리언 값을 갖는다.</li><li><CustomCode color="gray700">[[Enumerable]]</CustomCode> 의 값이 `false`인 경우 해당 프로퍼티는 `for...in`문이나 `Object.keys` 메서드 등으로 열거할 수 없다.</li></ul>                                                                                                                                                                                                                     |
+  | <CustomCode color="gray700">[[Configurable]]</CustomCode> | <CustomCode color="slate500">configurable</CustomCode> | <ul><li>프로퍼티의 재정의 가능 여부를 나타내며 불리언 값을 갖는다.</li><li><CustomCode color="gray700">[[Configurable]]</CustomCode>의 값이 false인 경우 해당 프로퍼티의 삭제, 프로퍼티 어트리뷰트 값의 변경이 금지된다. 단, <CustomCode color="gray700">[[Writable]]</CustomCode>이 `true`인 경우 <CustomCode color="gray700">[[Value]]</CustomCode>의 변경과 <CustomCode color="gray700">[[Writable]]</CustomCode>을 `false`로 변경하는 것은 허용된다.</li></ul> |                                                                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                                                                                        |
+  - 프로퍼티가 생성될 때 <CustomCode color="gray700">[[Value]]</CustomCode>의 값은 프로퍼티 값으로 초기화되며 <CustomCode color="gray700">[[Writable]]</CustomCode>, <CustomCode color="gray700">[[Enumerable]]</CustomCode>, <CustomCode color="gray700">[[Configurable]]</CustomCode>의 값은 `true`로 초기화
+
+<br/>
+
+<Typography variant="h4">
+  <span>16.3.2 접근자 프로퍼티</span>
+</Typography>
+
+- 접근자 프로퍼티 명세  
+  | 프로퍼티 어트리뷰트                                       | 프로퍼티 디스크립터 객체의 프로퍼티                    | 설명                                                                                                                                                                                                                                                                     |
+  | --------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+  | <CustomCode color="gray700">[[Get]]</CustomCode>          | <CustomCode color="slate500">get</CustomCode>          | 접근자 프로퍼티를 통해 데이터 프로퍼티의 값을 읽을 때 호출되는 접근자 함수다. 즉, 접근자 프로퍼티 키로 프로퍼티 값에 접근하면 프로퍼티 어트리뷰트 <CustomCode color="gray700">[[Get]]</CustomCode>의 값, 즉 getter 함수가 호출되고 그 결과가 프로퍼티 값으로 반환된다.   |
+  | <CustomCode color="gray700">[[Set]]</CustomCode>          | <CustomCode color="slate500">set</CustomCode>          | 접근자 프로퍼티를 통해 데이터 프로퍼티의 값을 저장할 때 호출되는 접근자 함수다. 즉, 접근자 프로퍼티 키로 프로퍼티 값을 저장하면 프로퍼티 어트리뷰트 <CustomCode color="gray700">[[Set]]</CustomCode>의 값, 즉 setter 함수가 호출되고 그 결과가 프로퍼티 값으로 저장된다. |
+  | <CustomCode color="gray700">[[Enumerable]]</CustomCode>   | <CustomCode color="slate500">enumerable</CustomCode>   | 데이터 프로퍼티의 <CustomCode color="gray700">[[Enumerable]]</CustomCode>과 같다.                                                                                                                                                                                        |
+  | <CustomCode color="gray700">[[Configurable]]</CustomCode> | <CustomCode color="slate500">configurable</CustomCode> | 데이터 프로퍼티의 <CustomCode color="gray700">[[Configurable]]</CustomCode>과 같다.                                                                                                                                                                                      |
+  - 접근자 함수는 getter/setter 라고도 부름.
+- 코드 예시
+  ```js
+  const person = {
+    // 데이터 프로퍼티
+    firstName: 'Ungmo',
+    lastName: 'Lee',
+    // fullName은 접근자 함수로 구성된 접근자 프로퍼티다.
+    // getter 함수
+    get fullName() {
+      return `${this.firstName} ${this.lastName}`;
+    },
+    // setter 함수
+    set fullName(name) {
+      // 배열 디스트럭처링 할당: "31.1 배열 디스트럭처링 할당" 참고
+      [this.firstName, this.lastName] = name.split(' ');
+    },
+  };
+  // 데이터 프로퍼티를 통한 프로퍼티 값의 참조.
+  console.log(person.firstName + ' ' + person.lastName); // Ungmo Lee
+  // 접근자 프로퍼티를 통한 프로퍼티 값의 저장
+  // 접근자 프로퍼티 fullName에 값을 저장하면 setter 함수가 호출된다.
+  person.fullName = 'Heegun Lee';
+  console.log(person); // {firstName: "Heegun", lastName: "Lee"}
+  // 접근자 프로퍼티를 통한 프로퍼티 값의 참조
+  // 접근자 프로퍼티 fullName에 접근하면 getter 함수가 호출된다.
+  console.log(person.fullName); // Heegun Lee
+  ```
+  - 접근자 프로퍼티 `fullName`으로 프로퍼티 값에 접근하면 내부적으로 <CustomCode color="gray700">[[Get]]</CustomCode> 내부 메서드 호출  
+    <Typography color='teal600'>👇 세부 동작 설명</Typography>
+    1. 프로퍼티 키가 유효한지 확인한다. 프로퍼티 키는 문자열 또는 심벌이어야 한다. 프로퍼티 키 <strong>"fullName"</strong>은 문자열이므로 유효한 프로퍼티 키다.
+    2. 프로토타입 체인에서 프로퍼티를 검색한다. `person` 객체에 `fullName` 프로퍼티가 존재한다.
+    3. 검색된 `fullName` 프로퍼티가 데이터 프로퍼티인지 접근자 프로퍼티인지 확인한다. `fullName` 프로퍼티는 접근자 프로퍼티다.
+    4. 접근자 프로퍼티 `fullName`의 프로퍼티 어트리뷰트 <CustomCode color="gray700">[[Get]]</CustomCode>의 값, 즉 `getter` 함수를 호출하여 그 결과를 반환한다.  
+      프로퍼티 `fullName`의 프로퍼티 어트리뷰트 <CustomCode color="gray700">[[Get]]</CustomCode>의 값은 `Object.getOwnPropertyDescriptor` 메서드가 반환하는 <Typography color="gray500">프로퍼티 디스크립터(PropertyDescriptor)</Typography> 객체의 `get` 프로퍼티 값과 같다.
+
+<br/>
+
+<Typography variant="h5">
+  <span>+ 접근자 프로퍼티와 데이터 프로퍼티 구별법</span>
+</Typography>
+
+- `Object.getOwnPropertyDescriptor` 메서드가 반환한 프로퍼티 어트리뷰트를 객체로 표현한 프로퍼티 디스크립터 객체 비교하면 됨
+  ```js
+  // 일반 객체의 __proto__는 접근자 프로퍼티다.
+  Object.getOwnPropertyDescriptor(Object.prototype, '__proto__');
+  // {get: ƒ, set: ƒ, enumerable: false, configurable: true}
+  // 함수 객체의 prototype은 데이터 프로퍼티다.
+  Object.getOwnPropertyDescriptor(function() {}, 'prototype');
+  // {value: {...}, writable: true, enumerable: false, configurable: false}
+  ```
+
+<br/>
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>16.4 프로퍼티 정의</span>
+</Typography>
+
+- 새로운 프로퍼티를 추가하면서 프로퍼티 어트리뷰트를 명시적으로 정의하거나, 기존 프로퍼티의 프로퍼티 어트리뷰트를 재정의하는 것을 말함
+  - (단일 프로퍼티)`Object.defineProperty`, (다수 프로퍼티)`Object.defineProperties`로 프로퍼티 어트리뷰트 정의 가능
+    - 단일 프로퍼티 어트리뷰트 정의
+      ```js
+      // 데이터 프로퍼티 정의
+      Object.defineProperty(person, 'firstName', {
+        value: 'Ungmo',
+        writable: true,
+        enumerable: true,
+        configurable: true,
+      });
+
+      // 접근자 프로퍼티 정의
+      Object.defineProperty(person, 'fullName', {
+        // getter 함수
+        get() {
+          return `${this.firstName} ${this.lastName}`;
+        },
+        // setter 함수
+        set(name) {
+          [this.firstName, this.lastName] = name.split(' ');
+        },
+        enumerable: true,
+        configurable: true,
+      });
+
+      ```
+    - 다수 프로퍼티 어트리뷰트 정의
+      ```js
+      const person = {};
+      Object.defineProperties(person, {
+        // 데이터 프로퍼티 정의
+        firstName: {
+          value: 'Ungmo',
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        },
+        lastName: {
+          value: 'Lee',
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        },
+        // 접근자 프로퍼티 정의
+        fullName: {
+          // getter 함수
+          get() {
+            return `${this.firstName} ${this.lastName}`;
+          },
+          // setter 함수
+          set(name) {
+            [this.firstName, this.lastName] = name.split(' ');
+          },
+          enumerable: true,
+          configurable: true,
+        },
+      });
+      ```
+  - 프로퍼티 어트리뷰트 정의 시 생략된 어트리뷰트의 기본값  
+    | 프로퍼티 디스크립터 객체의 프로퍼티                    | 대응하는 프로퍼티 어트리뷰트                                  | 생략했을 때의 기본값 |
+    | ------------------------------------------------------ | ------------------------------------------------------------- | -------------------- |
+    | <CustomCode color="slate500">value</CustomCode>        | <CustomCode color="gray700">\[\[Value\]\]</CustomCode>        | `undefined`          |
+    | <CustomCode color="slate500">get</CustomCode>          | <CustomCode color="gray700">\[\[Get\]\]</CustomCode>          | `undefined`          |
+    | <CustomCode color="slate500">set</CustomCode>          | <CustomCode color="gray700">\[\[Set\]\]</CustomCode>          | `undefined`          |
+    | <CustomCode color="slate500">writable</CustomCode>     | <CustomCode color="gray700">\[\[Writable\]\]</CustomCode>     | `false`              |
+    | <CustomCode color="slate500">enumerable</CustomCode>   | <CustomCode color="gray700">\[\[Enumerable\]\]</CustomCode>   | `false`              |
+    | <CustomCode color="slate500">configurable</CustomCode> | <CustomCode color="gray700">\[\[Configurable\]\]</CustomCode> | `false`              |
+
+<br/>
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>16.5 객체 변경 방지</span>
+</Typography>
+
+- 객체 변경 방지 메서드들  
+  | 구분           | 메서드                     | 프로퍼티<br/>추가 | 프로퍼티<br/>삭제 | 프로퍼티 값<br/>읽기 | 프로퍼티 값<br/>쓰기 | 프로퍼티 어트리뷰트<br/>재정의 |
+  | -------------- | -------------------------- | ----------------- | ----------------- | -------------------- | -------------------- | ------------------------------ |
+  | 객체 확장 금지 | `Object.preventExtensions` | X                 | O                 | O                    | O                    | O                              |
+  | 객체 밀봉      | `Object.seal`              | X                 | X                 | O                    | O                    | X                              |
+  | 객체 동결      | `Object.freeze`            | X                 | X                 | O                    | X                    | X                              |
+
+<br/>
+
+<Typography variant="h4">
+  <span>16.5.1 객체 확장 금지</span>
+</Typography>
+
+- `Object.preventExtensions(<객체>)`: 특정 객체 확장 금지 (프로퍼티 추가 금지)
+- `Object.isExtensible(<객체>)`: 확장 가능한 객체인지 체크
+
+<br/>
+
+<Typography variant="h4">
+  <span>16.5.2 객체 밀봉</span>
+</Typography>
+
+- `Object.seal(<객체>)`: 특정 객체 밀봉 (프로퍼티 추가 및 삭제, 프로퍼티 어트리뷰트 재정의 금지)
+  - 읽기, 쓰기만 가능
+- `Object.isSealed(<객체>)`: 밀봉된 객체인지 체크
+
+<br/>
+
+<Typography variant="h4">
+  <span>16.5.3 객체 동결</span>
+</Typography>
+
+- `Object.freeze(<객체>)`: 객체 동결 (프로퍼티 추가 및 삭제, 프로퍼티 어트리뷰트 재정의 금지, 프로퍼티 값 갱신 금지)
+  - 읽기만 가능
+- `Object.isFrozen(<객체>)`: 동결된 객체인지 체크
+
+<br/>
+
+<Typography variant="h4">
+  <span>16.5.4 불변 객체</span>
+</Typography>
+
+- 변경 방지 메서드들은 얕은 변경 방지 _(shallow only)_ 직속 프로퍼티만 변경 방지 가능
+  - 중첩 객체는 영향을 주지 못하므로 **재귀** 함수를 구현하여 처리
+    ```js
+    // 예시 함수) 모든 프로퍼티를 순회하며 재귀적으로 동결함
+    function deepFreeze(target) {
+      if (target && typeof target === 'object' && !Object.isFrozen(target)) {
+        Object.freeze(target);
+        Object.keys(target).forEach(key => deepFreeze(target[key]));
+      }
+      return target;
+    }
+    ```
+

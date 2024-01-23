@@ -114,6 +114,9 @@ const containerCss: CssProp = (theme) =>
         mt: '0.2rem',
       },
     },
+    'ol li::marker': {
+      fontWeight: 500,
+    },
     hr: {
       border: 'none',
       boxShadow: `0 0 0 0.1px ${theme.colors.black}`,
