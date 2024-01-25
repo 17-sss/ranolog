@@ -1,0 +1,272 @@
+---
+subject: '모던 자바스크립트 Deep Dive - 17장 생성자 함수에 의한 객체 생성'
+summary: '모던 자바스크립트 Deep Dive - 17장 메모'
+date: '2024-01-25 21:13'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/modern_js_deepdive.png'
+---
+
+import {CustomCode, Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>17.1 Object 생성자 함수</span>
+</Typography>
+
+- 생성자 함수(<Typography color="gray400">constructor</Typography>)란 `new` 연산자와 함께 호출하여 객체(<Typography color="gray400">인스턴스</Typography>)를 생성하는 함수를 말함
+- 생성자 함수에 의해 생성된 객체를 인스턴스(<Typography color="gray400">instance</Typography>)라 함
+- `new` 연산자와 함께 `Object` 생성자 함수를 호출하면 빈 객체를 생성하여 반환
+
+  ```js
+  // 빈 객체의 생성
+  const person = new Object();
+  // 프로퍼티 추가
+  person.name = 'Son';
+  person.sayHello = function () {
+    console.log('Hi! My name is ' + this.name);
+  };
+  console.log(person); // {name: "Son", sayHello: ƒ}
+  person.sayHello(); // Hi! My name is Son
+  ```
+
+  - 빈 객체 생성 후 프로퍼티 또는 메서드 추가하여 객체 정의
+
+- `Object` 생성자 함수 이외에 `String`, `Number`, `Boolean`, `Function`, `Array`, `Date`, `RegExp`, `Promise` 등 빌트인(<Typography color="gray400">built-in</Typography>) 생성자 함수 제공
+
+  ```js
+  // String 생성자 함수에 의한 String 객체 생성
+  const strObj = new String('Son');
+  console.log(typeof strObj); // object
+  console.log(strObj); // String {"Son"}
+  // Number 생성자 함수에 의한 Number 객체 생성
+  const numObj = new Number(123);
+  console.log(typeof numObj); // object
+  console.log(numObj); // Number {123}
+  // Boolean 생성자 함수에 의한 Boolean 객체 생성
+  const boolObj = new Boolean(true);
+  console.log(typeof boolObj); // object
+  console.log(boolObj); // Boolean {true}
+  // Function 생성자 함수에 의한 Function 객체(함수) 생성
+  const func = new Function('x', 'return x * x');
+  console.log(typeof func); // function
+  console.dir(func); // ƒ anonymous(x)
+  // Array 생성자 함수에 의한 Array 객체(배열) 생성
+  const arr = new Array(1, 2, 3);
+  console.log(typeof arr); // object
+  console.log(arr); // [1, 2, 3]
+  // RegExp 생성자 함수에 의한 RegExp 객체(정규 표현식) 생성
+  const regExp = new RegExp(/ab+c/i);
+  console.log(typeof regExp); // object
+  console.log(regExp); // /ab+c/i
+  // Date 생성자 함수에 의한 Date 객체 생성
+  const date = new Date();
+  console.log(typeof date); // object
+  console.log(date); // Mon May 04 2020 08:36:33 GMT+0900 (대한민국 표준시)
+  ```
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>17.2 생성자 함수</span>
+</Typography>
+
+<Typography variant="h4">
+  <span>17.2.1 객체 리터럴에 의한 객체 생성 방식의 문제점</span>
+</Typography>
+
+- 객체는 프로퍼티를 통해 객체 고유의 상태 (<Typography color="gray400">state</Typography>)를 표현하고  
+  메서드를 통해 상태 데이터인 프로퍼티를 참조하고 조작하는 동작(<Typography color="gray400">behavior</Typography>)을 표현함
+
+  - **\[문제점\]** 프로퍼티는 객체마다 프로퍼티 값이 다를 수 있지만 메서드는 내용이 동일한 경우가 일반적임
+
+    ```js
+    const circle1 = {
+      radius: 5,
+      getDiameter() {
+        return 2 * this.radius;
+      },
+    };
+    console.log(circle1.getDiameter()); // 10
+    const circle2 = {
+      radius: 10,
+      getDiameter() {
+        return 2 * this.radius;
+      },
+    };
+    console.log(circle2.getDiameter()); // 20
+    ```
+
+<br />
+
+<Typography variant="h4">
+  <span>17.2.2 생성자 함수에 의한 객체 생성 방식의 장점 </span>
+</Typography>
+
+- 생성자 함수에 의한 객체 생성 방식은 객체(<Typography color="gray400">인스턴스</Typography>)를 생성하기 위한 템플릿(<Typography color="gray400">클래스</Typography>)처럼  
+  생성자 함수를 사용하여 프로퍼티 구조가 동일한 객체를 여러개 생성 가능
+
+  ```js
+  // 생성자 함수
+  function Circle(radius) {
+    // 생성자 함수 내부의 this는 생성자 함수가 생성할 인스턴스를 가리킴
+    this.radius = radius;
+    this.getDiameter = function () {
+      return 2 * this.radius;
+    };
+  }
+  // 인스턴스의 생성
+  const circle1 = new Circle(5); // 반지름이 5인 Circle 객체를 생성
+  const circle2 = new Circle(10); // 반지름이 10인 Circle 객체를 생성
+  console.log(circle1.getDiameter()); // 10
+  console.log(circle2.getDiameter()); // 20
+  ```
+
+- `new` 연산자와 함께 호출하면 해당 함수는 생성자 함수로 동작하고, 반대의 경우 일반 함수로 동작.
+  ```js
+  // new 연산자와 함께 호출하지 않으면 생성자 함수로 동작하지 않음 -> 일반 함수로서 호출
+  const circle3 = Circle(15);
+  // 일반 함수로서 호출된 Circle은 반환문이 없으므로 암묵적으로 undefined를 반환
+  console.log(circle3); // undefined
+  // 일반 함수로서 호출된 Circle 내의 this는 전역 객체를 가리킴
+  console.log(radius); // 15
+  ```
+
+<Typography variant="h5">
+  <span>+ this</span>
+</Typography>
+
+- `this`는 객체 자신의 프로퍼티나 메서드를 참조하기 위한 자기 참조 변수
+- `this`가 가리키는 값. 즉 `this` 바인딩은 함수 호출 방식에 따라 동적으로 결정
+  | 함수 호출 방식 | `this`가 가리키는 값 (`this` 바인딩) |
+  | -------------------- | -------------------------------------- |
+  | 일반 함수로서 호출 | 전역 객체 |
+  | 메서드로서 호출 | 메서드를 호출한 객체(마침표 앞의 객체) |
+  | 생성자 함수로서 호출 | 생성자 함수가 (미래에) 생성할 인스턴스 |
+
+<br />
+
+<Typography variant="h4">
+  <span>17.2.3 생성자 함수의 인스턴스 생성 과정 </span>
+</Typography>
+
+- 인스턴스 생성과 `this` 바인딩 → 인스턴스 초기화 → 인스턴스 반환
+
+  ```js
+  function Circle(radius) {
+    // 1. 암묵적으로 빈 객체가 생성되고 this에 바인딩된다.
+    // 2. this에 바인딩되어 있는 인스턴스를 초기화한다.
+    this.radius = radius;
+    this.getDiameter = function () {
+      return 2 * this.radius;
+    };
+    // 3. 완성된 인스턴스가 바인딩된 this가 암묵적으로 반환된다.
+  }
+  // 인스턴스 생성. Circle 생성자 함수는 암묵적으로 this를 반환한다.
+  const circle = new Circle(1);
+  console.log(circle); // Circle {radius: 1, getDiameter: ƒ}
+  ```
+
+- 인스턴스 생성 시 명시적으로 반환할 경우
+  - 객체를 반환하면 암묵적인 <u>`this` 반환이 무시</u>됨
+  - 원시 값을 반환하면 <u>원시 값 반환이 무시</u>되고 암묵적 `this` 반환
+
+<br />
+
+<Typography variant="h4">
+  <span>17.2.4 내부 메서드 \[\[Call\]\]과 \[\[Construct\]\]</span>
+</Typography>
+
+- 함수 선언문, 함수 표현식으로 정의한 함수는 일반적인 함수와 생성자 함수로 호출 가능
+- 함수는 객체이므로 일반 객체와 동일하게 동작 가능
+  - 함수 객체는 일반 객체가 가지고 있는 내부 슬롯, 내부 메서드를 가지고 있기에 가능
+- 일반 객체는 호출 불가. 함수는 호출 가능
+  - 함수는 <CustomCode color="gray700">\[\[Environment\]\]</CustomCode>과 <CustomCode color="gray700">\[\[FormalParameters\]\]</CustomCode> 내부 슬롯과 <CustomCode color="gray700">\[\[Call\]\]</CustomCode>, <CustomCode color="gray700">\[\[Construct\]\]</CustomCode> 내부 메서드를 추가로 가지고 있음
+- 함수가 일반 함수로 호출되면 내부 메서드 <CustomCode color="gray700">\[\[Call\]\]</CustomCode> 호출  
+  `new` 연산자와 함께 생성자 함수로 호출되면, 내부 메서드 <CustomCode color="gray700">\[\[Construct\]\]</CustomCode> 호출
+- 함수 객체는 <Typography color="gray400">callable</Typography>(호출할 수 있는 객체)이면서 <Typography color="gray400">constructor</Typography>(<CustomCode color="gray700">\[\[Construct\]\]</CustomCode>를 갖는)이거나, <Typography color="gray400">callable</Typography>이면서 <Typography color="gray400">non-constructor</Typography>(<CustomCode color="gray700">\[\[Construct\]\]</CustomCode>를 갖지 않는)이다.  
+  ⇒ <Typography color="gray700" isBold>즉, 모든 함수 객체는 호출할 수 있지만 모든 함수 객체를 생성자 함수로서 호출할 수 있는 것이 아니다!</Typography>
+
+<br />
+
+<Typography variant="h4">
+  <span>17.2.5 constructor와 non-constructor의 구분</span>
+</Typography>
+
+- 자바스크립트 엔진에서는 함수 정의를 평가하여 함수 객체를 생성할 때 함수 정의 방식에 따라 다름
+  - <Typography color="gray500">constructor</Typography>: 함수 선언문, 함수 표현식, 클래스
+  - <Typography color="gray500">non-constructor</Typography>: 메서드(ES6 메서드 축약 표현), 화살표
+    함수
+- <Typography color="red600" isBold>주의)</Typography> ECMAScript 사양에서 메서드로 인정하는 범위가 일반적인 의미의 메서드보다 좁음
+  ```js
+  // 일반 함수 정의: 함수 선언문, 함수 표현식
+  function foo() {}
+  const bar = function () {};
+  // 프로퍼티 x의 값으로 할당된 것은 일반 함수로 정의된 함수다. 이는 메서드로 인정하지 않는다.
+  const baz = {
+    x: function () {},
+  };
+  // 일반 함수로 정의된 함수만이 constructor다.
+  new foo(); // -> foo {}
+  new bar(); // -> bar {}
+  new baz.x(); // -> x {}
+  // 화살표 함수 정의
+  const arrow = () => {};
+  new arrow(); // TypeError: arrow is not a constructor
+  // 메서드 정의: ES6의 메서드 축약 표현만 메서드로 인정한다.
+  const obj = {
+    x() {},
+  };
+  new obj.x(); // TypeError: obj.x is not a constructor
+  ```
+- 일반적으로는 함수를 프로퍼티 값으로 사용하면 메서드로 통칭  
+  <Typography color="gray700" isBold>하지만</Typography> ECMAScript 사양에서 메서드란 <Typography color="gray500">ES6 메서드 축약 표현</Typography>만 의미  
+  ```js
+  const obj = {
+    func() {} // ES6 메서드 축약 표현
+  }
+  ```
+
+<br />
+
+<Typography variant="h4">
+  <span>17.2.6 new 연산자</span>
+</Typography>
+
+```js
+// 생성자 함수
+function Circle(radius) {
+ this.radius = radius;
+ this.getDiameter = function () {
+ return 2 * this.radius;
+ };
+}
+// new 연산자와 함께 호출하면 생성자 함수로 동작
+const circle = Circle(5); // Circle {radius: 5, getDiameter: ƒ}
+
+// new 연산자 없이 생성자 함수 호출하면 일반 함수로서 호출된다.
+const noCircle = Circle(4);
+console.log(noCircle); // undefined
+// 일반 함수 내부의 this는 전역 객체 window를 가리킨다.
+console.log(radius); // 4
+console.log(getDiameter()); // 10
+noCircle.getDiameter(); // TypeError: Cannot read property 'getDiameter' of undefined
+```
+
+- `new` 연산자와 함께 함수를 호출하면 생성자 함수로 동작
+  - 내부 메서드 <CustomCode color="gray700">\[\[Construct\]\]</CustomCode> 호출
+  - <Typography color="gray400">constructor</Typography>여야 함.
+- `new` 연산자 없이 생성자 함수로 호출하면 일반 함수로 호출
+  - 내부 메서드 <CustomCode color="gray700">\[\[Call\]\]</CustomCode> 호출
+- 생성자 함수는 일반적으로 첫 문자를 대문자로 기술하는 파스칼 케이스로 명명
+
+<br />
+
+<Typography variant="h4">
+  <span>17.2.7 new.target</span>
+</Typography>
+
+- 함수 내부에서 `new.target`을 사용하면 `new` 연산자와 함께 생성자 함수로 호출되었는지 확인 가능
+  - 생성자 함수로 호출되었을때는 함수 자신을 가리킴
+  - 일반 함수로 호출 시에는 `undefined`
+- IE에서는 `new.target`을 지원하지 않음. <Typography color="gray700" isBold>"스코프 세이프 생성자 패턴"</Typography>(`instanceof` 연산자 활용) 사용
