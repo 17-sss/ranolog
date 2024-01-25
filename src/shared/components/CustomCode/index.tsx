@@ -15,7 +15,7 @@ export const colorNames = [
   'red',
 ] as const;
 
-export type ColorNames = typeof colorNames[number] | keyof typeof theme.colors;
+export type ColorNames = (typeof colorNames)[number] | keyof typeof theme.colors;
 
 export interface CustomCodeProps extends PropsWithChildren {
   color?: ColorNames;
@@ -37,7 +37,7 @@ const codeCss: CssProp = systemCss({
   backgroundColor: 'rgba(135, 131, 120, 0.15)',
   borderRadius: '0.1875rem',
   fontSize: '90%',
-  p: '0.25rem 0.45rem',
+  p: '0.25rem', // 0.25rem 0.45rem
 });
 
 const colorCss = (color?: ColorNames) => {

@@ -45,7 +45,7 @@ const MarkdownRenderer = (
   }
 
   return (
-    <div ref={ref} css={[containerCss, codeCss]} {...props}>
+    <div ref={ref} css={containerCss} {...props}>
       <MDXRemote
         {...finalContent}
         components={{
@@ -56,6 +56,11 @@ const MarkdownRenderer = (
           ),
           img: ({src, alt}) => (
             <MdxImage css={imageBoxCss} as="span" src={src ?? ''} alt={alt ?? ''} priority />
+          ),
+          table: ({children}) => (
+            <div css={tableBoxCss}>
+              <table css={tableCss}>{children}</table>
+            </div>
           ),
           CustomLink,
           CustomCode,
@@ -126,6 +131,13 @@ const containerCss: CssProp = (theme) =>
         my: '0.25rem',
       },
     },
+    '*:not(pre) > code': {
+      backgroundColor: 'rgba(135, 131, 120, 0.15)',
+      borderRadius: '0.1875rem',
+      fontSize: '90%',
+      p: '0.25rem', // 0.25rem 0.45rem
+      color: 'rgba(212, 76, 71, 1)',
+    },
     /** Markdown "> blah blah.." */
     blockquote: {
       my: '0.5rem', // 0.75rem
@@ -135,35 +147,45 @@ const containerCss: CssProp = (theme) =>
       borderLeft: `0.25rem solid ${theme.colors.gray300}`,
     },
     'li > blockquote': {mt: '0.25rem'},
-    table: {
-      my: '0.5rem',
-      borderCollapse: 'collapse',
-      borderSpacing: 0,
-    },
-    tr: {
-      backgroundColor: theme.colors.white,
-      '&:nth-of-type(2n)': {
-        backgroundColor: theme.colors.gray100,
-      },
-      th: {
-        fontWeight: 600,
-      },
-      'th, td': {
-        py: '0.5rem',
-        px: '1rem',
-        border: `1px solid ${rgba(theme.colors.gray300, 0.8)}`,
-      },
-    },
   });
 
-const codeCss: CssProp = systemCss({
-  '*:not(pre) > code': {
-    backgroundColor: 'rgba(135, 131, 120, 0.15)',
-    borderRadius: '0.1875rem',
-    fontSize: '90%',
-    p: '0.25rem 0.45rem',
-    color: 'rgba(212, 76, 71, 1)',
-  },
+const imageBoxCss: CssProp = systemCss({display: 'block'});
+
+const tableBoxCss: CssProp = systemCss({
+  overflowX: 'auto',
+  table: {minWidth: '40rem'},
 });
 
-const imageBoxCss: CssProp = systemCss({display: 'block'});
+const tableCss: CssProp = () => {
+  const colorBorderDefault = '#d0d7de';
+  const colorCanvasDefault = '#ffffff';
+  const colorBorderMuted = 'hsla(210,18%,87%,1)';
+  const colorCanvasSubtle = '#f6f8fa';
+  return systemCss({
+    borderSpacing: 0,
+    borderCollapse: 'collapse',
+    display: 'block',
+    width: 'max-content',
+    maxWidth: '100%',
+    overflow: 'auto',
+    marginTop: 0,
+    marginBottom: ['0.5rem', null, 0],
+    '& th': {
+      fontWeight: 600,
+    },
+    '& th, & td': {
+      padding: '0.375rem 0.8125rem',
+      border: `1px solid ${colorBorderDefault}`,
+    },
+    '& tr': {
+      backgroundColor: `${colorCanvasDefault}`,
+      borderTop: `1px solid ${colorBorderMuted}`,
+    },
+    '& tr:nth-of-type(2n)': {
+      backgroundColor: colorCanvasSubtle,
+    },
+    '& img': {
+      backgroundColor: 'transparent',
+    },
+  });
+};
