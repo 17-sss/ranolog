@@ -306,6 +306,8 @@ me.sayHello(); // Hey! My name is Son
   → 이 현상을 <Typography color="blue500">프로퍼티 섀도잉</Typography>이라 함
   - 프로토타입 프로퍼티를 변경 또는 삭제하려면 하위 객체를 통해 프로토타입 체인으로 접근하는 것이 아닌 프로토타입에 직접 접근해야 함!!
 
+<br/>
+
 ---
 
 <Typography variant="h3" backgroundColor="gray">
@@ -354,3 +356,189 @@ me.sayHello(); // Hey! My name is Son
       ![05](/images/posts/2024-01-28-modern_js_19/05.png?width=700)
     - 인스턴스에 의한 프로토타입 교체 시, 생성자 함수의 `prototype` 프로퍼티가 교체된 프로토타입을 가리키지 않음.  
       ![06](/images/posts/2024-01-28-modern_js_19/06.png?width=700)
+
+<br/>
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>19.10 instanceof 연산자</span>
+</Typography>
+
+```js
+객체 instanceof 생성자 함수
+```
+
+- 우변의 생성자 함수의 `prototype`에 바인딩된 객체가 좌변의 객체의 프로토타입 체인 상에 존재하면 `true`로 평가되고, 그렇지 않은 경우 `false`로 평가
+- 생성자 함수 `prototype`에 바인딩된 객체가 프로토타입 체인상에 존재하는지 확인
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>19.11 직접 상속</span>
+</Typography>
+
+<Typography variant="h4">
+  <span>19.11.1 Object.create에 의한 직접 상속</span>
+</Typography>
+
+```js
+/**
+ * 지정된 프로토타입 및 프로퍼티를 갖는 새로운 객체를 생성하여 반환한다.
+ * @param {Object} prototype - 생성할 객체의 프로토타입으로 지정할 객체
+ * @param {Object} [propertiesObject] - 생성할 객체의 프로퍼티를 갖는 객체
+ * @returns {Object} 지정된 프로토타입 및 프로퍼티를 갖는 새로운 객체
+*/
+Object.create(prototype[, propertiesObject])
+```
+
+- `Object.create` 메서드는 명시적으로 프로토타입을 지정하여 새로운 객체 생성
+  - 추상연산 <CustomCode color="orange500">OrdinaryObjectCreate</CustomCode> 호출
+- 첫번째 매개변수에는 생성할 객체의 프로토타입으로 지정한 객체를 전달  
+  두번째 매개변수에는 생성할 객체의 프로퍼티 키와 <Typography color='gray600'>프로퍼티 디스크립터 객체</Typography>로 이뤄진 객체를 전달 (생략 가능)
+  - <Typography color="gray600">프로퍼티 디스크립터 객체</Typography>는 `Object.defineProperties`
+    메서드의 두번째 인수와 동일
+- 이 메서드의 장점
+  - `new` 연산자 없이 객체 생성
+  - 프로토타입을 지정하면서 객체 생성
+  - 객체 리터럴에 의해 생성된 객체도 상속 받음
+
+<br />
+
+<Typography variant="h4">
+  <span>19.11.2 객체 리터럴 내부에서 __proto__에 의한 직접 상속</span>
+</Typography>
+
+```js
+const myProto = {x: 10};
+// 객체 리터럴에 의해 객체를 생성하면서 프로토타입을 지정하여 직접 상속받을 수 있다.
+const obj = {
+  y: 20,
+  // 객체를 직접 상속받는다.
+  // obj → myProto → Object.prototype → null
+  __proto__: myProto,
+};
+/* 위 코드는 아래와 동일하다.
+const obj = Object.create(myProto, {
+ y: { value: 20, writable: true, enumerable: true, configurable: true }
+});
+*/
+console.log(obj.x, obj.y); // 10 20
+console.log(Object.getPrototypeOf(obj) === myProto); // true
+```
+
+- ES6에서 객체 리터럴 내부에서 `__proto__` 접근자 프로퍼티 사용하여 직접 상속 구현
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>19.12 정적 프로퍼티/메서드</span>
+</Typography>
+
+- 정적(static) 프로퍼티/메서드는 생성자 함수로 인스턴스를 생성하지 않아도 참조/호출 할 수 있는 프로퍼티/메서드
+- 정적 프로퍼티 메서드 예시
+
+  ```js
+  // 생성자 함수
+  function Person(name) {
+    this.name = name;
+  }
+  // 프로토타입 메서드
+  Person.prototype.sayHello = function () {
+    console.log(`Hi! My name is ${this.name}`);
+  };
+  // 정적 프로퍼티
+  Person.staticProp = 'static prop';
+  // 정적 메서드
+  Person.staticMethod = function () {
+    console.log('staticMethod');
+  };
+  const me = new Person('Son');
+  // 생성자 함수에 추가한 정적 프로퍼티/메서드는 생성자 함수로 참조/호출한다.
+  Person.staticMethod(); // staticMethod
+  // 정적 프로퍼티/메서드는 생성자 함수가 생성한 인스턴스로 참조/호출할 수 없다.
+  // 인스턴스로 참조/호출할 수 있는 프로퍼티/메서드는 프로토타입 체인 상에 존재해야 한다.
+  me.staticMethod(); // TypeError: me.staticMethod is not a function
+  ```
+
+  ![07](/images/posts/2024-01-28-modern_js_19/07.png?width=700)
+
+  - 생성자 함수는 객체이므로 자신의 프로퍼티/메서드를 소유할 수 있음
+    - 이를 정적 프로퍼티/메서드라 함. 생성자 함수가 생성한 인스턴스로는 참조/호출 불가
+  - 생성자 함수가 생성한 인스턴스는 자신의 프로토타입 체인에 속한 객체의 프로퍼티/메서드에 접근 할 수 있음
+  - 정적 프로퍼티/메서드는 인스턴스의 프로토타입에 속한 객체의 프로퍼티/메서드가 아니므로 인스턴스로 접근 불가
+
+- 인스턴스/프로토타입 메서드 내 `this`를 사용하지 않는다면 정적 메서드로 변경 가능
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>19.13 프로퍼티 존재 확인</span>
+</Typography>
+
+- `in` 연산자
+  ```js
+  key in object
+  ```
+  - 객체 내 특정 프로퍼티가 존재하는지 여부 확인
+  - 확인 대상 프로퍼티뿐만 아니라 상속 받은 모든 프로토타입의 프로퍼티를 확인하므로 <Typography color='red500'>주의</Typography> 필요
+  - ES6의 `Reflect.has(object, key)`도 동일하게 동작
+- `Object.prototype.hasOwnProperty` 메서드
+  ```js
+  객체.hasOwnProperty(key)
+  ```
+  - 객체 내 특정 프로퍼티가 존재하는지 여부 확인
+  - 확인 대상 프로퍼티들 내에서만 확인
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>19.14 프로퍼티 열거</span>
+</Typography>
+
+- `for...in`문
+  ```js
+  for (변수선언문 in 객체) {...}
+  ```
+  ```js
+  const person = {
+    name: "Son",
+    address: "Seoul",
+    __proto__: { age: 20 },
+  };
+  for (const key in person) {
+    // 객체 자신의 프로퍼티인지 확인한다.
+    if (!person.hasOwnProperty(key)) continue;
+    console.log(key + ": " + person[key]);
+  }
+  // name: Son
+  // address: Seoul
+  ```
+  - 객체의 모든 프로퍼티를 열거할 때 사용
+  - 객체의 프로토타입 체인 상 존재하는 모든 프로토타입의 프로퍼티 중 프로퍼티 어트리뷰트 <CustomCode color="gray700">\[\[Enumerable\]\]</CustomCode>의 값 `true`인 프로퍼티를 순회하며 열거
+    - 객체 자신의 프로퍼티만 열거하려면 코드 블록 내 `Object.prototype.hasOwnProperty` 메서드 사용하여 객체 자신의 프로퍼티인지 확인해야 함
+- `Object.keys`, `Object.values`, `Object.entries` 메서드
+  ```js
+  const person = {
+    name: "Son",
+    address: "Seoul",
+    __proto__: { age: 20 },
+  };
+  console.log(Object.keys(person)); // ["name", "address"]
+  console.log(Object.values(person)); // ["Son", "Seoul"]
+  console.log(Object.entries(person)); // [["name", "Son"], ["address", "Seoul"]]
+  Object.entries(person).forEach(([key, value]) => console.log(key, value));
+  /*
+    name Son
+    address Seoul
+  */
+  ```
+  - 객체 자신의 고유 프로퍼티만을 열거하기 위해 사용
