@@ -1,0 +1,187 @@
+---
+subject: '모던 자바스크립트 Deep Dive - 21장 빌트인 객체'
+summary: '모던 자바스크립트 Deep Dive - 21장 메모'
+date: '2024-01-31 21:26'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/modern_js_deepdive.png'
+---
+
+import {CustomCode, Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>21.1 자바스크립트 객체의 분류</span>
+</Typography>
+
+- <span id="표준_빌트인_객체">표준 빌트인 객체</span>- ECMAScript 사양에 정의된 객체 - 애플리케이션
+  전역의 공통 기능 제공 - 전역 객체의 프로퍼티로서 제공됨
+- <span id="호스트_객체">호스트 객체</span>- ECMAScript 사양에 정의되어 있지 않음 - 자바스크립트
+  실행환경에서 추가로 제공하는 객체 - 브라우저 환경: `DOM`, `BOM`, `Canvas`, `XMLHttpRequest`,
+  `fetch`, `requestAnimationFrame`, `SVG`, `Web Storage`, `Web Component`, `Web Worker`와 같은
+  클라이언트 사이드 Web API 호스트 객체로 제공 - Node.js 환경: Node.js 고유의 API를 호스트 객체로
+  제공
+- 사용자 정의 객체
+  - 사용자가 직접 정의한 객체
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>21.2 표준 빌트인 객체</span>
+</Typography>
+
+- 자바스크립트는 `Object`, `String`, `Number`, `Boolean`, `Symbol`, `Date`, `Math`, `RegExp`, `Array`, `Map/Set`, `WeakMap/WeakSet`, `Function`, `Promise`, `Reflect`, `Proxy`, `JSON`, `Error` 등 40여 개의 표준 빌트인 객체를 제공
+  - `Math`, `Reflect`, `JSON`을 제외한 표준 빌트인 객체는 모두 인스턴스를 생성할 수 있는 생성자 함수 객체
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>21.3 원시 값과 래퍼 객체</span>
+</Typography>
+
+- 문자열, 숫자, 불리언 등 원시 값이 있는데 문자열, 숫자, 불리언 객체를 생성하는 `String`, `Number`, `Boolean` 등 빌트인 생성자 함수가 존재하는 이유는?
+
+  ```js
+  const str = 'hi';
+  // 원시 타입인 문자열이 래퍼 객체인 String 인스턴스로 변환된다.
+  console.log(str.length); // 2
+  console.log(str.toUpperCase()); // hi
+  // 래퍼 객체로 프로퍼티에 접근하거나 메서드를 호출한 후, 다시 원시값으로 되돌린다.
+  console.log(typeof str); // string
+  ```
+
+  ![01](/images/posts/2024-01-31-modern_js_21/01.png?width=500)
+
+  - 원시 값을 객체처럼 사용하면 자바스크립트 엔진은 암묵적으로 연관된 객체를 생성하여 생성된 객체로 프로퍼티에 접근하거나 메서드를 호출하고 다시 원시 값으로 돌림
+  - 원시 값을 객체처럼 접근하면 생성되는 임시 객체를 래퍼 객체라 함
+
+- 래퍼 객체의 처리가 종료되면 래퍼 객체의 <CustomCode color="gray700">\[\[{"빌트인 생성자 함수"}Data\]\]</CustomCode>(ex. <CustomCode color="gray700">\[\[StringData\]\]</CustomCode>) 내부슬롯에 할당된 원시 값으로 원래의 상태로 되돌리고 래퍼 객체는 가비지 컬렉션 대상이 됨.
+  ```js
+  // ① 식별자 str은 문자열을 값으로 가지고 있다.
+  const str = 'hello';
+  // ② 식별자 str은 암묵적으로 생성된 래퍼 객체를 가리킨다.
+  // 식별자 str의 값 'hello'는 래퍼 객체의 [[StringData]] 내부 슬롯에 할당된다.
+  // 래퍼 객체에 name 프로퍼티가 동적 추가된다.
+  str.name = 'Lee';
+  // ③ 식별자 str은 다시 원래의 문자열, 즉 래퍼 객체의 [[StringData]] 내부 슬롯에 할당된 원시값을 갖는다.
+  // 이때 ②에서 생성된 래퍼 객체는 아무도 참조하지 않는 상태이므로 가비지 컬렉션의 대상이 된다.
+  // ④ 식별자 str은 새롭게 암묵적으로 생성된(②에서 생성된 래퍼 객체와는 다른) 래퍼 객체를 가리킨다.
+  // 새롭게 생성된 래퍼 객체에는 name 프로퍼티가 존재하지 않는다.
+  console.log(str.name); // undefined
+  // ⑤ 식별자 str은 다시 원래의 문자열, 즉 래퍼 객체의 [[StringData]] 내부 슬롯에 할당된 원시값을 갖는다.
+  // 이때 ④에서 생성된 래퍼 객체는 아무도 참조하지 않는 상태이므로 가비지 컬렉션의 대상이 된다.
+  console.log(typeof str, str); // string hello
+  ```
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>21.4 전역 객체</span>
+</Typography>
+
+- 전역 객체는 계층적 구조상 어떤 객체에도 속하지 않은 모든 빌트인 객체 (표준 빌트인 객체와 호스트 객체)의 최상위 객체
+- 전역 객체가 최상위 객체라는 것은 프로토타입 상속 관계 상에서 최상위 객체라는 의미가 아님!!!
+  - 전역 객체 자신은 어떤 객체의 프로퍼티가 아니며 계층적 구조상 표준 빌트인 객체와 호스트 객체를 프로퍼티로 소유하는 것을 말함
+- 전역 객체 특징
+  - [표준 빌트인 객체](#표준_빌트인_객체)와 [호스트 객체](#호스트_객체)를 가지고 있음
+  - 자바스크립트 환경에 따라 지칭하는 이름이 다름
+    > ES11 이상에 어느 환경에서든 `globalThis`로 전역 객체 접근 가능
+    - 브라우저 환경: `window`(또는 `self`, `this`, `frames`)
+    - Node.js 환경: `global`
+  - 전역 객체는 개발자가 의도적으로 생성할 수 없음! (전역 객체를 생성할 수 있는 생성자 함수가 제공되지 않음)
+  - `var` 키워드로 선언한 전역 변수와 선언하지 않은 변수에 값을 할당한 암묵적 전역, 그리고 전역 함수는 전역 객체의 프로퍼티가 됨
+  - `let`, `const` 키워드로 선언한 전역 변수는 전역 객체의 프로퍼티가 아님  
+    `let`, `const` 키워드로 선언한 전역 변수는 보이지 않는 개념적 블록 (전역 렉시컬 환경의 선언적 환경 레코드)내에 존재
+  - 브라우저 환경의 모든 자바스크립트 코드는 하나의 전역 객체 `window` 공유
+
+<br />
+
+<Typography variant="h4">
+  <span>21.4.1 빌트인 전역 프로퍼티</span>
+</Typography>
+
+- `Infinity`: 무한대를 나타내는 숫자 값
+- `NaN`: 숫자가 아님
+- `undefined`: 원시 타입 `undefined` 값으로 가짐
+
+<br />
+
+<Typography variant="h4">
+  <span>21.4.2 빌트인 전역 함수</span>
+</Typography>
+
+- `eval`: 자바스크립트 코드를 나타내는 문자열을 인수로 전달 받음
+- `isFinite`: 정상적인 유한수면 `true`, 무한수면 `false` 반환 (`NaN`도 `false`)
+- `parseFloat`: 문자열을 실수로 해석하여 반환
+- `parseInt`: 문자열을 정수로 해석하여 반환
+- `encodeURI` \/ `decodeURI`
+
+  ![02](/images/posts/2024-01-31-modern_js_21/02.png?width=1000)
+
+  ```js
+  const uri = 'http://example.com?name=손호영&job=programmer';
+  // encodeURI 함수는 완전한 URI를 전달받아 이스케이프 처리를 위해 인코딩한다.
+  const enc = encodeURI(uri);
+  console.log(enc);
+  // http://example.com?name=%EC%86%90%ED%98%B8%EC%98%81&job=programmer
+  // decodeURI 함수는 인코딩된 완전한 URI를 전달받아 이스케이프 처리 이전으로 디코딩한다.
+  const dec = decodeURI(enc);
+  console.log(dec);
+  // http://example.com?name=손호영&job=programmer
+  ```
+
+  - `encodeURI`: 완전한 URI(Uniform Resource Identifier)를 문자열로 전달받아 이스케이프 처리를 위해 인코딩 (쿼리스트링 구분자는 인코딩하지 않음)
+  - `decodeURI`: 인코딩된 URI를 인수로 전달받아 이스케이프 처리 이전으로 디코딩
+
+- `encodeURIComponent` \/ `decodeURIComponent`
+  ```js
+  // URI의 쿼리 스트링
+  const uriComp = 'name=손호영&job=programmer';
+  // encodeURIComponent 함수는 인수로 전달받은 문자열을 URI의 구성요소인 쿼리 스트링의 일부로 간주한다.
+  // 따라서 쿼리 스트링 구분자로 사용되는 =, ?, &까지 인코딩한다.
+  let enc = encodeURIComponent(uriComp);
+  console.log(enc);
+  // name%3D%EC%86%90%ED%98%B8%EC%98%81%26job%3Dprogrammer
+  let dec = decodeURIComponent(enc);
+  console.log(dec);
+  // 손호영&job=programmer
+  // encodeURI 함수는 인수로 전달받은 문자열을 완전한 URI로 간주한다.
+  // 따라서 쿼리 스트링 구분자로 사용되는 =, ?, &를 인코딩하지 않는다.
+  enc = encodeURI(uriComp);
+  console.log(enc);
+  // name=%EC%86%90%ED%98%B8%EC%98%81&job=programmer
+  dec = decodeURI(enc);
+  console.log(dec);
+  // name=손호영&job=programmer
+  ```
+  - `encodeURIComponent`: URI 구성요소를 인수로 전달받아 인코딩 (쿼리스트링 구분자까지 인코딩)
+  - `decodeURIComponent`: 매개변수로 전달받은 URI 구성요소 디코딩
+
+<br />
+
+<Typography variant="h4">
+  <span>21.4.3 암묵적 전역</span>
+</Typography>
+
+```js
+// 전역 변수 x는 호이스팅이 발생한다.
+console.log(x); // undefined
+// 전역 변수가 아니라 단지 전역 객체의 프로퍼티인 y는 호이스팅이 발생하지 않는다.
+console.log(y); // ReferenceError: y is not defined
+var x = 10; // 전역 변수
+function foo() {
+  // 선언하지 않은 식별자에 값을 할당
+  y = 20; // window.y = 20;
+}
+foo();
+// 선언하지 않은 식별자 y를 전역에서 참조할 수 있다.
+console.log(x + y); // 30
+```
+
+- 선언하지 않은 식별자에 값을 할당하면 전역 객체의 프로퍼티가 됨. 이를 **암묵적 전역**이라 함
+  - 전역 객체의 프로퍼티로 추가되기에 변수 호이스팅이 발생하지 않음  
+    또한 변수가 아니기에 `delete` 연산자로 제거 가능
