@@ -97,5 +97,6 @@
   },
   "bugs": {
     "url": "https://github.com/17-sss/ranolog/issues"
-  }
+  },
+  "packageManager": "yarn@4.5.1"
 }
