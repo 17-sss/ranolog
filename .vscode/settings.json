@@ -1,0 +1,18 @@
+{
+  /** ref: https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme */
+  "material-icon-theme.folders.associations": {
+    "_shared": "Shared",
+    "_apis": "Api",
+    "_assets": "Resource",
+    "_components": "Components",
+    "_functions": "Functions",
+    "_hooks": "Hook",
+    "_lib": "Lib",
+    "_mocks": "Mock",
+    "_styles": "Css",
+    "_types": "Typescript",
+    "_resource": "Resource",
+    "(routes)": "Client",
+    "(api-routes)": "Server"
+  }
+}

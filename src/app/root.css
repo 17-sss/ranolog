@@ -1,0 +1,19 @@
+/* libraries */
+/* @import 'react-toastify/dist/ReactToastify.css';
+@import 'react-loading-skeleton/dist/skeleton.css'; */
+
+/* fonts */
+/* @import 'pretendard/dist/web/static/pretendard.css';
+@import '../shared/client/styles/fonts/index.css'; */
+
+/* tailwind */
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
+/* panda css */
+/* @layer panda_reset, panda_base, panda_tokens, panda_recipes, panda_utilities; */
+
+body {
+  background-color: black;
+}
