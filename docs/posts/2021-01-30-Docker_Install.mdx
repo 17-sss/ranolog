@@ -1,0 +1,131 @@
+---
+subject: '[Database] Docker 설치'
+date: '2021-01-30'
+category: ['Database']
+thumbnail: '/images/posts/_common/background_docker.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Docker 다운로드</span>
+</Typography>
+
+- 먼저 Docker를 다운 받는다. Rano의 컴퓨터는 Windows다.
+- [Docker Desktop for Windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows)를 설치한다.
+- 다른 OS 버젼은 [Explore - Docker Download](https://hub.docker.com/search?q=&type=edition&offering=community) 참고하길..
+- 모든 체크박스를 체크 후 설치를 진행한다.
+
+  <img
+    alt="image"
+    src="https://user-images.githubusercontent.com/33610315/106292156-dc409f00-628f-11eb-98fe-afeee2dba1eb.png"
+    width={500}
+  />
+
+- 다 설치 후 재부팅!
+- 재부팅 후, 만약 아래 이미지와 같은 에러가 뜬다면 링크를 따라가서 해당 파일을 설치한 후 다시 도커를 실행하면 된다.
+
+  <img
+    alt="image"
+    src="https://user-images.githubusercontent.com/33610315/106356568-f471f600-6343-11eb-8a8c-a1e01b56707a.png"
+    width={500}
+  />
+
+- 터미널에 `docker --version` 명령어를 쳤을 시, 아래와 같이 나온다면 설치완료!
+
+  <img
+    alt="image"
+    src="https://user-images.githubusercontent.com/33610315/106293914-e2d01600-6291-11eb-9e8e-bd5421f87ec9.png"
+    width={500}
+  />
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Docker MySQL 세팅 & 접속</span>
+</Typography>
+
+- Rano는 MySQL 5.7버젼이 아닌 8.0.19를 사용했다.
+- `docker pull mysql:8.0.19`를 터미널에 입력해서 MySQL 이미지를 생성한다.
+- 이미지 생성이 완료되면 `docker images`를 입력해서 확인해본다.
+  <img
+    alt="image"
+    src="https://user-images.githubusercontent.com/33610315/106293861-d1870980-6291-11eb-9467-3508487034dd.png"
+    width={500}
+  />
+- Docker MySQL 컨테이너 생성  
+   컨테이너를 생성할 때, 2가지 방법이 있는데, _docker-compose.yml_ 파일을 생성해서 진행했다.
+
+  ```yml
+  version: '3' # 파일 규격 버전
+  services: # 이 항목 밑에 실행하려는 컨테이너 들을 정의
+  db: # 서비스 명
+  image: mysql:8.0.19 # 사용할 이미지
+  container_name: rano-mysql # 컨테이너 이름 설정
+  ports:
+    - '3306:3306' # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
+  environment: # -e 옵션
+  MYSQL_ROOT_PASSWORD: 'PASSWORD' # MYSQL 패스워드 설정 옵션, 진짜 PASSWORD라고 쓰지말길. 사용하고 싶은 비번 입력!
+  command: # 명령어 실행  # 아래 두 행을 넣어줘야 한글이 깨지지 않는다 함!
+    - --character-set-server=utf8mb4
+    - --collation-server=utf8mb4_unicode_ci
+  volumes:
+    - /Users/Administrator/Documents/Docker_External:/var/lib/mysql mysql # -v 옵션 (다렉토리 마운트 설정, [로컬 디렉토리]:[컨테이너 디렉토리])
+  ```
+
+  위 파일을 생성 후, 터미널로 들어가서 _docker-compose.yml_ 파일이 있는 디렉토리로 간다.
+
+  - `docker-compose up -d` 를 입력해서 _docker-compose.yml_ 파일을 실행해준다.  
+     백그라운드로 실행하고 싶을 때 ▲처럼 옵션 `-d`를 붙인다.
+
+- `docker ps -a` Docker 컨테이너 목록 출력을 해본다.
+
+  <img
+    alt="image"
+    src="https://user-images.githubusercontent.com/33610315/106295218-7d7d2480-6293-11eb-8053-2bae3c84ed13.png"
+    width={800}
+  />
+  <br />
+
+  이런 식으로 나오면 생성 완료!  
+   이 사진처럼 만약 STATUS가 Exited 라면 `docker start [컨테이너 명]` 혹은 `docker restart [컨테이너 명]`를 입력해준다.  
+   반대로 멈추고 싶을 때는 `docker stop [컨테이너 명]`을 입력한다.
+
+- `docker exec -it [컨테이너명] bash`입력하여 컨테이너를 bash 쉘로 접속한다. (컨테이너 start하고 접속하기!)
+
+  <img
+    alt="image"
+    src="https://user-images.githubusercontent.com/33610315/106295799-3b081780-6294-11eb-8335-e5f8480f4ec7.png"
+    width={500}
+  />
+
+- 위 화면이 성공적으로 나왔다면, 마지막으로 `mysql -u root -p` 입력 후 Enter!  
+   password 입력창이 나올텐데,  
+   _docker-compose.yml_ 파일의 **MYSQL_ROOT_PASSWORD**에 설정한 비번을 입력하면 접속이 된다!  
+  {' '}
+  <img
+    alt="image"
+    src="https://user-images.githubusercontent.com/33610315/106296382-f16bfc80-6294-11eb-9131-2564290d13c1.png"
+    width={500}
+  />
+
+```
+참고로 docker-compose.yml은 다시 켤때마다 실행하지 않아도 된다.
+docker 컨테이너만 start하고 exec로 bash 쉘에 접속한 뒤 mysql 접속하면 된다!
+```
+
+<br />
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+- [[Docker (1)] window10 Docker 설치하기(윈도우 10 도커 설치)](https://goddaehee.tistory.com/251)
+- [Docker를 통한 MySQL 설치하기](http://jmlim.github.io/docker/2019/07/30/docker-mysql-setup/)
+- [초보를 위한 도커 안내서](https://subicura.com/2017/01/19/docker-guide-for-beginners-1.html)

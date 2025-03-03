@@ -1,0 +1,106 @@
+---
+subject: '[JavaScript] 전개 연산자와 나머지 매개변수 차이'
+date: '2021-01-20'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/background_js.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>전개 연산자 (Spread 연산자)</span>
+</Typography>
+
+Spread 연산자는 연산자의 대상 배열 또는 이터러블(iterable)을 "개별" 요소로 분리
+
+```js
+// 배열
+console.log(...[1, 2, 3]); // -> 1, 2, 3
+
+// 문자열
+console.log(...'Helllo'); // H e l l l o
+
+// Map과 Set
+console.log(
+  ...new Map([
+    ['a', '1'],
+    ['b', '2'],
+  ]),
+); // [ 'a', '1' ] [ 'b', '2' ]
+console.log(...new Set([1, 2, 3])); // 1 2 3
+```
+
+```js
+// 함수를 파라미터로 사용하는 방법
+// ES6
+function foo(x, y, z) {
+  console.log(x); // 1
+  console.log(y); // 2
+  console.log(z); // 3
+}
+const arr = [1, 2, 3];
+foo(...arr); // Array를 받아서 각 매개변수로 전달되었음.
+```
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>나머지 매개변수 (Rest 파라미터)</span>
+</Typography>
+
+Rest 파라미터는 Spread 연산자(...)를 사용하여 함수의 파라미터를 작성한 형태를 말한다.  
+즉, Rest 파라미터를 사용하면 함수의 파라미터로 오는 값들을 "배열"로 전달받을 수 있다.
+
+- 사용 방법은 파라미터 앞에 (...)을 붙임.
+  ```js
+  function foo(...rest) {
+    console.log(Array.isArray(rest)); // true
+    console.log(rest); // [ 1, 2, 3, 4, 5 ]
+  }
+  foo(1, 2, 3, 4, 5);
+  ```
+  - function foo(param1, param2, ...rest)\{~~\} 처럼 앞에 파라미터는 일반적인 파라미터로 받을 수 있고 그 뒤부터는 Rest 파라미터로 받을 수 있다.
+  - 단, Rest파라미터는 항상 제일 마지막 파라미터로 있어야 한다.  
+     예를 들어 function foo(...rest, param1, param2)\{~\}는 사용 불가능!
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>전개 연산자 & 나머지 매개변수 차이점</span>
+</Typography>
+
+Rest는 함수 선언문의 파라미터에 Spread(...)연산자를 이용해서 받으면 가변인자를 받아 배열로 만들어서 사용하는 것이며,  
+함수 호출문의 파라미터에 Spread(...)연산자를 이용해서 호출하면 배열이 해당 매개변수로 각각 매핑되는 것은 다르다.
+
+```js
+//Rest
+function foo(param, ...rest) {
+  console.log(param); // 1
+  console.log(rest); // [ 2, 3 ]
+}
+foo(1, 2, 3);
+
+//Spread호출
+function bar(x, y, z) {
+  console.log(x); // 1
+  console.log(y); // 2
+  console.log(z); // 3
+}
+bar(...[1, 2, 3]);
+```
+
+<br />
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+- [Rest 파라미터와 Spread 연산자 정리하기 (feat. 함수의 가독성을 높이는 방법)](https://jeong-pro.tistory.com/117)

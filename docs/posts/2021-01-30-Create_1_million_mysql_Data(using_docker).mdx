@@ -1,0 +1,184 @@
+---
+subject: '[Database] MySQL 데이터 만들기 (Docker 활용)'
+date: '2021-01-30'
+category: ['Database']
+thumbnail: '/images/posts/_common/background_mysql.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>유저 생성 & 권한 설정</span>
+</Typography>
+
+먼저 Docker의 MySQL에 접속한 후, 데이터베이스 생성
+
+```sql
+CREATE USER 'rano'@'%' IDENTIFIED BY 'passwd';  -- 유저명 & 비번 설정
+GRANT ALL ON testdb.* TO 'rano'@'%';            -- 권한 설정
+FLUSH PRIVILEGES;
+```
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>DB 생성 및 100만개 데이터 생성</span>
+</Typography>
+
+**DATABASE 생성**
+
+```sql
+CREATE DATABASE testdb; -- testdb라는 DATABASE 생성
+SHOW DATABASES;         -- 아래 사진처럼 DATABASE 리스트 나옴
+```
+
+<img
+  alt="image"
+  src="https://user-images.githubusercontent.com/33610315/106299198-3e050700-6298-11eb-87f1-0b380dc3ddf9.png"
+  width={500}
+/>
+
+```sql
+use testdb; -- 꼭 use할 DATABASE 입력하고 테이블 생성해야함!
+```
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>영단어 100개를 넣을 word_onehundred 테이블 생성</span>
+</Typography>
+
+```sql
+CREATE TABLE word_onehundred (
+	id int auto_increment primary key,
+    word VARCHAR(50)
+);
+INSERT INTO word_onehundred (word) VALUES ('wage'); -- 이런식으로 100개 넣어주기.
+```
+
+<img
+  alt="image"
+  src="https://user-images.githubusercontent.com/33610315/106301538-29763e00-629b-11eb-816e-fdd98deb40ef.png"
+  width={500}
+/>
+<br />
+<img
+  alt="image"
+  src="https://user-images.githubusercontent.com/33610315/106301376-fa5fcc80-629a-11eb-8658-b18f235a08bd.png"
+  width={500}
+/>
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>user_log 테이블 생성</span>
+</Typography>
+
+```sql
+CREATE TABLE user_log (
+	id int auto_increment primary key,
+	nickname varchar(64),
+	money dec(10, 2),
+    last_visit datetime
+);
+```
+
+- id 필드의 옵션 2가지.
+  - primary key: 테이블내에 있는 데이터를 식별함 (기본 키 지정)
+  - auto_increment: 위 id 필드는 이 옵션을 써주면 id가 추가될 때마다 1씩 값이 증가되어 자동으로 들어간다.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>생성된 테이블에 100만개 임의의 데이터 Insert. (프로시저 생성)</span>
+</Typography>
+
+```sql
+DELIMITER $$
+CREATE PROCEDURE generate_data()
+BEGIN
+  DECLARE i INT DEFAULT 0;
+
+  DECLARE a INT DEFAULT 0;
+  DECLARE b INT DEFAULT 0;
+  DECLARE c INT DEFAULT 0;
+  DECLARE numFour INT DEFAULT 1000;
+  DECLARE datetmp datetime;
+
+  WHILE i < 1000000 DO
+	SET a = FLOOR(65 + (RAND() * 25));  SET b = FLOOR(65 + (RAND() * 25));  SET c = FLOOR(65 + (RAND() * 25));  SET numFour = FLOOR(1000 + (RAND() * 8999));
+    SET datetmp = FROM_UNIXTIME(FLOOR(unix_timestamp('2020-12-31 00:00:00')+(RAND()*(unix_timestamp('2021-01-29 00:00:00')-unix_timestamp('2020-12-31 00:00:00')))));
+
+    INSERT INTO user_log ( nickname, money, last_visit ) VALUES (
+		concat( (SELECT word FROM word_onehundred order by rand() limit 1), '_', char(a), char(b), char(c), numFour ),
+        (SELECT (FLOOR(RAND() * 100000))),
+		datetmp
+    );
+
+    SET i = i + 1;
+
+    -- 10000개의 데이터가 들어갈 때마다 COMMIT.
+    IF (i % 10000 = 0) THEN
+		COMMIT;
+	END IF;
+
+  END WHILE;
+END$$
+DELIMITER ;
+```
+
+- 꼭 기본으로 설정되어 있는 AUTOCOMMIT을 꺼준다. 안끄고 실행하면 진짜.. 시간..
+
+```sql
+SET AUTOCOMMIT = FALSE;
+```
+
+- 프로시저 실행.
+
+```sql
+call generate_data();
+```
+
+- 들어간 데이터 확인
+
+  <img
+    alt="image"
+    src="https://user-images.githubusercontent.com/33610315/106300879-57a74e00-629a-11eb-806e-ba1a9870f9f6.png"
+    width={500}
+  />
+  <br />
+  <img
+    alt="image"
+    src="https://user-images.githubusercontent.com/33610315/106300723-2cbcfa00-629a-11eb-9697-8f580b94fa84.png"
+    width={500}
+  />
+  <br />
+  <img
+    alt="image"
+    src="https://user-images.githubusercontent.com/33610315/106303999-2466be00-629e-11eb-86b8-334e8d8402fd.png"
+    width={800}
+  />
+  <br />
+
+- 206초 걸린것도 뿌듯하지만 나중에 _Bulk Insert_ 한번 해보기!
+
+<br />
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+- [MYSQL Stored Procedure 완벽정리](https://m.blog.naver.com/cec7777/221722327481)
+- [Stack Overflow 사이트 - 100만개 데이터 생성 시 참고](https://stackoverflow.com/questions/25098747/how-to-generate-1000000-rows-with-random-data/25099275)

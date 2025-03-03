@@ -1,0 +1,75 @@
+---
+subject: '[JavaScript] IIFE (function(), ())'
+date: '2021-01-18'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/background_js.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>정의</span>
+</Typography>
+
+```js
+(function () {})();
+```
+
+- 퓨어 자바스크립트에서 거의 언제나 사용한다 함.
+- IIFE(Immediately-invoked function expression: 즉시 작동하는 함수식)라는 구문.
+- "이 안에 들어있는 코드를 바로 실행하라" 라는 표현으로 이해하면 됌.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>IIFE의 구조</span>
+</Typography>
+
+1. testPrint 이름의 함수가 있다고 가정.
+
+   ```js
+   function testPrint() {
+     console.log('Test');
+   }
+
+   write();
+   ```
+
+   위 예시처럼 write()라고 호출해 주지 않으면 write 함수는 실행되지 않음.  
+   그런데 만약 write() 없이도 write 함수를 실행시키고 싶다면?
+
+2. testPrint 함수를 수정 - 1
+
+   ```js
+   (function testPrint() {
+     console.log('Test');
+   });
+   ```
+
+   먼저 testPrint 함수를 괄호로 감싸줌.  
+   이렇게 하면, 해석기는 이 함수(function)를 함수식(function expression)으로 취급.  
+   (함수식으로 만들지 않은 채 function() { }(); 처럼 호출할 수는 없다. 함수식으로의 전환은 일종의 우회 공정임.)
+
+3. testPrint 함수를 수정 - 2
+   ```js
+   (function testPrint() {
+     console.log('Test');
+   })();
+   ```
+   testPrint(); 처럼 뒤에 ();를 붙여 함수식을 호출  
+   이렇게 짜여진 함수는 즉시 실행되는 함수식, 즉 IIFE가 된다.  
+   testPrint(); 이렇게 따로 호출하지 않아도 console.log("Test"); 가 실행되는 것을 볼 수 있다.
+
+<br />
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+- [(function() { })() 의 의미는?](https://findawayer.tistory.com/entry/IIE의-의미는)
