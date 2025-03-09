@@ -1,0 +1,142 @@
+---
+subject: '[JavaScript] 모던 자바스크립트 - 11장 프로미스와 비동기 프로그래밍 (1)'
+date: '2021-02-03'
+category: ['Study', 'JavaScript']
+thumbnail: '/images/posts/_common/background_js.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>11.1 비동기 프로그래밍 배경 지식</span>
+</Typography>
+
+
+-   <Typography variant='span' color='green' isBold>자바스크립트</Typography> 엔진은 **싱글 스레드 이벤트 루프 개념을 기반**으로 한다.  
+     싱글 스레드는 한 번에 한개의 코드만 실행된다는 의미.  
+     **여러 개의 스레드가 코드를 동시에 실행**되도록 해주는 <Typography variant='span' color='blue500' isBold>Java</Typography>나 <Typography variant='span' color='blue500' isBold>C++</Typography> 같은 언어와 대조된다.
+
+-   자바스크립트 엔진은 한 번에 한 개의 코드만 실행할 수 있으므로 실행 예정인 코드를 추적할 필요가 있음.  
+     **1)**&nbsp; 실행 예정인 코드는 작업큐에 유지, 코드는 실행될 준비가 될 때마다 작업큐에 추가된다.  
+     **2)**&nbsp; 자바스크립트 엔진이 코드 실행을 마치면, 이벤트 루프는 큐에서 다음 작업을 꺼내 실행.  
+     **+**&nbsp; 이벤트 루프는 자바스크립트 엔진 내의 프로세스이며, 코드 실행을 감시하고 작업큐를 관리한다.  
+     **+**&nbsp; 큐처럼 첫 작업에서 마지막 작업까지 실행된다는 것을 명심!!
+
+<br />
+
+<Typography variant="h4">
+  <span>11.1.1 이벤트 모델</span>
+</Typography>
+
+1.  어떠한 사용자가 버튼을 클릭하거나 키보드의 키를 눌렀을 때 onClick 같은 이벤트가 발생하며,  
+    이 이벤트는 작업큐의 맨 뒤에 새로운 작업을 추가하여 인터랙션에 응답할 것이다.  
+    이는 자바스크립트의 가장 기초적인 비동기 프로그래밍 형태다.
+
+    ```js
+    let button = document.getElementById('my-btn');
+    button.onclick = (event) => console.log('클릭!');
+    ```
+
+    -   이 코드는 `button`이 클릭될 때까지 실행되지 않을 것.  
+        `button`이 클릭된다면, `onclick`에 할당된 함수는 작업큐의 뒤에 추가되고,  
+        추가된 함수의 앞에 다른 작업들이 모두 완료된 후에 실행 됨.
+
+2.  간단한 인터렉션을 위한 이벤트는 잘 동작하지만, 연결된 여러 개의 개별 비동기 호출은  
+    각 이벤트에 대한 이벤트 타깃을 추적해야하기에 더욱 복잡함.  
+    추가로 처음 이벤트가 발생하기 전에 적절한 이벤트 핸들러가 모두 추가되었는지도 보장할 필요가 있음.
+
+<br />
+
+<Typography variant="h4">
+  <span>11.1.2 콜백 패턴</span>
+</Typography>
+
+1. Node.js는 콜백을 대중화, 비동기 프로그래밍 모델을 발전 시킴
+2. 콜백 패턴은 **비동기 코드가 특정 시점까지 실행되지 않는다**는 점에서 이벤트 모델과 유사  
+   차이는 호출할 함수가 인자로 전달되는 점.
+    ```js
+    readFile('exemple.txt', (err, contents) => {
+        if (err) {
+            throw err;
+        }
+        console.log(contents);
+    });
+    console.log('Hi!!');
+    ```
+    - 이 코드는 Node.js의 에러 퍼스트 콜백 스타일 사용.
+    - `readFile()`함수는 디스크에서 첫 인자에 명시된 파일을 읽도록 의도되었고,  
+       작업이 완료되면 두번째 인자인 콜백을 실행.  
+       만약 에러가 발생한다면 콜백의 _err_ 인자는 에러 객체일 것!  
+       그렇지않다? _contents_ 인자는 문자열 파일 콘텐츠를 포함.
+    - 콜백 패턴을 사용하면 `readFile()`은 **즉시 실행되기 시작**하고 **디스크로부터 파일을 읽기 시작할때 멈춘다!**  
+       즉, `readFile()`이 호출된 후, readFile의 콜백함수 안의 `console.log(contents)`가 출력되기 전에  
+       readFile의 스코프 밖에 있는 `console.log('Hi!!')`가 출력된다는 의미.
+    - `readFile()`이 실행을 완료하면, 작업큐의 맨 뒤에 콜백 함수와 콜백 함수의 인자를 가진 새로운 작업이 추가되며,
+      이 작업은 앞선 모든 다른 작업 완료 후 실행된다.
+3. 콜백 패턴은 여러 개의 호출 연결이 쉬워서 이벤트보다 더 유연함.
+
+    ```js
+    readFile('exemple.txt', (err, contents) => {
+        if (err) {
+            throw err;
+        }
+
+        writeFile('exemple.txt', (err) => {
+            if (err) {
+                throw err;
+            }
+
+            console.log('File was written!!');
+        });
+    });
+    ```
+
+    - 이 함수는 `readFile()` 실행이 완료되면, 에러가 발생하지 않는 경우 `writeFile()` 함수를 호출하는 작업을 작업큐에 추가한다.  
+       그러고 나서 `writeFile()` 실행이 완료되었을 때 작업을 작업큐에 추가한다.
+    - 이 패턴은 **콜백지옥**에 빠질 수 있음.
+
+4. 콜백지옥 예시
+
+    ```js
+    method1((err, result) => {
+        if (err) {
+            throw err;
+        }
+        method2((err, result) => {
+            if (err) {
+                throw err;
+            }
+            method3((err, result) => {
+                if (err) {
+                    throw err;
+                }
+                method4((err, result) => {
+                    if (err) {
+                        throw err;
+                    }
+
+                    method5(result);
+                });
+            });
+        });
+    });
+    ```
+
+    - 딱봐도 드럽다.
+    - 여러 개의 중첩된 메소드 호출은 이해하기 어려움, 디버깅도 어렵게 뒤얽힌 거미줄 같은 코드를 만듬.
+
+---
+
+> 만약 두 개의 비동기 연산을 병렬로 실행하고 둘 다 완료되었을 때 결과를 알기 원한다면?  
+> 만약 두 개의 비동기 연산을 동시에 실행하지만 첫 번째 연산이 완료되었을 때 결과만 알기 원한다면?
+>
+> 이런 경우, 여러 개의 콜백을 추적하고 연산을 정리할 필요가 있음.  
+> **프로미스**는 이 문제를 크게 개선할 수 있다!
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+- [책 - 모던 자바스크립트 (니콜라스 자카스)](http://www.yes24.com/Product/Goods/56029935)

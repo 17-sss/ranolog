@@ -1,0 +1,532 @@
+---
+date: '2021-02-11'
+subject: '[Git] 생활코딩 강의 모음'
+category: ['Git']
+thumbnail: '/images/posts/_common/background_git.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Git의 목적</span>
+</Typography>
+
+- version (버전 관리)
+- backup (백업)
+- collaborate (협업)
+
+> 앞에 것을 이해하지 못하면 뒤에 것을 하지 못함.  
+> 뒤로 갈수록 어려워짐.
+
+<br />
+
+<Typography variant="h4">
+  <span>버전 관리</span>
+</Typography>
+
+Git을 사용한다면 버전 관리가 쉬워지지만, 그냥 로컬에서 버전 관리를 한다면..?  
+알다시피 복잡함. 직접 한땀 한땀 폴더를 만들어서 버전 관리를 한다하면..  
+언젠간 컴퓨터가 고장날 수도 있는건데 말야
+Git은 모든 `log`가 기록도 되며, 버전 관리도 가능해짐.
+
+<br />
+
+<Typography variant="h4">
+  <span>백업</span>
+</Typography>
+
+Git에 나의 코드를 `push`하면 백업이 됨.  
+백업 후 다른 컴퓨터에서 `pull`을 하게되면 수정했던 사항이 지금 사용하는 컴퓨터로 동기화됨.  
+백업에 용이하며 버전관리도 용이함.
+
+<br />
+
+<Typography variant="h4">
+  <span>협업</span>
+</Typography>
+
+실질적으로 `pull` & `push`로 협업이 가능함.  
+서로 주고 받기가 가능해지니까.  
+서로 같은 위치를 작업해서 겹치거나 덮어쓰기하게 된다면..?  
+이것도 Git이 관리해줌!
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Git CLI - 버전관리</span>
+</Typography>
+
+- `git init`
+  - Git 초기화
+  - `git init .` 하면 현재 디렉토리를 버전관리시킴.
+- `git status`
+  - 현재 Git 상태를 물어봄.
+- `git add [파일명]`
+  - 추가하거나 수정된 파일들을 버전관리를 위해 스테이징함.
+  - `git add .`
+    - 현재 디렉토리 포함 밑에 있는 모든 파일을 add함 (추가 & 수정된 사항을 전부 스테이징).
+  - `git add [폴더명]`
+    - 현재 디렉토리 안에 있는 [폴더명]을 기준으로 그 폴더안에 있는 모든 파일을 add
+- `git commit`
+  - 생코 강의에서는 Commit은 버전이라고 생각해도 됨.
+  - 스테이징된 파일들 Commit (**버전 확정** 및 커밋 메세지 작성 등)
+  - 그냥 `git commit` 하면 에디터 실행된 상태에서 작성.
+    - 이 경우, 여러 줄을 커밋메세지로 작성할 수 있음.
+    - 해당 명령어 쓸 시, git에 지정된 텍스트에디터로 해당 명령이 실행되는데 바꾸고 싶다면,  
+       `git config --global core.editor "[에디터명 or 경로]"`
+  - `git commit -m "[Message]"`
+    - 빠르고 간결하게 커밋 메세지를 작성할 수 있음.
+  - `git commit -am "[Message]"`
+    - _-a는 add의 약자_
+    - add하고 commit까지 한번에 가능  
+       최초 한번은 add가 되었었던 파일들만 자동으로 add 됨.  
+       한번이라도 add 되지 않았던 새로운 파일들은 add되지 않음.  
+       (git add를 사용하여 track 상태로 한번이라도 만들어야함)
+  - `git commit --amend`
+    - 이미 커밋했을 경우, 커밋메세지를 수정하고 싶다면 이 명령어 사용!
+- `git log`
+
+  - 현재 버전 확정된 목록이라던지, 그동안 커밋했던 내역 볼 수 있음.
+  - 히스토리 느낌.
+  - `git log --name-only`
+    - 변경된 파일의 전체 경로 이름
+  - `git log --name-status`
+    - 전체 경로 이름 및 변경된 파일의 상태
+  - `git log --stat`
+    - 축약 된 경로 이름 및 변경된 파일의 diffstat
+  - `git log -p`
+    - _-p는 patch의 약자_
+    - 수정된 세부사항까지 보여주는 느낌.
+  - `git log --all --graph --online`
+    - _--all_ 는 앞으로 내가 만들 모든 브랜치가 보임
+    - _--graph_ 는 로그 상태가 시각적으로 표현됨
+    - _--oneline_ 버전이 장황하게 보이지 않게 하기 위함.
+
+- `git diff`
+  - 마지막 버전과 워킹트리의 차이점을 볼 수 있음.  
+     Commit 전에 마지막 검토와 같은 기분.
+- `git reset --hard`
+  - 지금까지 작업한 내용이 사라짐. (마지막에 올린 커밋상태로 돌아감)
+- `git checkout`
+  - `git checkout [커밋아이디]`
+    - 해당 커밋으로 돌아감 (과거로 돌아감)  
+       이 작업할때, **main** Branch는 변경되지 않고, HEAD가 변경되는 것.  
+       해왔던 Commit들이 사라지지 않으니 걱정말기!
+  - `git checkout [Branch명]`
+    - 해당 Branch로 감.
+    - 위에 커밋아이디를 써서 과거로 돌아갔을때에도  
+       _git checkout [Branch명]_ 하면 다시 최신으로 돌아올 수 있음.  
+       예) _git checkout main_
+- `git reset [모드] [커밋아이디]`  
+   여기선 `git reset -hard [커밋아이디]`
+  - _[커밋아이디]_ 시점으로 가겠다는 의미. _git checkout [커밋아이디]_ 와는 다름
+  - _reset_ 의 경우 진짜 그 _[커밋아이디]_ 로 감. _[커밋아이디]_ 의 기준에서 후에 있는 모든게 제거됨.
+  - [모드]
+    - `--hard`  
+       _[커밋아이디]_ 의 기준에서 후에 있는 모든게 제거될 뿐만 아니라 현재 수정하고 있던 사항도 제거됨.
+    - `--soft` or `--mixed`  
+       수정하고 있던 사항은 살릴 수 있음. 더 깊은 내용은 나중에 필요하면 찾아보기.
+  - <Typography color="red300" isBold>[!]</Typography> 협업을 할 때는, 다른 사람과 공유된 버전은
+    reset하면 안됨!<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;공유되기 전 버전만 reset해야 함. 안그러면 엉키는 문제가
+    발생하기 때문..
+  - `git reset --help`를 하면 _git reset_ 의 상세설명을 볼 수 있음. (모드라던지..)
+- `git revert [커밋아이디]`
+  - _git commit_ 처럼 에디터가 실행됨.
+  - 버전 되돌리기라 함
+  - git reset과 비슷하지만 차이가 있음. (내 생각)
+    - `git reset`의 _[커밋아이디]_ 기준 후에 있는 모든 사항을 제거한다 생각함.
+    - `git revert`는 _[커밋아이디]_ 기준 후에 있는 모든 사항을 제거하지 않고, 그대로 보존하며,  
+       _[커밋아이디]_ 기준의 후가 아닌 바로 전으로 돌아가서 새로운 커밋을 만드는 기분.
+  - 아주 오래 전 사항으로 _revert_ 를 하려면..
+    - log의 **역순으로 순차적 revert**를 해줘야함. 안그러면 충돌!!
+    - 그 이유는 _[커밋아이디]_ 기준의 후에 있는 것을 git에선 어떻게해야하지? 이러기 때문.
+    - _[커밋아이디]_ 기준의 전으로 모든 변화를 되돌리는것이 아니라 _[커밋아이디]_ 를 할 때의 변화만을 되돌리는 것이 git revert임.
+- git의 커밋아이디는 너무 길어.. 이럴땐 **Tag**를 쓰는데 알아보기!
+
+<br />
+
+**요약 이미지**  
+<img src="https://user-images.githubusercontent.com/33610315/107745215-4d378a80-6d57-11eb-8e0c-e3ed43139144.png" width="300" />
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>GIT CLI - Branch & Conflict</span>
+</Typography>
+
+<Typography variant="h4">
+  <span>Branch</span>
+</Typography>
+
+- 브랜치는 나뭇가지의 가지라고 생각할 수 있음.  
+   _브랜치란, 같은 뿌리에서 나왔지만 서로 다른 역사를 써가고있는 버전들을 말함_
+- 이해를 위한 예시
+  - 서로 다른 작업본이 추가된 복제본이 필요할 수 있음.  
+     어떤 회사의 제품 사용 설명서를 만드는 사람이라 한다면,  
+     고객사가 없을 땐 새로운 작업만하면 되었지만, 고객사가 많아진다면...?  
+     브랜치를 여러개 만들어서 관리하면 됨!
+- `git branch [브랜치명]`
+  - 브랜치 생성
+- `git checkout [브랜치명]`
+  - 현재 작업 브랜치에서 나와서 _[브랜치명]_ 으로 작업 상태 변경 (스위칭)
+
+<br />
+
+<Typography variant="h4">
+  <span>Conflict (merge)</span>
+</Typography>
+
+- 각기 다른 브랜치를 merge 할 때, 공통적인 분기를 _base_ 라고 함.
+  - 각기 다른 브랜치를 merge 했다면 그건 _merge commit_ 이라고 부름
+- 각기 다른 브랜치를 merge 할 때 순서
+  1. 기준이 되는 브랜치를 checkout
+  2. `git merge [merge 할 브랜치명]`
+     - merge 후 돌아가고 싶다면 `git reset [커밋아이디]`
+- _merge_ 시 각기 다른 브랜치에서 같은 파일을 수정했을 시,  
+   내용 중 <Typography color="blue300">같은 부분이 아니라면</Typography> 충돌(Conflict)이 일어나지 않음!  
+   자동으로 서로 추가된 부분 내용을 병합해줌!
+- _merge_ 시 각기 다른 브랜치에서 같은 파일을 수정했을 시,
+  {' '}
+  <Typography color="red300">같은 부분을 수정했다면</Typography>
+  내용 중 충돌(<Typography color="red300">Conflict</Typography>)이 일어남! - Conflict가 일어났을 경우 `git status`로
+  상태를 본 후, 수동으로 문제되는 파일의 내용을 수정하기!! - 수정 후 `git add [파일명]`을 해주게되면,
+  문제되었던 파일을 수정했다고 git에 알려주는게 됨. - `git add` 이후 `git commit` 만 하기. `git commit
+  [메세지]`하면 Merge전용 메세지가 아닌 내가 설정한 메세지가 됨.
+
+<br />
+
+<Typography variant="h4">
+  <span>3 way merge</span>
+</Typography>
+
+- _3 way merge_ 를 이용하면 _2 way merge_ 와 비교했을 때 훨씬 더 많은 부분을 자동화해서 병합해줄 수 있다!
+
+  <img
+    src="https://user-images.githubusercontent.com/33610315/107774198-06ab5580-6d82-11eb-8843-d38e5c36d7ff.png"
+    width="500px"
+  />
+  <br />
+
+- merge를 조금 더 편리하게 해줄 수 있는 프로그램은 _p4merge_ 등이 있음.  
+   사용하게되면, 검색해보기.
+
+<br />
+
+<Typography variant="h5">
+  <span><strong>+</strong> 찾아 볼 정보들</span>
+</Typography>
+
+- git workflow
+  - git flow (git flow 라는 프로그램도 있음)
+- cherry-pick 기능 (merge 관련)
+- rebase  
+   _merge_ 와 목표 자체는 같지만, rebase를 이용하는 timeline은 훨씬 깔끔하게 할 수 있음.
+  - _merge_ 는 각기 다른 브랜치를 서로 병합하지만  
+     _rebase_ 는 기준이 되는 브랜치에 다른 브랜치의 작업사항(버전)들을 이어붙이는 것임  
+     효과는 merge와 비슷하지만 브랜치 자체를 합병하는건 아닌듯 함.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Git CLI - Backup</span>
+</Typography>
+
+
+<Typography variant="h4">
+  <span>git hosting</span>
+</Typography>
+
+
+_git hosting_ 서비스는 엄청 많지만, 그 중 대표적으로 GitHub와 GitLab을 비교하면  
+GitHub는 개인적인 비공개 Repository를 생성하려면 과금이 필요하지만, GitLab은 그렇지 않음.
+
+- [다양한 Git Hosting 서비스 비교](https://git.wiki.kernel.org/index.php/GitHosting)
+
+<br/>
+
+<Typography variant="h4">
+  <span>git repository</span>
+</Typography>
+
+_일부는 Pass함. (리포지토리 생성)_
+
+- git repository 생성 후 이미 존재하는 지역저장소를 원격저장소에 연결
+  - `git remote add origin [HTTPS(.git) 주소]`
+  - 현재 remote가 잘 되었는지 체크  
+     `git remote`  
+     repository 닉네임만 나옴  
+     `git remote -v`  
+     _https .git 주소_ 정보까지 다 나옴
+
+<br/>
+
+<Typography variant="h4">
+  <span>git push</span>
+</Typography>
+
+- `git push [원격저장소 닉넴 or HTTPS(.git) 주소] [지역저장소 브랜치명]`
+  - 내가 기본적으로 사용했었던 Push 명령어 루틴.
+- repository를 생성하고 첫 `git push`만을 입력했을 시 에러가 발생.
+  - 에러 발생 이유는 지역저장소가 여러 개의 원격저장소와 연결될 수 있는 데 어떤 원격저장소와 연결할 것인지.
+  - 아래의 명령을 입력해주면 해결 (한번만 하면 됨!)  
+     `git push --set-upstream origin master`
+    - 위 명령어의 `--set-upstream`는 그 다음부터 `git push`만 입력하면  
+       `--set-upstream`옵션 뒤에 있는 단어 `origin master`를 안써도 됨!  
+       기본 값을 지정하는 느낌
+- `git push -u [원격저장소 닉넴 or HTTPS(.git) 주소] [지역저장소 브랜치명]`
+  - 여기서 `-u` 옵션은 지역저장소의 Branch와 원격저장소의 Branch를 연결 시켜줄 때 사용하는 옵션
+  - 이미 만들어진 지역저장소를 원격저장소에 연결할 때 사용. 한번만 하면 됨.
+
+<br/>
+
+<Typography variant="h4">
+  <span>git clone</span>
+</Typography>
+
+- `git clone [원격저장소 HTTPS(.git) 주소]`
+  - 원격저장소에 있는 repository를 현재 사용하고 있는 컴퓨터의 디렉토리에 지역저장소를 만듬 (복제)
+
+<br/>
+
+<Typography variant="h4">
+  <span>git pull</span>
+</Typography>
+
+- `git pull`
+  - 원격저장소에 있는 최신 상태를 현재 사용하고 있는 컴퓨터의 지역저장소로 불러옴.  
+     작업 시작 전에 무조건 git pull을 해주고 하는 것이 좋음.
+
+<br />
+
+<Typography variant="h5">
+  <span><strong>+</strong> 찾아 볼 정보들</span>
+</Typography>
+
+- SSH  
+   인증과 관련해서 원격저장소와 통신을 할 때마다 인증을 물어보면 불편..  
+   SSH를 통해서 저장소 간의 통신하는 방법을 찾아보기.  
+   SSH를 이용하면 자동으로 로그인 가능.
+- git hosting들의 기능을 꼼꼼히 살펴보기.
+  - Issue 트래커
+    - 프로젝트를 하면서 발생하는 문제를 기록할 수 있고,  
+       각각의 문제에 대한 처리 상태를 마킹해서 처리해야 할 문제를 빠짐없이 체계적으로 관리할 수 있음.
+    - 협업 기능과 트래커를 결합하게되면 업무를 분담해서 처리하는 강력한 도구로도 활용될 수 있음.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Git CLI - 협업</span>
+</Typography>
+
+협업 시, 동시에 작업을 했을 때 생기는 지옥.. Conflict(충돌)들을 방지하는 방법을 학습함.
+
+<br/>
+
+<Typography variant="h4">
+  <span>Git Collaborator</span>
+</Typography>
+
+- 원격저장소 파일은 누구나 다운 받을 수 있지만, 아무나 `push`를 할 수 없음.  
+   양쪽 다 승인을 해야지만 버전을 올릴 수 있음.
+- _Collaborator_ 설정 (협업자 초대(추가))
+  - 설정하려는 원격저장소 (git repository)로 들어가고
+    Settings 탭 클릭  
+     ▶ Collaborators & teams 클릭  
+     ▶ 맨 밑 Collaborators 란에 협업자를 추가.
+  - 추가적으로 Permission level을 설정할 수 있음.
+
+<br/>
+
+<Typography variant="h4">
+  <span>push & pull</span>
+</Typography>
+
+- 협업한다는 가정하에 작성. (예시)
+  - 협업을 2명이서 할 시에, a는 작업 후 commit → push를 하였고,  
+     b는 pull을 하지 않고 a와 같은 위치를 작업 후에 commit을 시도. 에러 발생.
+    - 이 경우, b는 pull을 한 후에 다시 commit하면 되지만, 충돌 발생 (같은 위치를 수정했기에)  
+       mergetool을 이용하거나 직접 수정으로 충돌된 부분을 수정해준 뒤, add 해주고 commit!
+    - 이제 2명 모두 작업을 원활하게 할 수 있음.
+- 최대한 작업을 빨리 끝내고 push를 자주해야지만 서로 충돌이 일어나지 않음
+- 작업할 때 반드시 pull을 통해서 다른사람이 업데이트한 게 있는지 체크 (꼭!)
+- commit, push, pull를 자주하는 것이 커뮤니케이션을 활발하게하는데 도움을 줌.
+
+<br/>
+
+<Typography variant="h4">
+  <span>원격 브랜치와 FETCH</span>
+</Typography>
+
+- 보통 협업 시, 작업 할 때 `git pull -> git commit -> git push` 이러한 루틴으로 흘러가는데,  
+   `git pull` 대신 `git fetch -> git merge FETCH_HEAD -> git commit -> git push` 이러하게 작업을 할 수도 있음.
+  - `git pull`은 `git fetch` **+** `git merge origin/master` 와 똑같은 효과를 보임.
+    - `git fetch`는 _remote branch_ 만 가져오는 것.
+    - `git merge origin/master`는 _remote branch_ 를 _local remote branch_ 랑 merge.
+  - _remote branch_ 와 _local remote branch_ 는 무엇??
+    1. remote branch
+       - `git merge origin/master`에서 `origin/master`의 _master_ 브랜치를 뜻함.  
+          `origin/master` 이것은 [원격저장소 명/브랜치명]
+    2. local remote branch
+       - 이것은 현재 로컬에서 작업하고 있는 branch를 뜻함!
+- 신중하게 git의 데이터를 pull하고 싶을 때 fetch를 사용하면 됨.
+
+<br/>
+
+<Typography variant="h4">
+  <span> **+** 기타 (만약 회사에 내가 Git을 추천 한다면?)</span>
+</Typography>
+
+- 발표나 데모를 할 때 나한테 신기한 게 아니라 남이 신기해할 만한 걸 말하기.
+- git 같은 걸 추천할 때는 5분 안에 끝내는 게 좋음. 최대한 익숙한 것처럼 포장해서 말하기.  
+   ex) git은 Drop box 같은 것이지만, 수동으로 버전 관리를 할 수 있기에 아주 정교하게 작업이 가능하다.
+- 어려운 기능 얘기하지 말기.. 눈에 띄는 순간 어려워함.
+- pull - commit - push를 최대한 짧게 하면 문제 생길 여지가 줄어든다.
+- Conflict의 경우, 초반에만 서포트 해주기.
+
+**_완벽함이란, 더 이상 더할 게 없는 것이 아니라 뺄 것이 없는 거다._**
+
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>GIT CLI - Cherry-pick & rebase</span>
+</Typography>
+
+<Typography variant="h4">
+  <span>Cherry-pick</span>
+</Typography>
+
+**사용법 및 개념**
+
+- 사용법  
+   `git cherry-pick [현재 브랜치에 다른 브랜치의 특정 부분의 커밋아이디]`
+- 각기 다른 2개의 브랜치 중 기준이 되는 브랜치에 다른 브랜치를 Cherry-pick을 하려할 때,  
+   Cherry-pick은 다른 브랜치의 버전(Commit)이 만들어졌을 때 당시에 Working Copy의 스냅샷 전체를 사용하겠다는 것이 아니고,  
+   해당 버전이 생성될 때 생긴 변화만을 적용하겠다는 게 Cherry-Pick.
+- 체리픽은 변화를 가져오는 것. 그 버전이 생성될 때의 변화를 합쳐서 새로운 버전을 만들어내는 것.
+- 예시
+  <br/>
+  <img
+    src="https://user-images.githubusercontent.com/33610315/107872894-1f864900-6ef1-11eb-85df-e35076a77ce8.png"
+    width="500"
+  />
+  <br />이 이미지에서 master 브랜치는 init, m1, m2 등의 파일을 가지고 있었음.
+  <br />master 브랜치에 topic 브랜치에 있는 _t2_ 를 Cherry-pick 함. master 브랜치가 가지고 있는 파일은 init, m1, m2, _t2_ 가 됨.
+
+<br/>
+
+**충돌의 원인과 해결**
+
+- 기준이 되는 브랜치에 다른 브랜치의 특정 부분을 Cherry-pick 할 때, 이 브랜치 2개 다 모두 같은 위치를 작업했었더라면, 충돌이 발생함.  
+   이렇게 충돌이 발생했을 시, **3 way merge** 를 활용하여 해결한다 함.  
+   (되도록 _mergetool_ 을 사용하여 해결하기를. mergetool은 어느것이든 써도 됨. 여기선 Beyond Compare 사용)
+- merge 충돌을 해결하고 난 뒤 git add -> git commit을 하는 것처럼  
+   _cherry-pick_ 은 `git add -> git cherry-pick --continue` 해주기!
+- 추후 참고하여 필요할 때 추가 학습.  
+   [cherry-pick 충돌의 원인과 해결](https://opentutorials.org/course/3843/24445)
+
+<Typography variant="h4">
+  <span>Rebase</span>
+</Typography>
+
+**사용법 및 개념**
+
+- 각기 다른 브랜치가 각자 작업을 한 뒤에 지금은 갈래길 같은 느낌이지만, 이 갈래길을 하나로 이어붙이고 싶을 때, rebase를 사용한다 함.
+- 사용법  
+   `git checkout [rebase하려는 branch명]`  
+   `git rebase [rebase되는 브랜치의 내용이 붙어질 branch명]`
+- 예시
+
+  ```git
+  -----------------------------------------------------------------------------
+  (1) rebase 전
+
+                          Master
+                  [M1] -> [M2]
+                  /
+  [A] -> [B] -> [C]
+                  \
+                  [T1] -> [T2]
+                          Topic
+
+  ================================================
+
+  (2) rebase 후
+
+  [A] -> [B] -> [C]
+                  \                          Master
+                  [T1] -> [T2] ----▶ [M1] -> [M2]
+                          Topic
+
+  -----------------------------------------------------------------------------
+  ```
+
+  - 위 그림은 master를 rebase해서 토픽으로 rebase를 하겠다.  
+    master의 시작부분 버전이 master와 topic의 공통 조상인 부모 버전을 가르키는 게 아니라,  
+    topic의 마지막 버전 뒤에 master의 시작부분을 이어붙임으로써, 말그대로 base를 바꾸겠다는 것이 rebase.
+
+  <br/>
+
+  <img
+    src="https://user-images.githubusercontent.com/33610315/107873701-9cb4bc80-6ef7-11eb-8742-7497114aa591.png"
+    width="500"
+  />
+
+- <Typography color="red300" isBold>[!]</Typography> 주의사항
+  - rebase를 할 수 있는 시기는 _rebase하려는 branch의 버전들_ 이 push 되기 전에만!! push 된 이후에는 하면 안됨.  
+     rebase된 버전들은 change는 같지만 working copy가 다르다 함. (push되어있는데 rebase하면 엉망진창..!)
+  - merge를 한 결과물과 rebase를 한 결과물은 과정만 다를 뿐 결과는 같아야 함!
+
+<br/>
+
+**충돌의 원인과 해결**
+
+- rebase는 느낌상 cherry-pick을 내부적으로 이용하는 듯한다 함. (cherry-pick을 많이 하는 느낌이랄까?)
+- 충돌이 발생했을 시, cherry-pick의 충돌 때처럼 **3 way merge** 를 활용하여 충돌 해결.  
+   또한, mergetool을 사용하는게 편리함.
+- cherry-pick 처럼 rebase는 충돌을 해결하고 난 뒤에, `git add -> git rebase --continue`
+- 충돌 발생 시, 어디에서 충돌이 났는지 확인하고 싶다면?  
+   `git am --show-current-patch` (patch는 change의 약자)
+- 추후 참고하여 필요할 때 추가 학습.  
+   [rebase 충돌의 원인과 해결](https://opentutorials.org/course/3843/24446)  
+   [협업에서 rebase 이용하기](https://opentutorials.org/course/3843/24447) _(안 본 영상)_
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>GIT 기타</span>
+</Typography>
+
+- gitconfig 내용 보는 법  
+   `vim ~/.gitconfig`
+- command line에서 각 명령마다 **;** (세미콜론)을 붙여서 연속으로 명령어를 실행할 수 있음.
+
+<br />
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+- [[생활코딩] Git 1](https://opentutorials.org/course/3837)
+- [[생활코딩] Git CLI - 버전관리](https://opentutorials.org/course/3839)
+- [[생활코딩] GIT CLI - Branch & Conflict](https://opentutorials.org/course/3840)
+- [[생활코딩] GIT CLI - Backup](https://opentutorials.org/course/3841)
+- [[생활코딩] GIT CLI - 협업](https://opentutorials.org/course/3842)
+- [[생활코딩] GIT CLI - Cherry-pick & rebase](https://opentutorials.org/course/3843)
+- [How to have git log show filenames like svn log -v](https://stackoverflow.com/questions/1230084/how-to-have-git-log-show-filenames-like-svn-log-v)

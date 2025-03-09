@@ -1,0 +1,53 @@
+---
+subject: '[JavaScript] 전달인자와 매개변수의 차이점'
+date: '2021-02-15'
+category: ['JavaScript']
+thumbnail: '/images/posts/_common/background_js.png'
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>전달인자</span>
+</Typography>
+
+- 전달인자는 말그대로 **전달** 하는 인자.
+- 함수 호출 시 전달되는 실제 값 (**value**)
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>매개변수</span>
+</Typography>
+
+- 매개변수는 전달된 인자를 받아들이는 **변수**.
+- 함수 정의 시 나열되는 변수(**variable**)
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>코드 예시</span>
+</Typography>
+
+```js
+function test(a, b) {
+  // a, b는 매개변수
+  return a + b;
+}
+test(3, 5); // 3, 5는 전달인자
+```
+
+<br />
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+- [전달인자(Argument) VS 매개변수(Parameter)](https://zeddios.tistory.com/403)
+- [매개변수와 인자의 차이](https://velog.io/@cl-song/매개변수와-인자의-차이)

@@ -1,0 +1,50 @@
+---
+subject: '[Git] 원격 브랜치 로컬 복사'
+date: '2021-02-14'
+category: ['Git']
+thumbnail: '/images/posts/_common/background_git.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Git - 원격 브랜치 로컬 복사</span>
+</Typography>
+
+- `git remote update`
+
+  - 원격 저장소 최신상태로 업데이트함.
+  - 최신 상태로 업데이트 해야 최신 브랜치 상태를 가져올 수 있음.
+
+- `git branch`
+
+  - 로컬 브랜치만 출력
+  - 옵션 `-a` (`git branch -a`)
+    - 로컬, 원격에 있는 모든 브랜치 출력
+    - 로컬, 원격 모든 저장소의 브랜치 목록을 가져옴
+  - 옵션 `-r` (`git branch -a`)
+    - 원격 브랜치만 출력
+
+- `git checkout -t remotes/원격저장소 명/원격저장소의 브랜치 명`
+
+  - 원격 브랜치를 로컬에 복사하기
+  - `-t` 옵션과 원격 저장소의 branch 이름을 입력하면  
+     로컬의 동일한 이름의 branch를 생성하면서 해당 branch이름로 checkout을 한다.
+
+- `git checkout -b [생성할 branch 이름] --track [원격 저장소의 branch 이름]`
+  - 원격 브랜치를 로컬에 이름을 바꾸어 복사하기
+  - `--track` 옵션으로 원격 브랜치를 추적. 생략시 단순복사한다.
+  - 예시  
+     `git checkout -b testBranch --track origin/master`
+
+<br />
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+- [git branch 깃 원격 브랜치 로컬에 복사](https://code-aid.tistory.com/1) 
