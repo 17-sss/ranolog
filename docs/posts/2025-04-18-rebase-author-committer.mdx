@@ -1,0 +1,90 @@
+---
+subject: 'Git 커밋 히스토리가 꼬였을 때 해결법'
+summary: 'Git 커밋이 꼬여서 머리가 아프다면?'
+date: '2025-04-18 23:48'
+category: ['Git']
+thumbnail: '/images/posts/_common/background_git.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>왜 이렇게 꼬이게 될까?</span>
+</Typography>
+
+**꼬임 사례**
+
+`git pull`로 기준 브랜치를 가져오면서 merge commit이 생기고,  
+그 상태에서 다시 `git rebase`를 시도하면 커밋 히스토리가 꼬임.
+
+<br />
+
+**꼬임의 전개**
+
+1. `pull`로 병합 커밋이 생긴 상태에서
+2. 나중에 `rebase`를 해버리면
+3. merge commit + `rebase`로 새로 생긴 커밋들이 혼재됨
+
+<br />
+
+**그래서 어떤 일이 벌어지냐면...**
+
+같은 커밋이 여러 번 등장하는 것처럼 보일 수 있음  
+PR에 불필요한 커밋들이 잔뜩 따라붙음 (기준 브랜치 히스토리까지 딸려옴)  
+Author는 다른 사람인데, Committer는 나 (리베이스 수행자)  
+GitHub에서 올린 PR이나 작업한 브랜치를 보면...  
+→ <Typography variant='span' color="gray500">"다른 사람이 작성했지만, 내가 뭔가 수정을 가한 흔적"</Typography> 처럼 남게 됨
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>정리 과정</span>
+</Typography>
+
+**(선택) 커밋 정리**
+
+```bash
+git rebase --root -i # 루트 커밋부터 전체 히스토리를 정리할 때
+## OR ##
+git rebase HEAD~숫자 -i # 최근 <숫자>개 커밋만 정리할 때
+```
+
+- 커밋 목록이 뜨면 필요 없는건 `drop`, 여러 커밋 합치려면 `squash`
+
+<br />
+
+**기준 브랜치 기준으로 `rebase`**
+
+```bash
+git rebase -i origin/기준브랜치이름 # 예) git rebase -i origin/main
+```
+
+- 여기서 <Typography variant='strong' color="gray500">\"기준 브랜치\"</Typography>는 PR을 보낼 대상 브랜치 (보통은 main 혹은 develop)
+- `-i` 옵션으로 커밋들을 선택적으로 수정할 수 있음
+- 이 단계에서는 모든 커밋을 `edit` 상태로 바꾸기
+
+<br />
+
+**각 커밋마다 author/committer 덮어쓰기**
+
+```bash
+GIT_COMMITTER_NAME="이름" \
+GIT_COMMITTER_EMAIL="이메일" \
+git commit --amend --author="이름 <이메일>" --no-edit  && git rebase --continue
+```
+
+- 위 명령을 모든 커밋마다 반복
+- 이렇게 하면 Author도, Committer도 전부 <Typography variant='span' color="gray500">"이름 \<이메일\>"</Typography>으로 바뀜
+
+> **_해결!_**  
+> 다하고나서 `git push --force`는 필수..!
+
+<br />
+
+**(참고) 커밋 ID / Author / Committer 확인**
+
+```bash
+git log --pretty=format:"%h | %an <%ae> | %cn <%ce> | %s"
+```
