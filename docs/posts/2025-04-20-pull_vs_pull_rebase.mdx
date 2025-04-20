@@ -1,0 +1,145 @@
+---
+subject: 'git pull vs git pull --rebase 차이점 정리'
+summary: '깔끔한 Git 히스토리를 원한다면, pull --rebase를 알아두자'
+date: '2025-04-20 16:46'
+category: ['Git']
+thumbnail: '/images/posts/_common/background_git.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>요약</span>
+</Typography>
+
+- `git pull` = `git fetch` + `git merge`
+  - 기본적으로 `git pull`은 원격 브랜치의 변경사항을 가져오고(fetch), 현재 브랜치와 병합(merge)하여 새로운 **merge commit**을 만든다.
+- `git pull --rebase` = `git fetch` + `git rebase`
+  - `--rebase` 옵션을 사용하면 병합(merge) 대신 rebase를 수행하게 되어, 커밋 히스토리를 더 깔끔하게 유지할 수 있다.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>예시로 보는 pull과 pull --rebase</span>
+</Typography>
+
+현재 내 로컬 브랜치(main)와 원격 브랜치(origin/main)가 각각 커밋을 가진 상황이라면..?
+
+```md
+o - o - o - H - A - B - C (main)
+             \
+              P - Q - R (origin/main)
+```
+
+<br />
+
+**`git pull` (기본 동작: merge)**
+
+```md
+o - o - o - H - A - B - C - X (main)
+             \             /
+              P - Q - R --- (origin/main)
+```
+
+- `X`: merge commit (두 브랜치를 병합한 커밋)
+- 히스토리가 병합 형태로 남음
+
+<br />
+
+**`git pull --rebase`**
+
+```md
+o - o - o - H - P - Q - R - A' - B' - C' (main)
+                        |
+                        (origin/main)
+```
+
+- 기존 커밋 A B C는 새로운 커밋 A' B' C'로 다시 쓰여짐
+- 선형 히스토리를 유지
+- 마치 내 작업이 최신 `origin/main` 위에서 바로 시작된 것처럼 보임
+
+> 작업 내용은 동일하지만, 커밋 히스토리는 깔끔해짐  
+> 참고로 `git fetch` 후 `git rebase origin/main`을 사용하는 것도 같은 결과를 얻을 수 있음  
+> `git pull --rebase`는 이 과정을 한 번에 처리하는 단축 명령어!
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>merge vs rebase: 커밋 히스토리 비교</span>
+</Typography>
+
+**`git pull` (기본 동작: merge)**
+
+- `git pull`은 내부적으로 `git fetch`와 `git merge origin/<브랜치명>`을 수행
+- 병합 과정에서 **merge commit**이 생성
+- 히스토리 특징
+  - 시간순 + 브랜치가 섞인 구조
+  - 중간중간 다른 커밋이 끼어들며 흐름이 복잡해질 수 있음
+  - `git log --graph`로 보면 브랜치가 나뉘었다가 다시 합쳐지는 모습을 확인할 수 있음
+
+<br />
+
+**`git pull --rebase`**
+
+- `git pull --rebase`는 내부적으로 `git fetch` + `git rebase origin/<브랜치명>`을 수행
+- 즉, **내 커밋들을 기준 브랜치 끝으로 옮겨 새로 쌓는 작업**을 함
+  - 커밋 내용을 유지하되, 커밋 ID는 변경됨
+- 히스토리 특징
+  - **일직선(linear)**
+  - 마치 기준 브랜치에서 작업한 것처럼 정리됨
+  - merge 커밋이 없어 히스토리가 깔끔하게 정리됨
+
+<br />
+
+**정리하자면..**
+
+| 방식                           | 커밋 히스토리   | 머지 커밋 | 히스토리 구조       | PR 보기                    |
+| ------------------------------ | --------------- | --------- | ------------------- | -------------------------- |
+| `merge` (`git pull`)           | 브랜치 혼합     | ✅ 있음   | 복잡 (fork → merge) | 커밋 순서 흐트러질 수 있음 |
+| `rebase` (`git pull --rebase`) | 일직선 (linear) | ❌ 없음   | 깔끔                | 리뷰하기 편함              |
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>TIPS</span>
+</Typography>
+
+**주의사항**
+
+- 다른 사람이 이미 내 브랜치를 `pull` 했을 경우, `rebase`는 주의해야 함  
+  → 커밋 ID가 바뀌기 때문에 히스토리가 꼬일 수 있음
+
+<br />
+
+**자주 사용하는 브랜치라면, 아래처럼 설정해두는 것도 가능**
+
+```bash
+git config branch.<브랜치이름>.rebase true
+```
+
+혹은 전역으로
+
+```bash
+git config --global pull.rebase true
+```
+
+<br />
+
+---
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+- [Git 공식 문서 - git pull](https://git-scm.com/docs/git-pull)  
+  → _“In its default mode, `git pull` is shorthand for `git fetch` followed by `git merge FETCH_HEAD`...”_  
+  → _“With `--rebase`, it runs `git rebase` instead of `git merge`.”_
+- [Git Book - Rebase vs Merge](https://git-scm.com/book/en/v2/Git-Branching-Rebasing)
+- [Stack Overflow - git pull vs fetch + rebase](https://stackoverflow.com/questions/292357/whats-the-difference-between-git-pull-and-git-fetch)
