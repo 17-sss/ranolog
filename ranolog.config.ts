@@ -66,6 +66,6 @@ export const staticDataInfo: StaticDataInfo = {
   },
   pages: {
     main: {introduce: {title: author, description, bannerImage: '/banner.jpg'}},
-    resume: {resumeFileName: '2023-01-19.mdx'},
+    resume: {resumeFileName: '2025-07-23.mdx'},
   },
 };
