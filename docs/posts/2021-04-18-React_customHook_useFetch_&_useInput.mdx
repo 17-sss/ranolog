@@ -71,7 +71,7 @@ export default useFetch;
   -   fetch 요청은 초기 렌더링 될 때만 할 때만 하면 됨.  
          그래서 useEffect의 두번째 인자에 빈 배열을 넣어줌
 -   `return { payload, loading, error }`
-  -   반환 값은 { payload, loading, error }  
+  -   반환 값은 `{ payload, loading, error }`  
          선언했던 모든 state를 반환해줌
 
 **CustomFetchContainer**
@@ -89,7 +89,7 @@ const CustomFetchContainer = () => {
 export default CustomFetchContainer;
 ```
 
--   useFetch를 써서 반환된 { payload, loading, error }를  
+-   useFetch를 써서 반환된 `{ payload, loading, error }`를  
      프레젠테이션 컴포넌트인 CustomFetch에 전달
 
 **CustomFetch**
@@ -112,7 +112,7 @@ const CustomFetch = ({ payload, loading, error }) => {
 export default CustomFetch;
 ```
 
--   컨테이너 컴포넌트에서 보내준 { payload, loading, error }를 기반으로  
+-   컨테이너 컴포넌트에서 보내준 `{ payload, loading, error }`를 기반으로  
      상황에 따라 렌더링해주는 코드를 작성
   -   `loading`이 true일 시, loading 중이라는 문구를 렌더링
   -   `loading`이 false이며 `error`가 있을 시 error 메세지를 렌더링

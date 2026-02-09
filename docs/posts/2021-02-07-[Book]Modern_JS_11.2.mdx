@@ -33,13 +33,13 @@ let promise = readFile('exemple.txt');
   <span>**11.2.1** 프로미스 생명주기</span>
 </Typography>
 
-각 프로미스는 비동기 연산이 아직 완료되지 않았음을 가리키는 보류(<span style="color: skyblue">pending</span>)상태에서 시작하여 짧은 생명주기를 통과한다.  
+각 프로미스는 비동기 연산이 아직 완료되지 않았음을 가리키는 보류(<Typography variant="span" color="blue">pending</Typography>)상태에서 시작하여 짧은 생명주기를 통과한다.  
 보류 프로미스는 미확정(un-settled) 상태로 간주된다.
 
 -   _11.2_ 의 예제의 `readFile()`함수가 그 프로미스를 반환하는 시점에 보류 상태에 있게 된다.  
      비동기 연산이 완료되면 이 프로미스는 확정(settled)상태로 간주되고 _두 가지의 가능한 상태_ 중 하나가 된다.
-  -   성공(<span style="color: green">Fulfilled</span>): 프로미스의 비동기 연산이 성공적으로 완료되었다.
-  -   실패(<span style="color: magenta">Rejected</span>): 프로미스의 비동기 연산이 에러나 다른 이유 때문에 성공적으로 완료되지 않았다.
+  -   성공(<Typography variant="span" color="green">Fulfilled</Typography>): 프로미스의 비동기 연산이 성공적으로 완료되었다.
+  -   실패(<Typography variant="span" color="pink">Rejected</Typography>): 프로미스의 비동기 연산이 에러나 다른 이유 때문에 성공적으로 완료되지 않았다.
 -   프로미스 내부의 `[[promiseState]]` 속성은 프로미스의 상태를 반영하여 "pending"이나 "fulfilled", "rejected"로 설정된다.  
      이 프로퍼티는 프로미스 객체에 노출되지 않으므로 프로그램적으로 어떤 상태를 정할 수 없다!  
      그러나 `then()`메서드를 사용하여 프로미스이 상태가 변경될 때 특정 동작을 취하도록 할 수 있다.

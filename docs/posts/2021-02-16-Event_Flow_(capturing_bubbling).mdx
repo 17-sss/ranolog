@@ -47,11 +47,11 @@ import {Typography} from '@src/shared';
 -   실행순서 (무조건 이 순서대로 흘러감!!)
 
 1. `html` -> `body` -> `div`
-	이것을 <span style="color: magenta; font-weight: bold">Capture phase</span>라 부름
+	이것을 <Typography variant="span" color="pink" isBold>Capture phase</Typography>라 부름
 2. 실행하려는 이벤트는 `div`
-	이것을 <span style="color: skyblue; font-weight: bold">Target phase</span>라 부름
+	이것을 <Typography variant="span" color="blue" isBold>Target phase</Typography>라 부름
 3. 마지막으로 다시 `div` -> `body` -> `html`로 돌아감
-	이것을 <span style="color: orange; font-weight: bold">Bubble phase</span>라 부름
+	이것을 <Typography variant="span" color="orange" isBold>Bubble phase</Typography>라 부름
 
 -   이미지 참고
   <img src='https://user-images.githubusercontent.com/33610315/108027003-ca6f4200-706c-11eb-8816-8514b73645e2.png' width="500" /><br />
@@ -65,7 +65,7 @@ import {Typography} from '@src/shared';
      <img src='https://user-images.githubusercontent.com/33610315/108027463-8e88ac80-706d-11eb-8b89-edd76564fe2d.png' width="500" /><br />
 --> */}
 
--   브라우저의 _event flow phase_ 중 실행 기본 값은 <span style="color: orange; font-weight: bold">Bubble</span> 설정되어 있음
+-   브라우저의 _event flow phase_ 중 실행 기본 값은 <Typography variant="span" color="orange" isBold>Bubble</Typography> 설정되어 있음
 
   <br /><br />
 
@@ -129,7 +129,7 @@ html.addEventListener('click', () => {
 });
 ```
 
--   지금은 모두 기본값인 <span style="color: orange; font-weight: bold">Bubble</span>.  
+-   지금은 모두 기본값인 <Typography variant="span" color="orange" isBold>Bubble</Typography>.  
      `div` 클릭 시 결과는 `div` -> `body` -> `html`.  
   <br />
 
@@ -156,7 +156,7 @@ html.addEventListener(
 ```
 
 -   이 코드처럼 3번째 매개변수에 `body`와 `html`에 **true**를 넣어주면?  
-     `body`와 `html`은 <span style="color: magenta; font-weight: bold">Capture</span> 상태가 됨.  
+     `body`와 `html`은 <Typography variant="span" color="pink" isBold>Capture</Typography> 상태가 됨.  
      `div` 클릭 시 결과는 `html` -> `body` -> `div`.
   <br /><br />
 

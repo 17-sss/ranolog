@@ -63,7 +63,7 @@ import {Typography} from '@src/shared';
 
 #### 1) 배열
 
-배열은 `Symbol.iterator` 을 <u>소유</u>한다. 따라서 배열은 이터러블 프로토콜을 <span style="color: blue">준수한 이터러블</span>이다.
+배열은 `Symbol.iterator` 을 <u>소유</u>한다. 따라서 배열은 이터러블 프로토콜을 <Typography variant="span" color="blue">준수한 이터러블</Typography>이다.
 
 ```js
 const array = [1, 2, 3];
@@ -78,7 +78,7 @@ for (const item of array) console.log(item);
 
 #### 2) 일반 객체
 
-일반 객체는 `Symbol.iterator`을 <u>소유하지 않는다</u>. 따라서 일반객체는 이터러블 프로토콜을 <span style="color: red">준수한 이터러블이 아니다.</span>
+일반 객체는 `Symbol.iterator`을 <u>소유하지 않는다</u>. 따라서 일반객체는 이터러블 프로토콜을 <Typography variant="span" color="red">준수한 이터러블이 아니다.</Typography>
 
 ```js
 const obj = { a: 1, b: 2 };
@@ -106,7 +106,7 @@ for (const p of obj) console.log(p);
 `next` 메소드를 호출하면 이터러블을 순회하며 `value`, `done` 프로퍼티를 갖는  
 이터레이터 리절트 객체를 반환하는 것이며, 이 규약을 준수한 객체가 이터레이터이다.
 
-이터러블 프로토콜을 <span style="color: blue">준수한 이터러블</span>은 `Symbol.iterator` 메소드를 소유한다.  
+이터러블 프로토콜을 <Typography variant="span" color="blue">준수한 이터러블</Typography>은 `Symbol.iterator` 메소드를 소유한다.  
 이 메소드를 호출하면 이터레이터를 반환한다.  
 이터레이터 프로토콜을 <u>준수한 이터레이터</u>는 `next` 메소드를 갖는다!
 
@@ -143,7 +143,7 @@ console.log(iterator.next()); // {value: undefined, done: true}
   <span>[3] 빌트인 이터러블</span>
 </Typography>
 
-<span id="iterlist" style="font-weight: bold; color: brown">ES6에서 제공하는 빌트인 이터러블 목록</span>
+<Typography id="iterlist" variant="span" color="brown" isBold>ES6에서 제공하는 빌트인 이터러블 목록</Typography>
 
 - `Array`, `String`, `Map`, `Set`, `Arguments`
 - TypedArray
