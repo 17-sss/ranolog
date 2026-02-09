@@ -1,0 +1,183 @@
+---
+subject: '[JavaScript] DOM 이벤트 플로우 (캡쳐링, 버블링)'
+date: '2021-02-16'
+category: ['JavaScript', 'DOM']
+thumbnail: '/images/posts/_common/background_dom.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>**1.** DOM의 이벤트 플로우 (click 이벤트로 예를 듦)</span>
+</Typography>
+
+<br />
+
+---
+
+<img src="https://user-images.githubusercontent.com/33610315/108024347-bbd25c00-7067-11eb-8445-3d3e3ba8358e.png" width="500" /><br />
+
+`html` 항상 중첩이 되어있다. `html` -> `body` -> `div`
+<br />
+
+여기서 div에 click 이벤트가 있다고 가정하자. div를 클릭하면 어떻게 될까?  
+<img src="https://user-images.githubusercontent.com/33610315/108024523-12d83100-7068-11eb-8086-7959532da9c8.png" width="500" />
+<br />
+부모인 html, body 태그에 click 이벤트가 없다면 아무 상관이 없다.  
+하지만 html, body 태그에 click 이벤트가 있다면??  
+이 html, body 태그의 click 이벤트도 실행이 되어버림.. ㅠ  
+<br />
+
+<img src='https://user-images.githubusercontent.com/33610315/108025199-68f9a400-7069-11eb-985a-20c41a42ce52.png' width="500" />
+<br />
+
+**currentTarget**은 자기 자신을 가르키는 것. (이미지 참고)  
+`div`는 **target** 이라 부름. 여기서 이벤트는 `div` 때문에 실행이 된 것이니까!
+<br /><br />
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>**2.** DOM의 event flow phase (실행순서)</span>
+</Typography>
+
+<br />
+
+---
+
+-   `html(document)` 상위엔 `window`
+-   실행순서 (무조건 이 순서대로 흘러감!!)
+
+1. `html` -> `body` -> `div`
+	이것을 <span style="color: magenta; font-weight: bold">Capture phase</span>라 부름
+2. 실행하려는 이벤트는 `div`
+	이것을 <span style="color: skyblue; font-weight: bold">Target phase</span>라 부름
+3. 마지막으로 다시 `div` -> `body` -> `html`로 돌아감
+	이것을 <span style="color: orange; font-weight: bold">Bubble phase</span>라 부름
+
+-   이미지 참고
+  <img src='https://user-images.githubusercontent.com/33610315/108027003-ca6f4200-706c-11eb-8816-8514b73645e2.png' width="500" /><br />
+-   **propagate**는 전파하다. 라는 뜻을 가지고 있음
+-   만약 `div` click 이벤트 실행하면..? 쓸데없이 `body`,`html`은 2번씩 실행되어버림..  
+	물론 `body`, `html`이 이벤트가 등록되어 있을 경우!
+
+{/* <!-- 
+  햇갈릴수 있기에 주석
+-   _event flow phase_ 중 어느 단계에서 실행되고 싶은지 선택. **capture** vs <span style="color: skyblue; font-weight: bold">bubble</span>  
+     <img src='https://user-images.githubusercontent.com/33610315/108027463-8e88ac80-706d-11eb-8b89-edd76564fe2d.png' width="500" /><br />
+--> */}
+
+-   브라우저의 _event flow phase_ 중 실행 기본 값은 <span style="color: orange; font-weight: bold">Bubble</span> 설정되어 있음
+
+  <br /><br />
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>**3.** DOM의 event flow phase (코드 예시)</span>
+</Typography>
+
+<br />
+
+---
+
+```html
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        height: 100vh;
+        background-color: cadetblue;
+        width: 100%;
+      }
+      div {
+        background-color: blueviolet;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    BODY
+    <div>DIV</div>
+    <script src="./script.js"></script>
+  </body>
+</html>
+```
+
+```js
+const html = document.documentElement;
+const body = document.body;
+const div = document.querySelector('div');
+
+/* 
+  * addEventListener의 3번째 매개변수
+    - 안넣을 경우 기본값 false (bubble)
+    - true로 넣어주면 capture
+*/
+
+// 여기서 div는 자식이 없음!! 굳이 캡쳐 or 버블을 선택하는 3번째 매개변수를 쓰지않아도 됨! 써봤자 소용없거든? 쓰지마!
+div.addEventListener('click', () => {
+  console.log('div 클릭');
+});
+
+body.addEventListener('click', () => {
+  console.log('body 클릭');
+});
+
+html.addEventListener('click', () => {
+  console.log('html 클릭');
+});
+```
+
+-   지금은 모두 기본값인 <span style="color: orange; font-weight: bold">Bubble</span>.  
+     `div` 클릭 시 결과는 `div` -> `body` -> `html`.  
+  <br />
+
+```js
+div.addEventListener('click', () => {
+  console.log('div 클릭');
+});
+
+body.addEventListener(
+  'click',
+  () => {
+    console.log('body 클릭');
+  },
+  true,
+);
+
+html.addEventListener(
+  'click',
+  () => {
+    console.log('html 클릭');
+  },
+  true,
+);
+```
+
+-   이 코드처럼 3번째 매개변수에 `body`와 `html`에 **true**를 넣어주면?  
+     `body`와 `html`은 <span style="color: magenta; font-weight: bold">Capture</span> 상태가 됨.  
+     `div` 클릭 시 결과는 `html` -> `body` -> `div`.
+  <br /><br />
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>**+** 추가, 이벤트 버블링 & 캡쳐링 관련 함수</span>
+</Typography>
+
+<br />
+
+---
+
+-   `event.stopPropagation()`  
+     이벤트 캡쳐링과 버블링에 있어 현재 이벤트 이후의 전파를 막음
+  -   [mozilla : Event.stopPropagation()](https://developer.mozilla.org/ko/docs/Web/API/Event/stopPropagation)
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+-   [DOM 이벤트 플로우 완벽하게 정리해드립니다. - Youtube (김버그)](https://youtu.be/7gKtNC3b_S8)

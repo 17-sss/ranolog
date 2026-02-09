@@ -1,0 +1,74 @@
+---
+subject: '[Algorithm] LeetCode : Valid Parentheses'
+date: '2021-06-03'
+category: ['Algorithm']
+thumbnail: '/images/posts/_common/background_algorithm.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>알고리즘 기초 다지기 프로젝트 (feat. 코드없는 프로그래밍) \[2021년 06월 03일\]</span>
+</Typography>
+
+<br />
+
+---
+
+<Typography variant="h4">
+  <span>Leetcode - Valid Parentheses</span>
+</Typography>
+
+[문제: LeetCode - 20. Valid Parentheses](https://leetcode.com/problems/valid-parentheses/)
+
+**코드**
+
+-   코드 (1) : 통과 성공
+
+  ```js
+  /**
+     * @param {string} s
+     * @return {boolean}
+     */
+  const isValid = (s) => {
+    const stack = [];
+    const bracketMap = {
+      '(': ')',
+      '{': '}',
+      '[': ']',
+    };
+
+    let nIdx = 0;
+    const arrPush = Object.keys(bracketMap);
+
+    while (nIdx < s.length) {
+      const currChar = s[nIdx];
+      const isPush = arrPush.indexOf(currChar) > -1;
+      if (isPush) stack.push(currChar);
+      else {
+        const stackLastIdx = stack.length - 1;
+        const stackLastItem = stack[stackLastIdx];
+        const currPopValue = bracketMap[stackLastItem];
+
+        if (currChar === currPopValue) stack.pop();
+        else return false;
+      }
+      nIdx++;
+    }
+    return stack.length === 0;
+  };
+  ```
+
+  -   시간복잡도가 쪼오금..
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+**강의**
+
+-   [코딩테스트, 기초, Stack](https://youtu.be/eu9ttD-psU4)

@@ -1,0 +1,39 @@
+---
+subject: '[Library] package.json의 의존 모듈들을 업데이트 하는 방법'
+date: '2021-04-03'
+category: ['Library']
+thumbnail: '/images/posts/_common/background_library.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>npm-check-updates 모듈</span>
+</Typography>
+
+<br />
+
+---
+
+-   이 모듈은 package.json에 등록된 모듈들을 의존성에 알맞게 최신 버젼으로 업데이트 할 수 있다.
+
+**> 설치 및 실행**
+
+```bash
+# global 옵션으로 npm-check-updates 설치
+$ npm i -g npm-check-updates
+# package.json과 동일한 디렉토리에서 다음 명령어 실행
+# package.json 체크 후 package.json에 등록된 모듈 전부 업데이트함.
+$ ncu -u
+# 업데이트된 결과 기준으로 설치
+$ npm i
+```
+
+---
+
+<Typography variant="h4">
+  <span>참고자료</span>
+</Typography>
+
+-   [nodejs package.json의 모듈 업데이트 하기!](https://lahuman.github.io/node_package.json_update/)
+-   [npmjs : npm-check-updates](https://www.npmjs.com/package/npm-check-updates)

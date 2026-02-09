@@ -1,0 +1,49 @@
+---
+subject: '[Tech Article] 그래프 (DFS, BFS)'
+date: '2021-04-27'
+category: ['Tech Article']
+thumbnail: '/images/posts/_common/background_tech_article.jpg'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>**그래프**</span>
+</Typography>
+
+<br />
+
+---
+
+**_다익스트라는 잘모르겠다... 나중에 다시 읽어보자. 그 전에 BFS DFS 확실히 이해 좀!_**
+
+**깊이 우선탐색 & 너비 우선 탐색**  
+<img src="https://user-images.githubusercontent.com/33610315/116250074-61acf000-a7a8-11eb-8b9c-ff1a0a0616ad.gif" width="400" />
+
+-   깊이 우선 탐색 (**DFS**; Depth First Search)  
+     시작 정점에서 한 방향으로 갈 수 있는 가장 먼 경로까지 탐색하다가 갈 곳이 없으면,  
+     가장 마지막에 만났던 부모 노드로 돌아와서 다른 방향을 탐색하는 방법
+-   너비 우선 탐색 (**BFS**; Breadth First Search)  
+     시작 정점에서 인접한 모든 정점들을 우선 방문한 후, 더 이상 방문하지 않은 정점이 없을 때까지  
+     방문했던 정점들을 다시 시작점으로 해서 모든 정점들을 차례로 방문하는 방법
+
+**다익스트라 알고리즘**  
+<img src="https://user-images.githubusercontent.com/33610315/116251789-f6641d80-a7a9-11eb-8d33-8e1baf3b17e4.png" width="300" />
+
+-   너비 우선 탐색(이하 BFS)가 최단 경로를 구하는 알고리즘이라면,  
+     다익스트라 알고리즘은 **가장 빠른 경로를 구하는 알고리즘**
+
+-   **다익스트라 알고리즘의 단계**
+  1.  가장 가격이 싼 정점을 찾는다. 가장 가격이 싼 정점이란 도달하는 데 시간이 가장적게 걸리는 정점을 말한다.
+  2.  이 정점의 이웃 정점들의 가격을 조사한다.
+  3.  그래프 상의 모든 정점에 대해 이러한 일을 반복한다.
+  4.  최종 경로를 계산한다.
+
+<br />
+
+**참고 링크**
+
+-   [그래프](https://seonghui.github.io/TIL/docs/algorithm/graph/graph.html)
+-   [그래프 - 너비 우선 탐색(BFS)](https://seonghui.github.io/TIL/docs/algorithm/graph/bfs.html)
+-   [그래프 - 깊이 우선 탐색(DFS)](https://seonghui.github.io/TIL/docs/algorithm/graph/dfs.html)
+-   [그래프 - 다익스트라 알고리즘](https://seonghui.github.io/TIL/docs/algorithm/graph/dijkstra.html)

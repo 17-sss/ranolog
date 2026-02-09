@@ -1,0 +1,55 @@
+---
+subject: '[Tech Article] 이벤트 리스너 캐시를 이용한 React 성능 향상'
+date: '2021-05-12'
+category: ['Tech Article']
+thumbnail: '/images/posts/_common/background_tech_article.jpg'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>**이벤트 리스너 캐시를 이용한 React 성능 향상**</span>
+</Typography>
+
+<br />
+
+---
+
+**1. 자바스크립트의 객체와 함수가 참조형이다**  
+- 이 개념은 React의 성능에 직접적인 영향을 끼침에도 불구하고 많이 다뤄지지 않고 있다.
+- 예시
+  - 내용이 완전히 같은 함수를 두 개 만들더라도 두 함수는 절대 같지 않다
+    ```js
+    const functionOne = function() { alert('Hello world!'); };
+    const functionTwo = function() { alert('Hello world!'); };
+    functionOne === functionTwo; // false
+    ```
+  - 하지만, 이미 만들어진 함수를 변수에 할당한 결과는 다를 것이다.
+    ```js
+    const functionThree = function() { alert('Hello world!'); };
+    const functionFour = functionThree;
+    functionThree === functionFour; // true
+    ```
+    - `functionFour`에 `functionThree`를 할당하는 것 뿐  
+      (만약 이것들이 함수가 아니고 객체라도 같음)
+
+**2. React에서도 같은 방식으로 props와 state가 같은지 확인함**  
+- 단순히 `==` 연산자로 확인한다. React는 객체가 같은지 확인하기 위해 깊게 비교하지 않는다.
+  - 깊은 비교라는 용어는 메모리 주소만 비교하는 것과는 반대로,  
+    각 객체의 key-value 쌍을 모두 비교하는 것을 말한다.  
+    React는 객체의 참조가 같은지 확인하는 **얕은 비교**라고 불리는 방법을 사용
+
+<Typography variant="h4">
+  <span>느낀점</span>
+</Typography>
+
+-   나머지 예시나 그런 것들은 와닿지 않아서, 여기엔 메모하지 않았다.  
+  (내가 Hooks만 쓰기 때문..)  
+  나중에 필요하다면 한번 더 봐보자!  
+  그리고 React도 역시 깊은 비교는 하지 않는다는 점을 알게 되니 기분은 좋았다!
+
+<br />
+
+**참고 링크**
+
+-   [TOAST UI - 이벤트 리스너 캐시를 이용한 React 성능 향상](https://ui.toast.com/weekly-pick/ko_20180911)

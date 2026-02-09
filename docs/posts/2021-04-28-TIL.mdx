@@ -1,0 +1,75 @@
+---
+subject: '[TIL] 2021-04-28'
+date: '2021-04-28'
+category: ['TIL']
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>🚀 Today I Learned (2021.04.28)</span>
+</Typography>
+
+<br />
+
+---
+
+<br />
+
+<Typography variant="h4">
+  <span>**👨‍💻 오늘의 알고리즘**</span>
+</Typography>
+
+-   [프로그래머스 LV1 - 체육복](https://programmers.co.kr/learn/courses/30/lessons/42862)
+-   그리디(탐욕법) 관련 문제인데, 어떠한 개념을 가지고 있는지도 모르고 풀었다.
+-   체육복 여벌을 가지고 있음과 동시에 도난 당하는 상황을 제대로 인지하지 않고 풀어서  
+  조금 삽질을 했다.  
+  **문제를 잘 읽자!!**
+-   알아야 할 개념들이 점점 늘어나는 기분..  
+  언제쯤이면 모든게 익숙해질까?
+
+<br />
+
+<Typography variant="h4">
+  <span>**📑 오늘의 기술문서**</span>
+</Typography>
+
+-   [[Tech Article] 잘 가, 클린 코드](https://17-sss.github.io/2021-04-28-[기술문서_정리]_잘_가,_클린코드)
+
+<br />
+
+<Typography variant="h4">
+  <span>**😆 오늘 뭐했어?**</span>
+</Typography>
+
+-   오늘은 어제에 이어 상세페이지 Modal 작업을 했다.
+
+  -   `useFetch`(Fetch API 관련) 라는 만들어 놓은 커스텀 훅을 사용하여 데이터를 가져와서 적용하려했으나,  
+    `context API` 내에서 가져온 값으로 `useFetch` 실행해야하는데  
+    계속 `context API` 내에서 가져온 값이 아직 업데이트 안된 상태일 때(`null`)  
+    `useFetch`가 실행돼서 원하는 결과 값을 얻을 수 없었다.
+    -   그래서 상세페이지 Modal 컴포넌트 내에서 다시 `useEffect`를 활용해가며 Fetch API를 사용해서 해결.
+    -   나중에 더 연구해보자. 아직 **리액트의 hook**들과 전부 친해지려면 멀은 것 같다.
+  -   전반적인 모든 작업이 끝났다. 이제 상세페이지 하단에 Carousel Silder 가져와서 적용하면 될 듯 하다.
+
+-   **_간단한 공부했던 키워드 및 메모_**
+  -   배열 내에서 숫자들중에 최대 값, 최소 값을 구해야하는데 어떻게 해야할까하고 검색했었다.
+    -   최대 값은 `Math.max.apply(null, 배열)`
+    -   최소 값은 `Math.min.apply(null, 배열)`
+    -   이번에도 `bind()`, `call()`, `apply()` 라인의 녀석들.. 얘내들 정리하자 진짜..
+
+<br />
+
+<Typography variant="h4">
+  <span>**✍️ 회고**</span>
+</Typography>
+
+-   이제 내일, 금요일하면 프로젝트가 끝이 난다.  
+  항상 느끼는건데, 짧은 기간동안 (2주) 프로젝트를 하는데  
+  진짜 영혼까지 갈아야 결과물이 완성 되는 것 같다.
+-   어느정도 안다고 생각했지만 항상 절대 아니지.
+-   그래도 옛날의 코드에 비하면 많이 나아진 것이니까 걱정하지말자!  
+  나도 모르게 늘고 있을 것이고  
+  내 자신한테도 수고했다고 말해주자  
+  항상 부족하다고 채찍질만은 하지말자. 모든 적당히!!  
+  **오늘보다 내일은 더 나아질거니까!**

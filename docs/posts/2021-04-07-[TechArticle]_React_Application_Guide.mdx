@@ -1,0 +1,67 @@
+---
+subject: '[Tech Article] React 적용가이드'
+date: '2021-04-07'
+category: ['Tech Article']
+thumbnail: '/images/posts/_common/background_tech_article.jpg'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>**React 적용 가이드 : 1**</span>
+</Typography>
+
+<br />
+
+---
+
+이번주 (2021년 4월 6일 월요일)부터 리액트를 적용하여 팀프로젝트를 들어가게되었다.  
+예전에 해봤었지만, 다시 기억을 되살려서 하는데도 약간 폴더구조를 짜는게 어렵고 햇갈리는 부분이 있었다.  
+폴더구조는 역시 정형화된 구조는 없는 듯하다.
+
+또한 컴포넌트는 **컨테이너 컴포넌트(container component)** 와  
+**프레젠테이션 컴포넌트 (presentational component)** 를  
+구분해서 개발해야한다는 걸 알고있었지만 확실히 알지 못했었다.  
+이 부분에 대해서 이 기술문서를 읽으며 좀 더 개념정리를 할 수 있었다.
+
+-   **컨테이너 컴포넌트**  
+     여러 개의 프레젠테이션 컴포넌트로 구성돼 있으며  
+     데이터나 공통으로 관리해야 하는 객체, 컴포넌트 간의 인터랙션 등을 관리하는 컴포넌트
+-   **프레젠테이션 컴포넌트**  
+     UI 컴포넌트
+-   즉, 프레젠테이션 컴포넌트를 컨테이너 컴포넌트에서 관리!
+
+리액트에서는 state와 prop을 구분한다고 한다. 얼핏 봤을 땐 같아보이지만 전혀 다른..
+
+-   **state**는 독립적인 컴포넌트의 상태
+-   **prop**은 외부(부모) 컴포넌트에게 받은 속성
+
+prop의 타입과 기본값은 propTypes 속성과 defaultProps 속성으로 설정할 수 있는데
+
+```jsx
+// prop의 타입과 기본값을 설정 예
+TODO.propTypes = {
+  id: PropTypes.string,
+  complete: PropTypes.bool,
+  onCreated: PropTypes.func,
+};
+
+TODO.defaultProps = {
+  complete: false,
+};
+```
+
+React에서는 각종 로그나 타입을 확인하는 등 개발에 도움이 되는 **개발 모드**와  
+성능에 초점을 맞춘 **제품 모드**가 있음!  
+propTypes 속성은 개발 모드에서만 작동한다!
+
+아직 알아야할게 많고 많다. 지금 느낀 점은 바닐라보단 편할 것 같다..? 라는 정도  
+다음에 시간 날 때 더 읽어보자!!
+
+<br />
+
+**참고 링크**
+
+-   [Naver D2 : React 적용 가이드 - React와 Redux](https://d2.naver.com/helloworld/1848131) (읽음)
+-   [Naver D2 : React 적용 가이드 - React 작동 방법](https://d2.naver.com/helloworld/9297403) (안읽음)
+-   나중에 다시 또 읽어보기!!

@@ -1,0 +1,49 @@
+---
+subject: '[Library] Concurrently를 사용하여 동시실행'
+date: '2021-04-03'
+category: ['Library']
+thumbnail: '/images/posts/_common/background_library.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>Concurrently 모듈</span>
+</Typography>
+
+<br />
+
+---
+
+**> 설치**
+
+```bash
+# 현재 작업하고 있는 프로젝트만 적용시키고 싶을 때
+$ npm i --save concurrently
+# 글로벌 설치
+$ npm i -g concurrently
+```
+
+**> 사용법**  
+package.json에서 script 부분에 key명을 명시 후, 값에는 concurrently를 앞에 명시해주고 뒤에 실행시키고 싶은 명령어를 쓰기
+
+-   예시
+  ```json
+  {
+    "scripts": {
+      "start": "concurrently \"nodemon app.js\" \"webpack -w\""
+    }
+  }
+  ```
+  -   위의 "scripts"에 "start"라는 명령을 등록함. 실행 시 `npm start`
+  -   실행화면  
+         <img src="https://user-images.githubusercontent.com/33610315/113480648-685d8580-94d0-11eb-9f65-6fad461754f3.png" width="700" />
+
+---
+
+<Typography variant="h4">
+  <span>참고자료</span>
+</Typography>
+
+-   [npmjs : concurrently](https://www.npmjs.com/package/concurrently)
+-   [[Concurrently] 서버와 클라이언트 동시에 실행시키기!](https://bin-repository.tistory.com/138)

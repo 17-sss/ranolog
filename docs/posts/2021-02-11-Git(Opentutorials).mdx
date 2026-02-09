@@ -129,7 +129,7 @@ Git에 나의 코드를 `push`하면 백업이 됨.
     - `--soft` or `--mixed`  
        수정하고 있던 사항은 살릴 수 있음. 더 깊은 내용은 나중에 필요하면 찾아보기.
   - <Typography color="red300" isBold>[!]</Typography> 협업을 할 때는, 다른 사람과 공유된 버전은
-    reset하면 안됨!<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;공유되기 전 버전만 reset해야 함. 안그러면 엉키는 문제가
+    reset하면 안됨!<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;공유되기 전 버전만 reset해야 함. 안그러면 엉키는 문제가
     발생하기 때문..
   - `git reset --help`를 하면 _git reset_ 의 상세설명을 볼 수 있음. (모드라던지..)
 - `git revert [커밋아이디]`
@@ -248,7 +248,7 @@ GitHub는 개인적인 비공개 Repository를 생성하려면 과금이 필요�
 
 - [다양한 Git Hosting 서비스 비교](https://git.wiki.kernel.org/index.php/GitHosting)
 
-<br/>
+<br />
 
 <Typography variant="h4">
   <span>git repository</span>
@@ -264,7 +264,7 @@ _일부는 Pass함. (리포지토리 생성)_
      `git remote -v`  
      _https .git 주소_ 정보까지 다 나옴
 
-<br/>
+<br />
 
 <Typography variant="h4">
   <span>git push</span>
@@ -283,7 +283,7 @@ _일부는 Pass함. (리포지토리 생성)_
   - 여기서 `-u` 옵션은 지역저장소의 Branch와 원격저장소의 Branch를 연결 시켜줄 때 사용하는 옵션
   - 이미 만들어진 지역저장소를 원격저장소에 연결할 때 사용. 한번만 하면 됨.
 
-<br/>
+<br />
 
 <Typography variant="h4">
   <span>git clone</span>
@@ -292,7 +292,7 @@ _일부는 Pass함. (리포지토리 생성)_
 - `git clone [원격저장소 HTTPS(.git) 주소]`
   - 원격저장소에 있는 repository를 현재 사용하고 있는 컴퓨터의 디렉토리에 지역저장소를 만듬 (복제)
 
-<br/>
+<br />
 
 <Typography variant="h4">
   <span>git pull</span>
@@ -328,7 +328,7 @@ _일부는 Pass함. (리포지토리 생성)_
 
 협업 시, 동시에 작업을 했을 때 생기는 지옥.. Conflict(충돌)들을 방지하는 방법을 학습함.
 
-<br/>
+<br />
 
 <Typography variant="h4">
   <span>Git Collaborator</span>
@@ -343,7 +343,7 @@ _일부는 Pass함. (리포지토리 생성)_
      ▶ 맨 밑 Collaborators 란에 협업자를 추가.
   - 추가적으로 Permission level을 설정할 수 있음.
 
-<br/>
+<br />
 
 <Typography variant="h4">
   <span>push & pull</span>
@@ -359,7 +359,7 @@ _일부는 Pass함. (리포지토리 생성)_
 - 작업할 때 반드시 pull을 통해서 다른사람이 업데이트한 게 있는지 체크 (꼭!)
 - commit, push, pull를 자주하는 것이 커뮤니케이션을 활발하게하는데 도움을 줌.
 
-<br/>
+<br />
 
 <Typography variant="h4">
   <span>원격 브랜치와 FETCH</span>
@@ -378,7 +378,7 @@ _일부는 Pass함. (리포지토리 생성)_
        - 이것은 현재 로컬에서 작업하고 있는 branch를 뜻함!
 - 신중하게 git의 데이터를 pull하고 싶을 때 fetch를 사용하면 됨.
 
-<br/>
+<br />
 
 <Typography variant="h4">
   <span> **+** 기타 (만약 회사에 내가 Git을 추천 한다면?)</span>
@@ -415,7 +415,7 @@ _일부는 Pass함. (리포지토리 생성)_
    해당 버전이 생성될 때 생긴 변화만을 적용하겠다는 게 Cherry-Pick.
 - 체리픽은 변화를 가져오는 것. 그 버전이 생성될 때의 변화를 합쳐서 새로운 버전을 만들어내는 것.
 - 예시
-  <br/>
+  <br />
   <img
     src="https://user-images.githubusercontent.com/33610315/107872894-1f864900-6ef1-11eb-85df-e35076a77ce8.png"
     width="500"
@@ -423,7 +423,7 @@ _일부는 Pass함. (리포지토리 생성)_
   <br />이 이미지에서 master 브랜치는 init, m1, m2 등의 파일을 가지고 있었음.
   <br />master 브랜치에 topic 브랜치에 있는 _t2_ 를 Cherry-pick 함. master 브랜치가 가지고 있는 파일은 init, m1, m2, _t2_ 가 됨.
 
-<br/>
+<br />
 
 **충돌의 원인과 해결**
 
@@ -447,7 +447,7 @@ _일부는 Pass함. (리포지토리 생성)_
    `git rebase [rebase되는 브랜치의 내용이 붙어질 branch명]`
 - 예시
 
-  ```git
+  ```bash
   -----------------------------------------------------------------------------
   (1) rebase 전
 
@@ -475,7 +475,7 @@ _일부는 Pass함. (리포지토리 생성)_
     master의 시작부분 버전이 master와 topic의 공통 조상인 부모 버전을 가르키는 게 아니라,  
     topic의 마지막 버전 뒤에 master의 시작부분을 이어붙임으로써, 말그대로 base를 바꾸겠다는 것이 rebase.
 
-  <br/>
+  <br />
 
   <img
     src="https://user-images.githubusercontent.com/33610315/107873701-9cb4bc80-6ef7-11eb-8742-7497114aa591.png"
@@ -487,7 +487,7 @@ _일부는 Pass함. (리포지토리 생성)_
      rebase된 버전들은 change는 같지만 working copy가 다르다 함. (push되어있는데 rebase하면 엉망진창..!)
   - merge를 한 결과물과 rebase를 한 결과물은 과정만 다를 뿐 결과는 같아야 함!
 
-<br/>
+<br />
 
 **충돌의 원인과 해결**
 

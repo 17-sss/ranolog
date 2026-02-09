@@ -1,0 +1,46 @@
+---
+subject: '[Tech Article] deploy 브랜치 전략 활용 방법 (당근마켓)'
+date: '2021-04-14'
+category: ['Tech Article']
+thumbnail: '/images/posts/_common/background_tech_article.jpg'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>**당근 마켓 : deploy 브랜치 전략 활용 방법**</span>
+</Typography>
+
+<br />
+
+---
+
+협업의 규모가 커지면 개인의 스타일대로 git을 사용하는 것이 아니라 서로 규칙을 정해서 사용하게 되는데 이를 Git 브랜치 전략이라고 함
+
+최근 많이 사용되고 있는 것은 Gitflow, GitHub flow, Gitlab flow 등이 있는데 프로젝트가 어떻게 운영되고 있느냐에 따라 각각 장단점이 있음.
+
+**gitflow, 완벽하지만은 않아**
+
+-   gitflow를 사용할 때 협업에는 큰 문제가 없다고 생각할 수 있지만 실제로 테스트 서버와 프로덕션 서버를 운영하는 환경에서는 한 가지 문제가 생김.
+  -   (인프라 서버 자원이 풍부해서 feature 브랜치 별로 테스트 서버를 별도로 띄울 수 있다면 큰 문제가 없음)
+  -   프로덕션 서버는 release 브랜치를 이용해서 배포 가능하지만 테스트 서버의 경우  
+         각자의 feature 브랜치를 테스트하려면 다른 사람의 테스트를 기다려야 하는 문제가 발생
+
+**위와 같은 문제를 해결하기 위해 "deploy 브랜치 전략"을 사용**
+
+-   이 전략은 누가 어디서 정의한 것은 아님 (당근마켓 블로거가 경험한 케이스를 현재에 맞게 재구성해본 것)
+-   이 전략의 기본은 gitflow와 같지만 추가적으로 테스트 서버 배포를 위한 전용 브랜치를 이용하는 것으로  
+     deploy/{month}라는 브랜치를 이용.  
+     month의 경우 한 달의 기간을 의미하는 월을 의미하는데  
+     이는 브랜치 수명을 너무 길게 가져가지 않기 위해 정한 것으로 꼭 이렇게 해야 한다는 것은 아님.
+
+**메모..**  
+어느 방법이 맞고 틀린 건 없는 것 같다.  
+각 회사마다 방법이 있고, 편하고 효율성이 좋은 브랜치 전략을 사용하는 것 같다.  
+더 자세한건 참고 링크 참고해보기!!
+
+<br />
+
+**참고 링크**
+
+-   [deploy 브랜치 전략 활용 방법](https://medium.com/daangn/deploy-브랜치-전략-활용-방법-545f278ca878)

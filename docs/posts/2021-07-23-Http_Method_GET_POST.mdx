@@ -1,0 +1,147 @@
+---
+subject: '[Network] GET과 POST의 차이?'
+date: '2021-07-23'
+category: ['Web', 'Network']
+thumbnail: '/images/posts/_common/background_web.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>HTTP 요청 메서드</span>
+</Typography>
+
+<br />
+
+---
+
+GET과 POST를 알기 전에 전체적으로 메서드를 정리
+
+`GET`  
+특정 리소스의 표시를 요청, GET을 사용하는 요청은 오직 데이터를 받기만 함
+
+`POST`  
+특정 리소스에 엔티티를 제출할 때 쓰임. 이는 종종 서버의 상태의 변화나 부작용을 일으킴
+
+`PUT`  
+목적 리소스 모든 현재 표시를 요청 payload로 바꿈 (전체 교체)
+
+`PATCH` 리소스의 부분만을 수정하는데 쓰임 (부분 교체)
+
+`DELETE` 특정 리소스를 삭제
+
+`TRACE` 목적 리소스의 경로를 따라 메시지 loop-back 테스트를 함
+
+`OPTIONS` 목적 리소스의 통신을 설정하는 데 쓰임.
+
+`CONNECT` 목적 리소스로 식별되는 서버로의 터널을 맺음
+
+`HEAD` GET 메서드의 요청과 동일한 응답을 요구하지만, 응답 본문을 포함하지 않음.
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>GET과 POST의 특징과 차이</span>
+</Typography>
+
+<br />
+
+---
+
+<Typography variant="h4">
+  <span>GET & POST 비교표</span>
+</Typography>
+
+|                             |                   GET                    |              POST              |
+| :-------------------------: | :--------------------------------------: | :----------------------------: |
+|         캐싱 가능?          |                  **O**                   |             **X**              |
+| 브라우저 히스토리에 남나요? |                  **O**                   |             **X**              |
+|       북마크 가능함?        |                  **O**                   |             **X**              |
+|       길이 제한 있니?       |  **O** <br /> (브라우저마다 제한이 다름)  |             **X**              |
+|   URL에 데이터 노출되니?    |                  **O**                   |             **X**              |
+|          URL 예시           | http://localhost:3000/board?categoryId=1 | http://localhost:3000/addBoard |
+|        데이터의 위치        |               Header(헤더)               |           Body(바디)           |
+
+<br />
+
+- 캐싱?  
+  캐싱이란 한번 접근 후, 또 요청할시 빠르게 접근하기 위해 레지스터에 데이터를 저장시켜 놓는 것
+
+<Typography variant="h4">
+  <span>1-1. GET의 특징 (추가 정보)</span>
+</Typography>
+
+- 서버에 리소스를 요청할 때 웹 캐시가 요청을 가로채  
+   서버로부터 리소스를 다시 다운로드하는 대신 리소스의 복사본을 반환
+  - HTTP 헤더에서 cache-control 헤더를 통해 캐시 옵션을 지정할 수 있음.
+- 중요한 정보를 다루면 안됨
+- _데이터를 요청할때만 사용_
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>GET과 POST의 차이</span>
+</Typography>
+
+<br />
+
+---
+
+이 두 메서드의 차이점
+
+- 사용목적  
+  `GET`은 서버의 리소스에서 데이터를 요청  
+  `POST`는 서버의 리소스를 새로 생성하거나 업데이트할 때 사용
+
+  - `GET`은 조회(SELECT) 느낌 & `POST`는 생성 (CREATE) 느낌.
+  - `GET`방식은 서버에서 문서를 가져오는 것이며, `POST` 메서드는 서버가 처리해줬으면 하는 데이터를 보내는 것.
+
+- 요청에 body 유무
+  - `GET`은 URL 파라미터에 요청하는 데이터를 담아 보내기 때문에 HTTP 메시지에 body가 없음  
+  (body에 넣어보내는 건 가능하지만 제한이 있음)
+  - `POST`는 body에 데이터를 담아 보내기 때문에 당연히 HTTP 메시지에 body가 존재
+
+`GET`은 Idempotent (멱등), `POST`는 Non-idempotent (멱등 X) 하게 설계됨.
+
+- **Idempotent (멱등성)**
+
+  > 수학이나 전산학에서 연산의 한 성질을 나타내는 것으로,  
+  > 연산을 여러 번 적용하더라도 결과가 달라지지 않는 성질을 의미
+
+  - `GET`에서의 멱등성
+  - 리소스를 조회한다는 점에서 여러 번 요청하더라도 응답이 똑같을 것
+  - 서버에게 동일한 요청을 여러 번 전송하더라도 동일한 응답이 돌아와야 한다는 것을 의미
+  - `GET`은 서버의 데이터나 상태를 변경시키지 않아야 멱등하기에  
+      주로 **조회** 를 할 때에 사용해야 함
+  - `POST`에서의 불멱등성
+  - 리소스를 새로 생성하거나 업데이트할 때 사용되기 때문에 멱등이 아니라고 볼 수 있음
+  - `POST`는 서버에게 동일한 요청을 여러 번 전송해도 응답은 항상 다를 수 있음  
+      그러므로 서버의 **상태** 나 데이터를 **변경** 시킬 때 사용
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>마치며..</span>
+</Typography>
+
+<br />
+
+---
+
+- `POST`는 생성, 수정, 삭제에 사용할 수 있지만,  
+  생성에는 `POST`, 수정은 `PUT` 또는 `PATCH`, 삭제는 `DELETE`가 더 용도에 맞는 메소드임
+- `POST`방식이 `GET`방식보다 보안측면에서 더 좋은가?  
+  아니다. `POST`든 `GET`이든 보내는 데이터는 전부 클라이언트측에서 볼 수 있음  
+  `GET`방식은 URL에 데이터가 표시되여 별다른 노력없이 볼 수 있지만,  
+  `GET`이든 `POST`든 전부 보안을 생각한다면 암호화 해야 함!
+- 속도는 누가 빠를까?  
+  `GET`이 더 빠르다. `GET`방식은 캐싱때문에 빠른 것임.  
+  (한번 접근 후, 재 요청시 빠르게 접근하기 위해 데이터를 저장시킴)
+
+---
+
+<Typography variant="h4">
+  <span>참고자료</span>
+</Typography>
+
+- [mozilla : HTTP 요청 메서드](https://developer.mozilla.org/ko/docs/Web/HTTP/Methods)
+- [[네트워크] get 과 post 의 차이](https://noahlogs.tistory.com/35)
+- [위키백과 : 멱등법칙](https://ko.wikipedia.org/wiki/멱등법칙)
+- [[Web] GET과 POST의 비교 및 차이](https://mangkyu.tistory.com/17)
+- [GET방식 과 POST방식](https://mommoo.tistory.com/60)

@@ -1,0 +1,67 @@
+---
+subject: '[Tech Article] 리액트 개발자가 알아야 할 네가지 팁'
+date: '2021-04-08'
+category: ['Tech Article']
+thumbnail: '/images/posts/_common/background_tech_article.jpg'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>**React - useEffect: 개발자가 알아야 할 네가지 팁**</span>
+</Typography>
+
+<br />
+
+---
+
+useEffect 사용 시, **단일 목적**을 가져야한다.  
+useEffect 내에 예를 들어 타이머가 2개 이상 있거나 그러면 안된다!!!  
+정상적으로 작동하지 않는다.. :(
+
+위의 문제를 피하려면 커스텀 훅을 사용해야 한다!  
+한 타이머를 useState와 useEffect를 활용하여 독립된 커스텀 훅을 만들어준다!  
+**예시**
+
+```js
+function App() {
+  const [varA, setVarA] = useVarA();
+  const [varB, setVarB] = useVarB();
+
+  return (
+    <span>
+      Var A: {varA}, Var B: {varB}
+    </span>
+  );
+}
+
+function useVarA() {
+  const [varA, setVarA] = useState(0);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setVarA(varA + 1), 1000);
+
+    return () => clearTimeout(timeout);
+  }, [varA]);
+
+  return [varA, setVarA];
+}
+
+function useVarB() {
+  /* ... */
+}
+```
+
+<br />
+  
+조건부 useEffect 사용 시, **early return**을 해주는게 좋다.  
+(useEffect의 첫번째 인자의 콜백함수의 스코프의 최상단에 체크 할 조건을 정의해주고 early return!!)
+
+모든 디펜전시 (state 같은..)는 useEffect의 두번째 인자인 배열에 추가해주어야한다!!  
+(모든 디펜던시의 변화를 감지해 깨진 클로저가 만들어지는 것을 피하기 위함!)
+
+<br />
+
+**참고 링크**
+
+-   [리액트 useEffect: 개발자가 알아야 할 네가지 팁](https://ui.toast.com/weekly-pick/ko_20200916)

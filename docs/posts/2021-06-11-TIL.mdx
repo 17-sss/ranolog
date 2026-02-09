@@ -1,0 +1,102 @@
+---
+subject: '[TIL] 2021-06-11'
+date: '2021-06-11'
+category: ['TIL']
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>🚀 Today I Learned (2021.06.11)</span>
+</Typography>
+
+<br />
+
+---
+
+<br />
+
+<Typography variant="h4">
+  <span>**👨‍💻 오늘의 알고리즘**</span>
+</Typography>
+
+-   [[Algorithm] HashTable 개념 정리 & LeetCode : Design HashMap](https://17-sss.github.io/2021-06-11-HashTable_개념정리,_Design_HashMap)
+
+<br />
+
+<Typography variant="h4">
+  <span>**😆 오늘 뭐했어?**</span>
+</Typography>
+
+-   오늘도 어려운 `Material UI`를 접목..  
+  내 페어분은 엄청 빠르게 UI를 만들고  
+  나는 하루종일 노가다나 하고 있고  
+  진짜 너무 느린것 같다..
+-   오후에는 기습 면접 질문 (기본 개념들) 20문항을 보았는데  
+  어떻게 제대로 맞추는게 하나도 없지..?  
+  너무 심각하다
+-   그리고 다른 조분들이랑 기술공유하며
+  이번주에 무슨 작업을 했는지  
+  회의하면서 보았는데  
+  내가 오늘 고민했던 `Material UI` + `Styled Components` 활용
+
+  -   계속 `Material UI`의 Tabs 컴포넌트가 `Styled Components`로  
+         디자인이 변경이 안되어서 구글링하다가 `TabIndicatorProps`라는 속성으로 변경했는데,
+
+    ```jsx
+    <Tabs
+      classes={{ root: classes.tabsRoot }}
+      value={issueState}
+      onChange={handleIssueState}
+      TabIndicatorProps={{
+        style: { backgroundColor: 'transparent' },
+      }}
+    >
+      {'do something..'}
+    </Tabs>
+    ```
+
+    이렇게 변경했는데 너무 코드가 더러워보였다.
+
+    -   다른 포지션인분이 그걸 왜 이렇게 하셨냐고 하는데  
+      오늘 검색해본거라 다른 방법이 있을 것 같다고만 말했다.  
+      _이렇게해서 나중에 현업에서 제대로 할 수나 있을까?_
+
+      그 분이 키워드를 주셨는데 `<StylesProvider injectFirst>`  
+      이걸하면 Styled Components가 잘 적용될 수 있다고 한다!  
+      요 키워드로 검색해보니 아래와 같은 참고글이 있었다. 참고해보자!
+      - [React에서 Material-UI + styled-components 조합 사용하기](https://velog.io/@mandariin/React에서-Material-UI-styled-components-조합-사용하기)
+      - [Material-UI 와 Styled-Components 를 섞어서 쓸때 세팅해줘야 하는 것](https://iamssen.medium.com/material-ui-와-styled-components-를-섞어서-쓸때-세팅해줘야-하는-것-76570015a89)  
+
+      **2021/06/13**  
+      해봤는데 안된다. 그냥 해당 ClassName을 찾아서 Styled-Components내에서 해결하는게 깔끔해보이기도 한다.  
+      위 방법은 Styled-Components가 마지막에 적용되게 하는 것 같음!(`<StylesProvider injectFirst>`)  
+      ```jsx
+      const IssueTableTabs = styled(Tabs)`
+        .MuiTabs-indicator {
+          background-color: transparent;
+        }
+      `;
+      ```
+
+  -   또한 나도 OAuth를 적용해야하는데 다른 조중에 밤샘이 기본이신 진짜 대단하신 분들..  
+    그 분들의 코드를 봐야할 것 같다. 되게 잘하신 것 같았다!!
+
+<br />
+
+<Typography variant="h4">
+  <span>**✍️ 회고**</span>
+</Typography>
+
+-   같은 포지션인 다른 조분들이랑 기술공유하며  
+  이번주에 무슨 작업을 했는지  
+  회의하면서 보았는데  
+  다들.. 잘한다. 나는 진짜 많이 멈춰있구나  
+  멈추기 싫은데 왜 난 프로젝트 시작하고나서  
+  완전 실력이 떨어지는 기분이야  
+  이유는 끝날때까지 알 수 없을까..?  
+  차라리 바닐라 자바스크립트 했을 때 실력이  
+  제일 많이 늘은 것 같아.
+-   이젠 약간 내려놓게 되는 것 같은 기분도 드네  
+     이리 생각 많이 해도 계속 변화를 추구해도  
+     지치기만 해.

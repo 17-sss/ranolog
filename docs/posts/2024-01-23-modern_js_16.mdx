@@ -18,7 +18,7 @@ import {CustomCode, Typography} from '@src/shared';
   - 일부 내부 슬롯과 내부 메서드에 한하여 간접적으로 접근할 수 있는 수단 제공
     - <Typography color="gray700">ex)</Typography> 모든 객체는 <CustomCode color="gray700">\[\[Prototype\]\]</CustomCode> 내부 슬롯을 가지며, `__proto__`를 통해 간접적으로 접근 가능
 
-<br/>
+<br />
 
 ---
 
@@ -54,7 +54,7 @@ import {CustomCode, Typography} from '@src/shared';
       */
       ```
 
-<br/>
+<br />
 
 ---
 
@@ -72,13 +72,13 @@ import {CustomCode, Typography} from '@src/shared';
 - 데이터 프로퍼티 명세  
   | 프로퍼티 어트리뷰트                                       | 프로퍼티 디스크립터 객체의 프로퍼티                    | 설명                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
   | --------------------------------------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-  | <CustomCode color="gray700">\[\[Value\]\]</CustomCode>        | <CustomCode color="slate500">value</CustomCode>        | <ul><li>프로퍼티 키를 통해 프로퍼티 값에 접근하면 반환되는 값이다.</li><li>프로퍼티 키를 통해 프로퍼티 값을 변경하면 <CustomCode color="gray700">\[\[Value\]\]</CustomCode> 에 값을 재할당한다.<br/>이때 프로퍼티가 없으면 프로퍼티를 동적 생성하고 생성된 프로퍼티의 <CustomCode color="gray700">\[\[Value\]\]</CustomCode> 에 값을 저장한다.</li></ul>                                                                                                                   |
+  | <CustomCode color="gray700">\[\[Value\]\]</CustomCode>        | <CustomCode color="slate500">value</CustomCode>        | <ul><li>프로퍼티 키를 통해 프로퍼티 값에 접근하면 반환되는 값이다.</li><li>프로퍼티 키를 통해 프로퍼티 값을 변경하면 <CustomCode color="gray700">\[\[Value\]\]</CustomCode> 에 값을 재할당한다.<br />이때 프로퍼티가 없으면 프로퍼티를 동적 생성하고 생성된 프로퍼티의 <CustomCode color="gray700">\[\[Value\]\]</CustomCode> 에 값을 저장한다.</li></ul>                                                                                                                   |
   | <CustomCode color="gray700">\[\[Writable\]\]</CustomCode>     | <CustomCode color="slate500">writable</CustomCode>     | <ul><li>프로퍼티 값의 변경 가능 여부를 나타내며 불리언 값을 갖는다.</li><li><CustomCode color="gray700">\[\[Writable\]\]</CustomCode>의 값이 `false`인 경우 해당 프로퍼티의 <CustomCode color="gray700">\[\[Value\]\]</CustomCode>의 값을 변경할 수 없는 읽기 전용 프로퍼티가 된다.</li></ul>                                                                                                                                                                              |
   | <CustomCode color="gray700">\[\[Enumerable\]\]</CustomCode>   | <CustomCode color="slate500">enumerable</CustomCode>   | <ul><li>프로퍼티의 열거 가능 여부를 나타내며 불리언 값을 갖는다.</li><li><CustomCode color="gray700">\[\[Enumerable\]\]</CustomCode> 의 값이 `false`인 경우 해당 프로퍼티는 `for...in`문이나 `Object.keys` 메서드 등으로 열거할 수 없다.</li></ul>                                                                                                                                                                                                                     |
   | <CustomCode color="gray700">\[\[Configurable\]\]</CustomCode> | <CustomCode color="slate500">configurable</CustomCode> | <ul><li>프로퍼티의 재정의 가능 여부를 나타내며 불리언 값을 갖는다.</li><li><CustomCode color="gray700">\[\[Configurable\]\]</CustomCode>의 값이 false인 경우 해당 프로퍼티의 삭제, 프로퍼티 어트리뷰트 값의 변경이 금지된다. 단, <CustomCode color="gray700">\[\[Writable\]\]</CustomCode>이 `true`인 경우 <CustomCode color="gray700">\[\[Value\]\]</CustomCode>의 변경과 <CustomCode color="gray700">\[\[Writable\]\]</CustomCode>을 `false`로 변경하는 것은 허용된다.</li></ul> |                                                                                                                                                                                                                                                                                                                                    |                                                                                                                                                                                                                                                                                                                        |
   - 프로퍼티가 생성될 때 <CustomCode color="gray700">\[\[Value\]\]</CustomCode>의 값은 프로퍼티 값으로 초기화되며 <CustomCode color="gray700">\[\[Writable\]\]</CustomCode>, <CustomCode color="gray700">\[\[Enumerable\]\]</CustomCode>, <CustomCode color="gray700">\[\[Configurable\]\]</CustomCode>의 값은 `true`로 초기화
 
-<br/>
+<br />
 
 <Typography variant="h4">
   <span>16.3.2 접근자 프로퍼티</span>
@@ -127,7 +127,7 @@ import {CustomCode, Typography} from '@src/shared';
     4. 접근자 프로퍼티 `fullName`의 프로퍼티 어트리뷰트 <CustomCode color="gray700">\[\[Get\]\]</CustomCode>의 값, 즉 `getter` 함수를 호출하여 그 결과를 반환한다.  
       프로퍼티 `fullName`의 프로퍼티 어트리뷰트 <CustomCode color="gray700">\[\[Get\]\]</CustomCode>의 값은 `Object.getOwnPropertyDescriptor` 메서드가 반환하는 <Typography color="gray500">프로퍼티 디스크립터(PropertyDescriptor)</Typography> 객체의 `get` 프로퍼티 값과 같다.
 
-<br/>
+<br />
 
 <Typography variant="h5">
   <span>+ 접근자 프로퍼티와 데이터 프로퍼티 구별법</span>
@@ -143,7 +143,7 @@ import {CustomCode, Typography} from '@src/shared';
   // {value: {...}, writable: true, enumerable: false, configurable: false}
   ```
 
-<br/>
+<br />
 
 ---
 
@@ -220,7 +220,7 @@ import {CustomCode, Typography} from '@src/shared';
     | <CustomCode color="slate500">enumerable</CustomCode>   | <CustomCode color="gray700">\[\[Enumerable\]\]</CustomCode>   | `false`              |
     | <CustomCode color="slate500">configurable</CustomCode> | <CustomCode color="gray700">\[\[Configurable\]\]</CustomCode> | `false`              |
 
-<br/>
+<br />
 
 ---
 
@@ -229,13 +229,13 @@ import {CustomCode, Typography} from '@src/shared';
 </Typography>
 
 - 객체 변경 방지 메서드들  
-  | 구분           | 메서드                     | 프로퍼티<br/>추가 | 프로퍼티<br/>삭제 | 프로퍼티 값<br/>읽기 | 프로퍼티 값<br/>쓰기 | 프로퍼티 어트리뷰트<br/>재정의 |
+  | 구분           | 메서드                     | 프로퍼티<br />추가 | 프로퍼티<br />삭제 | 프로퍼티 값<br />읽기 | 프로퍼티 값<br />쓰기 | 프로퍼티 어트리뷰트<br />재정의 |
   | -------------- | -------------------------- | ----------------- | ----------------- | -------------------- | -------------------- | ------------------------------ |
   | 객체 확장 금지 | `Object.preventExtensions` | X                 | O                 | O                    | O                    | O                              |
   | 객체 밀봉      | `Object.seal`              | X                 | X                 | O                    | O                    | X                              |
   | 객체 동결      | `Object.freeze`            | X                 | X                 | O                    | X                    | X                              |
 
-<br/>
+<br />
 
 <Typography variant="h4">
   <span>16.5.1 객체 확장 금지</span>
@@ -244,7 +244,7 @@ import {CustomCode, Typography} from '@src/shared';
 - `Object.preventExtensions(<객체>)`: 특정 객체 확장 금지 (프로퍼티 추가 금지)
 - `Object.isExtensible(<객체>)`: 확장 가능한 객체인지 체크
 
-<br/>
+<br />
 
 <Typography variant="h4">
   <span>16.5.2 객체 밀봉</span>
@@ -254,7 +254,7 @@ import {CustomCode, Typography} from '@src/shared';
   - 읽기, 쓰기만 가능
 - `Object.isSealed(<객체>)`: 밀봉된 객체인지 체크
 
-<br/>
+<br />
 
 <Typography variant="h4">
   <span>16.5.3 객체 동결</span>
@@ -264,7 +264,7 @@ import {CustomCode, Typography} from '@src/shared';
   - 읽기만 가능
 - `Object.isFrozen(<객체>)`: 동결된 객체인지 체크
 
-<br/>
+<br />
 
 <Typography variant="h4">
   <span>16.5.4 불변 객체</span>

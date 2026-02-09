@@ -1,0 +1,63 @@
+---
+subject: '[TIL] 2021-05-20'
+date: '2021-05-20'
+category: ['TIL']
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>🚀 Today I Learned (2021.05.20)</span>
+</Typography>
+
+<br />
+
+---
+
+<br />
+
+<Typography variant="h4">
+  <span>**👨‍💻 오늘의 알고리즘**</span>
+</Typography>
+
+-   [[Algorithm] LeetCode : Sort Colors, Merge Sorted Array, Find Peak Element](https://17-sss.github.io/2021-05-20-sortColors,_mergeSortedArray,_findPeakElement)
+
+<br />
+
+<Typography variant="h4">
+  <span>**😆 오늘 뭐했어?**</span>
+</Typography>
+
+-   오늘은 오전에 스크럼 간단히 한 뒤에, 같은 FE 포지션분이랑 회의하고  
+  드디어 오늘부터 `MainPage` 제작 시작!!
+  - 근데 **Typescript** 어제 쉬면서 분명 공부했다 생각했는데,  
+    많은 변수가 있네 ㅠㅠ  
+    거의 코딩보다는 검색을 많이 한 기분.  
+    그래도 웬만한건 해결해서 다행이야!  
+    그리고 `interface` 설계 할 때, Object 요소로 이루어진 배열을 만들 때는  
+    ```ts
+    export interface IText {
+      // "nearby: {}" 요고 말고 "[name: string]: {}" 이렇게도 가능!
+        // 뒤에 있는건 nearby라는 고정된 키name이 아니어도 되게 해줌!
+      nearby: {
+        items: {
+          name: string,
+          distance?: string,
+        }[],
+      }
+    }
+    ```
+    요론식으로!! 
+  - 근데.. `MainPage` 관련 컴포넌트 자신있게 레이아웃 짤 수 있다했는데 못짰는데 어떡하지..?  
+    페어분 죄송합니다..
+
+<br />
+
+<Typography variant="h4">
+  <span>**✍️ 회고**</span>
+</Typography>
+
+-   음 쉬울 줄 알았지만, 아니었고 큰 복병이기도 하다.  
+  그래도 많은 걸 알아낸 것 같고 조금씩 재미를 느끼는 기분  
+  그리고 이번 프로젝트는 확실히 행복한 듯..?  
+  컨디션 조절도 잘하자!!

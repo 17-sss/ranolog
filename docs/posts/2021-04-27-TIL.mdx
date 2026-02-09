@@ -1,0 +1,68 @@
+---
+subject: '[TIL] 2021-04-27'
+date: '2021-04-27'
+category: ['TIL']
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>🚀 Today I Learned (2021.04.27)</span>
+</Typography>
+
+<br />
+
+---
+
+<br />
+
+<Typography variant="h4">
+  <span>**👨‍💻 오늘의 알고리즘**</span>
+</Typography>
+
+-   [리트코드 Easy - Same Tree](https://leetcode.com/problems/same-tree/)
+-   분명 풀었는데 개념을 제대로 숙지하지 못해서 왜 풀린건지 모르겠다
+-   오늘도 역시 BFS & DFS 관련 문제였던 듯.  
+  진짜 주말에 정리하자!!
+-   그리고 매개변수 `p`, `q`가 꼭 문자열로 들어오는 것처럼 되어있어서 문자열인줄 알았는데  
+  문제 자체에 주석처리 되어 있던 TreeNode 였다.  
+  안보이게 정의되어있는건가...?
+
+<br />
+
+<Typography variant="h4">
+  <span>**📑 오늘의 기술문서**</span>
+</Typography>
+
+-   [[Tech Article] 그래프 (DFS, BFS, 다익스트라 알고리즘 등)](https://17-sss.github.io/2021-04-27-[기술문서_정리]_그래프_(DFS,_BFS))
+
+<br />
+
+<Typography variant="h4">
+  <span>**😆 오늘 뭐했어?**</span>
+</Typography>
+
+-   오늘은 상세정보 창을 만들기위해 Modal 창을 만드는 작업을 했다.
+
+  -   이번엔 재사용성을 고려해서 만들었다.
+  -   음.. 나중에 필요하면 더 수정해야겠지만?
+
+-   **_간단한 공부했던 키워드 및 메모_**
+  -   Modal을 만든 후 상세페이지 창을 만들 때, Modal 내에 크게 2부분 (50:50)으로 나누어져야했다.
+    -   왼쪽은 상품의 이미지들을 표시하는 틀
+    -   오른쪽은 상품의 이름이나 가격들을 표시하는 정보 창
+    -   헌데... 왼쪽 **상품이미지**가 오른쪽 **정보 창**의 내용이 많아질수록,  
+             왼쪽 창이 오른쪽에 맞춰져서 왼쪽 창이 이상하게 늘어났다.
+      -   어떻게 해야할까? 하고 고민하다가 **css**에서 `height: fit-content`를  
+                 적용하니 말끔히 해결이 되었다. 잘 몰랐던 속성이었는데, 이참에 머릿속에 기억해두어야겠다!
+
+<br />
+
+<Typography variant="h4">
+  <span>**✍️ 회고**</span>
+</Typography>
+
+-   이제 이번주 프로젝트(?)도 몇 일 남지 않았다. 약간 발등에 불 떨어진 것 같은데  
+  언능 완성해서 내일은 백앤드 분과 맞춰봐야겠다!!
+-   분업도 분업이지만, 서로 나아가도록하자.  
+  혼자 해결하면서 혼자 공부하는 것도 늘겠지만, 삽질이 늘고 고립된 학습 방식인 것 같기도 하다.

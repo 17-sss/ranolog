@@ -1,0 +1,85 @@
+---
+subject: '[Web] SPA, MPA??'
+date: '2021-04-11'
+category: ['Web']
+thumbnail: '/images/posts/_common/background_web.png'
+---
+
+import {Typography} from '@src/shared';
+
+# SPA, MPA??
+<Typography variant="h3" backgroundColor="gray">
+  <span>**1**. SPA : Single Page Application (단일 페이지 애플리케이션)</span>
+</Typography>
+- `Single-page application`은 브라우져 내부에서 동작하는 앱이다. 그리고 사용하는동안 page의 전환을 요구하지 않는다.  
+  이런 종류의 애플리케이션을 매일 사용하고 있다.  
+  (예를 들면, Gmail, Google Maps, Facebook 또는 GitHub 같은것들이 그 예)  
+- `SPA` 브라우저환경에서 자연스럽게 UX를 제공하려고 노력한다.  
+  페이지의 전환이 없고, 기다릴 필요가 없는 것처럼.. 이러한 것을 가능하게 하는것은 `Javascript`.  
+  `Javascript`를 사용해서 다른 컨텐츠를 로딩하는 하나의 웹 페이지.
+- `SPA`는 마크업과 데이터를 요청하고, 브라우저에 페이지를 바로 그림.
+
+<Typography variant="h4">
+  <span>1) SPA의 장점</span>
+</Typography>
+- `SPA`는 빠르다.  
+  대부분의 리소스 (HTML, CSS, Script)를 애플리케이션에 들어오는 시점에 딱 한번 로딩.  
+  데이터는 나중에 온다. 개발은 단순해지고, 간결해진다.
+- 서버에서 페이지를 렌더링하는 코드를 짤 필요가 없음  
+  (서버에서 파일을 요청하는것 없이도 화면개발을 훨씬 더 쉽게 할 수 있다.)
+- `SPA`는 크롬을 사용해서 쉽게 디버깅할 수 있고, 네트워크 상황 모니터링, 페이지 요소검사, 데이터를 확인할 수 있다.
+- 개발자가 웹 애플리케이션과 모바일 애플리케이션 서버를 같이 사용할 수 있어서 백앤드를 줄일 수 있다.
+- local storage를 효율적으로 사용할 수 있다.  
+  애플리케이션은 오직 하나의 요청을 보내고, 모든 데이터를 저장.  
+  즉, 데이터와 작업들을 오프라인에서도 가능하게 해준다.
+
+<Typography variant="h4">
+  <span>2) SPA의 단점</span>
+</Typography>
+- `SPA`는 데이터를 AJAX로 로딩되기 때문에 SEO 최적화하기 쉽지않고 까다로움.  
+  페이지를 전환하지 않고 애플리케이션에서 데이터를 바꾸거나, 업데이트하기 때문.
+- 무거운 클라이언트측 프레임워크를 요구하기 때문에 다운로드 받는게 느림  
+- `Javascript`가 보여지고, 사용되기를 요구함.  
+  즉, 만약에 사용자가 브라우저에서 Javascript가 사용되지 않도록 설정한다면, 애플리케이션에서 아무것도 안보이고 동작하지 않는다.
+- MPA과 비교하면 `SPA`는 **보안에 상대적으로 취약한 부분**이 있다.  
+  Cross-Site Scripting (XSS) 때문에, 다른 사용자가 Client-side script에 코드를 넣어 공격을 할 수 있기 떄문..
+
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>**2**. MPA : Multi Page Application (멀티 페이지 애플리케이션)</span>
+</Typography>
+- `Multiple-page applications`는 전통적인 방식으로 동작하는 것
+- 브라우저에서 데이터를 보여주거나 데이터를 서버에게 전달할때마다 화면이 전환됨
+- 이런 애플리케이션은 SPA보다 큼. (하지만 별 문제는 되지 않음)  
+  - AJAX 활용하여 크고 복잡한 애플리케이션이 서버와 브라우저 사이에서 많은 데이터가 오가는 것을 걱정하지 않아도 됨.  
+    (이 해결방법은 애플리케이션의 일부분만 새로고침하는걸 가능하게 함.)
+- MPA는 더 복잡하고 어렵긴 함
+
+<Typography variant="h4">
+  <span>1) MPA의 장점</span>
+</Typography>
+- MPA는 애플리케이션에서 어딘가를 가는 지도가 필요한 사람들에게는 최적의 접근방법.  
+- 몇 단계의 Navigation 메뉴는 전통적인 MPA 애플리케이션의 최적화된 부분중에 하나임.
+- SEO 관리하는게 쉽고 매우 좋다. 한 키워드에 대해 최적화된 애플리케이션 덕분에 Page Rank가 더 좋아질 것.
+
+<Typography variant="h4">
+  <span>2) SPA의 단점</span>
+</Typography>
+- 모바일 애플리케이션 개발 시 웹 앱플리케이션이 사용하는 백엔드와 공유하기 힘듬
+- MPA는 프론트앤드와 백앤드 사이에 연결이 느슨하지 않다.  
+  따라서 다른 프론트앤드와 결합하려고 할 때 해야하는 작업이 많아짐!
+- 클라이언트 측과 서버 측 프레임워크가 각각 필요하여 개발시간이 길어진다.  
+
+---
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+- [Single-page application vs multiple-page application](https://lanace.github.io/articles/SPA-vs-MPA/)
+- 추가 참고 자료
+  - [SPA vs. MPA](https://babytiger.netlify.app/posts/SPA/)
+  - [[IT정보] 싱글 페이지 애플리케이션(Single Page Application, SPA) 개념](https://m.blog.naver.com/dktmrorl/222085340333)

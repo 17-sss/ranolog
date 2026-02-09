@@ -1,0 +1,85 @@
+---
+subject: '[TIL] 2021-05-27'
+date: '2021-05-27'
+category: ['TIL']
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>🚀 Today I Learned (2021.05.27)</span>
+</Typography>
+
+<br />
+
+---
+
+<br />
+
+<Typography variant="h4">
+  <span>**👨‍💻 오늘의 알고리즘**</span>
+</Typography>
+
+-   [\[Algorithm\] LeetCode : Implement strStr(), Rotate String](https://17-sss.github.io/2021-05-27-Implement_strStr(),_Rotate_String)
+
+<br />
+
+<Typography variant="h4">
+  <span>**😆 오늘 뭐했어?**</span>
+</Typography>
+
+-   난 항상 `styled-components` 쓸 때
+
+  ```jsx
+  import Modal from './Modal';
+  /* .. 생략 .. */
+  const MainModal = styled(Modal)`
+    display: flex;
+  `;
+  ```
+
+  위처럼 `Modal`을 상속받은 `MainModal`이 MainModal내에서 정의된 스타일들이 적용이 안되었었다.  
+  그래서 나는 항상 `styled-components`의 `css`라는 기능을 사용해 스타일을 다시 만들어서 가져와 적용하거나  
+  스타일드 컴포넌트 자체를 새로 만들었었다.(아주 비효율적이지..)
+
+  왜 안되는건지 페어분에게 여쭤봤는데  
+  페어분이 확인한 결과,  
+  알고보니 내가 만든 `Modal`에 `{...props}`가 전달이 되어있지 않았다.
+
+  ```jsx
+  const Modal = ({ children, ...props }) => {
+    <ModalLayout {...props}>{children}</ModalLayout>;
+  };
+  ```
+
+  -   이렇게 정의 해놨어야하는데..
+
+  ```jsx
+  const Modal = ({ children }) => {
+    <ModalLayout>{children}</ModalLayout>;
+  };
+  ```
+
+  -   이렇게 해버린..😱
+  -   이렇게하면 왜 안되는건지 여쭤봤더니, 이 `Modal`을 상속받은 자식에게서  
+    정의해준 스타일도 props로 들어가기 때문이라 한다!!
+
+  > 이렇게 하나를 알아가니 너무 좋고, 제발 질문 좀 하자.  
+  > 나는 왜 항상 질문도 안하다가 이지경까지..  
+  > 이 이슈 같은 경우에도 몇 달을 해결안하고 썼던건지.. ㅎ
+
+-   `styled-components`의 `css`로 생성한 스타일을 import 받아와서 적용하는 것. 애용하지말자.  
+  그리 좋진 않은가봐..
+
+<br />
+
+<Typography variant="h4">
+  <span>**✍️ 회고**</span>
+</Typography>
+
+-   역시 다들 힘들고, 내가 맞는 방법을 쓰고 있는건 역시 아니었다.  
+  이번에는 뭔가 많이 배워가는 것 같다!  
+  항상 피드백을 제대로 받아본 적이 없었는데  
+  너무 좋은 것 같다!  
+  아 그리고 프로젝트에 연연하지말자.  
+  어차피 이걸로 어디에 낼 곳도 없어..

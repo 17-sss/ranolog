@@ -1,0 +1,52 @@
+---
+subject: '[Git] 유용한 Git 명령어 (계속 업데이트)'
+date: '2021-04-03'
+category: ['Git']
+thumbnail: '/images/posts/_common/background_git.png'
+---
+
+import {Typography} from '@src/shared';
+
+**> 로컬저장소에 가져오는 브랜치가 로컬저장소에 없을 때 원격저장소에 있는걸 한번에 가져오는 법**
+
+-   `git checkout -t <remote명>/<가져올 브랜치명>`
+  -   예) `git checkout -t origin/test_step1`
+
+**> 브랜치 이름바꾸기**
+
+-   `git branch -m <변경전_branch_name> <새로운_branch_name>`
+
+**> Git 브랜치 여러개 지우기**
+
+-   `git push origin --delete <브랜치명1> <브랜치명2> <...>`
+
+**> 브랜치 전체를 clone하지 않고 특정 브랜치 하나만 clone**
+
+-   `git clone -b <브랜치명> --single-branch <저장소 주소>`
+  -   ex) `git clone -b testBranch --single-branch https://github.com/17-sss/testStore`
+
+**> 원격저장소 ▶︎ 로컬저장소에 강제로 덮어씌우기**
+
+```
+git fetch --all
+git reset --hard origin/master
+```
+
+**> 파일 변경한 적도 없는데 많은 파일이 수정되어 있다고 나올 경우**
+
+참고: [stackoverflow : Git 상태는 내용이 동일해도 파일이 변경된 것으로 표시됩니다.](https://stackoverflow.com/questions/5787937/git-status-shows-files-as-changed-even-though-contents-are-the-same)
+
+```bash
+# Git의 인덱스에서 모든 파일을 제거합니다.
+git rm --cached -r .
+
+# 모든 새 줄 끝을 선택하도록 Git 인덱스를 다시 작성합니다.
+git reset --hard
+```
+
+**> 로컬 저장소의 Branch List를 원격 저장소의 Branch List와 동기화하려면?**
+
+참고: [stackoverflow : Git은 언제 원격 분기 목록을 새로 고침합니까?](https://stackoverflow.com/questions/36358265/when-does-git-refresh-the-list-of-remote-branches)
+```bash
+git remote update origin --prune
+```

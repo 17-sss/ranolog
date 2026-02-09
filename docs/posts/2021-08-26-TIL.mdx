@@ -1,0 +1,81 @@
+---
+subject: '[TIL] 2021-08-26'
+date: '2021-08-26'
+category: ['TIL']
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>🚀 Today I Learned (2021.08.26)</span>
+</Typography>
+
+<br />
+
+---
+
+<Typography variant="h4">
+  <span>**👨‍💻 오늘의 알고리즘**</span>
+</Typography>
+
+- [IF / 10. 재귀함수와 완전탐색(깊이우선탐색, DFS) - 순열 구하기](https://github.com/17-sss/Algorithm/blob/master/codes/Inflearn-JS_Algorithm/Section08/10-%EC%88%9C%EC%97%B4%20%EA%B5%AC%ED%95%98%EA%B8%B0/210826/10.md)
+- [IF / 11. 재귀함수와 완전탐색(깊이우선탐색, DFS) - 팩토리얼](https://github.com/17-sss/Algorithm/blob/master/codes/Inflearn-JS_Algorithm/Section08/11-%ED%8C%A9%ED%86%A0%EB%A6%AC%EC%96%BC/210826/11.md)
+
+<br />
+
+<Typography variant="h4">
+  <span>**😆 오늘 뭐했어?**</span>
+</Typography>
+
+- 알고리즘 강의 2문제
+- 캐러셀 (React \* TS) 설계 및 css 작업 중..
+- 오늘 알게 된 것  
+  1\) 타스에서 `type`의 상속은? (값 정의 시 `&` 으로 부모를 붙여주면 된다!)
+  ```ts
+  type TParent = { lastName: string };
+  type TChild = TParent & { firstName: string };
+  ```
+  - 써봤긴 했었지만, 이게 상속 개념인줄은 몰랐다
+
+  2\) styled-components의 mixin (오늘 작업한 일부 코드)
+  ```ts
+  type TFlexSetCommon = "inherit" | "initial" | "unset";
+  type TFlexSetSortCommon = TFlexSetCommon | "baseline" | "flex-start" | "flex-end" | "center" | "stretch";
+  type TFlexSet = {
+  flexDirection?: TFlexSetCommon | "row" | "row-reverse" | "column" | "column-reverse";
+  alignItems?: TFlexSetSortCommon;
+  justifyContent?: TFlexSetSortCommon | "first baseline" | "last baseline" | "left" | "right" | "start" | "end" 
+    | "safe" | "unsafe" | "space-around" | "space-between" | "space-evenly";
+  };
+
+  const flexSet = ({
+  flexDirection = "row",
+  alignItems = "stretch",
+  justifyContent = "flex-start",
+  }: TFlexSet) => css`
+  display: flex;
+  flex-direction: ${flexDirection};
+  align-items: ${alignItems};
+  justify-content: ${justifyContent};
+  `;
+  ```
+
+<br />
+
+<Typography variant="h4">
+  <span>**✍️ 회고**</span>
+</Typography>
+
+- 이번주는 왜 계속 자는겁니까!!!  
+  정신차리세요! 취업해야죠!!  
+  하고 오늘은 오전에 알고리즘 강의보고  
+  또 설렁설렁... 경각심을 가져야하는데  
+  (채찍질을 해야할 것 같다)
+- 어제 저장소만 만든 캐러셀을 노션에 무엇이 필요할지 정리를 하고  
+  코딩을 하러 들어갔는데, 진짜 한달동안 리액트도 타스도 안봤다보니  
+  아무것도 모른다. 진짜 (닭도 이거보단 똑똑할듯)  
+  그래도 이것 저것 찾으며 메모했으니 만족하자 🥲
+- 11번가 과제도 난 이상하게 한 것 같다.  
+  다른분들은 다 성장한다.  
+  하지만 난 제자리도 아니고 후진을 아주..빠르게 하는 기분  
+- 내가 지금 하고 있는게 맞는걸까

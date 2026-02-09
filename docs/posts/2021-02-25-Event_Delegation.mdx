@@ -1,0 +1,49 @@
+---
+subject: '[JavaScript] 이벤트 델리게이션'
+date: '2021-02-25'
+category: ['JavaScript', 'DOM']
+thumbnail: '/images/posts/_common/background_dom.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>이벤트 버블링. 이벤트 델리게이션 기법</span>
+</Typography>
+
+<br />
+
+---
+
+<span style="color: skyblue; font-weight: bold">이벤트 버블링</span>  
+ 이벤트 버블링은 하위태그에서 발생한 이벤트를 상위태그에서 감지하는 것으로  
+ `table > tbody > tr > td` 와 같은 태그 계층 구조에서 td에서 발생한 이벤트를  
+ table 태그나 tbody 태그 등에서 감지할 수 있게 하는것이 이벤트 버블링.
+
+<span style="color: skyblue; font-weight: bold">이벤트 델리게이션 기법을 사용해야 할 때는?</span>  
+ 만약 많은 요소에 이벤트를 설정해주어야 한다면,  
+ 브라우저는 이벤트 발생 유무를 감지하기 위해 자원을 소모하는데 이벤트 갯수가 많아질수록  
+ 모니터링이 많아져 브라우저 성능은 저하하게 되므로 너무 많은 이벤트를 사용하면 안됨!
+
+<span style="color: skyblue; font-weight: bold">이벤트 델리게이션 패턴 적용 예시</span>
+
+```js
+const ul = document.querySelector('ul');
+ul.addEventListener('click', (e) => {
+  if (e.target.className === 'bigItem') {
+    alert('나 큰거임');
+  } else if (e.target.className === 'smallItem') {
+    console.log('나 작은거임');
+  }
+});
+```
+
+---
+
+---
+
+<Typography backgroundColor="yellow" variant="p" isBold>
+  <span>참고 자료</span>
+</Typography>
+
+-   [[javascript] 이벤트 델리게이션 패턴](https://sub0709.tistory.com/14)

@@ -1,0 +1,77 @@
+---
+subject: '[TIL] 2021-06-22'
+date: '2021-06-22'
+category: ['TIL']
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>🚀 Today I Learned (2021.06.22)</span>
+</Typography>
+
+<br />
+
+---
+
+<br />
+
+<Typography variant="h4">
+  <span>**👨‍💻 오늘의 알고리즘**</span>
+</Typography>
+
+-   [[Algorithm] LeetCode : Minimum Area Rectangle](https://17-sss.github.io/2021-06-22-Minimum_Area_Rectangle)
+
+<br />
+
+<Typography variant="h4">
+  <span>**😆 오늘 뭐했어?**</span>
+</Typography>
+
+-   오늘은 진짜 많은 코딩을 했던 하루.  
+  항상 리팩토링만하고 맴돌다가  
+  이번에는 기능구현이 먼저라서 열시미 코딩.
+-   API를 적용하는데 POSTMAN mock 데이터를 적용했었는데  
+  1000건 제한에 걸려서 데이터를 가져오지 못했었다.  
+  알고보니 Team workspace면 제한이 있고  
+  개인 계정이면 제한이 없다고 하신다!
+  -   이제는 배포된 API를 적용하겠지만  
+         나중에 쓸일이 생긴다면 자세히 알아보자!
+-   그리고 이번 프로젝트에선 `fetch API`를 통해 서버와 통신할 때  
+  OAuth 로그인 후 반환되는 JWT Token (JSON Web Token)을 Header에서 Authorization의 값으로 입력을 해줬어야 한다.
+
+  ```js
+  fetch(
+    'http://API 주소',
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer jwtToken값', // 이번 플젝에선 JWT Token 앞에는 Bearer가 들어감
+      },
+    },
+  )
+    .then((res) => res.json())
+    .then((data) => console.log(data));
+  ```
+
+  이것을 몰라서 서버꺼졌나..? 이러고 있었고  
+  모르면 물어보고 소통해보자 제발!! 부끄러운거 아니니까!
+
+-   오늘 체크박스 기능도 필터 기능도 일부 완성했으니까, 다행인거야!  
+  그러니까 이번 플젝.. 그리 부담가지지말자
+
+<br />
+
+<Typography variant="h4">
+  <span>**✍️ 회고**</span>
+</Typography>
+
+-   오늘은 열심히 코딩을 했던 하루  
+  그리고 저녁엔 알고리즘  
+  오늘도 고생했다 😁  
+  그리고 모르는건 부끄러운게 아니다  
+  모르면 물어보거나 검색해보자!!  
+  (내가 백엔드 온전하게 한 게 아니잖아? 거의 기미상궁이었지..)
+-   그리고 PR 리뷰가 달렸는데, 타입스크립트는 기본을 넘어섰다고 피드백이 왔다.  
+  오랜만에 기부니가 좋넴..ㅎㅎ
