@@ -1,0 +1,145 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1024 1024"
+  role="img"
+  aria-labelledby="title desc"
+>
+  <title id="title">AI workflow thumbnail</title>
+  <desc id="desc">
+    An editorial illustration showing a prompt bubble, a structured spec card, and an AI
+    processor connected in one workflow.
+  </desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fcf8f1" />
+      <stop offset="100%" stop-color="#f2eee6" />
+    </linearGradient>
+    <linearGradient id="glowWarm" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffb36b" />
+      <stop offset="100%" stop-color="#ff7b72" />
+    </linearGradient>
+    <linearGradient id="glowCool" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#72d2dc" />
+      <stop offset="100%" stop-color="#4db7b0" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#151515" flood-opacity="0.14" />
+    </filter>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#201f1d" stroke-opacity="0.08" stroke-width="2" />
+    </pattern>
+    <marker
+      id="arrow"
+      markerWidth="16"
+      markerHeight="16"
+      refX="10"
+      refY="8"
+      orient="auto"
+      markerUnits="strokeWidth"
+    >
+      <path d="M 0 0 L 16 8 L 0 16 z" fill="#1a1a1a" />
+    </marker>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#bg)" />
+  <rect width="1024" height="1024" fill="url(#grid)" />
+
+  <circle cx="178" cy="170" r="118" fill="url(#glowWarm)" opacity="0.16" />
+  <circle cx="864" cy="818" r="132" fill="url(#glowCool)" opacity="0.18" />
+  <rect x="746" y="114" width="126" height="126" rx="32" fill="#ffffff" opacity="0.65" />
+  <rect x="146" y="700" width="90" height="90" rx="22" fill="#ffffff" opacity="0.65" />
+
+  <g stroke="#1a1a1a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.9">
+    <path d="M180 248 H260" />
+    <path d="M764 202 H844" />
+    <path d="M814 162 V242" />
+    <path d="M860 710 h42" />
+    <path d="M880 690 v42" />
+    <path d="M136 620 h34" />
+    <path d="M153 603 v34" />
+  </g>
+
+  <g filter="url(#shadow)">
+    <path
+      d="M138 356
+         a42 42 0 0 1 42 -42
+         h122
+         a42 42 0 0 1 42 42
+         v70
+         a42 42 0 0 1 -42 42
+         h-54
+         l-44 40
+         v-40
+         h-44
+         a42 42 0 0 1 -42 -42
+         z"
+      fill="#ff8a73"
+      stroke="#1a1a1a"
+      stroke-width="10"
+      stroke-linejoin="round"
+    />
+    <rect x="730" y="304" width="168" height="168" rx="36" fill="#6ed0d6" stroke="#1a1a1a" stroke-width="10" />
+    <rect x="712" y="346" width="18" height="28" rx="6" fill="#1a1a1a" />
+    <rect x="712" y="402" width="18" height="28" rx="6" fill="#1a1a1a" />
+    <rect x="898" y="346" width="18" height="28" rx="6" fill="#1a1a1a" />
+    <rect x="898" y="402" width="18" height="28" rx="6" fill="#1a1a1a" />
+    <rect x="774" y="286" width="28" height="18" rx="6" fill="#1a1a1a" />
+    <rect x="826" y="286" width="28" height="18" rx="6" fill="#1a1a1a" />
+    <rect x="774" y="472" width="28" height="18" rx="6" fill="#1a1a1a" />
+    <rect x="826" y="472" width="28" height="18" rx="6" fill="#1a1a1a" />
+
+    <rect x="300" y="206" width="352" height="454" rx="42" fill="#ffd888" stroke="#1a1a1a" stroke-width="10" />
+    <rect x="342" y="244" width="352" height="454" rx="42" fill="#88d3ca" stroke="#1a1a1a" stroke-width="10" />
+    <rect x="322" y="224" width="384" height="486" rx="46" fill="#fffdf8" stroke="#1a1a1a" stroke-width="12" />
+  </g>
+
+  <g stroke="#1a1a1a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M222 391 H284 C314 391 330 382 344 364" stroke-dasharray="18 18" marker-end="url(#arrow)" />
+    <path d="M730 392 H700 C674 392 660 386 644 372" stroke-dasharray="18 18" marker-end="url(#arrow)" />
+  </g>
+
+  <g fill="#1a1a1a">
+    <rect x="182" y="366" width="118" height="16" rx="8" />
+    <rect x="182" y="400" width="96" height="16" rx="8" />
+    <rect x="182" y="434" width="78" height="16" rx="8" />
+
+    <rect x="392" y="286" width="242" height="24" rx="12" />
+    <rect x="392" y="328" width="148" height="18" rx="9" opacity="0.75" />
+  </g>
+
+  <g stroke="#1a1a1a" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="396" cy="402" r="20" fill="#ff8a73" />
+    <path d="M450 402 H616" />
+    <path d="M384 402 l10 10 l18 -22" fill="none" />
+
+    <circle cx="396" cy="478" r="20" fill="#ffd888" />
+    <path d="M450 478 H616" />
+    <path d="M384 478 l10 10 l18 -22" fill="none" />
+
+    <circle cx="396" cy="554" r="20" fill="#6ed0d6" />
+    <path d="M450 554 H616" />
+    <path d="M384 554 l10 10 l18 -22" fill="none" />
+
+    <rect x="770" y="344" width="88" height="88" rx="20" fill="#fffdf8" />
+    <path d="M814 366 v44" />
+    <path d="M792 388 h44" />
+    <path d="M780 422 l24 -24" />
+    <path d="M824 398 l20 20" />
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="146" y="796" width="732" height="122" rx="30" fill="#18181b" />
+  </g>
+  <text
+    x="512"
+    y="873"
+    text-anchor="middle"
+    font-family="Helvetica, Arial, sans-serif"
+    font-size="66"
+    font-weight="800"
+    letter-spacing="6"
+    fill="#fcf8f1"
+  >
+    AI WORKFLOW
+  </text>
+</svg>
