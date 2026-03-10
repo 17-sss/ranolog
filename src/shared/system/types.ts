@@ -1,4 +1,4 @@
-import {Interpolation} from '@emotion/serialize';
+import {Interpolation} from '@emotion/react';
 
 import {ThemeType} from '../theme';
 
