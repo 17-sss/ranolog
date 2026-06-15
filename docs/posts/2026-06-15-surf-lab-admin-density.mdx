@@ -1,0 +1,733 @@
+---
+subject: 'Chrome 80% 화면 밀도를 100% 앱에서 구현하기'
+summary: 'SURF-LAB admin의 화면 밀도 조절 요구사항을 PandaCSS 토큰, density scale, shared 컴포넌트 전파 구조로 풀어낸 과정을 정리했다.'
+date: '2026-06-15 15:32'
+category: ['React', 'CSS', 'AI Workflow']
+thumbnail: '/images/posts/_common/background_css.png'
+---
+
+import {Typography} from '@src/shared';
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>요약</span>
+</Typography>
+
+- 요구사항은 단순한 폰트 크기 조정이 아니었다. <Typography variant="strong" color="gray500">Chrome zoom 80%의 화면 밀도</Typography>와 <Typography variant="strong" color="gray500">Chrome zoom 90%의 글자 크기</Typography>를 브라우저 100% 상태에서 재현해야 했다.
+- 처음에는 CSS 변수와 전역 scale로 해결하려 했지만, PandaCSS의 빌드타임 토큰 생성 방식과 충돌했다.
+- 최종 방향은 기존 토큰을 오염시키지 않고 `--density` 토큰을 추가 생성한 뒤, `DensityProvider`, `applyDensity`, `cva/recipe`로 필요한 컴포넌트에 명시적으로 적용하는 방식이었다.
+- 작업은 `feature/admin-compact-density`에서 시작해 `feature/admin-density-token-rework`, `feature/density-preset-foundation`, `feature/density-preset-foundation--2`, `feature/density-preset-foundation--3`까지 이어졌다. 말 그대로 브랜치를 갈아엎으며 답을 찾은 작업이었다.
+
+이 글은 완성된 코드만 설명하는 글이 아니라,
+<Typography variant="strong" color="gray500">문제를 어떻게 이해했고, 어떤 길을 버렸고, 어떤 구조로 수렴했는지</Typography>를 남기는 기록이다.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>출발점: 이상한데 정확한 요구사항</span>
+</Typography>
+
+처음 요구사항을 들었을 때는 대충 이런 느낌이었다.
+
+> 브라우저는 100%인데, 화면은 Chrome zoom 80%처럼 보이고, 글자는 Chrome zoom 90%처럼 보여야 한다.
+
+처음엔 "그럼 그냥 전체 wrapper에 `transform: scale(0.8)` 주면 되는 거 아닌가?" 같은 생각도 잠깐 스쳤다.
+하지만 조금만 생각해보면 이건 꽤 위험하다.
+
+- 브라우저 zoom은 레이아웃 viewport, 렌더링, 픽셀 밀도에 함께 영향을 준다.
+- `transform: scale()`은 시각적으로만 줄어들 뿐 실제 layout flow는 그대로 남는다.
+- 클릭 영역, fixed/sticky 요소, popover 위치, 스크롤 계산이 어긋날 수 있다.
+- 폰트만 줄이면 여백/컴포넌트 크기는 그대로라 화면 밀도가 올라가지 않는다.
+- 여백만 줄이면 글자가 그대로라 답답하고 불균형하다.
+
+정리하면 요구사항은 `font-size` 하나의 문제가 아니었다.
+
+```ts
+const density = {
+  fontScale: 0.9,
+  spacingScale: 0.8,
+  componentScale: 0.8,
+};
+```
+
+이런 식으로 <Typography variant="strong" color="gray500">글자, 간격, 컴포넌트 크기</Typography>를 분리해서 다룰 필요가 있었다.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>첫 번째 시도: 전역 CSS 변수로 계산하기</span>
+</Typography>
+
+초기 아이디어는 꽤 단순했다.
+기존 토큰을 그대로 두고, 최종 적용값만 `calc()`로 조정하면 어떨까?
+
+```ts
+padding: 'calc(token(spacing.s8) * var(--admin-density-spacing-scale))'
+```
+
+겉으로 보기엔 좋아 보였다.
+기존 토큰 값은 건드리지 않고, 계산 수식만 바꾸면 되니까.
+
+하지만 이 방향은 금방 한계가 보였다.
+
+<Typography variant="h4">
+  <span>1) PandaCSS는 빌드타임에 스타일을 뽑는다</span>
+</Typography>
+
+PandaCSS는 `css`, `cva`, `recipe` 등에 작성된 스타일을 분석해서 빌드타임에 CSS를 생성한다.
+즉, 런타임 함수처럼 아래 형태를 마음대로 해석해주지 않는다.
+
+```ts
+{px: 'density(token(spacing.s12))'}
+{width: 'density(token(sizes.size224))'}
+```
+
+CSS 표준에 `density()`라는 함수가 있는 것도 아니고,
+PandaCSS가 임의의 커스텀 함수를 token resolver처럼 처리해주는 것도 아니다.
+
+<Typography variant="h4">
+  <span>2) 모든 속성이 같은 토큰 계열을 쓰면 안 된다</span>
+</Typography>
+
+작업 초반에 가장 크게 삐끗한 지점이기도 했다.
+`padding`, `gap`에는 spacing 토큰이 자연스럽지만,
+`width`, `height`, `minHeight` 같은 속성에는 sizes 토큰을 써야 한다.
+
+```ts
+// 이런 식으로 구분해야 한다.
+{px: 's16--density'}
+{height: 'size40--density'}
+{fontSize: 'p14--density'}
+{textStyle: 'body-small-bold--density'}
+```
+
+처음엔 `s40` 같은 spacing 계열을 height에 쓰려는 흐름이 섞였고,
+이건 PandaCSS 토큰 체계와도 맞지 않았다.
+그래서 토큰 family를 다시 정리했다.
+
+- `fontSizes`, `lineHeights`: `p{num}--density`
+- `spacing`: `s{num}--density`
+- `sizes`: `size{num}--density`
+- `textStyles`: `body-small-bold--density` 같은 기존 textStyle 이름 + suffix
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>두 번째 시도: 기존 토큰을 직접 바꿀까?</span>
+</Typography>
+
+중간에 이런 선택지도 있었다.
+
+> density가 켜진 앱에서는 `p16`이 실제로 16px이 아니라 14.4px이 되게 만들면 어떨까?
+
+장점은 명확하다.
+기존 컴포넌트 코드를 거의 안 바꿔도 된다.
+`p16`, `s16`, `size40`을 그대로 쓰면 빌드타임에 이미 축소된 값이 들어가니까.
+
+하지만 이건 꽤 위험했다.
+
+- `p16`이라는 이름이 더 이상 16px 의미를 갖지 않는다.
+- admin 앱에서는 축소된 토큰, user 앱에서는 원본 토큰이 되어 인지 비용이 커진다.
+- 같은 design-preset을 쓰는 다른 앱까지 영향을 받을 수 있다.
+- 나중에 디버깅할 때 "이 토큰의 실제 값이 무엇인가"를 계속 확인해야 한다.
+
+결국 이 방향은 버렸다.
+대신 기존 토큰은 순수하게 유지하고, density 토큰을 추가로 만들기로 했다.
+
+```ts
+p16
+p16--density
+
+s16
+s16--density
+
+size40
+size40--density
+```
+
+이 방식은 투박하다.
+적용해야 할 곳에서 `--density` 토큰을 명시적으로 써야 하기 때문이다.
+하지만 적어도 <Typography variant="strong" color="gray500">토큰의 의미가 거짓말을 하지는 않는다.</Typography>
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>design-preset에 density foundation 만들기</span>
+</Typography>
+
+처음에는 admin 전용 설정처럼 접근했지만, 곧 생각이 바뀌었다.
+`design-preset`에 들어가는 순간 이건 더 이상 admin만의 것이 아니다.
+공통 디자인 시스템이 이해할 수 있는 density token foundation이어야 했다.
+
+최종적으로는 `packages/design-preset/src/config/density.ts` 쪽에 아래 책임을 모았다.
+
+- density scale 기본값
+- density token suffix
+- density token 생성
+- textStyle density 변형 생성
+- 런타임에서 숫자 값을 보정하는 helper
+- graph처럼 직접 숫자 계산이 필요한 케이스를 위한 helper
+
+개념적으로는 이런 형태다.
+
+```ts
+export const densityTokenSuffix = '--density';
+
+export type DensityScale = {
+  fontScale: number;
+  spacingScale: number;
+  componentScale: number;
+};
+
+export function createDensityTokenKey(key: string) {
+  return `${key}${densityTokenSuffix}`;
+}
+
+export function resolveDensityScale(densityScale?: Partial<DensityScale>) {
+  return {
+    fontScale: densityScale?.fontScale ?? 1,
+    spacingScale: densityScale?.spacingScale ?? 1,
+    componentScale: densityScale?.componentScale ?? 1,
+  };
+}
+```
+
+그리고 앱의 Panda config에서는 해당 scale을 읽어 theme 생성 시점에 반영한다.
+
+```ts
+const userConfig = {
+  presets: ['@pandacss/preset-panda', '@packages/design-preset'],
+  globalCss: defineGlobalStyles(makeAppGlobalCss()),
+  theme: createTheme(readDensityScaleFromAppSettings()),
+};
+```
+
+여기서 핵심은 <Typography variant="strong" color="gray500">PandaCSS가 알 수 있는 토큰을 빌드타임에 만들어둔다</Typography>는 점이다.
+런타임에 `density(token(...))`를 해석하려는 대신,
+Panda가 정적으로 추출 가능한 이름을 미리 만들어주는 방식으로 방향을 바꿨다.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>app-settings와 feature-flag가 섞이는 문제</span>
+</Typography>
+
+density scale을 어디에 둘지도 고민이었다.
+처음엔 feature flag 설정처럼 다룰 수 있지 않을까 싶었지만,
+밀도 설정은 feature flag와 성격이 다르다.
+
+```json
+{
+  "density": {
+    "enabled": true,
+    "scale": {
+      "fontScale": 0.9,
+      "spacingScale": 0.8,
+      "componentScale": 0.8
+    }
+  }
+}
+```
+
+이 값은 기능 on/off라기보다는 앱 설정에 가깝다.
+그런데 당시 구조에서는 `__FEATURE_FLAG_SETTINGS__`라는 전역 define을 통해 app settings에 가까운 값을 읽는 흐름이 섞였다.
+그래서 admin의 density 설정 파일에서는 타입 assertion이 필요했다.
+
+```ts
+const appSettings =
+  typeof __FEATURE_FLAG_SETTINGS__ === 'undefined'
+    ? {}
+    : (__FEATURE_FLAG_SETTINGS__ as AppSettingsWithDensity);
+```
+
+이건 이번 PR에서 끝까지 정리하지 않았다.
+작업 범위가 너무 넓어지기 때문이다.
+대신 후속 작업으로 남겼다.
+
+- `@packages/app-settings` 같은 별도 패키지를 둔다.
+- `__FEATURE_FLAG_SETTINGS__` 대신 `__APP_SETTINGS__`를 사용한다.
+- feature flag 패키지는 flag registry/resolve에만 집중한다.
+- density, theme, upload policy 같은 앱 설정은 app-settings layer에서 다룬다.
+
+이건 이번 작업의 중요한 교훈이기도 했다.
+<Typography variant="strong" color="gray500">지금 고칠 수 있다고 해서 지금 다 고치는 게 좋은 건 아니다.</Typography>
+density 적용 자체도 충분히 큰 작업이었기 때문에, 설정 책임 분리는 별도 후속으로 분리했다.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>applyDensity prop만으로는 전파가 지옥이었다</span>
+</Typography>
+
+처음 shared 컴포넌트에 density를 적용할 때는 `applyDensity` prop을 계속 넘기는 식으로 접근했다.
+
+```tsx
+<Input applyDensity={applyDensity} />
+<Select applyDensity={applyDensity} />
+<DatePicker applyDensity={applyDensity} />
+```
+
+작은 범위에서는 괜찮다.
+하지만 admin 페이지 전체에 적용하려니 금방 지옥문이 열렸다.
+페이지 → 보드 → 셀 → 드롭다운 → 모달 → 버튼 → 툴팁으로 계속 prop을 전달해야 했다.
+
+그래서 `packages/shared`에 `DensityProvider`를 두고,
+컴포넌트는 명시 prop이 있으면 prop을 우선하고 없으면 context를 읽도록 바꿨다.
+
+```tsx
+export function useResolvedApplyDensity(applyDensity?: boolean) {
+  const densityContext = useDensityContext();
+  return applyDensity ?? densityContext.applyDensity ?? false;
+}
+```
+
+중요한 점은 Provider를 남발하지 않는 것이었다.
+중간에 각 페이지/컴포넌트마다 Provider를 두는 방향으로 흘렀는데,
+이건 React context를 쓰는 의미를 흐리게 만든다.
+
+정리한 방향은 아래였다.
+
+- App 최상위에서 admin density 여부를 한 번 공급한다.
+- 재사용 컴포넌트는 `applyDensity` prop을 받되 기본값은 context에서 해석한다.
+- 페이지 컴포넌트 자체는 굳이 `applyDensity` prop을 계속 받지 않는다.
+- 명시적으로 다른 density 정책이 필요한 경우에만 prop으로 override한다.
+
+이렇게 하니 prop drilling은 줄고,
+컴포넌트 단위 테스트나 독립 사용성은 유지할 수 있었다.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>반복 스타일은 cva/recipe로 정리했다</span>
+</Typography>
+
+density 적용을 처음부터 모든 컴포넌트에 손으로 넣으면 코드가 빠르게 지저분해진다.
+예를 들어 버튼만 해도 size별로 원본 토큰과 density 토큰을 모두 관리해야 한다.
+
+그래서 반복이 심한 shared 컴포넌트부터 `cva` / recipe로 정리했다.
+
+```ts
+export const buttonRecipe = cva({
+  variants: {
+    size: {
+      medium: {textStyle: 'body-medium-bold', minHeight: '3rem', px: 's16'},
+      small: {textStyle: 'body-small-bold', minHeight: '2.5rem', px: 's16'},
+    },
+    density: {
+      true: {},
+      false: {},
+    },
+  },
+  compoundVariants: [
+    {
+      density: true,
+      size: 'medium',
+      css: {
+        textStyle: 'body-medium-bold--density',
+        minHeight: 'size48--density',
+        px: 's16--density',
+      },
+    },
+  ],
+});
+```
+
+이 방식의 장점은 명확했다.
+
+- normal/density 스타일 분기가 한 곳에 모인다.
+- 컴포넌트는 `density: applyDensity`만 넘기면 된다.
+- Button, Select, ComboBox, DatePicker, Tooltip처럼 반복되는 컴포넌트가 훨씬 읽기 쉬워진다.
+- 일반 마크업에서도 recipe를 재사용할 수 있다.
+
+처음에는 `packages/shared/src/styles/recipes.ts` 한 파일에 몰려 있었지만,
+나중에는 `recipes/button.ts`, `recipes/tooltip.ts`처럼 파일을 나눴다.
+한 파일에 다 넣으면 density 정리 자체가 또 다른 덩어리 괴물이 되기 때문이다.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>생각보다 어려웠던 케이스들</span>
+</Typography>
+
+<Typography variant="h4">
+  <span>1) Board와 sticky column</span>
+</Typography>
+
+admin에는 Board 기반 화면이 많다.
+과정 관리, 모듈 관리, 성적 및 수료 관리처럼 컬럼이 많고 sticky column이 필요한 화면도 있다.
+
+문제는 density를 적용하면 column width, gap, sticky offset이 함께 줄어들어야 한다는 점이다.
+일부 화면에서는 앞 3개 컬럼과 뒤 3개 컬럼은 sticky이고, 가운데 모듈 정보는 가로 스크롤되어야 했다.
+
+여기서 어설프게 width만 줄이면 컬럼 사이가 빈 것처럼 보였다.
+사용자 표현을 빌리면 "컬럼 사이사이 탈모" 같은 화면이 나왔다.
+
+결국 Board 쪽은 단순히 font/spacing만 줄이는 게 아니라,
+컬럼 width 계산과 sticky offset까지 함께 봐야 했다.
+
+<br />
+
+<Typography variant="h4">
+  <span>2) Diagram Drawer</span>
+</Typography>
+
+VM 다이어그램 편집 모달에서는 오른쪽 Drawer에 노드 버튼들이 나온다.
+원래는 `아이콘 + 텍스트`가 한 줄에 자연스럽게 배치되었는데,
+density를 적용하니 텍스트가 개행되거나 버튼이 찌그러지는 문제가 있었다.
+
+여기서 중요한 건 "작아진다"와 "구조가 바뀐다"는 다르다는 점이었다.
+요구사항은 배율 조정이지, UI 구조 변경이 아니었다.
+
+그래서 Drawer item은 density가 적용되어도 flex 방향과 최소 너비, 아이콘/텍스트 관계를 유지하도록 보정했다.
+
+<br />
+
+<Typography variant="h4">
+  <span>3) Dashboard graph</span>
+</Typography>
+
+대시보드의 VM 사용률 그래프는 더 애매했다.
+토큰 기반 CSS가 아니라 차트/그래프 내부에서 숫자 크기를 직접 계산하는 영역이 있었기 때문이다.
+
+처음엔 `componentScale: 0.8`을 그대로 곱했는데,
+그래프가 너무 작아졌다.
+차트는 버튼이나 input처럼 1:1로 줄이면 체감상 더 크게 망가진다.
+
+그래서 graph용 보정 helper는 scale을 그대로 곱하지 않고,
+강도를 약하게 주는 방식으로 분리했다.
+
+```ts
+export function resolveDensityGraphValue(value: number, options?: DensityGraphValueOptions) {
+  if (!options?.applyDensity) return value;
+
+  const graphScale = resolveDensityGraphScale(options);
+  return Math.max(options.min ?? 0, roundDensityValue(value * graphScale));
+}
+```
+
+즉, 일반 컴포넌트와 그래프는 같은 density 철학을 공유하되,
+적용 강도는 다르게 가져갔다.
+
+<br />
+
+<Typography variant="h4">
+  <span>4) Markdown editor와 외부성 UI</span>
+</Typography>
+
+Markdown editor, viewer, diagram context menu처럼 내부 구조가 복잡하거나 외부 라이브러리와 맞물린 UI도 있었다.
+이런 컴포넌트는 단순히 wrapper에 padding만 줄이면 끝나지 않는다.
+
+- 내부 toolbar
+- editor/viewer 본문
+- modal/drawer
+- context menu
+- i18n 문구
+
+이런 하위 요소까지 같이 확인해야 했다.
+특히 context menu나 modal은 평소 화면에 바로 보이지 않아서 density 누락이 뒤늦게 발견되기 쉬웠다.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>개발 중 생긴 옆길: shared 패키지 watch</span>
+</Typography>
+
+작업 중 꽤 불편했던 점도 있었다.
+admin 앱 dev 서버를 켜놓고 shared 패키지 컴포넌트 스타일을 수정하면,
+변경이 즉시 반영되지 않는 경우가 있었다.
+
+이유는 단순했다.
+admin 앱 안의 컴포넌트는 Vite가 바로 보고 있지만,
+`packages/shared`의 PandaCSS 산출물은 별도 codegen/ship 흐름을 거쳐야 했다.
+
+그래서 dev 경험을 위해 workspace watch 스크립트도 따로 정리했다.
+이건 density 브랜치의 핵심 커밋에서는 분리했지만,
+실제 작업 과정에서는 중요한 보조 작업이었다.
+
+요지는 아래와 같다.
+
+- design-preset build watch
+- shared Panda codegen watch
+- shared Panda ship watch
+- target app Panda codegen watch
+- target app Vite dev
+
+이런 것들을 함께 돌려야 shared 패키지 스타일 수정이 앱에서 바로 확인된다.
+이런 개발 루프가 없으면 UI density 작업은 눈으로 확인하는 시간이 너무 늘어난다.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>브랜치를 여러 번 갈아엎은 이유</span>
+</Typography>
+
+작업 흐름은 대략 이렇게 흘렀다.
+
+<Typography variant="h4">
+  <span>feature/admin-compact-density</span>
+</Typography>
+
+첫 접근이었다.
+전역 변수와 compact density 개념을 빠르게 붙여보는 실험에 가까웠다.
+하지만 PandaCSS 토큰 정의 위치와 기존 토큰 충돌, body/global 변수 방식의 불안정함이 드러났다.
+
+<br />
+
+<Typography variant="h4">
+  <span>feature/admin-density-token-rework</span>
+</Typography>
+
+토큰 기반으로 방향을 틀었다.
+`p{num}--density`, `s{num}--density`, `size{num}--density` 같은 이름을 정하고,
+shared/admin 컴포넌트에 density option을 넣기 시작했다.
+
+이때 중요한 교훈은 <Typography variant="strong" color="gray500">density 토큰 정의는 shared가 아니라 design-preset에 있어야 한다</Typography>는 것이었다.
+토큰은 디자인 시스템의 책임이지, shared 컴포넌트 패키지의 책임이 아니었다.
+
+<br />
+
+<Typography variant="h4">
+  <span>feature/density-preset-foundation</span>
+</Typography>
+
+main에서 다시 뜯어 만든 본격적인 foundation 브랜치였다.
+`design-preset`에 density 생성 로직을 두고,
+admin과 user의 Panda config, shared 컴포넌트, admin 화면을 순차적으로 맞췄다.
+
+중간에 main이 계속 바뀌면서 rebase 충돌도 있었고,
+기존 기능 변경을 덮어쓰지 않도록 main 변경 우선 원칙을 세웠다.
+
+```md
+1. main의 기능 변경
+2. 기존 density 스타일 변경
+3. 단순 포맷/정렬
+```
+
+이 원칙이 없었으면 중간에 계정 정책, 업로드 정책, VM diagram 쪽 변경을 density 작업이 덮어썼을 가능성이 있었다.
+
+<br />
+
+<Typography variant="h4">
+  <span>feature/density-preset-foundation--2, --3</span>
+</Typography>
+
+후반부는 회귀 수정과 히스토리 정리였다.
+너무 많은 작은 커밋이 쌓였고, 같은 맥락의 수정이 여러 번 반복됐다.
+
+그래서 마지막에는 커밋을 아래처럼 큰 흐름으로 다시 묶었다.
+
+```md
+✨ design-preset density 토큰 foundation 추가
+🌊 density 설정과 토큰 기반 정리
+🌊 shared density provider와 recipe 구조 정리
+🌊 shared 기본 컴포넌트 density 적용
+🌊 shared 보드와 편집 컴포넌트 density 적용
+🌊 admin 공통 UI density 기반 정리
+🌊 과정과 교육운영 화면 density 적용
+🌊 모듈과 문제은행 화면 density 적용
+🌊 관리와 시스템 화면 density 적용
+```
+
+작업 중간의 삽질은 많았지만,
+PR에서 보는 흐름은 "foundation → shared → admin domain" 순서가 되도록 정리했다.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>최종 구조를 한 문장으로 정리하면</span>
+</Typography>
+
+최종 구조는 아래 한 문장으로 정리할 수 있다.
+
+> design-preset은 density 토큰을 만들고, shared는 density를 해석할 수 있는 컴포넌트/recipe를 제공하며, admin 앱은 최상위에서 density 사용 여부를 결정한다.
+
+조금 더 풀면 이렇다.
+
+```md
+design-preset
+  - density scale 해석
+  - --density 토큰 생성
+  - density textStyle 생성
+
+shared
+  - DensityProvider
+  - useResolvedApplyDensity
+  - density-aware recipe
+  - Button/Input/Select/DatePicker/Board/Tooltip 등 공용 컴포넌트 적용
+
+admin
+  - 앱 설정에서 density enabled/scale 읽기
+  - App 최상위 Provider 적용
+  - 도메인 페이지와 하위 컴포넌트에 누락 스타일 보강
+```
+
+이렇게 책임을 나누니 각 레이어가 이해하기 쉬워졌다.
+
+- design-preset: 값을 만든다.
+- shared: 값을 쓸 수 있는 API를 제공한다.
+- admin: 정책을 선택하고 화면에 적용한다.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>이번 작업에서 얻은 기준</span>
+</Typography>
+
+<Typography variant="h4">
+  <span>1) density는 zoom이 아니다</span>
+</Typography>
+
+브라우저 zoom을 앱 코드로 그대로 구현하려고 하면 금방 망가진다.
+앱 레벨에서는 font, spacing, component, graph처럼 성격이 다른 값을 분리해서 다뤄야 한다.
+
+<br />
+
+<Typography variant="h4">
+  <span>2) 토큰 이름은 거짓말하면 안 된다</span>
+</Typography>
+
+`p16`이 16px이 아니라면 언젠가 디버깅 비용으로 돌아온다.
+기존 토큰은 순수하게 두고, density token을 명시적으로 추가하는 방식이 더 투박하지만 안전했다.
+
+<br />
+
+<Typography variant="h4">
+  <span>3) PandaCSS에서는 빌드타임 사고가 필요하다</span>
+</Typography>
+
+런타임 함수처럼 `density(token(...))`를 상상하기 쉽지만,
+PandaCSS는 정적 추출과 codegen이 핵심이다.
+따라서 스타일 값은 Panda가 빌드타임에 알 수 있는 형태여야 한다.
+
+<br />
+
+<Typography variant="h4">
+  <span>4) context는 최상위 정책 전달용으로 쓰고, 남용하지 않는다</span>
+</Typography>
+
+`DensityProvider`는 App 최상위에 두는 것이 자연스럽다.
+컴포넌트마다 Provider를 둘 거라면 context를 쓰는 장점이 줄어든다.
+
+<br />
+
+<Typography variant="h4">
+  <span>5) UI sweep은 반드시 실제 화면 회귀를 봐야 한다</span>
+</Typography>
+
+grep으로 `px`, `rem`, `s16`을 찾는 것만으로는 부족했다.
+실제 화면에서만 보이는 문제가 많았다.
+
+- sticky column gap
+- popover 위치
+- modal 내부 spacing
+- diagram drawer 개행
+- dashboard graph 크기
+- markdown editor 내부 UI
+- tooltip arrow 크기
+
+특히 admin처럼 화면 수가 많은 앱에서는 페이지 단위로 확인하지 않으면 누락이 계속 나온다.
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>아쉬운 점과 후속 과제</span>
+</Typography>
+
+이번 작업은 일단 density 적용을 끝내는 데 초점을 맞췄다.
+그래서 남겨둔 과제도 있다.
+
+<Typography variant="h4">
+  <span>app-settings 패키지 분리</span>
+</Typography>
+
+앞에서 말한 것처럼 density 설정은 feature flag와 다르다.
+후속으로는 `@packages/app-settings` 같은 레이어를 만들어 `__APP_SETTINGS__`를 기준으로 정리하는 편이 좋다.
+
+<br />
+
+<Typography variant="h4">
+  <span>applyDensity 수동 전파 줄이기</span>
+</Typography>
+
+Provider/context로 많이 줄였지만, 컴포넌트 API에는 여전히 `applyDensity`가 남아 있다.
+이건 재사용성과 명시성을 위해 필요한 부분도 있지만,
+반복이 심한 곳은 recipe/default context 기반으로 더 정리할 수 있다.
+
+<br />
+
+<Typography variant="h4">
+  <span>density token 누락 방지 테스트</span>
+</Typography>
+
+`size40`이 있으면 `size40--density`도 있어야 한다.
+`body-small-bold`가 있으면 `body-small-bold--density`도 있어야 한다.
+
+이런 규칙은 사람이 기억하는 것보다 assertion/test로 잡는 편이 좋다.
+
+<br />
+
+<Typography variant="h4">
+  <span>문서화</span>
+</Typography>
+
+density 적용 규칙은 새 컴포넌트를 만들 때 반드시 알아야 한다.
+예를 들어 아래 기준은 문서로 남겨야 한다.
+
+- padding/gap/margin: spacing token
+- width/height/minHeight: sizes token
+- fontSize/lineHeight/textStyle: font/textStyle token
+- graph/canvas/direct number: `resolveDensityGraphValue` 계열 helper
+- shared component: `useResolvedApplyDensity` 우선
+- app page: App Provider를 기본값으로 사용
+
+<br />
+
+---
+
+<Typography variant="h3" backgroundColor="gray">
+  <span>마무리</span>
+</Typography>
+
+이 작업은 처음엔 "화면 좀 작게 보이게 해달라"에 가까워 보였다.
+하지만 실제로는 디자인 토큰, PandaCSS codegen, shared 컴포넌트 API, React context, 페이지별 회귀 확인이 모두 얽힌 작업이었다.
+
+가장 크게 배운 건 이것이다.
+
+<Typography variant="strong" color="gray500">
+  <span>UI 밀도는 숫자 하나를 곱하는 문제가 아니라, 디자인 시스템 전체가 그 숫자를 이해하게 만드는 문제다.</span>
+</Typography>
+
+처음부터 최종 구조로 바로 갔으면 좋았겠지만, 아마 그랬다면 이 정도로 선명하게 기준을 세우지는 못했을 것 같다.
+`feature/admin-compact-density`에서 시작해 `feature/density-preset-foundation--3`까지 간 건 피곤했지만,
+그만큼 어디가 책임져야 하는지, 어디까지 명시해야 하는지, 무엇을 후속으로 빼야 하는지 분명해졌다.
+
+다음에 비슷한 요구사항이 온다면 이제는 조금 덜 흔들릴 수 있을 것 같다.
+물론 "Chrome 80%인데 글자는 90%" 같은 요구사항은 다시 안 왔으면 좋겠다.
+그치만... 또 오겠지. 프론트엔드니까.
+
+<br />
